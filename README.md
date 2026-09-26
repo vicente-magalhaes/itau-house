@@ -82,23 +82,19 @@ Em construção. Os passos entram aqui assim que o primeiro fluxo estiver funcio
 | Branch | Para que serve |
 |---|---|
 | `main` | Versão estável, a que vai para a banca. Ninguém escreve código direto nela. |
-| `dev` | Onde o trabalho do time se junta e é testado em conjunto. |
-| `feat/<tarefa>`, `fix/<tarefa>` | Cada pessoa trabalha na própria branch, criada a partir da `dev`. |
+| `feat/<tarefa>`, `fix/<tarefa>` | Cada pessoa trabalha na própria branch, criada a partir da `main`. |
 
-O caminho é sempre branch de trabalho, depois `dev`, depois `main`. Juntamos com merge direto, sem Pull Request, para não travar o ritmo do hackathon. Antes de juntar na `dev`, a pessoa traz para a própria branch o que já está na `dev` e confere se o fluxo principal continua funcionando. A `main` só recebe a `dev` quando ela está estável.
+Cada um trabalha na própria branch e junta direto na `main` com merge, sem Pull Request e sem branch intermediária, para não travar o ritmo do hackathon. Antes de juntar, a pessoa traz para a própria branch o que já está na `main` e confere se o fluxo principal continua funcionando. Assim a `main` segue pronta para demonstrar a qualquer momento.
 
 ```bash
-git checkout dev && git pull origin dev
+git checkout main && git pull origin main
 git checkout -b feat/minha-tarefa
 
 # trabalho e commits
 
-git merge dev                      # traz o que o time já juntou e resolve conflitos aqui
-git checkout dev && git merge feat/minha-tarefa
-git push origin dev
-
-# quando a dev estiver estável
-git checkout main && git pull origin main && git merge dev && git push origin main
+git merge main                     # traz o que o time já juntou e resolve conflitos aqui
+git checkout main && git merge feat/minha-tarefa
+git push origin main
 ```
 
 **Commits** seguem o padrão Conventional Commits (`feat:`, `fix:`, `docs:`, `chore:`, `refactor:`, `test:`) e citam o requisito da PRD que atendem, por exemplo `feat: descreve a mudança (RF-03)`. Assim dá para sair de qualquer requisito e achar onde ele foi implementado.

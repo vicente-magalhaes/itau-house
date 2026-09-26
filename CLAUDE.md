@@ -29,7 +29,7 @@ Ler antes de qualquer tarefa. Os documentos brutos originais foram descartados; 
 - Não conectar a sistemas reais do banco. Integração simulada é marcada como simulada.
 - Uma persona, uma tarefa, um fluxo funcionando. Resistir a adicionar funcionalidades.
 - Código segue a PRD (`PRD.md`, quando existir). Cada mudança cita o requisito (RF/RN/RNF) que atende.
-- Git: trabalhar numa branch `feat/` ou `fix/` criada a partir da `dev`. Juntar com merge direto na `dev`, depois na `main`. Sem Pull Request. Nunca commitar direto na `main`.
+- Git: trabalhar numa branch `feat/` ou `fix/` criada a partir da `main`. Antes de juntar, trazer a `main` para a branch e conferir que o fluxo principal roda. Juntar com merge direto na `main`. Sem `dev` e sem Pull Request. Nunca commitar direto na `main`.
 - Ao fechar uma decisão, registrar em `memoria/05-decisoes-e-pendencias.md` com data.
 - O repositório é privado durante o desenvolvimento. Antes da banca, será limpo para ficar só o código. `memoria/` e `itau-design-system/` são internos: citam pessoas e conversas do Itaú e contêm a marca do banco.
 - Escrever em português do Brasil, frases curtas.

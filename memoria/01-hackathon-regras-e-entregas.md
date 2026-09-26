@@ -39,39 +39,27 @@ Não aparecem no guia, mas o regulamento exige. Precisam estar nos slides.
 
 ## Formato da banca
 
-**Pendente (A-12): aguardando confirmação da organização.** As fontes divergem:
-- Opção A, slides da abertura: 3 min de pitch ao vivo + 2 min de vídeo demo exibido na banca. Até 5 min no total.
-- Opção B, guia: 4 min de pitch com cerca de 75 s de demo ao vivo dentro dele.
+**Confirmado (D-10): 3 min de pitch ao vivo + 2 min de vídeo demo + 2 min de perguntas. 7 min no total.**
 
-Vale nas duas opções:
+Pitch, 3 min:
+
+| Tempo | Conteúdo |
+|---|---|
+| 0:00–0:40 | Pessoa, problema e uma evidência relevante. Equipe e solução em uma frase. |
+| 0:40–1:30 | Proposta de valor e escolha da abordagem. O que muda para a pessoa e por que é melhor que a alternativa atual. Justificar a IA sem listar ferramentas. |
+| 1:30–2:15 | Teste, resultado observado e aprendizado. Com quem testaram, uma mudança feita depois do teste. O que não foi validado aparece como hipótese. |
+| 2:15–3:00 | Risco, controle, indicador, próximo passo e transição para o vídeo. Retomar o benefício para a pessoa. |
+
+Vídeo, 2 min: a demo narrada. Não repete o pitch. Mostra a revisão humana e o que é simulado.
+
+Perguntas, 2 min: ter respostas curtas prontas para os riscos e perguntas prováveis (tabela R-01 a R-08 em [05-decisoes-e-pendencias.md](05-decisoes-e-pendencias.md)). Combinar antes quem responde cada tema.
+
+Preparação:
 - Vídeo com áudio testado e cópia local disponível.
-- Protótipo aberto com dados de teste prontos, com uma tarefa que dê para repetir na banca (regulamento 4.3).
+- Protótipo aberto com dados de teste prontos, caso a banca peça para ver ao vivo (regulamento 4.3).
 - Ensaiar com cronômetro. Combinar quem fala e quando troca. Não é preciso que todos falem.
 - Não mostrar todas as funcionalidades. Não ler o slide.
 - Não inventar resultados. Uma limitação bem explicada conta a favor.
-
-Roteiro da opção A, 3 min (slides):
-
-| Tempo | Conteúdo |
-|---|---|
-| 0:00–0:40 | Pessoa, problema e uma evidência relevante. |
-| 0:40–1:30 | Proposta de valor e escolha da abordagem. |
-| 1:30–2:15 | Teste, resultado observado e aprendizado. |
-| 2:15–3:00 | Risco, controle, indicador, próximo passo e transição para a demo. |
-
-Depois da fala, o vídeo de até 2 min, sem repetir o pitch.
-
-Roteiro da opção B, 4 min (guia):
-
-| Tempo | Conteúdo |
-|---|---|
-| 0:00–0:40 | Pessoa e problema. Equipe e solução em uma frase. Quem sofre a dor, em que situação, e uma evidência. |
-| 0:40–1:15 | Proposta de valor. O que muda para a pessoa e por que é melhor que a alternativa atual. Justificar a IA sem listar ferramentas. |
-| 1:15–2:30 | Demonstração. Uma tarefa: entrada, ação, resultado. O que funciona e o que é simulado. Onde há revisão humana. |
-| 2:30–3:15 | Teste e aprendizado. O que testaram, com quem, o que observaram. Uma mudança feita após o teste. O que não foi validado aparece como hipótese. |
-| 3:15–4:00 | Viabilidade e fechamento. Principal risco e controle, próximo passo, indicador de sucesso. Retomar o benefício para a pessoa. |
-
-Na opção B, se usar o vídeo como contingência, escolher um trecho que caiba nos 75 s.
 
 Frases-modelo do guia:
 - Abertura: "Quando [pessoa] precisa [tarefa], enfrenta [dificuldade]. Observamos isso em [evidência]. Nossa proposta é [solução], para que ela consiga [benefício]."

@@ -14,7 +14,8 @@ Itens marcados **(sugestão Claude)** são propostas para o time avaliar, não d
 | D-05 | Expansão fica como próximos passos: produto, design e risco → Finanças → conhecimento executivo (notebooks, PPTs). | 26/09/2026 |
 | D-06 | A PRD não é entregável, mas será escrita, objetiva e focada em requisitos e stack, como contexto para os agentes de desenvolvimento. Ver [06-prd-e-stack.md](06-prd-e-stack.md). | 26/09/2026 |
 | D-07 | Só dados fictícios. Integrações simuladas ficam marcadas como simuladas em tela, vídeo e slides. | regra do evento |
-| D-08 | Git: branches `main`, `dev` e de trabalho (`feat/`, `fix/`). Fluxo branch → `dev` → `main` com merge direto, sem Pull Request, para não atrasar. | 26/09/2026 |
+| D-08 | Git: só `main` e branches de trabalho (`feat/`, `fix/`). Cada um faz merge direto da própria branch na `main`, sem `dev` e sem Pull Request, por agilidade. O Claude pode dar push (liberado em `.claude/settings.json`). | 26/09/2026 |
+| D-10 | Formato da banca: 3 min de pitch, 2 min de vídeo demo, 2 min de perguntas. | 26/09/2026 |
 | D-09 | Repositório privado durante o desenvolvimento. Antes da banca, limpar para ficar só o código e uma apresentação enxuta. | 26/09/2026 |
 
 ## Em aberto
@@ -32,7 +33,6 @@ Itens marcados **(sugestão Claude)** são propostas para o time avaliar, não d
 | A-09 | Stack. | Ver [06-prd-e-stack.md](06-prd-e-stack.md). |
 | A-10 | Quem de fora do time testa o fluxo, e quando? | Obrigatório registrar pelo menos um teste com conclusão. |
 | A-11 | Nomes da equipe e divisão de papéis. | Ver [08-equipe.md](08-equipe.md). |
-| A-12 | Formato da banca: 3 min + 2 min de vídeo (slides) ou 4 min com demo (guia)? | Aguardando confirmação da organização. Os dois roteiros estão em [01-hackathon-regras-e-entregas.md](01-hackathon-regras-e-entregas.md). |
 | A-13 | Conversar com um dev do Itaú no evento. | Em andamento: o time está buscando um dev. Lacuna principal de evidência. |
 
 ## Checklist de desenho do MVP (exigências do Case C)
