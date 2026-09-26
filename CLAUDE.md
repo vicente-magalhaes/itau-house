@@ -2,7 +2,7 @@
 
 Equipe da Poli Júnior no Hackathon Itaú 2026 (26 e 27/09/2026, banca em 27/09).
 Case C, Jornada de agentes: squad orientada por IA que entrega valor mais rápido sem perder qualidade, governança e decisão humana.
-Solução: **Itaú House** (nome provisório). Fórum interno em que squads publicam e reaproveitam agentes, skills, frameworks e esqueletos de código, com governança. Persona inicial: dev. Dor: retrabalho por não saber que outra squad já fez algo parecido.
+Solução: **Itaú House** (nome provisório). Fórum interno em que squads publicam e reaproveitam agentes, skills, frameworks e esqueletos de código, com governança. Persona (D-18): quem usa é qualquer membro do squad que cria com IA (na demo, um dev); quem governa é o coordenador do squad; a unidade de valor é o squad. Dor: retrabalho, porque o compartilhamento de agentes e skills é manual e ninguém sabe o que o outro já criou. Requisitos em [PRD.md](PRD.md).
 
 ## Memória do projeto
 

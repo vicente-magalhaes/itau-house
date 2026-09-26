@@ -9,7 +9,7 @@ Itens marcados **(sugestão Claude)** são propostas para o time avaliar, não d
 |---|---|---|
 | D-01 | Case C, Jornada de agentes. Confirmado pela organização. Troca não é permitida. | antes do evento |
 | D-02 | Solução: Itaú House, fórum de reuso de ativos (agentes, skills, frameworks, componentes, esqueletos de código) entre squads. | 26/09/2026 |
-| D-03 | Persona inicial: dev. É a mais afetada por retrabalho e dá o MVP de maior aprendizado. | 26/09/2026 |
+| D-03 | Persona inicial: dev. É a mais afetada por retrabalho e dá o MVP de maior aprendizado. **Revisada em D-18.** | 26/09/2026 |
 | D-04 | Argumento do recorte: começar pequeno por governança e compliance, depois expandir. | 26/09/2026 |
 | D-05 | Expansão fica como próximos passos: produto, design e risco → Finanças → conhecimento executivo (notebooks, PPTs). | 26/09/2026 |
 | D-06 | A PRD não é entregável, mas será escrita, objetiva e focada em requisitos e stack, como contexto para os agentes de desenvolvimento. Ver [06-prd-e-stack.md](06-prd-e-stack.md). | 26/09/2026 |
@@ -24,6 +24,7 @@ Itens marcados **(sugestão Claude)** são propostas para o time avaliar, não d
 | D-15 | Ranking por popularidade: curtidas e instalações. Derivações ("derivado de") contam como reuso e dão crédito ao autor original. Sem "algoritmo do X" no MVP. Visão do gestor limitada à fila de aprovação. Fecha A-15. | 26/09/2026 |
 | D-16 | A dor segue sendo retrabalho. O caso da análise exploratória de dados (EDA) mostra que o compartilhamento de skills hoje é manual: a pessoa só não sofre porque já tem as próprias skills. A demo usa casos reais de retrabalho recorrente, apresentados como simulação. Fecha A-14. | 26/09/2026 |
 | D-17 | Modo padrão do plugin: perguntar antes. Respeita quem acha a busca automática invasiva e ainda mostra o valor proativo. Fecha A-16. | 26/09/2026 |
+| D-18 | Persona em três camadas, para responder ao tema "squads orientados por agentes". **Quem usa o fluxo:** qualquer membro do squad que cria com IA (produto, design, dev); na demo, um dev. **Quem governa:** o coordenador do squad (Cord+). **Unidade de valor:** o squad, com métrica de reuso entre papéis. A demo mostra um dev reaproveitando uma skill criada por um PM de outra squad. A solução se acopla a qualquer agente que suporte MCP (Claude Code, Copilot e outros), então vale para todos os papéis. Dependência para piloto: o Copilot corporativo do Itaú precisa ter MCP liberado nas políticas internas. | 26/09/2026 |
 
 ## Em aberto
 
