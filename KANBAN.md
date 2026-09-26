@@ -18,7 +18,7 @@ Requisitos em [PRD.md](PRD.md). Fluxos em [docs/fluxos.html](docs/fluxos.html). 
 
 | Pessoa | Frente | Valida principalmente |
 |---|---|---|
-| **Bruno** | Produto e camada de IA: roteiro da demo, catálogo fictício, busca, validador, plugin. Vídeo demo (D-22) | Front e back |
+| **Bruno** | Produto e camada de IA: roteiro da demo, catálogo fictício, busca, validador, plugin. Vídeo demo (D-23) | Front e back |
 | **Vicente** | Back-end, MCP, banco, deploy (com Devin) | Camada de IA |
 | **Alexandre** | Front-end | Plugin (olhar de quem não construiu) |
 | **JP** | Apresentação e evidência: prazo, entrevista, slides, ficha, pitch | Tudo que a banca vê |

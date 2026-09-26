@@ -18,7 +18,7 @@ Papéis (D-21, 26/09/2026). O slide 6 e a banca pedem isso, e cada integrante pr
 
 | Pessoa | Frente |
 |---|---|
-| Bruno Vaskevicius | Produto e camada de IA: roteiro da demo, catálogo fictício, busca, validador, plugin. Vídeo demo (D-22) |
+| Bruno Vaskevicius | Produto e camada de IA: roteiro da demo, catálogo fictício, busca, validador, plugin. Vídeo demo (D-23) |
 | Vicente Magalhães | Back-end, MCP, banco e deploy (com Devin) |
 | Alexandre Delbim | Front-end |
 | João Pedro Araujo | Apresentação e evidência: slides, ficha, pitch, entrevistas |
