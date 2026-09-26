@@ -1,3 +1,9 @@
+---
+summary: "Integrantes, perfil, contatos"
+read_when: "Slide 6, ficha, divisão de tarefas"
+review_by: 2026-10-01
+---
+
 # Equipe
 
 ## Integrantes

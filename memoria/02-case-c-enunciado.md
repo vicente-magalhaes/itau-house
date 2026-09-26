@@ -1,3 +1,9 @@
+---
+summary: "O que a organização pede no Case C, personas de exemplo"
+read_when: "Desenho da solução e do fluxo"
+review_by: 2026-10-01
+---
+
 # Case C: Jornada de agentes (enunciado e orientações da organização)
 
 Fontes: regulamento 4.1.3, guia dos participantes (página do Case C), slides da abertura (apresentados por Rodrigo Terron, newhack).

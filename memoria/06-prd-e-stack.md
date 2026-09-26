@@ -1,3 +1,9 @@
+---
+summary: "Formato da PRD e stack candidata"
+read_when: "Escrever a PRD ou começar a codar"
+review_by: 2026-09-27
+---
+
 # PRD: formato, convenções e stack
 
 A PRD não é entregável do hackathon. Serve de contexto para os agentes que vão desenvolver.

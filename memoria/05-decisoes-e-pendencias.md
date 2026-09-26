@@ -1,3 +1,9 @@
+---
+summary: "Decidido, em aberto, riscos, perguntas da banca"
+read_when: "Antes de assumir qualquer decisão"
+review_by: 2026-09-27
+---
+
 # Decisões, pendências e riscos
 
 Registro vivo. Ao decidir algo, mover de "Em aberto" para "Decidido" com data.
@@ -26,6 +32,7 @@ Itens marcados **(sugestão Claude)** são propostas para o time avaliar, não d
 | D-17 | Modo padrão do plugin: perguntar antes. Respeita quem acha a busca automática invasiva e ainda mostra o valor proativo. Fecha A-16. | 26/09/2026 |
 | D-18 | Persona em três camadas, para responder ao tema "squads orientados por agentes". **Quem usa o fluxo:** qualquer membro do squad que cria com IA (produto, design, dev); na demo, um dev. **Quem governa:** o coordenador do squad (Cord+). **Unidade de valor:** o squad, com métrica de reuso entre papéis. A demo mostra um dev reaproveitando uma skill criada por um PM de outra squad. A solução se acopla a qualquer agente que suporte MCP (Claude Code, Copilot e outros), então vale para todos os papéis. Dependência para piloto: o Copilot corporativo do Itaú precisa ter MCP liberado nas políticas internas. | 26/09/2026 |
 | D-19 | Stack de IA e busca. **LLM:** Claude via API, modelo `claude-opus-5`, SDK oficial `anthropic` em Python, com esforço (`effort`) ajustado por rota: `low` para reconhecer intenção e ranquear semelhança, `medium` a `high` para validador e adaptação. Respostas estruturadas por schema. Fallback do servidor ligado para recusas. **Busca:** sem embeddings no MVP. Com 15 a 20 ativos, o back-end filtra por visibilidade e o LLM ranqueia e justifica. Em escala, entra pgvector no Supabase para pré-filtrar. **Banco:** Supabase (já previsto no compose). Se a latência atrapalhar a demo, o time decide trocar de modelo ou baixar o esforço; o fallback gravado (RNF-04) cobre falhas. Fecha A-09. | 26/09/2026 |
+| D-20 | Harness do time: plugin `harness-hacka` (repositório público `vicente-magalhaes/harness-hacka`). Injeta o resumo da memória no início de cada sessão, registra o diário por sessão, faz housekeeping com subagente e só deixa uma decisão virar aceita quando uma pessoa digita `accept NNNN`. A memória segue em `memoria/` e as decisões seguem nesta tabela. Motivo (Vicente): guardar o que cada sessão aprendeu e limpar o que envelhece sem depender de disciplina manual; é também um exemplo de ativo que iria para o Itaú House. Pendente: confirmar com a organização se o harness conta como elemento pré-existente (ver 01, propriedade intelectual). | 26/09/2026 |
 
 ## Em aberto
 

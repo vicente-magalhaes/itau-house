@@ -7,7 +7,9 @@ Solução: **Itaú House** (nome provisório). Fórum interno em que squads publ
 ## Memória do projeto
 
 Ler antes de qualquer tarefa. Os documentos brutos originais foram descartados; a memória é a fonte.
+A tabela abaixo é gerada pelo harness-hacka a partir do frontmatter de cada nota (`summary`, `read_when`, `review_by`). Não editar à mão: nota nova ganha frontmatter e depois `harness-hacka index --update`.
 
+<!-- harness-hacka:index -->
 | Arquivo | Conteúdo | Ler quando |
 |---|---|---|
 | [memoria/01-hackathon-regras-e-entregas.md](memoria/01-hackathon-regras-e-entregas.md) | Entregas, limites, formato da banca, critérios, restrições do regulamento | Qualquer entrega: slides, vídeo, ficha, protótipo |
@@ -19,6 +21,7 @@ Ler antes de qualquer tarefa. Os documentos brutos originais foram descartados; 
 | [memoria/07-identidade-visual.md](memoria/07-identidade-visual.md) | Qual fonte de marca vale para quê, regras de front-end, cores, fontes, logo | Front-end, slides, vídeo |
 | [memoria/08-equipe.md](memoria/08-equipe.md) | Integrantes, perfil, contatos | Slide 6, ficha, divisão de tarefas |
 | [memoria/09-brainstorm-time.md](memoria/09-brainstorm-time.md) | Ideias do time ainda não decididas: persona afiada, mecanismos novos, tensões | Desenho da solução, slides |
+<!-- /harness-hacka:index -->
 
 Fluxos do produto: [docs/fluxos.html](docs/fluxos.html). É a fonte de verdade dos fluxos (ciclo, descoberta, publicação, plataforma). Abrir no navegador. Para mudar um fluxo, editar os dados em `FLOWS` no próprio arquivo.
 
@@ -62,6 +65,11 @@ Comandos completos no [README](README.md#como-rodar).
 `.claude/settings.json` define o que os agentes podem rodar sem pedir (git, uv, npm, docker compose), o que é proibido (ler segredos, force push, `git reset --hard`) e os hooks:
 - `block_secrets.py` bloqueia leitura e edição de `.env`, chaves e credenciais.
 - `format_code.py` formata o arquivo editado (ruff, prettier, eslint) quando o projeto tiver essas ferramentas.
+
+Plugin `harness-hacka` (D-20), habilitado para o time no mesmo arquivo. Config em `.claude/harness-hacka.json`.
+- No início de cada sessão, injeta o resumo da memória: pendências, notas vencidas, o que não repetir.
+- Ao fechar a sessão: `/harness-hacka:journal`. Quando o resumo avisar: `/harness-hacka:housekeeping`.
+- Bloqueia gravar chave na memória e apagar arquivo de `memoria/` (arquivar com `harness-hacka archive`).
 
 Regras de segurança, sempre ativas:
 

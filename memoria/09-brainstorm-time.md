@@ -1,3 +1,9 @@
+---
+summary: "Ideias do time ainda não decididas: persona afiada, mecanismos novos, tensões"
+read_when: "Desenho da solução, slides"
+review_by: 2026-09-27
+---
+
 # Brainstorm do time (Bruno, 26/09/2026)
 
 Rascunho de ideias do Bruno, pensando nos seis blocos dos slides.

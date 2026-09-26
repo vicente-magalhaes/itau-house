@@ -1,3 +1,9 @@
+---
+summary: "Tese atual, persona, mecanismos, governança, expansão, teses descartadas"
+read_when: "Tudo sobre o produto"
+review_by: 2026-09-27
+---
+
 # Solução: Itaú House (tese atual do time)
 
 Status: tese em construção, 26/09/2026. Nome provisório.
