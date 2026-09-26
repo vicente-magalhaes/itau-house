@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Itaú House · Fluxos</title>
+<link rel="stylesheet" href="../design-system/styles.css">
+<style>
+  .page { max-width: 1320px; margin: 0 auto; padding: var(--space-7) var(--space-6) var(--space-9); }
+
+  /* Cabeçalho */
+  .top { display: flex; align-items: center; gap: var(--space-4); margin-bottom: var(--space-7); }
+  .logo { display: inline-block; position: relative; width: 44px; height: 44px; overflow: hidden; flex: none; }
+  .logo img { position: absolute; width: 166%; left: -33%; top: -33%; }
+  .overline { font: var(--type-overline); letter-spacing: var(--ls-overline); text-transform: uppercase; color: var(--text-secondary); }
+  h1 { font-size: var(--fs-display-m); margin: var(--space-3) 0 var(--space-4); max-width: 22ch; }
+  h1 em { font-style: normal; color: var(--text-accent); }
+  .lead { font-size: var(--fs-body-lg); color: var(--text-secondary); max-width: 64ch; }
+
+  /* Navegação */
+  .nav { display: flex; flex-wrap: wrap; gap: var(--space-2); margin: var(--space-6) 0 var(--space-5); }
+  .nav a { border: 1px solid var(--border-default); border-radius: var(--radius-pill); padding: 8px 16px; font: var(--fw-bold) var(--fs-body-sm)/1 var(--font-text); transition: background var(--dur-fast) var(--ease-standard); }
+  .nav a:hover { background: var(--surface-subtle); color: var(--text-primary); }
+
+  /* Legenda */
+  .legend { display: flex; flex-wrap: wrap; gap: var(--space-4) var(--space-5); padding: var(--space-5); border-radius: var(--radius-lg); background: var(--surface-subtle); margin-bottom: var(--space-8); }
+  .legend .item { display: flex; align-items: center; gap: var(--space-2); font-size: var(--fs-body-sm); }
+  .legend .sw { width: 36px; height: 22px; border-radius: var(--radius-sm); flex: none; }
+  .sw.human { background: var(--gray-100); }
+  .sw.hdec { background: var(--itau-laranja); }
+  .sw.agent { background: var(--itau-branco); box-shadow: inset 0 0 0 1px var(--border-default); }
+  .sw.dec { background: var(--itau-branco); border: 1.5px dashed var(--border-strong); }
+  .sw.term { background: var(--itau-preto); border-radius: var(--radius-pill); }
+  .sw.hot { height: 3px; background: var(--itau-laranja); border-radius: 2px; }
+
+  /* Seções */
+  section { margin-bottom: var(--space-9); scroll-margin-top: var(--space-5); }
+  .sec-head { display: flex; gap: var(--space-5); align-items: flex-start; margin-bottom: var(--space-5); }
+  .num { font: var(--fw-black) var(--fs-display-m)/1 var(--font-display); color: var(--text-accent); min-width: 2ch; }
+  h2 { font-size: var(--fs-h1); margin: var(--space-2) 0 var(--space-2); }
+  .sec-head p { color: var(--text-secondary); max-width: 72ch; }
+
+  /* Diagrama */
+  .scroll { overflow-x: auto; padding-bottom: var(--space-2); }
+  .flow { position: relative; display: grid; column-gap: var(--space-4); row-gap: 44px; min-width: 900px; }
+  .stripe { position: relative; z-index: 0; border-radius: var(--radius-lg); background: var(--surface-subtle); }
+  .stripe:nth-of-type(even) { background: #F8F9FA; }
+  .lane-head { position: relative; z-index: 2; padding: var(--space-4) var(--space-4) 0; }
+  .lane-head .overline { color: var(--text-tertiary); letter-spacing: .14em; }
+  .lane-head strong { display: block; font: var(--fw-bold) var(--fs-body)/1.2 var(--font-display); margin-top: 4px; }
+  .flow svg { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: visible; }
+  .labels { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+
+  .node { position: relative; z-index: 2; align-self: center; margin: 0 var(--space-3); padding: 12px 14px; border-radius: var(--radius-md);
+          background: var(--surface-card); box-shadow: inset 0 0 0 1px var(--border-default); font: var(--fw-regular) var(--fs-body-sm)/1.4 var(--font-text); }
+  .node .eb { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; font: var(--fw-bold) var(--fs-overline)/1 var(--font-text); letter-spacing: .12em; text-transform: uppercase; color: var(--text-tertiary); }
+  .node .note { margin-top: 6px; font-size: var(--fs-caption); color: var(--text-secondary); }
+  .node .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+  .node.human { background: var(--gray-100); box-shadow: none; }
+  .node.human .eb { color: var(--text-secondary); }
+  .node.human.decision { background: var(--itau-laranja); color: var(--itau-preto); }
+  .node.human.decision .eb, .node.human.decision .note { color: var(--itau-preto); }
+  .node.decision:not(.human) { box-shadow: none; border: 1.5px dashed var(--border-strong); }
+  .node.decision .txt { font-weight: var(--fw-bold); }
+  .node.start, .node.end { background: var(--itau-preto); color: var(--itau-branco); box-shadow: none; border-radius: var(--radius-pill); text-align: center; font-weight: var(--fw-bold); padding: 12px 18px; }
+  .node.start .note, .node.end .note { color: var(--gray-200); }
+  .node.start .tags, .node.end .tags { justify-content: center; }
+
+  .ia { display: inline-flex; align-items: center; height: 16px; padding: 0 6px; border-radius: var(--radius-pill); background: var(--itau-preto); color: var(--itau-branco); font-size: 10px; letter-spacing: .04em; }
+  .badge { display: inline-flex; align-items: center; height: 20px; padding: 0 8px; border-radius: var(--radius-pill); font: var(--fw-bold) 11px/1 var(--font-text); letter-spacing: var(--ls-text); white-space: nowrap; }
+  .badge.sim { background: var(--status-warning-bg); color: #8A4B00; }
+  .badge.fict { background: var(--status-info-bg); color: var(--azul-500); }
+
+  .elabel { position: absolute; transform: translate(-50%, -50%); padding: 3px 9px; border-radius: var(--radius-pill); background: var(--itau-branco);
+            box-shadow: inset 0 0 0 1px var(--border-default); font: var(--fw-bold) var(--fs-caption)/1.2 var(--font-text); white-space: nowrap; }
+  .elabel.hot { background: var(--itau-laranja); box-shadow: none; }
+
+  .later { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); margin-top: var(--space-4); font-size: var(--fs-body-sm); color: var(--text-secondary); }
+  .later span.chip { padding: 4px 12px; border-radius: var(--radius-pill); background: var(--gray-100); color: var(--text-primary); }
+
+  footer { margin-top: var(--space-8); padding-top: var(--space-5); border-top: 1px solid var(--border-subtle); font-size: var(--fs-caption); color: var(--text-secondary); }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top">
+    <span class="logo" role="img" aria-label="Itaú"><img src="../design-system/assets/logo/itau-logo-pos.png" alt=""></span>
+    <span class="overline">Itaú House · Hackathon Itaú 2026 · Case C</span>
+  </div>
+
+  <span class="overline">Fluxos do produto</span>
+  <h1>Quem começa algo novo encontra o que <em>já existe</em></h1>
+  <p class="lead">Quatro fluxos. O primeiro mostra o ciclo inteiro. Os outros três detalham onde a IA trabalha, onde a pessoa decide e o que fica registrado.</p>
+
+  <nav class="nav" id="nav"></nav>
+
+  <div class="legend">
+    <div class="item"><span class="sw human"></span>Pessoa faz</div>
+    <div class="item"><span class="sw hdec"></span>Decisão humana</div>
+    <div class="item"><span class="sw agent"></span>Agente de IA ou sistema</div>
+    <div class="item"><span class="sw dec"></span>Decisão automática</div>
+    <div class="item"><span class="sw term"></span>Início ou fim</div>
+    <div class="item"><span class="sw hot"></span>Ciclo que alimenta o catálogo</div>
+    <div class="item"><span class="badge sim">Simulado</span>Simulado no protótipo</div>
+    <div class="item"><span class="badge fict">Dados fictícios</span>Base de demonstração</div>
+  </div>
+
+  <div id="flows"></div>
+
+  <footer>Protótipo de hackathon (Hackathon Itaú 2026). Não é um produto oficial do Itaú. Todos os dados são fictícios. Nenhuma integração com sistemas reais do banco.</footer>
+</div>
+
+<script>
+/* Cada fluxo: raias (atores), nós (lane = índice da raia, row = linha) e arestas.
+   kind: start | end | step | decision · who: human | agent | system
+   fa/ta: âncora de saída e chegada (top, bottom, left, right) quando a automática cruzaria um nó. */
+const FLOWS = [
+  {
+    id: 'ciclo', title: 'O ciclo completo',
+    desc: 'Cada busca sem resultado vira um ativo novo. Publicar é efeito colateral do trabalho, não tarefa extra. Por isso o catálogo cresce sozinho.',
+    lanes: [['Persona', 'Dev'], ['Agente', 'Itaú House'], ['Base', 'Catálogo'], ['Governança', 'Coordenador']],
+    nodes: [
+      { id: 'c1', lane: 0, row: 1, kind: 'start', text: 'Dev começa algo novo com o agente de código' },
+      { id: 'c2', lane: 1, row: 2, kind: 'step', who: 'agent', text: 'Procura no catálogo o que já existe' },
+      { id: 'c3', lane: 1, row: 3, kind: 'decision', who: 'agent', text: 'Já existe algo parecido?' },
+      { id: 'c4', lane: 0, row: 4, kind: 'decision', who: 'human', text: 'Reaproveita, adapta ou ignora' },
+      { id: 'c5', lane: 1, row: 5, kind: 'step', who: 'agent', text: 'Validador confere o ativo novo: segredos, dados sensíveis, README' },
+      { id: 'c6', lane: 2, row: 5, kind: 'step', who: 'system', text: 'Autor original ganha crédito: cada uso e cada derivação contam' },
+      { id: 'c7', lane: 3, row: 6, kind: 'decision', who: 'human', text: 'Coordenador aprova a publicação' },
+      { id: 'c8', lane: 2, row: 7, kind: 'step', who: 'system', text: 'Ativo publicado. O catálogo cresce.' },
+    ],
+    edges: [
+      { from: 'c1', to: 'c2' }, { from: 'c2', to: 'c3' },
+      { from: 'c3', to: 'c4', label: 'Sim', fa: 'left', ta: 'top' },
+      { from: 'c3', to: 'c5', label: 'Não: dev constrói' },
+      { from: 'c4', to: 'c6' },
+      { from: 'c5', to: 'c7' }, { from: 'c7', to: 'c8' },
+      { from: 'c8', to: 'c2', label: 'O próximo dev encontra', hot: true, fa: 'right', ta: 'right' },
+    ],
+  },
+  {
+    id: 'descoberta', title: 'Descoberta no ambiente do dev',
+    desc: 'O dev pede ao agente de código para criar algo. O Itaú House reconhece a intenção e busca no catálogo. O dev escolhe o quanto ele interrompe, e é sempre o dev quem decide se reaproveita.',
+    lanes: [['Persona', 'Dev'], ['Agente', 'Plugin Itaú House'], ['Integração', 'MCP e catálogo']],
+    nodes: [
+      { id: 'a1', lane: 0, row: 1, kind: 'start', text: 'Instala o plugin Itaú House e escolhe o modo', note: 'Proativo · perguntar antes · sob demanda' },
+      { id: 'a2', lane: 0, row: 2, kind: 'step', who: 'human', text: 'Abre uma sessão e pede algo novo', note: 'Ex.: “cria uma skill de análise exploratória de dados”' },
+      { id: 'a3', lane: 1, row: 3, kind: 'step', who: 'agent', text: 'Hook reconhece a intenção de criar um ativo', note: 'Skill, agente, framework, design system, harness ou MCP' },
+      { id: 'a4', lane: 1, row: 4, kind: 'decision', who: 'system', text: 'Qual modo o dev escolheu?' },
+      { id: 'a5', lane: 0, row: 5, kind: 'decision', who: 'human', text: 'Quer buscar no Itaú House agora?' },
+      { id: 'a5b', lane: 1, row: 5, kind: 'step', who: 'system', text: 'Não interrompe. Busca só quando o dev chamar /itau-house' },
+      { id: 'a6x', lane: 0, row: 7, kind: 'end', text: 'Segue sem busca' },
+      { id: 'a6', lane: 2, row: 6, kind: 'step', who: 'agent', text: 'Busca por similaridade só nos ativos que o dev pode ver', tags: ['fict'] },
+      { id: 'a7', lane: 1, row: 7, kind: 'decision', who: 'agent', text: 'Achou algo parecido?' },
+      { id: 'a8', lane: 1, row: 8, kind: 'step', who: 'agent', text: 'Mostra o ativo e explica por que acha parecido', note: 'Autor, squad, curtidas, instalações' },
+      { id: 'a8x', lane: 2, row: 8, kind: 'step', who: 'system', text: 'Avisa que não achou e arma o hook de publicação' },
+      { id: 'a9', lane: 0, row: 9, kind: 'decision', who: 'human', text: 'Usa como está, adapta ou ignora?' },
+      { id: 'a9x', lane: 2, row: 9, kind: 'end', text: 'Dev constrói. No fim, segue o fluxo de publicação' },
+      { id: 'a10', lane: 1, row: 10, kind: 'step', who: 'agent', text: 'Clona e adapta ao contexto do dev', note: 'O ativo novo guarda “derivado de”' },
+      { id: 'a11', lane: 2, row: 11, kind: 'step', who: 'system', text: 'Registra a decisão do dev e soma uso ou derivação ao autor' },
+    ],
+    edges: [
+      { from: 'a1', to: 'a2' }, { from: 'a2', to: 'a3' }, { from: 'a3', to: 'a4' },
+      { from: 'a4', to: 'a5', label: 'Perguntar antes', fa: 'left', ta: 'top' },
+      { from: 'a4', to: 'a5b', label: 'Sob demanda' },
+      { from: 'a4', to: 'a6', label: 'Proativo', fa: 'right', ta: 'top' },
+      { from: 'a5', to: 'a6x', label: 'Não', t: 0.75 },
+      { from: 'a5', to: 'a6', label: 'Sim', t: 0.35 },
+      { from: 'a5b', to: 'a6', label: '/itau-house', t: 0.2 },
+      { from: 'a6', to: 'a7' },
+      { from: 'a7', to: 'a8', label: 'Sim' },
+      { from: 'a7', to: 'a8x', label: 'Não', fa: 'right', ta: 'top' },
+      { from: 'a8', to: 'a9' },
+      { from: 'a8x', to: 'a9x', hot: true },
+      { from: 'a9', to: 'a10', label: 'Adapta', fa: 'right', ta: 'top' },
+      { from: 'a9', to: 'a11', label: 'Usa ou ignora', fa: 'bottom', ta: 'left', t: 0.35 },
+      { from: 'a10', to: 'a11' },
+    ],
+  },
+  {
+    id: 'publicacao', title: 'Publicação com governança',
+    desc: 'O ativo novo passa por um agente validador antes de qualquer pessoa ver. Se for barrado, o dev entende o motivo e corrige. Nada fica visível sem a aprovação do coordenador.',
+    lanes: [['Persona', 'Dev'], ['Agente', 'Validador'], ['Agente', 'Plugin Itaú House'], ['Governança', 'Coordenador'], ['Web', 'Plataforma']],
+    nodes: [
+      { id: 'b1', lane: 0, row: 1, kind: 'start', text: 'Termina de criar uma skill ou um agente', note: 'Ou chega do fluxo de descoberta sem resultado' },
+      { id: 'b2', lane: 2, row: 2, kind: 'step', who: 'agent', text: 'Hook detecta o ativo novo' },
+      { id: 'b3', lane: 1, row: 3, kind: 'step', who: 'agent', text: 'Confere os requisitos de entrada', note: 'Segredos e chaves, dado sensível, README, dono, escopo' },
+      { id: 'b4', lane: 1, row: 4, kind: 'decision', who: 'agent', text: 'Cumpre os requisitos?' },
+      { id: 'b5', lane: 1, row: 5, kind: 'step', who: 'agent', text: 'Explica o que barrou e como corrigir', note: 'Ex.: “Tem uma chave de API na linha 12”' },
+      { id: 'b5c', lane: 0, row: 5, kind: 'step', who: 'human', text: 'Corrige o ativo' },
+      { id: 'b5s', lane: 2, row: 5, kind: 'step', who: 'agent', text: 'Convida o dev a publicar no Itaú House' },
+      { id: 'b6', lane: 0, row: 6, kind: 'decision', who: 'human', text: 'Quer publicar?' },
+      { id: 'b7x', lane: 0, row: 7, kind: 'end', text: 'Fica só na máquina do dev' },
+      { id: 'b7', lane: 2, row: 7, kind: 'step', who: 'agent', text: 'MCP monta um post editável', note: 'README, autor, squad, o ativo e um alcance sugerido' },
+      { id: 'b8', lane: 0, row: 8, kind: 'decision', who: 'human', text: 'Revisa o post e escolhe o alcance', note: 'Squad, frente ou banco inteiro' },
+      { id: 'b9', lane: 3, row: 9, kind: 'decision', who: 'human', text: 'Aprova a publicação?', note: 'Pode delegar a aprovação' },
+      { id: 'b10', lane: 4, row: 10, kind: 'end', text: 'Publica com o alcance escolhido', note: 'Registra quem publicou e quem aprovou' },
+    ],
+    edges: [
+      { from: 'b1', to: 'b2' }, { from: 'b2', to: 'b3' }, { from: 'b3', to: 'b4' },
+      { from: 'b4', to: 'b5', label: 'Não' },
+      { from: 'b5', to: 'b5c' },
+      { from: 'b5c', to: 'b3', label: 'Valida de novo', fa: 'top', ta: 'left' },
+      { from: 'b4', to: 'b5s', label: 'Sim', fa: 'right', ta: 'top' },
+      { from: 'b5s', to: 'b6' },
+      { from: 'b6', to: 'b7x', label: 'Não' },
+      { from: 'b6', to: 'b7', label: 'Sim', fa: 'right', ta: 'left' },
+      { from: 'b7', to: 'b8' },
+      { from: 'b8', to: 'b9' },
+      { from: 'b9', to: 'b8', label: 'Não: devolve com comentário', fa: 'top', ta: 'right', t: 0.6 },
+      { from: 'b9', to: 'b10', label: 'Sim', hot: true },
+    ],
+  },
+  {
+    id: 'plataforma', title: 'Plataforma web',
+    desc: 'Um feed com a cara do Itaú para encontrar ativos sem estar no meio de uma tarefa. O ranking é por popularidade: curtidas e instalações. O coordenador também vê a fila de aprovação do time.',
+    lanes: [['Persona', 'Dev (Cord−)'], ['Web', 'Plataforma'], ['Governança', 'Coordenador (Cord+)']],
+    nodes: [
+      { id: 'p1', lane: 0, row: 1, kind: 'start', text: 'Entra com o login corporativo', tags: ['sim'] },
+      { id: 'p2', lane: 1, row: 2, kind: 'decision', who: 'system', text: 'Qual o perfil?' },
+      { id: 'p3', lane: 1, row: 3, kind: 'step', who: 'system', text: 'Feed por popularidade: curtidas e instalações', note: 'Só o que o perfil pode ver', tags: ['fict'] },
+      { id: 'q3', lane: 2, row: 3, kind: 'step', who: 'human', text: 'Vê o mesmo feed e a fila de aprovação do time' },
+      { id: 'p4', lane: 0, row: 4, kind: 'step', who: 'human', text: 'Busca por nome e filtra por setor, tipo de ativo e popularidade' },
+      { id: 'q4', lane: 2, row: 4, kind: 'decision', who: 'human', text: 'Aprova o ativo?', note: 'Pode delegar a aprovação' },
+      { id: 'p5', lane: 0, row: 5, kind: 'step', who: 'human', text: 'Abre o post', note: 'README, autor, squad, curtidas, instalações, derivações' },
+      { id: 'q5', lane: 1, row: 5, kind: 'step', who: 'system', text: 'Publica e registra quem aprovou' },
+      { id: 'q5x', lane: 2, row: 5, kind: 'end', text: 'Devolve ao autor com comentário' },
+      { id: 'p6', lane: 0, row: 6, kind: 'decision', who: 'human', text: 'Curte ou instala?' },
+      { id: 'p7i', lane: 0, row: 7, kind: 'step', who: 'human', text: 'Instala seguindo o manual do ativo' },
+      { id: 'p7', lane: 1, row: 7, kind: 'step', who: 'system', text: 'Soma a curtida ou a instalação', note: 'Atualiza o ranking e o painel do autor' },
+      { id: 'p8', lane: 0, row: 8, kind: 'end', text: 'Autor edita o próprio post', note: 'Projetos em que usou, métricas pessoais' },
+    ],
+    edges: [
+      { from: 'p1', to: 'p2' },
+      { from: 'p2', to: 'p3', label: 'Cord−' },
+      { from: 'p2', to: 'q3', label: 'Cord+', fa: 'right', ta: 'top' },
+      { from: 'p3', to: 'p4' }, { from: 'p4', to: 'p5' }, { from: 'p5', to: 'p6' },
+      { from: 'q3', to: 'q4' },
+      { from: 'q4', to: 'q5', label: 'Sim', fa: 'left', ta: 'top' },
+      { from: 'q4', to: 'q5x', label: 'Não' },
+      { from: 'p6', to: 'p7', label: 'Curte', fa: 'right', ta: 'top' },
+      { from: 'p6', to: 'p7i', label: 'Instala' },
+      { from: 'p7i', to: 'p7' },
+      { from: 'p7', to: 'p8', label: 'Autor vê o painel', fa: 'bottom', ta: 'right' },
+    ],
+    later: ['Comentários', 'Feedback privado ao dono', 'Contato do autor', 'Ranking personalizado'],
+  },
+];
+
+const EYEBROW = { human: 'Pessoa', agent: 'Agente de IA', system: 'Sistema' };
+const TAG = { sim: ['sim', 'Simulado'], fict: ['fict', 'Dados fictícios'] };
+const NS = 'http://www.w3.org/2000/svg';
+const h = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+
+function render(flow, i) {
+  document.getElementById('nav').append(Object.assign(h('a', null, flow.title), { href: '#' + flow.id }));
+  const sec = h('section'); sec.id = flow.id;
+  sec.append(h('div', 'sec-head', `<span class="num">${String(i + 1).padStart(2, '0')}</span><div><span class="overline">Fluxo</span><h2>${flow.title}</h2><p>${flow.desc}</p></div>`));
+
+  const grid = h('div', 'flow');
+  const rows = Math.max(...flow.nodes.map(n => n.row));
+  grid.style.gridTemplateColumns = `repeat(${flow.lanes.length}, minmax(190px, 1fr))`;
+  grid.style.gridTemplateRows = `auto repeat(${rows}, auto) 12px`;
+  flow.lanes.forEach(([kind, name], l) => {
+    const s = h('div', 'stripe'); s.style.gridColumn = l + 1; s.style.gridRow = `1 / ${rows + 3}`; grid.append(s);
+    const hd = h('div', 'lane-head', `<span class="overline">${kind}</span><strong>${name}</strong>`); hd.style.gridColumn = l + 1; hd.style.gridRow = 1; grid.append(hd);
+  });
+  flow.nodes.forEach(n => {
+    const el = h('div', `node ${n.kind} ${n.who || ''}`);
+    el.dataset.id = n.id;
+    el.style.gridColumn = n.lane + 1; el.style.gridRow = n.row + 1;
+    let eb = '';
+    if (n.kind !== 'start' && n.kind !== 'end') {
+      const label = n.kind === 'decision' && n.who === 'human' ? 'Decisão humana' : EYEBROW[n.who];
+      eb = `<div class="eb">${n.who === 'agent' ? '<span class="ia">IA</span>' : ''}${label}</div>`;
+    }
+    const tags = (n.tags || []).map(t => `<span class="badge ${TAG[t][0]}">${TAG[t][1]}</span>`).join('');
+    el.innerHTML = `${eb}<div class="txt">${n.text}</div>${n.note ? `<div class="note">${n.note}</div>` : ''}${tags ? `<div class="tags">${tags}</div>` : ''}`;
+    grid.append(el);
+  });
+  const svg = document.createElementNS(NS, 'svg'); grid.append(svg);
+  grid.append(h('div', 'labels'));
+
+  const wrap = h('div', 'scroll'); wrap.append(grid); sec.append(wrap);
+  if (flow.later) sec.append(h('div', 'later', `<strong>Fica para depois:</strong>${flow.later.map(x => `<span class="chip">${x}</span>`).join('')}`));
+  document.getElementById('flows').append(sec);
+  return grid;
+}
+
+const NORMAL = { top: [0, -1], bottom: [0, 1], left: [-1, 0], right: [1, 0] };
+function anchor(r, a) {
+  return { top: [r.cx, r.t], bottom: [r.cx, r.b], left: [r.l, r.cy], right: [r.r, r.cy] }[a];
+}
+/* Conector ortogonal: segmentos retos que correm pelos vãos entre linhas e raias. */
+const isV = a => a === 'top' || a === 'bottom';
+function route([sx, sy], fa, [ex, ey], ta) {
+  if (isV(fa) && isV(ta)) {
+    if (Math.abs(sx - ex) < 1) return [[sx, sy], [ex, ey]];
+    const my = ta === 'top' ? ey - 22 : ey + 22;
+    return [[sx, sy], [sx, my], [ex, my], [ex, ey]];
+  }
+  if (isV(fa)) return [[sx, sy], [sx, ey], [ex, ey]];
+  if (isV(ta)) return [[sx, sy], [ex, sy], [ex, ey]];
+  if (Math.abs(sy - ey) < 1) return [[sx, sy], [ex, ey]];
+  if (fa === ta) {
+    const x = fa === 'right' ? Math.max(sx, ex) + 18 : Math.min(sx, ex) - 18;
+    return [[sx, sy], [x, sy], [x, ey], [ex, ey]];
+  }
+  const mx = (sx + ex) / 2;
+  return [[sx, sy], [mx, sy], [mx, ey], [ex, ey]];
+}
+function rounded(pts, r) {
+  let d = `M${pts[0][0]},${pts[0][1]}`;
+  for (let i = 1; i < pts.length - 1; i++) {
+    const [px, py] = pts[i - 1], [cx, cy] = pts[i], [nx, ny] = pts[i + 1];
+    const r1 = Math.min(r, Math.hypot(cx - px, cy - py) / 2, Math.hypot(nx - cx, ny - cy) / 2);
+    const ax = cx - Math.sign(cx - px) * r1, ay = cy - Math.sign(cy - py) * r1;
+    const bx = cx + Math.sign(nx - cx) * r1, by = cy + Math.sign(ny - cy) * r1;
+    d += ` L${ax},${ay} Q${cx},${cy} ${bx},${by}`;
+  }
+  const [lx, ly] = pts[pts.length - 1];
+  return d + ` L${lx},${ly}`;
+}
+
+function draw(grid, flow) {
+  const box = grid.getBoundingClientRect();
+  const svg = grid.querySelector('svg'); const labels = grid.querySelector('.labels');
+  svg.setAttribute('width', box.width); svg.setAttribute('height', box.height);
+  svg.innerHTML = `<defs>
+    <marker id="arr-${flow.id}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#4C4C4C"/></marker>
+    <marker id="hot-${flow.id}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#FF6200"/></marker></defs>`;
+  labels.innerHTML = '';
+  const node = id => flow.nodes.find(n => n.id === id);
+  const rect = id => {
+    const r = grid.querySelector(`[data-id="${id}"]`).getBoundingClientRect();
+    const o = { l: r.left - box.left, t: r.top - box.top, r: r.right - box.left, b: r.bottom - box.top };
+    return { ...o, cx: (o.l + o.r) / 2, cy: (o.t + o.b) / 2 };
+  };
+  flow.edges.forEach(e => {
+    const S = node(e.from), T = node(e.to), rs = rect(e.from), rt = rect(e.to);
+    let fa, ta;
+    if (T.row > S.row) { fa = 'bottom'; ta = 'top'; }
+    else if (T.lane === S.lane) { fa = 'right'; ta = 'right'; }
+    else { fa = T.lane > S.lane ? 'right' : 'left'; ta = T.lane > S.lane ? 'left' : 'right'; }
+    fa = e.fa || fa; ta = e.ta || ta;
+    const [sx, sy] = anchor(rs, fa); let [ex, ey] = anchor(rt, ta);
+    const [ntx, nty] = NORMAL[ta];
+    ex += ntx * 3; ey += nty * 3;
+    const d = rounded(route([sx, sy], fa, [ex, ey], ta), 10);
+    const p = document.createElementNS(NS, 'path');
+    p.setAttribute('d', d); p.setAttribute('fill', 'none');
+    p.setAttribute('stroke', e.hot ? '#FF6200' : '#4C4C4C');
+    p.setAttribute('stroke-width', e.hot ? 2.5 : 1.5);
+    if (e.hot) p.setAttribute('stroke-dasharray', '6 5');
+    p.setAttribute('marker-end', `url(#${e.hot ? 'hot' : 'arr'}-${flow.id})`);
+    svg.append(p);
+    if (e.label) {
+      const pt = p.getPointAtLength(p.getTotalLength() * (e.t ?? 0.5));
+      const lb = h('div', 'elabel' + (e.hot ? ' hot' : ''), e.label);
+      lb.style.left = pt.x + 'px'; lb.style.top = pt.y + 'px';
+      labels.append(lb);
+    }
+  });
+}
+
+const grids = FLOWS.map((f, i) => [render(f, i), f]);
+const redraw = () => grids.forEach(([g, f]) => draw(g, f));
+new ResizeObserver(redraw).observe(document.body);
+document.fonts.ready.then(redraw);
+</script>
+</body>
+</html>

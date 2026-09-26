@@ -18,15 +18,16 @@ Itens marcados **(sugestão Claude)** são propostas para o time avaliar, não d
 | D-10 | Formato da banca: 3 min de pitch, 2 min de vídeo demo, 2 min de perguntas. | 26/09/2026 |
 | D-09 | Repositório privado durante o desenvolvimento. Antes da banca, limpar para ficar só o código e uma apresentação enxuta. | 26/09/2026 |
 | D-11 | Ambiente em Docker Compose: modo dev com hot reload e build de produção (nginx), indicado para a demo. CI sobe os dois modos a cada push. Motivo (Vicente): mostrar maturidade técnica, porque pode haver gestor de tecnologia na banca. | 26/09/2026 |
+| D-12 | MVP demonstra o ciclo descoberta → publicação (fluxos 02 e 03 de `docs/fluxos.html`), com front mínimo: página do post e fila de aprovação. O resto fica simulado ou como próximo passo. Fecha A-01. | 26/09/2026 |
+| D-13 | Nada é publicado sem aprovação do coordenador (Cord+), que pode delegar. Antes dele, um agente validador confere segredos, dado sensível, README, dono e escopo. Se barrar, explica o motivo e como corrigir. Quem publica escolhe o alcance (squad, frente ou banco). Fecha A-03 e A-04. | 26/09/2026 |
+| D-14 | O dev escolhe o modo do plugin: proativo, perguntar antes ou sob demanda (`/itau-house`). Motivo: busca automática pode soar invasiva para parte das pessoas. O aviso aparece no agente de código do dev, ao reconhecer a intenção de criar um ativo. Fecha A-02. Modo padrão: em aberto (A-16). | 26/09/2026 |
+| D-15 | Ranking por popularidade: curtidas e instalações. Derivações ("derivado de") contam como reuso e dão crédito ao autor original. Sem "algoritmo do X" no MVP. Visão do gestor limitada à fila de aprovação. Fecha A-15. | 26/09/2026 |
+| D-16 | A dor segue sendo retrabalho. O caso da análise exploratória de dados (EDA) mostra que o compartilhamento de skills hoje é manual: a pessoa só não sofre porque já tem as próprias skills. A demo usa casos reais de retrabalho recorrente, apresentados como simulação. Fecha A-14. | 26/09/2026 |
 
 ## Em aberto
 
 | # | Pergunta | Notas |
 |---|---|---|
-| A-01 | Qual tarefa o MVP demonstra? | Opções vindas do time: (a) aviso de duplicidade para o dev; (b) publicação de ativo com verificação de requisitos; (c) as duas em sequência. Ver checklist abaixo. |
-| A-02 | Em que momento e onde o dev recebe o aviso? | Antes de codar, ao abrir PR, na revisão? No IDE, no PR, num portal? No MVP pode ser simulado. |
-| A-03 | Que requisitos um ativo precisa cumprir para entrar? Quem verifica? | Agente, humano curador ou os dois. |
-| A-04 | Quais níveis de visibilidade existem e quem define? | Ex.: só a squad, a frente, o banco inteiro. |
 | A-05 | Qual a diferença para um repositório no GitHub e para o catálogo de skills homologadas que já existe? | Ver candidatas abaixo. Crítico para o critério de inovação. |
 | A-06 | Como produto, design e risco entram depois do dev? | Fica como próximo passo, mas a banca pode perguntar. |
 | A-07 | Quais métricas prometemos e como medimos no evento? | Ver candidatas abaixo. Separar medido de estimado. |
@@ -35,12 +36,11 @@ Itens marcados **(sugestão Claude)** são propostas para o time avaliar, não d
 | A-10 | Quem de fora do time testa o fluxo, e quando? | Obrigatório registrar pelo menos um teste com conclusão. |
 | A-11 | Divisão de papéis. | Nomes confirmados em 26/09 (grupo 4). Papéis ainda abertos. Ver [08-equipe.md](08-equipe.md). |
 | A-13 | Conversar com um dev do Itaú no evento. | Em andamento: o time está buscando um dev. Lacuna principal de evidência. |
-| A-14 | A dor principal é retrabalho ou tempo gasto montando agentes e padronizando processo? | Nota do brainstorm: "hoje ele não enfrenta tanto problema de retrabalho". Ver [09-brainstorm-time.md](09-brainstorm-time.md). Depende de A-13. |
-| A-15 | Avaliação (upvote), ranking e visão do gestor entram no MVP? | Ideias do brainstorm (09). Aumentam escopo e trazem risco de percepção de vigilância. Candidatas a métrica e próximo passo. |
+| A-16 | Qual o modo padrão do plugin? | **(sugestão Claude)** perguntar antes: respeita quem acha invasivo e ainda mostra o valor proativo na demo. |
 
 ## Checklist de desenho do MVP (exigências do Case C)
 
-Qualquer opção de A-01 precisa responder:
+O fluxo do MVP (D-12) precisa responder:
 - Entrada definida: o que o dev ou a squad fornece?
 - Trabalho do agente: o que ele faz e com quais limites?
 - Revisão humana: quem decide e em que ponto?

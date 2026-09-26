@@ -28,7 +28,7 @@ Evidências em [03-evidencias-pesquisa.md](03-evidencias-pesquisa.md).
 2. **Publicação com governança:** a squad publica um ativo no Itaú House. O ativo precisa cumprir requisitos para entrar. A verificação é feita por um agente, por um humano curador, ou pelos dois.
 3. **Visibilidade controlada:** nem tudo pode ser visto por todos. Nem todo agente que alguém criou pode ser acessado por outros.
 
-Ainda não está decidido qual desses mecanismos vira a tarefa demonstrada no MVP.
+O MVP demonstra o ciclo descoberta → publicação (D-12). Fluxos detalhados em [docs/fluxos.html](../docs/fluxos.html).
 
 ## Tipos de ativo que podem ser compartilhados
 

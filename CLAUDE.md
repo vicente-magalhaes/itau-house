@@ -20,6 +20,8 @@ Ler antes de qualquer tarefa. Os documentos brutos originais foram descartados; 
 | [memoria/08-equipe.md](memoria/08-equipe.md) | Integrantes, perfil, contatos | Slide 6, ficha, divisão de tarefas |
 | [memoria/09-brainstorm-time.md](memoria/09-brainstorm-time.md) | Ideias do time ainda não decididas: persona afiada, mecanismos novos, tensões | Desenho da solução, slides |
 
+Fluxos do produto: [docs/fluxos.html](docs/fluxos.html). É a fonte de verdade dos fluxos (ciclo, descoberta, publicação, plataforma). Abrir no navegador. Para mudar um fluxo, editar os dados em `FLOWS` no próprio arquivo.
+
 ## Design system
 
 `design-system/` é o design system do protótipo (tokens CSS, componentes React, regras de voz), gerado a partir do guia de marca oficial.
