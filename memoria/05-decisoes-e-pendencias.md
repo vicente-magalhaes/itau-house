@@ -20,9 +20,10 @@ Itens marcados **(sugestão Claude)** são propostas para o time avaliar, não d
 | D-11 | Ambiente em Docker Compose: modo dev com hot reload e build de produção (nginx), indicado para a demo. CI sobe os dois modos a cada push. Motivo (Vicente): mostrar maturidade técnica, porque pode haver gestor de tecnologia na banca. | 26/09/2026 |
 | D-12 | MVP demonstra o ciclo descoberta → publicação (fluxos 02 e 03 de `docs/fluxos.html`), com front mínimo: página do post e fila de aprovação. O resto fica simulado ou como próximo passo. Fecha A-01. | 26/09/2026 |
 | D-13 | Nada é publicado sem aprovação do coordenador (Cord+), que pode delegar. Antes dele, um agente validador confere segredos, dado sensível, README, dono e escopo. Se barrar, explica o motivo e como corrigir. Quem publica escolhe o alcance (squad, frente ou banco). Fecha A-03 e A-04. | 26/09/2026 |
-| D-14 | O dev escolhe o modo do plugin: proativo, perguntar antes ou sob demanda (`/itau-house`). Motivo: busca automática pode soar invasiva para parte das pessoas. O aviso aparece no agente de código do dev, ao reconhecer a intenção de criar um ativo. Fecha A-02. Modo padrão: em aberto (A-16). | 26/09/2026 |
+| D-14 | O dev escolhe o modo do plugin: proativo, perguntar antes ou sob demanda (`/itau-house`). Motivo: busca automática pode soar invasiva para parte das pessoas. O aviso aparece no agente de código do dev, ao reconhecer a intenção de criar um ativo. Fecha A-02. Modo padrão: perguntar antes (D-17). | 26/09/2026 |
 | D-15 | Ranking por popularidade: curtidas e instalações. Derivações ("derivado de") contam como reuso e dão crédito ao autor original. Sem "algoritmo do X" no MVP. Visão do gestor limitada à fila de aprovação. Fecha A-15. | 26/09/2026 |
 | D-16 | A dor segue sendo retrabalho. O caso da análise exploratória de dados (EDA) mostra que o compartilhamento de skills hoje é manual: a pessoa só não sofre porque já tem as próprias skills. A demo usa casos reais de retrabalho recorrente, apresentados como simulação. Fecha A-14. | 26/09/2026 |
+| D-17 | Modo padrão do plugin: perguntar antes. Respeita quem acha a busca automática invasiva e ainda mostra o valor proativo. Fecha A-16. | 26/09/2026 |
 
 ## Em aberto
 
@@ -36,7 +37,6 @@ Itens marcados **(sugestão Claude)** são propostas para o time avaliar, não d
 | A-10 | Quem de fora do time testa o fluxo, e quando? | Obrigatório registrar pelo menos um teste com conclusão. |
 | A-11 | Divisão de papéis. | Nomes confirmados em 26/09 (grupo 4). Papéis ainda abertos. Ver [08-equipe.md](08-equipe.md). |
 | A-13 | Conversar com um dev do Itaú no evento. | Em andamento: o time está buscando um dev. Lacuna principal de evidência. |
-| A-16 | Qual o modo padrão do plugin? | **(sugestão Claude)** perguntar antes: respeita quem acha invasivo e ainda mostra o valor proativo na demo. |
 
 ## Checklist de desenho do MVP (exigências do Case C)
 
