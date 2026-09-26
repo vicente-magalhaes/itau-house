@@ -1,6 +1,6 @@
 # Itaú House
 
-Um espaço interno para as squads do Itaú encontrarem e reaproveitarem o que outras squads já construíram: agentes, skills, frameworks e pedaços de código.
+Um espaço interno para as squads do Itaú encontrarem e reaproveitarem o que outras squads já construíram: agentes, skills, frameworks, harness, plugins e pedaços de códigos.
 
 > Protótipo desenvolvido no Hackathon Itaú 2026 (Case C, Jornada de agentes). Não é um produto oficial do Itaú. Todos os dados usados aqui são fictícios.
 
@@ -64,6 +64,7 @@ Stack prevista, que ainda pode mudar:
 
 ```
 itau-house/
+├─ .claude/               configuração do Claude Code: permissões, hooks e regras de segurança
 ├─ CLAUDE.md              contexto e regras para os agentes de IA que desenvolvem o projeto
 ├─ memoria/               memória do projeto: regras do hackathon, evidências, decisões, formato da PRD
 └─ itau-design-system/    guia de marca e logos do Itaú
@@ -99,12 +100,13 @@ git push origin main
 
 **Commits** seguem o padrão Conventional Commits (`feat:`, `fix:`, `docs:`, `chore:`, `refactor:`, `test:`) e citam o requisito da PRD que atendem, por exemplo `feat: descreve a mudança (RF-03)`. Assim dá para sair de qualquer requisito e achar onde ele foi implementado.
 
-**Uso de IA na construção.** O projeto é desenvolvido com apoio do Claude Code. O contexto que os agentes usam fica no `CLAUDE.md` e na pasta `memoria/`. O fluxo de trabalho com IA que montamos para o time vai ser descrito aqui em breve.
+**Uso de IA na construção.** O projeto é desenvolvido com apoio do Claude Code. O contexto que os agentes usam fica no `CLAUDE.md` e na pasta `memoria/`. O que eles podem ou não fazer, os hooks e as regras de segurança ficam em `.claude/`. O fluxo de trabalho com IA que montamos para o time vai ser descrito aqui em breve.
 
 ## Segurança
 
 - Só usamos dados fictícios. Nada de dado real de cliente ou informação interna do banco.
 - Chaves e senhas ficam em arquivos `.env`, que nunca vão para o repositório. O `.env.example` traz só os nomes das variáveis.
+- Um hook do Claude Code bloqueia qualquer tentativa de um agente ler ou editar `.env`, chaves e credenciais. Force push e `git reset --hard` também estão bloqueados.
 - Nenhuma integração com sistemas do Itaú. O que depender disso fica simulado e indicado como tal.
 
 ## Equipe

@@ -33,3 +33,13 @@ Ler antes de qualquer tarefa. Os documentos brutos originais foram descartados; 
 - Ao fechar uma decisão, registrar em `memoria/05-decisoes-e-pendencias.md` com data.
 - O repositório é privado durante o desenvolvimento. Antes da banca, será limpo para ficar só o código. `memoria/` e `itau-design-system/` são internos: citam pessoas e conversas do Itaú e contêm a marca do banco.
 - Escrever em português do Brasil, frases curtas.
+
+## Configuração do Claude Code
+
+`.claude/settings.json` define o que os agentes podem rodar sem pedir (git, uv, npm, docker compose), o que é proibido (ler segredos, force push, `git reset --hard`) e os hooks:
+- `block_secrets.py` bloqueia leitura e edição de `.env`, chaves e credenciais.
+- `format_code.py` formata o arquivo editado (ruff, prettier, eslint) quando o projeto tiver essas ferramentas.
+
+Regras de segurança, sempre ativas:
+
+@.claude/rules/security.md

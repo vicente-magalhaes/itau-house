@@ -1,0 +1,47 @@
+# Segredos e ambiente: nunca versionar. Só os modelos .example vão para o git.
+.env
+.env.*
+!.env.example
+!*.env.example
+*.pem
+*.key
+secrets/
+service_account*.json
+credentials*.json
+
+# Claude Code: estado local de cada máquina.
+# settings.local.json guarda preferências pessoais; o settings.json do time é versionado.
+.claude/settings.local.json
+# Trava criada automaticamente quando uma sessão usa tarefas agendadas (/loop, lembretes).
+# Só vale para a sessão e a máquina que a criaram.
+.claude/scheduled_tasks.lock
+# Cópias de trabalho temporárias criadas por subagentes.
+.claude/worktrees/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Node
+node_modules/
+dist/
+.vite/
+*.tsbuildinfo
+.eslintcache
+coverage/
+
+# Logs
+*.log
+
+# IDE e sistema
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db
+desktop.ini
