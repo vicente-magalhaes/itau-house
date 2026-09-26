@@ -33,18 +33,18 @@ Itens marcados **(sugestão Claude)** são propostas para o time avaliar, não d
 | D-18 | Persona em três camadas, para responder ao tema "squads orientados por agentes". **Quem usa o fluxo:** qualquer membro do squad que cria com IA (produto, design, dev); na demo, um dev. **Quem governa:** o coordenador do squad (Cord+). **Unidade de valor:** o squad, com métrica de reuso entre papéis. A demo mostra um dev reaproveitando uma skill criada por um PM de outra squad. A solução se acopla a qualquer agente que suporte MCP (Claude Code, Copilot e outros), então vale para todos os papéis. Dependência para piloto: o Copilot corporativo do Itaú precisa ter MCP liberado nas políticas internas. | 26/09/2026 |
 | D-19 | Stack de IA e busca. **LLM:** Claude via API, modelo `claude-opus-5`, SDK oficial `anthropic` em Python, com esforço (`effort`) ajustado por rota: `low` para reconhecer intenção e ranquear semelhança, `medium` a `high` para validador e adaptação. Respostas estruturadas por schema. Fallback do servidor ligado para recusas. **Busca:** sem embeddings no MVP. Com 15 a 20 ativos, o back-end filtra por visibilidade e o LLM ranqueia e justifica. Em escala, entra pgvector no Supabase para pré-filtrar. **Banco:** Supabase (já previsto no compose). Se a latência atrapalhar a demo, o time decide trocar de modelo ou baixar o esforço; o fallback gravado (RNF-04) cobre falhas. Fecha A-09. | 26/09/2026 |
 | D-20 | Harness do time: plugin `harness-hacka` (repositório público `vicente-magalhaes/harness-hacka`). Injeta o resumo da memória no início de cada sessão, registra o diário por sessão, faz housekeeping com subagente e só deixa uma decisão virar aceita quando uma pessoa digita `accept NNNN`. A memória segue em `memoria/` e as decisões seguem nesta tabela. Motivo (Vicente): guardar o que cada sessão aprendeu e limpar o que envelhece sem depender de disciplina manual; é também um exemplo de ativo que iria para o Itaú House. Pendente: confirmar com a organização se o harness conta como elemento pré-existente (ver 01, propriedade intelectual). | 26/09/2026 |
-| D-21 | Banco: Supabase na nuvem, um projeto só para dev e produção. Sem Supabase local. Motivo (Vicente): todos os dados são fictícios, inclusive em produção, e o MVP precisa estar online para os gestores acessarem. Controle: estrutura só por migração versionada e seed no repo, para recriar o banco do zero. | 26/09/2026 |
+| D-21 | Papéis. **Bruno:** produto e camada de IA (roteiro da demo, catálogo fictício, busca, validador, plugin). **Vicente:** back-end, MCP, banco e deploy, com Devin. **Alexandre:** front-end. **JP:** apresentação e evidência (prazo, entrevista, slides, ficha, pitch, vídeo). Cada task tem dono e validador diferentes. Tasks e ordem em [KANBAN.md](../KANBAN.md). Fecha A-11. | 26/09/2026 |
+| D-22 | Banco: Supabase na nuvem, um projeto só para dev e produção. Sem Supabase local. Motivo (Vicente): todos os dados são fictícios, inclusive em produção, e o MVP precisa estar online para os gestores acessarem. Controle: estrutura só por migração versionada e seed no repo, para recriar o banco do zero. | 26/09/2026 |
 
 ## Em aberto
 
 | # | Pergunta | Notas |
 |---|---|---|
 | A-05 | Qual a diferença para um repositório no GitHub e para o catálogo de skills homologadas que já existe? | Ver candidatas abaixo. Crítico para o critério de inovação. |
-| A-06 | Como produto, design e risco entram depois do dev? | Fica como próximo passo, mas a banca pode perguntar. |
+| A-06 | Como produto, design e risco entram depois do dev? | Em grande parte coberto por D-18: qualquer papel do squad usa o fluxo. Falta só a resposta curta para a banca (T-33). |
 | A-07 | Quais métricas prometemos e como medimos no evento? | Ver candidatas abaixo. Separar medido de estimado. |
 | A-08 | Nome final do produto. | "Itaú House" é provisório. |
 | A-10 | Quem de fora do time testa o fluxo, e quando? | Obrigatório registrar pelo menos um teste com conclusão. |
-| A-11 | Divisão de papéis. | Nomes confirmados em 26/09 (grupo 4). Papéis ainda abertos. Ver [08-equipe.md](08-equipe.md). |
 | A-13 | Conversar com um dev do Itaú no evento. | Em andamento: o time está buscando um dev. Lacuna principal de evidência. |
 | A-17 | Onde hospedar o MVP para os gestores acessarem? | Provável: Vercel e/ou Render (Vicente, 26/09). Precisa de link que abre sem login (ver 01). |
 

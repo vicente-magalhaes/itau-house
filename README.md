@@ -210,9 +210,9 @@ git push origin main
 
 Equipe da Poli Júnior no Hackathon Itaú 2026:
 
-| Nome | GitHub | LinkedIn | 
-|---|---|---|
-| Vicente Magalhães | [@vicente-magalhaes](https://github.com/vicente-magalhaes) | [Vicente Magalhães Fraga Oliveira](https://www.linkedin.com/in/vicente-magalhães-fraga-oliveira-50187b361) | 
-| João Pedro Araújo | [@joaopparaujo](https://github.com/joaopparaujo) | [João Pedro de Pinho Araujo](https://www.linkedin.com/in/joaopedrodepinhoaraujo/) | 
-| Alexandre Delbim | [@Alekka](https://github.com/Allekka) | [Alexandre Delbim](https://www.linkedin.com/in/alexandre-delbim-1b2695401) | 
-| Bruno Vaskevicius | [@brunovaskevicius-bot](https://github.com/brunovaskevicius-bot) | [Bruno Dos Santos Vaskevicius](https://www.linkedin.com/in/bruno-dos-santos-vaskevicius-0b5174387) | 
+| Nome | GitHub | LinkedIn | Papel |
+|---|---|---|---|
+| Vicente Magalhães | [@vicente-magalhaes](https://github.com/vicente-magalhaes) | [Vicente Magalhães Fraga Oliveira](https://www.linkedin.com/in/vicente-magalhães-fraga-oliveira-50187b361) | Back-end, MCP e deploy |
+| João Pedro Araújo | [@joaopparaujo](https://github.com/joaopparaujo) | [João Pedro de Pinho Araujo](https://www.linkedin.com/in/joaopedrodepinhoaraujo/) | Apresentação e evidência |
+| Alexandre Delbim | [@Alekka](https://github.com/Allekka) | [Alexandre Delbim](https://www.linkedin.com/in/alexandre-delbim-1b2695401) | Front-end |
+| Bruno Vaskevicius | [@brunovaskevicius-bot](https://github.com/brunovaskevicius-bot) | [Bruno Dos Santos Vaskevicius](https://www.linkedin.com/in/bruno-dos-santos-vaskevicius-0b5174387) | Produto e camada de IA |
