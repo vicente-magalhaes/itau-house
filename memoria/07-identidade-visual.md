@@ -1,3 +1,9 @@
+---
+summary: "Qual fonte de marca vale para quê, regras de front-end, cores, fontes, logo"
+read_when: "Front-end, slides, vídeo"
+review_by: 2026-10-01
+---
+
 # Identidade visual
 
 Duas fontes, com papéis diferentes:

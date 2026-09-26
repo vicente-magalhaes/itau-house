@@ -1,3 +1,9 @@
+---
+summary: "Ideias do time ainda não decididas: persona afiada, mecanismos novos, tensões"
+read_when: "Desenho da solução, slides"
+review_by: 2026-09-27
+---
+
 # Brainstorm do time (Bruno, 26/09/2026)
 
 Rascunho de ideias do Bruno, pensando nos seis blocos dos slides.
@@ -45,7 +51,7 @@ Não constam em [04](04-solucao-itau-house.md). Candidatas, não escopo do MVP.
 
 ## Tensões para o time resolver
 
-1. **A dor é mesmo retrabalho?** Na nota sobre análise exploratória de dados (EDA): "hoje ele não enfrenta tanto problema de retrabalho, a IA consegue fazer boa parte". Isso enfraquece a tese central (D-03). Alternativa que aparece no próprio brainstorm: a dor é **processo e padronização**, ou seja, obrigatoriedades, testes, dinâmica de repo e regras de negócio que cada dev reconfigura no seu agente. Registrado como A-14.
+1. **A dor é mesmo retrabalho?** Resolvido em D-16: sim. A nota do EDA quis dizer que a pessoa já tem as skills dela; o compartilhamento é que é manual.
 2. **Exemplos para impacto na banca ≠ evidência.** Mostrar skills que "poderiam estar lá" funciona como storytelling. Precisa aparecer como simulação, não como uso real.
-3. **Gamificação e visão do gestor aumentam escopo** e levantam risco de percepção de vigilância. Registrado como A-15.
+3. **Gamificação e visão do gestor.** Resolvido em D-15: ranking por curtidas e instalações; gestor só vê a fila de aprovação.
 4. **Usabilidade:** o foco é criar ou publicar? Como gerar os gatilhos (hooks) para publicar sem esforço extra? Liga R-05.

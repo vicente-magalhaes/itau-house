@@ -1,3 +1,9 @@
+---
+summary: "Entregas, limites, formato da banca, critérios, restrições do regulamento"
+read_when: "Qualquer entrega: slides, vídeo, ficha, protótipo"
+review_by: 2026-10-01
+---
+
 # Hackathon Itaú 2026: regras, entregas e avaliação
 
 Fontes: regulamento (02/09/2026), guia dos participantes, slides da abertura (26/09/2026).

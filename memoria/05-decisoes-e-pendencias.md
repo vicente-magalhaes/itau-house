@@ -1,3 +1,9 @@
+---
+summary: "Decidido, em aberto, riscos, perguntas da banca"
+read_when: "Antes de assumir qualquer decisão"
+review_by: 2026-09-27
+---
+
 # Decisões, pendências e riscos
 
 Registro vivo. Ao decidir algo, mover de "Em aberto" para "Decidido" com data.
@@ -9,7 +15,7 @@ Itens marcados **(sugestão Claude)** são propostas para o time avaliar, não d
 |---|---|---|
 | D-01 | Case C, Jornada de agentes. Confirmado pela organização. Troca não é permitida. | antes do evento |
 | D-02 | Solução: Itaú House, fórum de reuso de ativos (agentes, skills, frameworks, componentes, esqueletos de código) entre squads. | 26/09/2026 |
-| D-03 | Persona inicial: dev. É a mais afetada por retrabalho e dá o MVP de maior aprendizado. | 26/09/2026 |
+| D-03 | Persona inicial: dev. É a mais afetada por retrabalho e dá o MVP de maior aprendizado. **Revisada em D-18.** | 26/09/2026 |
 | D-04 | Argumento do recorte: começar pequeno por governança e compliance, depois expandir. | 26/09/2026 |
 | D-05 | Expansão fica como próximos passos: produto, design e risco → Finanças → conhecimento executivo (notebooks, PPTs). | 26/09/2026 |
 | D-06 | A PRD não é entregável, mas será escrita, objetiva e focada em requisitos e stack, como contexto para os agentes de desenvolvimento. Ver [06-prd-e-stack.md](06-prd-e-stack.md). | 26/09/2026 |
@@ -18,31 +24,33 @@ Itens marcados **(sugestão Claude)** são propostas para o time avaliar, não d
 | D-10 | Formato da banca: 3 min de pitch, 2 min de vídeo demo, 2 min de perguntas. | 26/09/2026 |
 | D-09 | Repositório privado durante o desenvolvimento. Antes da banca, limpar para ficar só o código e uma apresentação enxuta. | 26/09/2026 |
 | D-11 | Ambiente em Docker Compose: modo dev com hot reload e build de produção (nginx), indicado para a demo. CI sobe os dois modos a cada push. Motivo (Vicente): mostrar maturidade técnica, porque pode haver gestor de tecnologia na banca. | 26/09/2026 |
-| D-12 | Banco: Supabase na nuvem, um projeto só para dev e produção. Sem Supabase local. Motivo (Vicente): todos os dados são fictícios, inclusive em produção, e o MVP precisa estar online para os gestores acessarem. Controle: estrutura só por migração versionada e seed no repo, para recriar o banco do zero. | 26/09/2026 |
+| D-12 | MVP demonstra o ciclo descoberta → publicação (fluxos 02 e 03 de `docs/fluxos.html`), com front mínimo: página do post e fila de aprovação. O resto fica simulado ou como próximo passo. Fecha A-01. | 26/09/2026 |
+| D-13 | Nada é publicado sem aprovação do coordenador (Cord+), que pode delegar. Antes dele, um agente validador confere segredos, dado sensível, README, dono e escopo. Se barrar, explica o motivo e como corrigir. Quem publica escolhe o alcance (squad, frente ou banco). Fecha A-03 e A-04. | 26/09/2026 |
+| D-14 | O dev escolhe o modo do plugin: proativo, perguntar antes ou sob demanda (`/itau-house`). Motivo: busca automática pode soar invasiva para parte das pessoas. O aviso aparece no agente de código do dev, ao reconhecer a intenção de criar um ativo. Fecha A-02. Modo padrão: perguntar antes (D-17). | 26/09/2026 |
+| D-15 | Ranking por popularidade: curtidas e instalações. Derivações ("derivado de") contam como reuso e dão crédito ao autor original. Sem "algoritmo do X" no MVP. Visão do gestor limitada à fila de aprovação. Fecha A-15. | 26/09/2026 |
+| D-16 | A dor segue sendo retrabalho. O caso da análise exploratória de dados (EDA) mostra que o compartilhamento de skills hoje é manual: a pessoa só não sofre porque já tem as próprias skills. A demo usa casos reais de retrabalho recorrente, apresentados como simulação. Fecha A-14. | 26/09/2026 |
+| D-17 | Modo padrão do plugin: perguntar antes. Respeita quem acha a busca automática invasiva e ainda mostra o valor proativo. Fecha A-16. | 26/09/2026 |
+| D-18 | Persona em três camadas, para responder ao tema "squads orientados por agentes". **Quem usa o fluxo:** qualquer membro do squad que cria com IA (produto, design, dev); na demo, um dev. **Quem governa:** o coordenador do squad (Cord+). **Unidade de valor:** o squad, com métrica de reuso entre papéis. A demo mostra um dev reaproveitando uma skill criada por um PM de outra squad. A solução se acopla a qualquer agente que suporte MCP (Claude Code, Copilot e outros), então vale para todos os papéis. Dependência para piloto: o Copilot corporativo do Itaú precisa ter MCP liberado nas políticas internas. | 26/09/2026 |
+| D-19 | Stack de IA e busca. **LLM:** Claude via API, modelo `claude-opus-5`, SDK oficial `anthropic` em Python, com esforço (`effort`) ajustado por rota: `low` para reconhecer intenção e ranquear semelhança, `medium` a `high` para validador e adaptação. Respostas estruturadas por schema. Fallback do servidor ligado para recusas. **Busca:** sem embeddings no MVP. Com 15 a 20 ativos, o back-end filtra por visibilidade e o LLM ranqueia e justifica. Em escala, entra pgvector no Supabase para pré-filtrar. **Banco:** Supabase (já previsto no compose). Se a latência atrapalhar a demo, o time decide trocar de modelo ou baixar o esforço; o fallback gravado (RNF-04) cobre falhas. Fecha A-09. | 26/09/2026 |
+| D-20 | Harness do time: plugin `harness-hacka` (repositório público `vicente-magalhaes/harness-hacka`). Injeta o resumo da memória no início de cada sessão, registra o diário por sessão, faz housekeeping com subagente e só deixa uma decisão virar aceita quando uma pessoa digita `accept NNNN`. A memória segue em `memoria/` e as decisões seguem nesta tabela. Motivo (Vicente): guardar o que cada sessão aprendeu e limpar o que envelhece sem depender de disciplina manual; é também um exemplo de ativo que iria para o Itaú House. Pendente: confirmar com a organização se o harness conta como elemento pré-existente (ver 01, propriedade intelectual). | 26/09/2026 |
+| D-21 | Banco: Supabase na nuvem, um projeto só para dev e produção. Sem Supabase local. Motivo (Vicente): todos os dados são fictícios, inclusive em produção, e o MVP precisa estar online para os gestores acessarem. Controle: estrutura só por migração versionada e seed no repo, para recriar o banco do zero. | 26/09/2026 |
 
 ## Em aberto
 
 | # | Pergunta | Notas |
 |---|---|---|
-| A-01 | Qual tarefa o MVP demonstra? | Opções vindas do time: (a) aviso de duplicidade para o dev; (b) publicação de ativo com verificação de requisitos; (c) as duas em sequência. Ver checklist abaixo. |
-| A-02 | Em que momento e onde o dev recebe o aviso? | Antes de codar, ao abrir PR, na revisão? No IDE, no PR, num portal? No MVP pode ser simulado. |
-| A-03 | Que requisitos um ativo precisa cumprir para entrar? Quem verifica? | Agente, humano curador ou os dois. |
-| A-04 | Quais níveis de visibilidade existem e quem define? | Ex.: só a squad, a frente, o banco inteiro. |
 | A-05 | Qual a diferença para um repositório no GitHub e para o catálogo de skills homologadas que já existe? | Ver candidatas abaixo. Crítico para o critério de inovação. |
 | A-06 | Como produto, design e risco entram depois do dev? | Fica como próximo passo, mas a banca pode perguntar. |
 | A-07 | Quais métricas prometemos e como medimos no evento? | Ver candidatas abaixo. Separar medido de estimado. |
 | A-08 | Nome final do produto. | "Itaú House" é provisório. |
-| A-09 | Stack. | Ver [06-prd-e-stack.md](06-prd-e-stack.md). Ambiente decidido (D-11). O esqueleto do Docker usa a stack prevista no README: FastAPI + uv no back, React + Vite no front. Trocar de stack exige ajustar os Dockerfiles. Banco decidido (D-12). LLM e busca seguem em aberto. |
 | A-10 | Quem de fora do time testa o fluxo, e quando? | Obrigatório registrar pelo menos um teste com conclusão. |
 | A-11 | Divisão de papéis. | Nomes confirmados em 26/09 (grupo 4). Papéis ainda abertos. Ver [08-equipe.md](08-equipe.md). |
 | A-13 | Conversar com um dev do Itaú no evento. | Em andamento: o time está buscando um dev. Lacuna principal de evidência. |
-| A-14 | A dor principal é retrabalho ou tempo gasto montando agentes e padronizando processo? | Nota do brainstorm: "hoje ele não enfrenta tanto problema de retrabalho". Ver [09-brainstorm-time.md](09-brainstorm-time.md). Depende de A-13. |
-| A-15 | Avaliação (upvote), ranking e visão do gestor entram no MVP? | Ideias do brainstorm (09). Aumentam escopo e trazem risco de percepção de vigilância. Candidatas a métrica e próximo passo. |
-| A-16 | Onde hospedar o MVP para os gestores acessarem? | Provável: Vercel e/ou Render (Vicente, 26/09). Precisa de link que abre sem login (ver 01). |
+| A-17 | Onde hospedar o MVP para os gestores acessarem? | Provável: Vercel e/ou Render (Vicente, 26/09). Precisa de link que abre sem login (ver 01). |
 
 ## Checklist de desenho do MVP (exigências do Case C)
 
-Qualquer opção de A-01 precisa responder:
+O fluxo do MVP (D-12) precisa responder:
 - Entrada definida: o que o dev ou a squad fornece?
 - Trabalho do agente: o que ele faz e com quais limites?
 - Revisão humana: quem decide e em que ponto?

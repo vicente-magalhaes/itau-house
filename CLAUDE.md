@@ -2,12 +2,14 @@
 
 Equipe da Poli Júnior no Hackathon Itaú 2026 (26 e 27/09/2026, banca em 27/09).
 Case C, Jornada de agentes: squad orientada por IA que entrega valor mais rápido sem perder qualidade, governança e decisão humana.
-Solução: **Itaú House** (nome provisório). Fórum interno em que squads publicam e reaproveitam agentes, skills, frameworks e esqueletos de código, com governança. Persona inicial: dev. Dor: retrabalho por não saber que outra squad já fez algo parecido.
+Solução: **Itaú House** (nome provisório). Fórum interno em que squads publicam e reaproveitam agentes, skills, frameworks e esqueletos de código, com governança. Persona (D-18): quem usa é qualquer membro do squad que cria com IA (na demo, um dev); quem governa é o coordenador do squad; a unidade de valor é o squad. Dor: retrabalho, porque o compartilhamento de agentes e skills é manual e ninguém sabe o que o outro já criou. Requisitos em [PRD.md](PRD.md).
 
 ## Memória do projeto
 
 Ler antes de qualquer tarefa. Os documentos brutos originais foram descartados; a memória é a fonte.
+A tabela abaixo é gerada pelo harness-hacka a partir do frontmatter de cada nota (`summary`, `read_when`, `review_by`). Não editar à mão: nota nova ganha frontmatter e depois `harness-hacka index --update`.
 
+<!-- harness-hacka:index -->
 | Arquivo | Conteúdo | Ler quando |
 |---|---|---|
 | [memoria/01-hackathon-regras-e-entregas.md](memoria/01-hackathon-regras-e-entregas.md) | Entregas, limites, formato da banca, critérios, restrições do regulamento | Qualquer entrega: slides, vídeo, ficha, protótipo |
@@ -19,6 +21,9 @@ Ler antes de qualquer tarefa. Os documentos brutos originais foram descartados; 
 | [memoria/07-identidade-visual.md](memoria/07-identidade-visual.md) | Qual fonte de marca vale para quê, regras de front-end, cores, fontes, logo | Front-end, slides, vídeo |
 | [memoria/08-equipe.md](memoria/08-equipe.md) | Integrantes, perfil, contatos | Slide 6, ficha, divisão de tarefas |
 | [memoria/09-brainstorm-time.md](memoria/09-brainstorm-time.md) | Ideias do time ainda não decididas: persona afiada, mecanismos novos, tensões | Desenho da solução, slides |
+<!-- /harness-hacka:index -->
+
+Fluxos do produto: [docs/fluxos.html](docs/fluxos.html). É a fonte de verdade dos fluxos (ciclo, descoberta, publicação, plataforma). Abrir no navegador. Para mudar um fluxo, editar os dados em `FLOWS` no próprio arquivo.
 
 ## Design system
 
@@ -37,7 +42,7 @@ Comandos completos no [README](README.md#como-rodar).
 - `docker-compose.prod.yml` é o build de produção (nginx em :8080), indicado para a demo.
 - Dependência nova: `uv add` ou `npm install` na máquina, depois `docker compose up --build`. No front, com `-V`.
 - Toda rota da API fica sob `/api`. O front chama caminhos relativos (`/api/...`), nunca a URL do back.
-- Banco: Supabase na nuvem, um projeto só para dev e demo (D-12). Não roda no Docker.
+- Banco: Supabase na nuvem, um projeto só para dev e demo (D-21). Não roda no Docker.
 - Estrutura do banco só por migração em `supabase/migrations/` (`supabase migration new`). Nunca alterar tabela pelo painel. Dados fictícios em `supabase/seed.sql`, idempotente.
 - `supabase db push` mexe no banco que o time inteiro e a demo usam. Só com aprovação de uma pessoa.
 - Arquivo novo que a imagem precisa entra na lista de permissão: `backend/.dockerignore` ou `frontend/Dockerfile.dockerignore`.
@@ -62,6 +67,11 @@ Comandos completos no [README](README.md#como-rodar).
 `.claude/settings.json` define o que os agentes podem rodar sem pedir (git, uv, npm, docker compose), o que é proibido (ler segredos, force push, `git reset --hard`) e os hooks:
 - `block_secrets.py` bloqueia leitura e edição de `.env`, chaves e credenciais.
 - `format_code.py` formata o arquivo editado (ruff, prettier, eslint) quando o projeto tiver essas ferramentas.
+
+Plugin `harness-hacka` (D-20), habilitado para o time no mesmo arquivo. Config em `.claude/harness-hacka.json`.
+- No início de cada sessão, injeta o resumo da memória: pendências, notas vencidas, o que não repetir.
+- Ao fechar a sessão: `/harness-hacka:journal`. Quando o resumo avisar: `/harness-hacka:housekeeping`.
+- Bloqueia gravar chave na memória e apagar arquivo de `memoria/` (arquivar com `harness-hacka archive`).
 
 Regras de segurança, sempre ativas:
 

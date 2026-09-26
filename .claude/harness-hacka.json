@@ -1,0 +1,21 @@
+{
+  "$comment": "Config do harness-hacka (D-20). A presença deste arquivo liga o harness neste projeto. Todo campo tem padrão: escreva só o que difere. Referência: https://github.com/vicente-magalhaes/harness-hacka",
+  "project": "Itaú House",
+  "profile": "python",
+  "memory_dir": "memoria",
+  "housekeeping": {
+    "$comment": "Ritmo de hackathon: nota sem review_by vence em 2 dias, registro do diário entra na triagem em 1.",
+    "stale_after_days": 2,
+    "journal_after_days": 1,
+    "proposal_after_days": 1,
+    "markers": ["(sugestão Claude)", "[HIPÓTESE]", "provisório", "Pendente", "**pendente**", "a definir"]
+  },
+  "guard": {
+    "$comment": "O projeto já tem .claude/hooks/block_secrets.py. Desligado aqui para não bloquear em dobro.",
+    "secrets": false
+  },
+  "triggers": {
+    "supabase/migrations/**": "estrutura do banco",
+    "frontend/package.json": "dependência nova no front"
+  }
+}

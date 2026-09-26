@@ -1,3 +1,9 @@
+---
+summary: "Tese atual, persona, mecanismos, governança, expansão, teses descartadas"
+read_when: "Tudo sobre o produto"
+review_by: 2026-09-27
+---
+
 # Solução: Itaú House (tese atual do time)
 
 Status: tese em construção, 26/09/2026. Nome provisório.
@@ -15,7 +21,10 @@ Um fórum interno em que as squads do Itaú publicam e reaproveitam agentes, ski
 - Perda de conhecimento entre times (F1).
 Evidências em [03-evidencias-pesquisa.md](03-evidencias-pesquisa.md).
 
-## Persona inicial: dev
+## Persona: membro do squad, com governança do coordenador (D-18)
+
+Revisão de 26/09/2026. Quem usa o fluxo é qualquer membro do squad que cria com IA (produto, design, dev). Quem governa é o coordenador. A unidade de valor é o squad: uma skill que o PM criou pode servir ao dev, e vice-versa. Na demo, o usuário é um dev. O texto abaixo é o raciocínio original, focado em dev.
+
 
 - Escolhida por ser a mais afetada pelo retrabalho (F3).
 - É onde o MVP dá mais aprendizado com menos esforço.
@@ -28,7 +37,7 @@ Evidências em [03-evidencias-pesquisa.md](03-evidencias-pesquisa.md).
 2. **Publicação com governança:** a squad publica um ativo no Itaú House. O ativo precisa cumprir requisitos para entrar. A verificação é feita por um agente, por um humano curador, ou pelos dois.
 3. **Visibilidade controlada:** nem tudo pode ser visto por todos. Nem todo agente que alguém criou pode ser acessado por outros.
 
-Ainda não está decidido qual desses mecanismos vira a tarefa demonstrada no MVP.
+O MVP demonstra o ciclo descoberta → publicação (D-12). Fluxos detalhados em [docs/fluxos.html](../docs/fluxos.html).
 
 ## Tipos de ativo que podem ser compartilhados
 

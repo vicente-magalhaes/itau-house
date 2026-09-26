@@ -1,3 +1,9 @@
+---
+summary: "O que ouvimos de pessoas do Itaú, com limites; fluxo as-is"
+read_when: "Argumentos, slide de evidências, mapa ponta a ponta"
+review_by: 2026-10-01
+---
+
 # Evidências e pesquisa
 
 O que ouvimos de pessoas do Itaú. Cada fonte tem limites; respeitá-los no pitch (critério "Dados").
