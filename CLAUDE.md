@@ -30,6 +30,16 @@ Ponto de entrada: [design-system/readme.md](design-system/readme.md). Skill: `it
 - Texto de interface em pt-BR, falando com "você", CTA sem urgência.
 - Detalhes e interpretações provisórias em [memoria/07-identidade-visual.md](memoria/07-identidade-visual.md).
 
+## Ambiente (Docker)
+
+Comandos completos no [README](README.md#como-rodar).
+- `docker compose up --build` sobe back (:8000) e front (:5173) com hot reload.
+- `docker-compose.prod.yml` é o build de produção (nginx em :8080), indicado para a demo.
+- Dependência nova: `uv add` ou `npm install` na máquina, depois `docker compose up --build`. No front, com `-V`.
+- Toda rota da API fica sob `/api`. O front chama caminhos relativos (`/api/...`), nunca a URL do back.
+- Dentro do container, `127.0.0.1` é o próprio container. Serviço rodando na máquina do dev: `host.docker.internal`.
+- Arquivo novo que a imagem precisa entra na lista de permissão: `backend/.dockerignore` ou `frontend/Dockerfile.dockerignore`.
+
 ## Regras para os agentes
 
 - Não inventar dados, resultados, depoimentos, aprovações ou números. O regulamento e a banca punem isso.

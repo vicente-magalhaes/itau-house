@@ -1,0 +1,53 @@
+# Constrói as imagens e sobe as duas stacks (dev e produção) a cada push.
+# Pega o que só aparece no Docker: uv.lock desatualizado, arquivo faltando no contexto do build,
+# healthcheck quebrado, proxy do front sem chegar no back.
+
+name: Docker
+
+on:
+  push:
+  workflow_dispatch:
+
+# Push novo na mesma branch cancela a execução anterior, que já ficou velha.
+concurrency:
+  group: docker-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    name: Build e smoke test (${{ matrix.stack }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - stack: dev
+            compose: docker-compose.yml
+            url: http://localhost:5173/api/health
+          - stack: prod
+            compose: docker-compose.prod.yml
+            url: http://localhost:8080/api/health
+    env:
+      COMPOSE_FILE: ${{ matrix.compose }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Build das imagens
+        run: docker compose build
+
+      # --wait espera todos os healthchecks ficarem verdes, em vez de um sleep fixo.
+      - name: Sobe a stack
+        run: docker compose up -d --wait --wait-timeout 120
+
+      # Passa pelo front (Vite ou nginx) para provar que o /api chega no back-end.
+      - name: Smoke test (front → API)
+        run: curl -fsS --retry 5 --retry-delay 2 --retry-all-errors ${{ matrix.url }}
+
+      - name: Logs dos containers
+        if: failure()
+        run: docker compose logs
+
+      - name: Derruba a stack
+        if: always()
+        run: docker compose down -v

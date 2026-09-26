@@ -1,0 +1,10 @@
+# O build do front usa a raiz do repo como contexto (precisa do design-system/).
+# Lista de permissão: só frontend/ e design-system/ entram. memoria/, itau-design-system/,
+# .claude/ e qualquer .env ficam fora da imagem.
+# O Docker lê este arquivo no lugar do .dockerignore da raiz por estar ao lado do Dockerfile.
+*
+!frontend/
+!design-system/
+frontend/node_modules/
+frontend/dist/
+**/.env*

@@ -55,26 +55,87 @@ Stack prevista, que ainda pode mudar:
 | Camada | Tecnologia |
 |---|---|
 | Back-end | Python + FastAPI |
-| Front-end | TypeScript + React + Vite |
+| Front-end | TypeScript + React + Vite (possível adicionar algo conforme necessidade) |
 | Banco | Supabase (PostgreSQL) |
 | IA | LLM via API, com busca por similaridade entre ativos |
-| Ambiente | Docker |
+| Ambiente | Docker + Docker Compose |
+
+**Como o ambiente é montado**
+
+- Um comando sobe back-end e front-end, igual na máquina de todo mundo.
+- Dois modos: desenvolvimento, com hot reload, e produção, com o front compilado e servido por nginx. O de produção é o indicado para a demo.
+- Imagens em estágios (multi-stage). A de produção leva só o necessário e roda sem root.
+- Healthcheck nos dois serviços. O front só sobe depois que a API responde.
+- Front e API no mesmo endereço, com a API sob `/api`. O proxy do Vite (dev) e o nginx (produção) repassam as chamadas. Sem CORS e sem URL do back-end no build.
+- Cada imagem só recebe os arquivos de uma lista de permissão. `.env`, chaves e documentos internos ficam fora.
+- O CI (GitHub Actions) constrói as imagens e sobe os dois modos a cada push.
 
 ## Estrutura do repositório
 
 ```
 itau-house/
-├─ .claude/               configuração do Claude Code: permissões, hooks e regras de segurança
-├─ CLAUDE.md              contexto e regras para os agentes de IA que desenvolvem o projeto
-├─ memoria/               memória do projeto: regras do hackathon, evidências, decisões, formato da PRD
-└─ itau-design-system/    guia de marca e logos do Itaú
+├─ backend/                 API em Python (FastAPI), com Dockerfile próprio
+├─ frontend/                interface em React (Vite), com Dockerfile e config do nginx
+├─ design-system/           tokens, componentes React e regras de voz da marca
+├─ docker-compose.yml       ambiente de desenvolvimento
+├─ docker-compose.prod.yml  build de produção
+├─ .github/workflows/       CI: build das imagens e smoke test
+├─ .claude/                 configuração do Claude Code: permissões, hooks e regras de segurança
+├─ CLAUDE.md                contexto e regras para os agentes de IA que desenvolvem o projeto
+├─ memoria/                 memória do projeto: regras do hackathon, evidências, decisões, formato da PRD
+└─ itau-design-system/      guia de marca e logos do Itaú
 ```
 
-As pastas de código e a `PRD.md` entram conforme o desenvolvimento avança.
+A `PRD.md` entra conforme o desenvolvimento avança.
 
 ## Como rodar
 
-Em construção. Os passos entram aqui assim que o primeiro fluxo estiver funcionando.
+**Pré-requisito:** Docker Desktop instalado e aberto. No Windows, instale o WSL 2 antes do Docker Desktop (`wsl --install`).
+
+```bash
+docker compose up --build
+```
+
+| O quê | Endereço |
+|---|---|
+| Front-end | http://localhost:5173 |
+| API | http://localhost:8000 |
+| Documentação da API | http://localhost:8000/api/docs |
+
+O código fica montado dentro dos containers. Ao salvar um arquivo, o back-end e o front-end recarregam sozinhos.
+
+**Build de produção.** Mesmo código, com o front compilado e servido por nginx, sem hot reload:
+
+```bash
+docker compose -f docker-compose.prod.yml up --build -d
+```
+
+Abre em http://localhost:8080. Só o front fica exposto. O nginx repassa `/api` para o back-end, que não tem porta aberta.
+
+**Comandos do dia a dia**
+
+```bash
+docker compose logs -f backend              # acompanhar os logs
+docker compose exec backend pytest          # testes do back-end
+docker compose exec backend ruff check .    # lint do back-end
+docker compose exec frontend npm run lint   # lint do front-end
+docker compose up --build backend           # depois de adicionar dependência Python (uv add)
+docker compose up --build -V frontend       # depois de adicionar dependência do front (npm install)
+docker compose down                         # parar tudo
+```
+
+No front, o `-V` descarta o `node_modules` antigo que o container guarda. Sem ele, a dependência nova não aparece.
+
+**Portas ocupadas.** Se outro projeto já usa 8000, 5173 ou 8080, troque a porta na subida, por exemplo `BACKEND_PORT=8001 FRONTEND_PORT=5174 docker compose up`. A lista está em `.env.example`.
+
+**Variáveis de ambiente.** Nenhuma é obrigatória por enquanto. `backend/` e `frontend/` têm um `.env.example` com o que cada um aceita. Para usar, copie para `.env` na mesma pasta e preencha. O `.env` nunca vai para o git.
+
+**Sem Docker.** Também funciona direto na máquina, com Python 3.12, [uv](https://docs.astral.sh/uv/) e Node 24:
+
+```bash
+cd backend && uv sync && uv run uvicorn app.main:app --reload    # API em :8000
+cd frontend && npm install && npm run dev                          # front em :5173
+```
 
 ## Como trabalhamos
 

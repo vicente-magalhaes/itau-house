@@ -1,0 +1,9 @@
+# Lista de permissão: só entra no build o que a imagem usa.
+# Qualquer arquivo novo (inclusive .env e chaves) fica de fora até ser liberado aqui.
+*
+!pyproject.toml
+!uv.lock
+!.python-version
+!app/
+**/__pycache__
+**/*.py[cod]

@@ -17,6 +17,7 @@ Itens marcados **(sugestão Claude)** são propostas para o time avaliar, não d
 | D-08 | Git: só `main` e branches de trabalho (`feat/`, `fix/`). Cada um faz merge direto da própria branch na `main`, sem `dev` e sem Pull Request, por agilidade. O Claude pode dar push (liberado em `.claude/settings.json`). | 26/09/2026 |
 | D-10 | Formato da banca: 3 min de pitch, 2 min de vídeo demo, 2 min de perguntas. | 26/09/2026 |
 | D-09 | Repositório privado durante o desenvolvimento. Antes da banca, limpar para ficar só o código e uma apresentação enxuta. | 26/09/2026 |
+| D-11 | Ambiente em Docker Compose: modo dev com hot reload e build de produção (nginx), indicado para a demo. CI sobe os dois modos a cada push. Motivo (Vicente): mostrar maturidade técnica, porque pode haver gestor de tecnologia na banca. | 26/09/2026 |
 
 ## Em aberto
 
@@ -30,7 +31,7 @@ Itens marcados **(sugestão Claude)** são propostas para o time avaliar, não d
 | A-06 | Como produto, design e risco entram depois do dev? | Fica como próximo passo, mas a banca pode perguntar. |
 | A-07 | Quais métricas prometemos e como medimos no evento? | Ver candidatas abaixo. Separar medido de estimado. |
 | A-08 | Nome final do produto. | "Itaú House" é provisório. |
-| A-09 | Stack. | Ver [06-prd-e-stack.md](06-prd-e-stack.md). |
+| A-09 | Stack. | Ver [06-prd-e-stack.md](06-prd-e-stack.md). Ambiente decidido (D-11). O esqueleto do Docker usa a stack prevista no README: FastAPI + uv no back, React + Vite no front. Trocar de stack exige ajustar os Dockerfiles. Banco, LLM e busca seguem em aberto. |
 | A-10 | Quem de fora do time testa o fluxo, e quando? | Obrigatório registrar pelo menos um teste com conclusão. |
 | A-11 | Divisão de papéis. | Nomes confirmados em 26/09 (grupo 4). Papéis ainda abertos. Ver [08-equipe.md](08-equipe.md). |
 | A-13 | Conversar com um dev do Itaú no evento. | Em andamento: o time está buscando um dev. Lacuna principal de evidência. |

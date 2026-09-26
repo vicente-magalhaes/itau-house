@@ -1,0 +1,58 @@
+# Ambiente de desenvolvimento: back-end (FastAPI) e front-end (Vite), com hot reload.
+#
+#   docker compose up --build
+#   Front: http://localhost:5173    API: http://localhost:8000/api/docs
+#
+# Build de produção, indicado para a demo: docker-compose.prod.yml.
+# O banco (Supabase) não roda neste compose. Ver backend/.env.example.
+
+name: itau-house
+
+services:
+  backend:
+    build:
+      context: ./backend
+      target: dev
+    restart: unless-stopped
+    env_file:
+      - path: ./backend/.env
+        required: false
+    environment:
+      # O reload do uvicorn depende do aviso de arquivo alterado, que não atravessa o volume
+      # montado a partir do Windows. Com polling, ele confere os arquivos por tempo.
+      WATCHFILES_FORCE_POLLING: "true"
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    volumes:
+      # Código montado da máquina. O venv fica em /opt/venv, dentro da imagem, e não é afetado.
+      - ./backend:/app
+    extra_hosts:
+      # host.docker.internal aponta para a máquina do dev. O Docker Desktop já cria; isto cobre o Linux.
+      - "host.docker.internal:host-gateway"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      target: dev
+    restart: unless-stopped
+    env_file:
+      - path: ./frontend/.env
+        required: false
+    environment:
+      # O Vite repassa /api para o serviço backend, pela rede interna do compose.
+      API_PROXY_TARGET: http://backend:8000
+      # Mesmo motivo do WATCHFILES_FORCE_POLLING do backend. Ver frontend/vite.config.ts.
+      WATCH_POLLING: "1"
+    ports:
+      - "${FRONTEND_PORT:-5173}:5173"
+    volumes:
+      - ./frontend:/app/frontend
+      - ./design-system:/app/design-system:ro
+      # Volume anônimo: preserva o node_modules da imagem (Linux). Sem ele, o node_modules da
+      # máquina do dev (Windows ou macOS) sombrearia o do container.
+      # Dependência nova no package.json: docker compose up --build -V frontend
+      - /app/frontend/node_modules
+    depends_on:
+      backend:
+        condition: service_healthy

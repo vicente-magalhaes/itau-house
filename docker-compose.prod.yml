@@ -1,0 +1,32 @@
+# Build de produção, indicado para a demo. Mesmo código do dev, sem hot reload e com imagens sem root.
+#
+#   docker compose -f docker-compose.prod.yml up --build -d
+#   App: http://localhost:8080    API: http://localhost:8080/api/docs
+#
+# Só o front fica exposto. O nginx repassa /api ao back-end pela rede interna do compose.
+
+name: itau-house-prod
+
+services:
+  backend:
+    build:
+      context: ./backend
+      target: production
+    restart: unless-stopped
+    env_file:
+      - path: ./backend/.env
+        required: false
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      target: production
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-8080}:8080"
+    depends_on:
+      backend:
+        condition: service_healthy

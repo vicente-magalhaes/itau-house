@@ -1,0 +1,43 @@
+[project]
+name = "itau-house-backend"
+version = "0.1.0"
+description = "API do Itaú House, protótipo do Hackathon Itaú 2026 (Case C)."
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.141.1",
+    "uvicorn[standard]>=0.54.0",
+]
+
+[dependency-groups]
+dev = [
+    "httpx2>=2.13.1",
+    "pytest>=9.1.1",
+    "ruff>=0.16.9",
+]
+
+# Aplicação, não biblioteca: o uv só instala as dependências e não empacota o projeto.
+# Evita exigir build-system e README dentro da imagem Docker.
+[tool.uv]
+package = false
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E",     # pycodestyle
+    "F",     # pyflakes
+    "I",     # isort
+    "UP",    # pyupgrade
+    "B",     # flake8-bugbear
+    "ASYNC", # flake8-async
+    "SIM",   # flake8-simplify
+]
+ignore = ["E501"] # tamanho de linha é papel do formatter
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
