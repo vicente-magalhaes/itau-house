@@ -212,14 +212,14 @@ Relacionamentos, um por bullet:
 
 ## Stack
 
-**A decidir (A-09).** Referência: o que o time usou no projeto anterior e já domina.
+**Decidido em D-11 (ambiente) e D-19 (IA, busca, banco).** Detalhes em [PRD.md](../PRD.md), seção 9.
 
 | Camada | Candidata | Função |
 |---|---|---|
 | Back-end | Python + FastAPI | API REST. Orquestra o agente e as regras. |
 | Front-end | TypeScript + React (Vite) | Interface web. Componentes a definir (shadcn/ui ou MUI). |
 | Banco | Supabase (PostgreSQL) | Dados relacionais. Auth para login. Realtime se precisar de atualização ao vivo. |
-| IA | LLM via API, a definir | Agente(s) do fluxo. |
+| IA | Claude via API (`claude-opus-5`), SDK `anthropic` | Intenção, ranqueamento, validador, adaptação. Esforço por rota. |
 | Ambiente | Docker | Padroniza o ambiente do time. |
 
 Candidatas para o Itaú House **(sugestão Claude)**:

@@ -1,63 +1,77 @@
 # Itaú House
 
-Um espaço interno para as squads do Itaú encontrarem e reaproveitarem o que outras squads já construíram: agentes, skills, frameworks, harness, plugins e pedaços de códigos.
+O que uma pessoa do squad cria com IA vira do squad inteiro. O Itaú House é uma camada de reuso para squads orientados por agentes: encontra o que já existe no momento em que alguém começa a criar, e publica o que é novo com governança.
 
 > Protótipo desenvolvido no Hackathon Itaú 2026 (Case C, Jornada de agentes). Não é um produto oficial do Itaú. Todos os dados usados aqui são fictícios.
 
 ## O problema
 
-As squads do Itaú já usam muita IA no dia a dia. Cada time cria os próprios agentes, skills e atalhos de código, e tudo isso fica espalhado. Quem atua em várias squads ao mesmo tempo não consegue saber o que cada pessoa está usando. E quem precisa de algo parecido com o que outro time já fez acaba construindo de novo, porque não sabe que aquilo existe.
+Num squad orientado por IA, cada pessoa cria os próprios agentes, skills e atalhos. PM, designer e dev atacam a mesma dor, mas o que um cria fica na máquina dele. O compartilhamento, quando acontece, é manual. Quem atua em várias squads não sabe o que cada pessoa está usando. E quem precisa de algo parecido constrói de novo, porque não sabe que aquilo existe.
 
-O dev é quem sente isso de forma mais direta. Ele está desenvolvendo, ou revisando um código que escreveu com a ajuda de um agente, sem saber que outra squad já resolveu o mesmo problema. O resultado é retrabalho.
+O resultado é retrabalho. E uma skill que um PM criou, e que ajudaria o dev, nunca chega até ele.
 
-Chegamos a essa dor conversando com pessoas do Itaú durante o evento: três pessoas de Finanças que trabalham com várias squads e uma product analyst que acompanha a jornada de produto dentro de uma squad.
+Chegamos a essa dor conversando com pessoas do Itaú: três pessoas de Finanças que trabalham com várias squads, uma product analyst que acompanha a jornada de produto dentro de uma squad e um gestor de design. Detalhes e limites de cada conversa em `memoria/03-evidencias-pesquisa.md`.
 
 ## A proposta
 
-O Itaú House é um lugar onde as squads publicam o que construíram e encontram o que já existe. Pode entrar ali um agente, uma skill, um framework, um componente do design system ou um esqueleto de código, como um botão que já vem com a rota por trás.
+O Itaú House se acopla ao agente de IA que cada pessoa já usa: Claude Code, Copilot ou qualquer outro que suporte MCP. Não importa o papel nem o modelo.
 
-A ideia central é não depender do dev ir procurar. Enquanto ele trabalha, um agente avisa que já existe algo parecido em outra squad e explica por que acha isso. Quem decide se reaproveita ou não é sempre o dev.
+- Quando alguém começa a criar uma skill, um agente ou um framework, o Itaú House pergunta se pode buscar no catálogo.
+- Se encontra algo parecido, mostra quem fez, em que squad, e por que acha parecido. A pessoa decide se usa, adapta ou ignora.
+- Se não encontra, o que a pessoa criar vira candidato a publicação. Publicar é efeito colateral do trabalho, não tarefa extra.
+- Numa plataforma web, qualquer pessoa navega pelo que foi publicado, ordenado por curtidas e instalações.
+
+## Para quem
+
+| Camada | Quem é |
+|---|---|
+| Quem usa | Qualquer membro do squad que cria com IA: produto, design, dev. Na demo, um dev. |
+| Quem governa | O coordenador do squad. Aprova o que entra. |
+| Onde está o valor | No squad. Uma skill feita por um papel serve a outro. |
 
 ## Como funciona
 
-1. Uma squad publica um ativo no Itaú House.
-2. Um agente confere se o ativo cumpre os requisitos para entrar, e uma pessoa aprova.
-3. O ativo fica visível só para quem pode acessá-lo.
-4. Quando um dev começa algo novo, o agente procura no catálogo e avisa se já existe algo parecido.
-5. O dev decide o que fazer, e a decisão fica registrada.
+1. A pessoa pede ao seu agente para criar algo novo.
+2. O Itaú House reconhece a intenção e pergunta se pode buscar. O modo é configurável: perguntar antes (padrão), proativo ou sob demanda.
+3. A busca considera só o que a pessoa tem permissão para ver.
+4. Achou: a pessoa usa, adapta ou ignora. Adaptar gera um ativo "derivado de", com crédito ao autor original.
+5. Não achou: ao fim da tarefa, um agente validador confere o ativo novo. Se barrar, explica o motivo e como corrigir.
+6. A pessoa revisa o post e escolhe o alcance. O coordenador aprova.
+7. O ativo aparece na plataforma. Cada uso e cada derivação contam para o autor.
 
-Esse é o fluxo completo que imaginamos. O protótipo do hackathon demonstra uma parte dele, e o que estiver simulado vai aparecer indicado na tela.
+Fluxos completos em [docs/fluxos.html](docs/fluxos.html). Requisitos em [PRD.md](PRD.md). O que está simulado aparece indicado na tela.
 
 ## Governança
 
 Num banco, compartilhar código e agentes entre times só funciona se houver regra clara. Por isso o desenho parte de alguns princípios:
 
-- Nada entra no catálogo sem passar por verificação e aprovação humana.
-- Nem tudo é visível para todos. Quem publica define quem pode ver.
+- Nada entra no catálogo sem passar pelo validador e pela aprovação do coordenador.
+- Nem tudo é visível para todos. Quem publica escolhe o alcance: squad, frente ou banco.
 - O agente sugere, a pessoa decide. Nenhuma ação irreversível acontece sozinha.
-- Fica registrado quem publicou, quem aprovou e quem reaproveitou cada ativo.
+- Fica registrado quem publicou, quem aprovou, quem usou e quem derivou cada ativo.
 - O protótipo não se conecta a nenhum sistema real do banco.
 
 ## Por onde começamos
 
-Começamos pequeno de propósito. Escolhemos uma persona, o dev, porque é onde o retrabalho aparece mais e onde um MVP traz mais aprendizado com menos esforço. Começar com um grupo e um tipo de ativo também facilita cuidar de governança e compliance antes de abrir para mais gente.
+Começamos pelo squad e por um tipo de uso: criar e reaproveitar ativos de IA. Começar com um escopo claro facilita cuidar de governança e compliance antes de abrir para mais gente.
 
 Se a hipótese se confirmar, os próximos passos são:
 
-1. Trazer as outras pessoas da squad: produto, design e risco.
-2. Dar a Finanças uma visão de quais agentes estão em uso entre as squads.
-3. Incluir conhecimento que hoje vive em apresentações e atas, como os repositórios que alguns times já montam por conta própria.
+1. Dar a Finanças uma visão de quais agentes estão em uso entre as squads.
+2. Incluir conhecimento que hoje vive em apresentações e atas, como os repositórios que alguns times já montam por conta própria.
+
+Para um piloto real, o Copilot corporativo precisa ter MCP liberado nas políticas internas, e o login e a hierarquia precisam vir do diretório corporativo.
 
 ## Arquitetura
 
-Stack prevista, que ainda pode mudar:
-
 | Camada | Tecnologia |
 |---|---|
+| Plugin | Plugin do Claude Code (hooks, comando `/itau-house`). Instruções equivalentes servem ao Copilot. |
+| Integração | Servidor MCP em Python, padrão aberto. |
 | Back-end | Python + FastAPI |
-| Front-end | TypeScript + React + Vite (possível adicionar algo conforme necessidade) |
+| Front-end | TypeScript + React + Vite, com o design system do Itaú |
 | Banco | Supabase (PostgreSQL) |
-| IA | LLM via API, com busca por similaridade entre ativos |
+| IA | Claude via API (Claude Opus 5), com esforço ajustado por tarefa. A IA ranqueia e justifica a semelhança entre ativos. |
 | Ambiente | Docker + Docker Compose |
 
 **Como o ambiente é montado**
@@ -81,12 +95,12 @@ itau-house/
 ├─ docker-compose.prod.yml  build de produção
 ├─ .github/workflows/       CI: build das imagens e smoke test
 ├─ .claude/                 configuração do Claude Code: permissões, hooks e regras de segurança
+├─ PRD.md                   requisitos do produto (RN, RF, RNF)
+├─ docs/fluxos.html         fluxogramas do produto
 ├─ CLAUDE.md                contexto e regras para os agentes de IA que desenvolvem o projeto
 ├─ memoria/                 memória do projeto: regras do hackathon, evidências, decisões, formato da PRD
 └─ itau-design-system/      guia de marca e logos do Itaú
 ```
-
-A `PRD.md` entra conforme o desenvolvimento avança.
 
 ## Como rodar
 
@@ -179,4 +193,4 @@ Equipe da Poli Júnior no Hackathon Itaú 2026:
 | Vicente Magalhães | [@vicente-magalhaes](https://github.com/vicente-magalhaes) | [Vicente Magalhães Fraga Oliveira](https://www.linkedin.com/in/vicente-magalhães-fraga-oliveira-50187b361) | a definir |
 | João Pedro Araújo | [@joaopparaujo](https://github.com/joaopparaujo) | [João Pedro de Pinho Araujo](https://www.linkedin.com/in/joaopedrodepinhoaraujo/) | a definir |
 | Alexandre Delbim | a preencher | a preencher | a definir |
-| Bruno Vaskevicius | a preencher | a preencher | a definir |
+| Bruno Vaskevicius | [@brunovaskevicius-bot](https://github.com/brunovaskevicius-bot) | a preencher | a definir |

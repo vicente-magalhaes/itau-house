@@ -270,8 +270,8 @@ Versão visual com raias em [docs/fluxos.html](docs/fluxos.html).
 | **Plugin** | Plugin do Claude Code: hook de pedido (RF-03, RF-04), hook de arquivo criado (RF-13), comando `/itau-house` (RF-12), configuração do modo e do MCP. Instruções equivalentes servem ao Copilot. |
 | **Servidor MCP** | Python. Ferramentas: `buscar_ativos`, `detalhar_ativo`, `registrar_decisao`, `validar_ativo`, `montar_post`, `enviar_para_aprovacao`. Chama a API. |
 | **Back-end** | Python + FastAPI, rotas sob `/api`. Regras de visibilidade, validador, eventos, contadores. |
-| **Camada de IA** | LLM via API (a definir, A-09). Usos: reconhecer intenção na dúvida, ranquear e justificar semelhança, checagem de guard rails do validador, adaptar ativo. |
-| **Busca** | Com 15 a 20 ativos: filtro de visibilidade e LLM ranqueia e justifica. Em escala: embeddings com pgvector para pré-filtrar, LLM só nos finalistas. |
+| **Camada de IA** | Claude via API, `claude-opus-5`, SDK `anthropic` em Python (D-19). Esforço por rota: `low` para intenção e ranqueamento; `medium` a `high` para validador e adaptação. Saídas estruturadas por schema. Fallback do servidor para recusas. |
+| **Busca** | MVP sem embeddings (D-19): o back-end filtra por visibilidade (RF-05) e o LLM ranqueia e justifica os candidatos. Em escala: embeddings com pgvector no Supabase para pré-filtrar, LLM só nos finalistas. |
 | **Banco** | Supabase (PostgreSQL). Fora do compose (ver `docker-compose.yml`). |
 | **Front-end** | TypeScript + React + Vite, com `design-system/`. |
 | **Ambiente** | Docker Compose (D-11). Build de produção com nginx para a demo. |
@@ -290,7 +290,7 @@ Versão visual com raias em [docs/fluxos.html](docs/fluxos.html).
 | Respostas gravadas do LLM | **[SIMULADO]** | Só como fallback da demo (RNF-04). |
 
 **Custos (escalabilidade)**
-- LLM: principal custo. Fator: número de pedidos com intenção de criar ativo e de validações. Controle: o hook só chama o LLM quando reconhece a intenção; a busca em escala usa embeddings antes do LLM.
+- LLM: principal custo. Claude Opus 5 custa US$ 5 por milhão de tokens de entrada e US$ 25 por milhão de saída. Fator: número de pedidos com intenção de criar ativo e de validações. Controle: o hook só chama o LLM quando reconhece a intenção; esforço baixo nas rotas simples; em escala, embeddings pré-filtram antes do LLM.
 - Banco: fator é o número de ativos e eventos. Pequeno.
 - Hospedagem da API e do MCP: fator é o número de pessoas com o plugin.
 - Operação: tempo dos coordenadores aprovando. Fator: volume de publicações por squad.
@@ -389,7 +389,7 @@ Relacionamentos:
 
 | Nº | Decisão ou risco | Impacta |
 |---|---|---|
-| **A-09** | LLM (provedor e modelo) e uso de embeddings. Banco já é Supabase. | Arquitetura, custo, demo |
+| **Latência** | Opus 5 na demo ao vivo pode demorar. Controle: esforço baixo nas rotas rápidas, respostas gravadas (RNF-04). Trocar de modelo é decisão do time. | Demo |
 | **A-13** | Nenhum dev entrevistado. Evidência da dor ainda indireta. | Pitch, critério "Dados" |
 | **A-10** | Teste com pessoa de fora ainda não feito. Obrigatório. | Pitch, ficha |
 | **A-05** | Diferença para o catálogo de skills homologadas do Itaú e para portais de desenvolvedor (ex.: Backstage). Risco de desclassificação por inovação. | Pitch, critério de inovação |
