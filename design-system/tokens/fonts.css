@@ -1,0 +1,3 @@
+/* Substitute for Itaú Display Pro / Itaú Text Pro (proprietary, not supplied). Mulish variable 200–1000, latin subset. */
+@font-face{font-family:"Mulish";font-style:normal;font-weight:200 1000;font-display:swap;src:url("../fonts/Mulish-Latin.woff2") format("woff2")}
+@font-face{font-family:"Mulish";font-style:italic;font-weight:200 1000;font-display:swap;src:url("../fonts/Mulish-Latin-Italic.woff2") format("woff2")}

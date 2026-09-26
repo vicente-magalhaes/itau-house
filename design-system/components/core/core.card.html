@@ -1,0 +1,18 @@
+<!-- @dsCard group="Components" viewport="700x300" name="Actions + Logo" -->
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{padding:20px;background:#fff}.r{display:flex;gap:12px;flex-wrap:wrap;align-items:center}.col{display:flex;flex-direction:column;gap:16px}.l{font:700 11px/1 var(--font-text);letter-spacing:.3em;text-transform:uppercase;color:var(--gray-500);width:84px;flex:none}</style></head><body><div id="root"></div>
+<script type="text/babel">
+const NSO = window.ItaDesignSystem_961918;
+const { Button, IconButton, Logo, Icon } = NSO;
+function App(){return <div className="col">
+<div className="r"><span className="l">Variant</span><Button>Quero contratar</Button><Button variant="secondary">Conheça</Button><Button variant="outline">Simular</Button><Button variant="ghost">Agora não</Button></div>
+<div className="r"><span className="l">Size</span><Button size="sm">Acessar</Button><Button size="md" iconRight="arrow-right">Acessar</Button><Button size="lg" iconLeft="download">Baixar app</Button><Button disabled>Indisponível</Button></div>
+<div className="r"><span className="l">Icon</span><IconButton icon="bell" label="Notificações" /><IconButton icon="search" label="Buscar" variant="subtle" /><IconButton icon="plus" label="Adicionar" variant="filled" /><IconButton icon="eye" label="Mostrar saldo" variant="inverse" /><Icon name="shield-check" size={30} color="var(--itau-laranja)" /></div>
+<div className="r" style={{background:'var(--itau-laranja)',padding:12,borderRadius:14}}><Logo size={44} variant="negative" basePath="../../" /><Button variant="inverse">Abrir minha conta</Button><Button variant="secondary">Conheça</Button></div>
+</div>}
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script></body></html>

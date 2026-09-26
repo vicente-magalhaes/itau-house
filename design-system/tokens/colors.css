@@ -1,0 +1,34 @@
+/* Itaú — Guia de Marca V1 (dez 2023). Hex values copied verbatim from the guide. */
+:root{
+/* Paleta principal (60-30-10) */
+--itau-laranja:#FF6200;--itau-branco:#FFFFFF;--itau-preto:#000000;
+/* Paleta base (cinzas) — PMS Cool Gray 1C … Black */
+--gray-50:#F1F2F4;--gray-100:#E3E5E8;--gray-200:#CFD1D3;--gray-300:#B3B3B3;--gray-400:#999999;
+--gray-500:#6E6E6E;--gray-600:#4C4C4C;--gray-700:#3B3B3B;--gray-800:#262626;--gray-900:#000000;
+/* Paleta complementar */
+--azul-500:#001FBD;--azul-700:#000066;--azul-900:#000D3C;--azul-300:#0131FF;
+--verde-100:#A6CF2E;--verde-500:#008717;--verde-900:#0A3B00;
+--amarelo-100:#FFCC00;--amarelo-200:#FFBA00;--amarelo-300:#FF9C00;--laranja-400:#FF7D00;--laranja-500:#FF6200;
+/* Paleta de ilustração */
+--ilu-laranja-500:#FF6200;--ilu-laranja-400:#FF7D00;--ilu-amarelo-300:#FF9C00;--ilu-amarelo-200:#FFBA00;--ilu-amarelo-100:#FFE100;
+--ilu-azul-500:#000B40;--ilu-azul-400:#00036B;--ilu-azul-300:#001FBD;--ilu-azul-200:#1940FF;--ilu-azul-100:#3B86FF;
+--ilu-rosa-500:#800054;--ilu-rosa-400:#B81D8D;--ilu-rosa-300:#FF30DD;--ilu-rosa-200:#FF78F2;--ilu-rosa-100:#FFA6F5;
+--ilu-verde-500:#00470E;--ilu-verde-400:#008717;--ilu-verde-300:#45BF00;--ilu-verde-200:#87E800;--ilu-verde-100:#C4FC1A;
+--pele-a-500:#4D3329;--pele-a-400:#A37059;--pele-a-200:#D68F70;--pele-a-100:#FFC7A3;
+--pele-b-500:#542600;--pele-b-400:#753600;--pele-b-200:#AD4F00;--pele-b-100:#D16E17;
+--pele-c-500:#662100;--pele-c-400:#C94A30;--pele-c-200:#FF8A66;--pele-c-100:#FFA68C;
+--pele-d-500:#A15900;--pele-d-400:#F08F30;--pele-d-200:#FFAB4A;--pele-d-100:#FFBA75;
+
+/* Semantic aliases */
+--brand:var(--itau-laranja);--brand-hover:var(--laranja-400);--brand-press:#E65800;
+--on-brand:var(--itau-preto);--on-brand-display:var(--itau-branco);
+--surface-page:var(--itau-branco);--surface-subtle:var(--gray-50);--surface-muted:var(--gray-100);
+--surface-card:var(--itau-branco);--surface-inverse:var(--itau-preto);--surface-brand:var(--itau-laranja);
+--text-primary:var(--itau-preto);--text-secondary:var(--gray-600);--text-tertiary:var(--gray-500);
+--text-disabled:var(--gray-400);--text-inverse:var(--itau-branco);--text-accent:var(--itau-laranja);
+--border-subtle:var(--gray-100);--border-default:var(--gray-200);--border-strong:var(--gray-500);--border-focus:var(--itau-preto);
+--status-success:var(--verde-500);--status-success-bg:#E8F4EA;
+--status-info:var(--azul-500);--status-info-bg:#E6E9F8;
+--status-warning:var(--amarelo-300);--status-warning-bg:#FFF4E0;
+--status-error:var(--azul-900);--status-error-bg:var(--gray-50);
+}

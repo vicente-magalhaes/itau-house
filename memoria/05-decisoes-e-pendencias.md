@@ -32,8 +32,10 @@ Itens marcados **(sugestão Claude)** são propostas para o time avaliar, não d
 | A-08 | Nome final do produto. | "Itaú House" é provisório. |
 | A-09 | Stack. | Ver [06-prd-e-stack.md](06-prd-e-stack.md). |
 | A-10 | Quem de fora do time testa o fluxo, e quando? | Obrigatório registrar pelo menos um teste com conclusão. |
-| A-11 | Nomes da equipe e divisão de papéis. | Ver [08-equipe.md](08-equipe.md). |
+| A-11 | Divisão de papéis. | Nomes confirmados em 26/09 (grupo 4). Papéis ainda abertos. Ver [08-equipe.md](08-equipe.md). |
 | A-13 | Conversar com um dev do Itaú no evento. | Em andamento: o time está buscando um dev. Lacuna principal de evidência. |
+| A-14 | A dor principal é retrabalho ou tempo gasto montando agentes e padronizando processo? | Nota do brainstorm: "hoje ele não enfrenta tanto problema de retrabalho". Ver [09-brainstorm-time.md](09-brainstorm-time.md). Depende de A-13. |
+| A-15 | Avaliação (upvote), ranking e visão do gestor entram no MVP? | Ideias do brainstorm (09). Aumentam escopo e trazem risco de percepção de vigilância. Candidatas a métrica e próximo passo. |
 
 ## Checklist de desenho do MVP (exigências do Case C)
 

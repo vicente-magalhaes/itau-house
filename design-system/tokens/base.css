@@ -1,0 +1,7 @@
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;font:var(--type-body);color:var(--text-primary);background:var(--surface-page);letter-spacing:var(--ls-text);-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--font-display);font-weight:var(--fw-bold);letter-spacing:var(--ls-display);line-height:var(--lh-heading);margin:0;text-wrap:balance}
+p{margin:0;text-wrap:pretty}
+a{color:var(--text-primary);text-decoration:none;font-weight:var(--fw-bold);border-bottom:1px solid var(--itau-laranja)}
+a:hover{color:var(--itau-laranja)}
+:focus-visible{outline:none;box-shadow:var(--focus-ring)}

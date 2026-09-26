@@ -2,7 +2,7 @@
 
 ## Integrantes
 
-Nomes que constavam no esqueleto da PRD. **Confirmar** se são mesmo os quatro do hackathon.
+Grupo 4 do hackathon. Nomes confirmados pelo Bruno em 26/09/2026.
 - Alexandre Delbim
 - Bruno Vaskevicius
 - João Pedro Araujo

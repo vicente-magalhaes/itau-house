@@ -16,8 +16,19 @@ Ler antes de qualquer tarefa. Os documentos brutos originais foram descartados; 
 | [memoria/04-solucao-itau-house.md](memoria/04-solucao-itau-house.md) | Tese atual, persona, mecanismos, governança, expansão, teses descartadas | Tudo sobre o produto |
 | [memoria/05-decisoes-e-pendencias.md](memoria/05-decisoes-e-pendencias.md) | Decidido, em aberto, riscos, perguntas da banca | Antes de assumir qualquer decisão |
 | [memoria/06-prd-e-stack.md](memoria/06-prd-e-stack.md) | Formato da PRD e stack candidata | Escrever a PRD ou começar a codar |
-| [memoria/07-identidade-visual.md](memoria/07-identidade-visual.md) | Cores, fontes e regras de logo do Itaú | Front-end, slides, vídeo |
+| [memoria/07-identidade-visual.md](memoria/07-identidade-visual.md) | Qual fonte de marca vale para quê, regras de front-end, cores, fontes, logo | Front-end, slides, vídeo |
 | [memoria/08-equipe.md](memoria/08-equipe.md) | Integrantes, perfil, contatos | Slide 6, ficha, divisão de tarefas |
+| [memoria/09-brainstorm-time.md](memoria/09-brainstorm-time.md) | Ideias do time ainda não decididas: persona afiada, mecanismos novos, tensões | Desenho da solução, slides |
+
+## Design system
+
+`design-system/` é o design system do protótipo (tokens CSS, componentes React, regras de voz), gerado a partir do guia de marca oficial.
+Ponto de entrada: [design-system/readme.md](design-system/readme.md). Skill: `itau-design`.
+- Front-end importa `design-system/styles.css` e usa os componentes de `design-system/components/` antes de criar novos.
+- Cor, fonte, raio, sombra e espaçamento só por token CSS. Nada de hex ou px de marca solto no código.
+- Nunca vermelho, roxo ou gradiente. Erro usa `--status-error` (azul-marinho) com ícone.
+- Texto de interface em pt-BR, falando com "você", CTA sem urgência.
+- Detalhes e interpretações provisórias em [memoria/07-identidade-visual.md](memoria/07-identidade-visual.md).
 
 ## Regras para os agentes
 
@@ -31,7 +42,7 @@ Ler antes de qualquer tarefa. Os documentos brutos originais foram descartados; 
 - Código segue a PRD (`PRD.md`, quando existir). Cada mudança cita o requisito (RF/RN/RNF) que atende.
 - Git: trabalhar numa branch `feat/` ou `fix/` criada a partir da `main`. Antes de juntar, trazer a `main` para a branch e conferir que o fluxo principal roda. Juntar com merge direto na `main`. Sem `dev` e sem Pull Request. Nunca commitar direto na `main`.
 - Ao fechar uma decisão, registrar em `memoria/05-decisoes-e-pendencias.md` com data.
-- O repositório é privado durante o desenvolvimento. Antes da banca, será limpo para ficar só o código. `memoria/` e `itau-design-system/` são internos: citam pessoas e conversas do Itaú e contêm a marca do banco.
+- O repositório é privado durante o desenvolvimento. Antes da banca, será limpo para ficar só o código. `memoria/` e `itau-design-system/` são internos: citam pessoas e conversas do Itaú e contêm a marca do banco. `design-system/` fica, porque o front-end depende dele.
 - Escrever em português do Brasil, frases curtas.
 
 ## Configuração do Claude Code
