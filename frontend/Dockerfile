@@ -1,5 +1,3 @@
-# syntax=docker/dockerfile:1
-
 # Imagem do front-end (React + Vite). Estágios:
 #   deps        node_modules instalado a partir do package-lock.json.
 #   dev         servidor do Vite com hot reload. É o que o docker-compose.yml usa.

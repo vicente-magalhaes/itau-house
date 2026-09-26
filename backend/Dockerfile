@@ -1,5 +1,3 @@
-# syntax=docker/dockerfile:1
-
 # Imagem do back-end (FastAPI). Três estágios:
 #   base        Python + uv + dependências de runtime. Compartilhado pelos outros dois.
 #   dev         + dependências de dev (ruff, pytest) e hot reload. É o que o docker-compose.yml usa.
