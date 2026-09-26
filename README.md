@@ -190,7 +190,7 @@ Equipe da Poli Júnior no Hackathon Itaú 2026:
 
 | Nome | GitHub | LinkedIn | Papel |
 |---|---|---|---|
-| Vicente Magalhães | [@vicente-magalhaes](https://github.com/vicente-magalhaes) | [Vicente Magalhães Fraga Oliveira](https://www.linkedin.com/in/vicente-magalhães-fraga-oliveira-50187b361) | a definir |
-| João Pedro Araújo | [@joaopparaujo](https://github.com/joaopparaujo) | [João Pedro de Pinho Araujo](https://www.linkedin.com/in/joaopedrodepinhoaraujo/) | a definir |
-| Alexandre Delbim | a preencher | a preencher | a definir |
-| Bruno Vaskevicius | [@brunovaskevicius-bot](https://github.com/brunovaskevicius-bot) | a preencher | a definir |
+| Vicente Magalhães | [@vicente-magalhaes](https://github.com/vicente-magalhaes) | [Vicente Magalhães Fraga Oliveira](https://www.linkedin.com/in/vicente-magalhães-fraga-oliveira-50187b361) | Back-end, MCP e deploy |
+| João Pedro Araújo | [@joaopparaujo](https://github.com/joaopparaujo) | [João Pedro de Pinho Araujo](https://www.linkedin.com/in/joaopedrodepinhoaraujo/) | Apresentação e evidência |
+| Alexandre Delbim | a preencher | a preencher | Front-end |
+| Bruno Vaskevicius | [@brunovaskevicius-bot](https://github.com/brunovaskevicius-bot) | a preencher | Produto e camada de IA |

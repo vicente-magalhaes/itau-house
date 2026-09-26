@@ -23,6 +23,8 @@ A tabela abaixo é gerada pelo harness-hacka a partir do frontmatter de cada not
 | [memoria/09-brainstorm-time.md](memoria/09-brainstorm-time.md) | Ideias do time ainda não decididas: persona afiada, mecanismos novos, tensões | Desenho da solução, slides |
 <!-- /harness-hacka:index -->
 
+Tasks, donos e ordem de execução: [KANBAN.md](KANBAN.md). Antes de começar uma task, marcar `Fazendo` lá; ao terminar, `Feito`.
+
 Fluxos do produto: [docs/fluxos.html](docs/fluxos.html). É a fonte de verdade dos fluxos (ciclo, descoberta, publicação, plataforma). Abrir no navegador. Para mudar um fluxo, editar os dados em `FLOWS` no próprio arquivo.
 
 ## Design system
