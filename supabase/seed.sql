@@ -1,0 +1,5 @@
+-- Dados fictícios de demonstração. Nada aqui é dado real (regulamento 3.8).
+-- Nomes de pessoas, squads e ativos são inventados.
+--
+-- Aplicar na nuvem junto com as migrações: supabase db push --include-seed
+-- Escrever de forma que rodar duas vezes não duplique dados (ex.: on conflict do nothing).

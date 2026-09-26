@@ -18,6 +18,7 @@ Itens marcados **(sugestão Claude)** são propostas para o time avaliar, não d
 | D-10 | Formato da banca: 3 min de pitch, 2 min de vídeo demo, 2 min de perguntas. | 26/09/2026 |
 | D-09 | Repositório privado durante o desenvolvimento. Antes da banca, limpar para ficar só o código e uma apresentação enxuta. | 26/09/2026 |
 | D-11 | Ambiente em Docker Compose: modo dev com hot reload e build de produção (nginx), indicado para a demo. CI sobe os dois modos a cada push. Motivo (Vicente): mostrar maturidade técnica, porque pode haver gestor de tecnologia na banca. | 26/09/2026 |
+| D-12 | Banco: Supabase na nuvem, um projeto só para dev e produção. Sem Supabase local. Motivo (Vicente): todos os dados são fictícios, inclusive em produção, e o MVP precisa estar online para os gestores acessarem. Controle: estrutura só por migração versionada e seed no repo, para recriar o banco do zero. | 26/09/2026 |
 
 ## Em aberto
 
@@ -31,12 +32,13 @@ Itens marcados **(sugestão Claude)** são propostas para o time avaliar, não d
 | A-06 | Como produto, design e risco entram depois do dev? | Fica como próximo passo, mas a banca pode perguntar. |
 | A-07 | Quais métricas prometemos e como medimos no evento? | Ver candidatas abaixo. Separar medido de estimado. |
 | A-08 | Nome final do produto. | "Itaú House" é provisório. |
-| A-09 | Stack. | Ver [06-prd-e-stack.md](06-prd-e-stack.md). Ambiente decidido (D-11). O esqueleto do Docker usa a stack prevista no README: FastAPI + uv no back, React + Vite no front. Trocar de stack exige ajustar os Dockerfiles. Banco, LLM e busca seguem em aberto. |
+| A-09 | Stack. | Ver [06-prd-e-stack.md](06-prd-e-stack.md). Ambiente decidido (D-11). O esqueleto do Docker usa a stack prevista no README: FastAPI + uv no back, React + Vite no front. Trocar de stack exige ajustar os Dockerfiles. Banco decidido (D-12). LLM e busca seguem em aberto. |
 | A-10 | Quem de fora do time testa o fluxo, e quando? | Obrigatório registrar pelo menos um teste com conclusão. |
 | A-11 | Divisão de papéis. | Nomes confirmados em 26/09 (grupo 4). Papéis ainda abertos. Ver [08-equipe.md](08-equipe.md). |
 | A-13 | Conversar com um dev do Itaú no evento. | Em andamento: o time está buscando um dev. Lacuna principal de evidência. |
 | A-14 | A dor principal é retrabalho ou tempo gasto montando agentes e padronizando processo? | Nota do brainstorm: "hoje ele não enfrenta tanto problema de retrabalho". Ver [09-brainstorm-time.md](09-brainstorm-time.md). Depende de A-13. |
 | A-15 | Avaliação (upvote), ranking e visão do gestor entram no MVP? | Ideias do brainstorm (09). Aumentam escopo e trazem risco de percepção de vigilância. Candidatas a métrica e próximo passo. |
+| A-16 | Onde hospedar o MVP para os gestores acessarem? | Provável: Vercel e/ou Render (Vicente, 26/09). Precisa de link que abre sem login (ver 01). |
 
 ## Checklist de desenho do MVP (exigências do Case C)
 

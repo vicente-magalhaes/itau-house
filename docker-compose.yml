@@ -4,7 +4,7 @@
 #   Front: http://localhost:5173    API: http://localhost:8000/api/docs
 #
 # Build de produção, indicado para a demo: docker-compose.prod.yml.
-# O banco (Supabase) não roda neste compose. Ver backend/.env.example.
+# O banco é o Supabase na nuvem e não roda no Docker. Ver backend/.env.example.
 
 name: itau-house
 
@@ -26,9 +26,6 @@ services:
     volumes:
       # Código montado da máquina. O venv fica em /opt/venv, dentro da imagem, e não é afetado.
       - ./backend:/app
-    extra_hosts:
-      # host.docker.internal aponta para a máquina do dev. O Docker Desktop já cria; isto cobre o Linux.
-      - "host.docker.internal:host-gateway"
 
   frontend:
     build:

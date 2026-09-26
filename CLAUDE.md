@@ -37,7 +37,9 @@ Comandos completos no [README](README.md#como-rodar).
 - `docker-compose.prod.yml` é o build de produção (nginx em :8080), indicado para a demo.
 - Dependência nova: `uv add` ou `npm install` na máquina, depois `docker compose up --build`. No front, com `-V`.
 - Toda rota da API fica sob `/api`. O front chama caminhos relativos (`/api/...`), nunca a URL do back.
-- Dentro do container, `127.0.0.1` é o próprio container. Serviço rodando na máquina do dev: `host.docker.internal`.
+- Banco: Supabase na nuvem, um projeto só para dev e demo (D-12). Não roda no Docker.
+- Estrutura do banco só por migração em `supabase/migrations/` (`supabase migration new`). Nunca alterar tabela pelo painel. Dados fictícios em `supabase/seed.sql`, idempotente.
+- `supabase db push` mexe no banco que o time inteiro e a demo usam. Só com aprovação de uma pessoa.
 - Arquivo novo que a imagem precisa entra na lista de permissão: `backend/.dockerignore` ou `frontend/Dockerfile.dockerignore`.
 
 ## Regras para os agentes

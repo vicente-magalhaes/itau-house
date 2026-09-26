@@ -56,7 +56,7 @@ Stack prevista, que ainda pode mudar:
 |---|---|
 | Back-end | Python + FastAPI |
 | Front-end | TypeScript + React + Vite (possível adicionar algo conforme necessidade) |
-| Banco | Supabase (PostgreSQL) |
+| Banco | Supabase (PostgreSQL) na nuvem |
 | IA | LLM via API, com busca por similaridade entre ativos |
 | Ambiente | Docker + Docker Compose |
 
@@ -69,6 +69,7 @@ Stack prevista, que ainda pode mudar:
 - Front e API no mesmo endereço, com a API sob `/api`. O proxy do Vite (dev) e o nginx (produção) repassam as chamadas. Sem CORS e sem URL do back-end no build.
 - Cada imagem só recebe os arquivos de uma lista de permissão. `.env`, chaves e documentos internos ficam fora.
 - O CI (GitHub Actions) constrói as imagens e sobe os dois modos a cada push.
+- O banco é o Supabase na nuvem e fica fora do Docker. É um projeto só, com dados fictícios, para desenvolvimento e demo. A estrutura vive em migrações versionadas, então o banco pode ser recriado do zero.
 
 ## Estrutura do repositório
 
@@ -77,6 +78,7 @@ itau-house/
 ├─ backend/                 API em Python (FastAPI), com Dockerfile próprio
 ├─ frontend/                interface em React (Vite), com Dockerfile e config do nginx
 ├─ design-system/           tokens, componentes React e regras de voz da marca
+├─ supabase/                banco: migrações e dados fictícios (seed)
 ├─ docker-compose.yml       ambiente de desenvolvimento
 ├─ docker-compose.prod.yml  build de produção
 ├─ .github/workflows/       CI: build das imagens e smoke test
@@ -126,9 +128,11 @@ docker compose down                         # parar tudo
 
 No front, o `-V` descarta o `node_modules` antigo que o container guarda. Sem ele, a dependência nova não aparece.
 
+**`/api` devolvendo a página do front.** Acontece ao trocar para uma branch sem `frontend/` com o Docker ligado: o Vite reinicia sem a configuração e perde o proxy. Resolva com `docker compose restart frontend`.
+
 **Portas ocupadas.** Se outro projeto já usa 8000, 5173 ou 8080, troque a porta na subida, por exemplo `BACKEND_PORT=8001 FRONTEND_PORT=5174 docker compose up`. A lista está em `.env.example`.
 
-**Variáveis de ambiente.** Nenhuma é obrigatória por enquanto. `backend/` e `frontend/` têm um `.env.example` com o que cada um aceita. Para usar, copie para `.env` na mesma pasta e preencha. O `.env` nunca vai para o git.
+**Variáveis de ambiente.** `backend/` e `frontend/` têm um `.env.example` com o que cada um aceita. Para usar, copie para `.env` na mesma pasta e preencha. O `.env` nunca vai para o git. O back-end precisa da URL e da chave secreta do projeto no Supabase. Peça para quem administra o projeto, por um canal privado.
 
 **Sem Docker.** Também funciona direto na máquina, com Python 3.12, [uv](https://docs.astral.sh/uv/) e Node 24:
 
@@ -136,6 +140,24 @@ No front, o `-V` descarta o `node_modules` antigo que o container guarda. Sem el
 cd backend && uv sync && uv run uvicorn app.main:app --reload    # API em :8000
 cd frontend && npm install && npm run dev                          # front em :5173
 ```
+
+### Banco (Supabase)
+
+O banco é um projeto do Supabase na nuvem, compartilhado pelo time e pela versão publicada. Todos os dados são fictícios.
+
+Ninguém altera tabela direto pelo painel. Toda mudança de estrutura é um arquivo em `supabase/migrations/`, e os dados de demonstração ficam em `supabase/seed.sql`. Assim o banco pode ser recriado do zero a qualquer momento.
+
+Os comandos usam a [CLI do Supabase](https://supabase.com/docs/guides/local-development/cli/getting-started). Sem instalar, dá para usar com `npx supabase`.
+
+```bash
+supabase login                                  # uma vez por máquina
+supabase link --project-ref <ref-do-projeto>    # uma vez; o ref está na URL do painel
+supabase migration new <nome>                   # cria o arquivo da migração
+supabase db push --dry-run                      # mostra o que vai ser aplicado
+supabase db push                                # aplica na nuvem
+```
+
+O banco é compartilhado. Antes de rodar `db push`, avise o time.
 
 ## Como trabalhamos
 
@@ -174,9 +196,9 @@ git push origin main
 
 Equipe da Poli Júnior no Hackathon Itaú 2026:
 
-| Nome | GitHub | LinkedIn | Papel |
-|---|---|---|---|
-| Vicente Magalhães | [@vicente-magalhaes](https://github.com/vicente-magalhaes) | [Vicente Magalhães Fraga Oliveira](https://www.linkedin.com/in/vicente-magalhães-fraga-oliveira-50187b361) | a definir |
-| João Pedro Araújo | [@joaopparaujo](https://github.com/joaopparaujo) | [João Pedro de Pinho Araujo](https://www.linkedin.com/in/joaopedrodepinhoaraujo/) | a definir |
-| Alexandre Delbim | a preencher | a preencher | a definir |
-| Bruno Vaskevicius | a preencher | a preencher | a definir |
+| Nome | GitHub | LinkedIn | 
+|---|---|---|
+| Vicente Magalhães | [@vicente-magalhaes](https://github.com/vicente-magalhaes) | [Vicente Magalhães Fraga Oliveira](https://www.linkedin.com/in/vicente-magalhães-fraga-oliveira-50187b361) | 
+| João Pedro Araújo | [@joaopparaujo](https://github.com/joaopparaujo) | [João Pedro de Pinho Araujo](https://www.linkedin.com/in/joaopedrodepinhoaraujo/) | 
+| Alexandre Delbim | [@Alekka](https://github.com/Allekka) | [Alexandre Delbim](linkedin.com/in/alexandre-delbim-1b2695401) | 
+| Bruno Vaskevicius | [@brunovaskevicius-bot](https://github.com/brunovaskevicius-bot) | [Bruno Dos Santos Vaskevicius](linkedin.com/in/bruno-dos-santos-vaskevicius-0b5174387) | 
