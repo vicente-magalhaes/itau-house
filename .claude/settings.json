@@ -26,7 +26,7 @@
       "Bash(npx eslint *)",
       "Bash(npx prettier *)",
       "Bash(npx vitest *)",
-      "Bash(docker compose config *)",
+      "Bash(docker compose config --quiet*)",
       "Bash(docker compose ps *)",
       "Bash(docker compose logs *)",
       "Bash(docker compose up *)",

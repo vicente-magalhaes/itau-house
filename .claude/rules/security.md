@@ -7,6 +7,7 @@ Sempre ativas. Baseadas no regulamento do hackathon e em [memoria/01-hackathon-r
 - Nenhuma chave, token ou senha no código, em commit, em tela ou no vídeo.
 - Segredo vive em `.env`, que não é versionado. Só o `.env.example` vai para o git, com os nomes das variáveis e sem valores.
 - O hook `.claude/hooks/block_secrets.py` bloqueia leitura e edição de `.env`, chaves e credenciais. Não tentar contornar. Se precisar mexer num segredo, pedir para uma pessoa do time.
+- O Docker também expõe o `.env`: `docker compose config` sem `--quiet` e `docker compose exec <serviço> env` imprimem os valores. Não rodar esses comandos. Para validar o compose, usar `docker compose config --quiet`.
 
 ## Dados
 
