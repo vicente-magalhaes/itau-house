@@ -18,19 +18,19 @@ Requisitos em [PRD.md](PRD.md). Fluxos em [docs/fluxos.html](docs/fluxos.html). 
 
 | Pessoa | Frente | Valida principalmente |
 |---|---|---|
-| **Bruno** | Produto e camada de IA: roteiro da demo, catálogo fictício, busca, validador, plugin | Front e back |
+| **Bruno** | Produto e camada de IA: roteiro da demo, catálogo fictício, busca, validador, plugin. Vídeo demo (D-22) | Front e back |
 | **Vicente** | Back-end, MCP, banco, deploy (com Devin) | Camada de IA |
 | **Alexandre** | Front-end | Plugin (olhar de quem não construiu) |
-| **JP** | Apresentação e evidência: prazo, entrevista, slides, ficha, pitch, vídeo | Tudo que a banca vê |
+| **JP** | Apresentação e evidência: prazo, entrevista, slides, ficha, pitch | Tudo que a banca vê |
 
 O Claude rascunha textos (ficha, Q&A, pesquisa, catálogo) quando pedido. Sempre com um humano validando.
 
 ## Ordem de cada um
 
-- **Bruno:** T-02 → T-03 → T-04 → T-10 → T-11 → T-13 → T-14 → T-24 → T-30 (gravação da tela)
+- **Bruno:** T-02 → T-03 → T-04 → T-10 → T-11 → T-13 → T-14 → T-24 → T-30 (vídeo completo)
 - **Vicente:** T-05 → T-06 → T-07 → T-12 → T-15 → T-25 → T-34 → T-35
 - **Alexandre:** T-16 → T-17 → T-18 → T-19 → T-20 → T-24
-- **JP:** T-01 → T-22 → T-23 → T-26 → T-27 → T-28 → T-29 → T-31 → T-30 (roteiro e narração) → T-32 → T-33 → T-36 → T-35
+- **JP:** T-01 → T-22 → T-23 → T-26 → T-27 → T-28 → T-29 → T-31 → T-32 → T-33 → T-36 → T-35
 
 ## Marcos
 
@@ -87,7 +87,7 @@ O Claude rascunha textos (ficha, Q&A, pesquisa, catálogo) quando pedido. Sempre
 |---|---|---|---|---|---|---|---|
 | T-28 | Modelo de métricas: indicadores, como medir, medido ou estimado | Tabela pronta para o slide, a partir da PRD seção 11 | JP | Bruno | — | A-07 | A fazer |
 | T-29 | Ficha do produto (PR/FAQ): press release + 5 perguntas, até 2 páginas, com o aviso obrigatório | PDF sem capa, dentro do limite | JP | Bruno | T-22, T-27 | entrega 4 | A fazer |
-| T-30 | Vídeo de 2 min: roteiro a partir do T-02, gravação da tela (Bruno), narração (JP), YouTube público | Link abre sem login. Mostra revisão humana e o que é simulado. Termina com uma limitação | JP | Todos | T-24 | entrega 3 | A fazer |
+| T-30 | Vídeo de 2 min: roteiro a partir do T-02, gravação, narração, edição, YouTube público | Link abre sem login. Mostra revisão humana e o que é simulado. Termina com uma limitação. Não repete o pitch | Bruno | JP | T-24 | entrega 3 | A fazer |
 | T-31 | Slides (até 10): 6 blocos + mapa ponta a ponta + organograma do squad com agentes (usar `docs/fluxos.html`) | PDF ou Canva liberado, mesmo exemplo do vídeo e da ficha | JP | Bruno, Vicente | T-27, T-28 | entrega 2 | A fazer |
 | T-32 | Pitch de 3 min: roteiro nos 4 blocos de tempo, quem fala, ensaio com cronômetro | Dois ensaios dentro de 3 min | JP | Todos | T-31 | banca | A fazer |
 | T-33 | Perguntas prováveis (R-01 a R-08) com respostas curtas e quem responde cada tema | Documento curto, cada um sabe o seu tema | JP | Todos | T-26 | banca | A fazer |
