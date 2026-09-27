@@ -155,6 +155,21 @@ cd backend && uv sync && uv run uvicorn app.main:app --reload    # API em :8000
 cd frontend && npm install && npm run dev                          # front em :5173
 ```
 
+### Deploy
+
+Front na Vercel e back no Render (decisão 0031). A configuração é código: `vercel.json` e `render.yaml`, na raiz.
+
+| O quê | Onde |
+|---|---|
+| Site | https://itau-house.vercel.app |
+| API, pela Vercel | https://itau-house.vercel.app/api/health e `/api/docs` |
+| Back no Render | https://itau-house-api.onrender.com (plano Free, região Virginia) |
+
+- **Front.** Build do Vite em `frontend/`, com a raiz do repo como pasta do projeto, para o build enxergar `design-system/`. O `vercel.json` repassa `/api/*` para o Render e põe os mesmos headers de segurança do nginx.
+- **Back.** Web Service Docker a partir do `backend/Dockerfile`, estágio `production`. Health check em `/api/health`. `SUPABASE_URL` e `SUPABASE_SECRET_KEY` vêm do Environment Group `itau-house-supabase`, criado no painel do Render.
+- **Publicação.** Cada merge na `main` publica os dois pela integração Git. O Render só publica com o CI verde (`autoDeployTrigger: checksPass`) e só quando muda algo em `backend/`.
+- **Primeiro acesso lento.** No plano Free, o back dorme depois de 15 min sem acesso e leva até 1 min para acordar. O ping do n8n (T-40) chama `https://itau-house.vercel.app/api/health`.
+
 ### Banco (Supabase)
 
 O banco é um projeto do Supabase na nuvem, compartilhado pelo time e pela versão publicada. Todos os dados são fictícios.
