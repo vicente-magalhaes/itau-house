@@ -50,8 +50,8 @@ Um brief só roda com os itens dele marcados. Quem abre a sessão confere.
 - [x] A-17 decidida e aceita: [decisão 0031](../memoria/decisions/0031-hospedagem-front-na-vercel-back-no-render.md), front na Vercel e back no Render.
 - [x] Contas na Vercel e no Render criadas pelo Vicente em 27/09, entrando com o GitHub dele. Nenhum projeto criado, e o app de cada uma no GitHub só tem acesso ao `itau-house`. O repositório está na conta pessoal dele, e a documentação da Vercel só restringe o plano grátis em repositório de organização. Então a Vercel deve publicar commits de todo o time. Conferir no primeiro merge de outra pessoa.
 - [x] Tokens da Vercel e do Render guardados nos Secrets do Devin. Nunca no texto da sessão, nunca no repositório. Estão como segredos pessoais do Vicente, com os nomes `VERCEL_TOKEN` e `RENDER_API_KEY`, desde 27/09. O token da Vercel tem escopo Centao → All Projects e vence em pouco tempo. A chave do Render não expira: revogar depois da banca.
-- [ ] `SUPABASE_URL` e `SUPABASE_SECRET_KEY` à mão para uma pessoa colar no painel do Render. O back ainda não usa, mas vai usar. O Devin não recebe essas chaves.
-- [ ] Região do projeto no Supabase, para pôr no texto da sessão. Não é segredo.
+- [x] `SUPABASE_URL` e `SUPABASE_SECRET_KEY` à mão para uma pessoa colar no painel do Render. O back ainda não usa, mas vai usar. O Devin não recebe essas chaves. O Vicente cola no painel do Render.
+- [x] Região do projeto no Supabase, para pôr no texto da sessão. Não é segredo. É `us-east-1` (Virgínia do Norte), e no Render a região equivalente é Virginia (US East).
 - [x] Como manter o Render acordado: fluxo no n8n (T-40, ver abaixo). O Devin não configura ping.
 
 **DV-2 (rotas do back)**
