@@ -52,9 +52,10 @@ export function AppShell({ rota, children }) {
           <span className="some-no-estreito">Itaú House</span>
         </button>
 
-        <span className="selo" tabIndex={0} title="Protótipo do Hackathon Itaú 2026 · dados fictícios">
-          Protótipo
-          <span className="sr-only">do Hackathon Itaú 2026. Não é um produto oficial do Itaú. Login, pessoas e números são fictícios.</span>
+        {/* RNF-06: toda tela diz que é protótipo de hackathon e não produto oficial. Em tela estreita, o rodapé completa. */}
+        <span className="selo" title="Protótipo do Hackathon Itaú 2026 · dados fictícios">
+          Protótipo de hackathon
+          <span className="so-no-largo"> · não é produto oficial do Itaú</span>
         </span>
 
         <nav className="topo-nav" aria-label="Navegação">
@@ -78,6 +79,10 @@ export function AppShell({ rota, children }) {
       <main key={rota} className="pagina anima-entrar">
         {children}
       </main>
+
+      <footer className="rodape caption">
+        Protótipo do Hackathon Itaú 2026. Não é um produto oficial do Itaú. Pessoas, squads e números são fictícios.
+      </footer>
 
       {recadoMostrado && (
         <Recado key={recadoMostrado} saindo={recadoSaindo}>
