@@ -22,7 +22,7 @@ Fluxos visuais: [docs/fluxos.html](docs/fluxos.html). Decisões: [memoria/decisi
 | **MCP** | Model Context Protocol. Padrão aberto que conecta agentes de IA a ferramentas externas. Claude Code e Copilot suportam. |
 | **Hook** | Gatilho que roda um script quando algo acontece no agente (ex.: a pessoa envia um pedido, um arquivo é criado). |
 | **Plugin Itaú House** | Pacote instalado no agente da pessoa: hooks, instruções e a conexão com o MCP do Itaú House. |
-| **Validador** | Agente de IA que confere se um ativo pode entrar no catálogo. |
+| **Validador** | Checagem automática, por código e sem IA, que confere se um ativo pode seguir para o coordenador (D-26). |
 | **Cord+ / Cord−** | Perfis de acesso. Cord+ é o coordenador do squad e aprova publicações. Cord− é qualquer outro membro. |
 | **Alcance** | Quem pode ver um ativo: só o squad, a frente ou o banco inteiro. |
 | **Derivação** | Ativo novo criado a partir de outro. Guarda o "derivado de" e dá crédito ao autor original. |
@@ -120,7 +120,7 @@ Persona em três camadas (D-18): quem usa o fluxo, quem governa, e o squad como 
 | **Membro do squad** | Cria e reaproveita ativos. Pode ser PM, designer ou dev. Na demo, um dev. É autor quando publica. | Agente de IA (Claude Code, Copilot) e plataforma web |
 | **Coordenador do squad (Cord+)** | Aprova ou devolve os ativos das pessoas do seu squad. | Plataforma web |
 | **Plugin Itaú House** | Reconhece a intenção, pergunta, busca, sugere, adapta e convida a publicar. Nunca decide pela pessoa. | Hooks e instruções no agente da pessoa |
-| **Agente validador** | Confere os requisitos de entrada e explica bloqueios. | Back-end |
+| **Validador** | Checagens fixas por código. Confere os requisitos de entrada e explica bloqueios. | Back-end |
 | **Servidor MCP** | Expõe o catálogo como ferramentas para qualquer agente compatível. | MCP |
 | **Plataforma web** | Feed, página do post e fila de aprovação. | Navegador |
 
@@ -225,7 +225,7 @@ Versão visual com raias em [docs/fluxos.html](docs/fluxos.html).
 | Código | Nome | Descrição | Critérios de aceitação |
 |---|---|---|---|
 | **RF-13** | Detectar ativo novo | Um hook percebe quando um arquivo de ativo é criado (ex.: `SKILL.md`, definição de agente). | • Detecta skills e agentes nas pastas padrão do agente. • Ao fim da tarefa, se houve ativo novo, dispara a validação (RF-14). • Ativo derivado também passa pela validação. |
-| **RF-14** | Validar requisitos de entrada | O validador confere o ativo antes de qualquer pessoa ver. | • Checagens fixas: segredos e chaves, dados pessoais (CPF, e-mail, telefone), README ou descrição, autor e squad. • Checagem por IA: informação interna do Itaú, ação irreversível sem humano, escopo claro. • Resultado: aprovado ou barrado, com a lista de motivos. • Cada validação vira evento (liga RNF-01). |
+| **RF-14** | Validar requisitos de entrada | O validador confere o ativo antes de qualquer pessoa ver. | • Checagens fixas: segredos e chaves, dados pessoais (CPF, e-mail, telefone), README ou descrição, autor e squad. • Sem IA no MVP (D-26): o julgamento é do coordenador (RF-19). • Resultado: aprovado ou barrado, com a lista de motivos. • Cada validação vira evento (liga RNF-01). |
 | **RF-15** | Explicar bloqueio | Quando barra, o validador diz o que, onde e como corrigir. | • Cada motivo tem arquivo, linha quando houver e sugestão de correção. • Ex.: "Tem uma chave de API na linha 12. Use uma variável de ambiente." • O validador nunca corrige sozinho. • Depois da correção, a pessoa pode validar de novo. |
 | **RF-16** | Convidar a publicar | Ativo aprovado pelo validador gera um convite. | • O convite explica o que acontece: post montado, revisão da pessoa, aprovação do coordenador. • "Não" → nada é enviado. O ativo fica só na máquina da pessoa. |
 | **RF-17** | Montar post editável via MCP | O MCP monta o rascunho do post a partir do ativo. | • Campos: título, descrição, tipo, README, conteúdo do ativo, autor, papel, squad, alcance sugerido, `derivado_de` quando houver, manual de instalação. • A pessoa pode editar qualquer campo antes de enviar. • Status do ativo: rascunho. |
@@ -270,7 +270,7 @@ Versão visual com raias em [docs/fluxos.html](docs/fluxos.html).
 | **Plugin** | Plugin do Claude Code: hook de pedido (RF-03, RF-04), hook de arquivo criado (RF-13), comando `/itau-house` (RF-12), configuração do modo e do MCP. Instruções equivalentes servem ao Copilot. |
 | **Servidor MCP** | Python. Ferramentas: `buscar_ativos`, `detalhar_ativo`, `registrar_decisao`, `validar_ativo`, `montar_post`, `enviar_para_aprovacao`. Chama a API. |
 | **Back-end** | Python + FastAPI, rotas sob `/api`. Regras de visibilidade, validador, eventos, contadores. |
-| **Camada de IA** | Claude via API, `claude-opus-5`, SDK `anthropic` em Python (D-19). Esforço por rota: `low` para intenção e ranqueamento; `medium` a `high` para validador e adaptação. Saídas estruturadas por schema. Fallback do servidor para recusas. |
+| **Camada de IA** | Claude via API, `claude-opus-5`, SDK `anthropic` em Python (D-19). Esforço por rota: `low` para intenção e ranqueamento; `medium` para adaptação. O validador não usa IA no MVP (D-26). Saídas estruturadas por schema. Fallback do servidor para recusas. |
 | **Busca** | MVP sem embeddings (D-19): o back-end filtra por visibilidade (RF-05) e o LLM ranqueia e justifica os candidatos. Em escala: embeddings com pgvector no Supabase para pré-filtrar, LLM só nos finalistas. |
 | **Banco** | Supabase (PostgreSQL). Fora do compose (ver `docker-compose.yml`). |
 | **Front-end** | TypeScript + React + Vite, com `design-system/`. |
@@ -281,7 +281,7 @@ Versão visual com raias em [docs/fluxos.html](docs/fluxos.html).
 | Componente | Estado | Observação |
 |---|---|---|
 | Plugin, hooks e MCP | Real | Rodando no Claude Code da máquina da demo. |
-| Validador | Real | Checagens fixas e por IA. |
+| Validador | Real | Checagens fixas por código (D-26). |
 | Busca e justificativa | Real | Sobre catálogo fictício. |
 | Catálogo, usuários, squads | **[SIMULADO]** | Dados fictícios de seed, com casos reais de retrabalho como inspiração. |
 | Login (SSO) | **[SIMULADO]** | Escolha de usuário fictício. |
