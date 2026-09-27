@@ -15,6 +15,9 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
+    /* As telas são .jsx, como os componentes do design system. Código novo pode ser .tsx. */
+    "allowJs": true,
+    "checkJs": false,
 
     /* Linting */
     "noUnusedLocals": true,

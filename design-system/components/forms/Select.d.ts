@@ -8,6 +8,8 @@ export interface SelectProps {
   placeholder?: string;
   disabled?: boolean;
   helper?: string;
+  /** Altura do campo: 'md' (48px, padrao) ou 'sm' (40px, para barras densas) */
+  size?: 'md' | 'sm';
   style?: React.CSSProperties;
 }
 export declare function Select(props: SelectProps): JSX.Element;
