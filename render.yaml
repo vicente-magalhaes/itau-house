@@ -13,10 +13,8 @@ services:
     dockerfilePath: ./backend/Dockerfile
     dockerContext: ./backend
     healthCheckPath: /api/health
-    # Só publica quando o CI do commit fica verde.
+    # Só publica quando o CI do commit fica verde. Sem buildFilter: com ele, o push de 27/09 que
+    # trazia a DV-5 não publicou o back. Hipótese: o push terminava num merge que só mexia em docs.
     autoDeployTrigger: checksPass
-    buildFilter:
-      paths:
-        - backend/**
     envVars:
       - fromGroup: itau-house-supabase
