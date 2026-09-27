@@ -224,9 +224,10 @@ Entrada:
 
 Saída: `201` com `AtivoDetalhe` em `status: rascunho`.
 
-**`PATCH /api/ativos/{id}`**: a pessoa edita qualquer campo do rascunho, inclusive a visibilidade (RF-17, RF-18). Mesmo formato da criação, só com os campos que mudam. Vale para `rascunho` e `devolvido`, e só para o autor. Em outro status → 409.
+**`PATCH /api/ativos/{id}`**: a pessoa edita qualquer campo do rascunho, inclusive a visibilidade (RF-17, RF-18). Mesmo formato da criação, só com os campos que mudam. Vale para `rascunho`, `barrado` e `devolvido`, e só para o autor. Em outro status → 409.
 
 **`POST /api/ativos/{id}/envio`**: envia para o coordenador (RF-18, RF-14).
+- Vale para `rascunho`, `barrado` e `devolvido`, e só para o autor. Em outro status → 409. Um ativo barrado é corrigido pelo `PATCH` e enviado de novo.
 - O back roda o validador de novo sobre `arquivos`. Se barrar: 422 com `{ "erro": "barrado", "mensagem": "...", "validacao": {...} }`, e o status vira `barrado`.
 - Se passar: status `em_aprovacao`. O ativo entra na fila do Cord+ do squad do autor.
 - Saída: `AtivoDetalhe`.

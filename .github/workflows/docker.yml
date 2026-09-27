@@ -33,6 +33,14 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      - uses: astral-sh/setup-uv@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Testes do back
+        run: cd backend && uv run pytest
+
       - name: Build das imagens
         run: docker compose build
 

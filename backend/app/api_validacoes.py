@@ -1,13 +1,15 @@
 """Rota do validador: POST /api/validacoes (RF-14, RF-15). Contrato em docs/api.md."""
 
 import uuid
-from typing import Literal
+from typing import Annotated, Literal
 
-from fastapi import APIRouter, Header, HTTPException
+from fastapi import APIRouter, Depends, Header
 from pydantic import BaseModel, ConfigDict
 from pydantic.alias_generators import to_camel
 
-from app import catalogo, validador
+from app import validador
+from app.erros import ErroApi
+from app.repositorio import Repositorio, agora, obter_repositorio
 
 router = APIRouter(prefix="/api", tags=["publicação"])
 
@@ -42,17 +44,40 @@ class ValidacaoOut(_Camel):
 
 
 @router.post("/validacoes", response_model=ValidacaoOut, response_model_exclude_none=True)
-def validar(corpo: ValidacaoIn, x_usuario_id: str | None = Header(default=None)) -> ValidacaoOut:
+def validar(
+    corpo: ValidacaoIn,
+    repositorio: Annotated[Repositorio, Depends(obter_repositorio)],
+    x_usuario_id: Annotated[str | None, Header()] = None,
+) -> ValidacaoOut:
     """Checagens fixas por código, sem IA (D-26). Não cria ativo e nada vai para a fila."""
     if not x_usuario_id:
-        raise HTTPException(401, {"erro": "sem_usuario", "mensagem": "Entre com um usuário."})
+        raise ErroApi(401, "sem_usuario", "Entre com um usuário.")
+    pessoa = repositorio.usuario(x_usuario_id)
     arquivos = [validador.Arquivo(a.caminho, a.conteudo) for a in corpo.arquivos]
-    # Até o banco existir (T-05), o usuário vem do seed.
-    pessoa = catalogo.usuario(x_usuario_id) or {}
-    itens = validador.validar(arquivos, pessoa.get("id"), pessoa.get("squadId"))
-    # TODO(T-07): gravar a validação e o evento `validacao` quando o banco existir.
-    return ValidacaoOut(
+    itens = validador.validar(
+        arquivos, pessoa["id"] if pessoa else None, pessoa["squadId"] if pessoa else None
+    )
+    resposta = ValidacaoOut(
         validacao_id=f"v-{uuid.uuid4()}",
         resultado=validador.resultado(itens),
         itens=[ItemOut(**vars(i)) for i in itens],
     )
+    if pessoa is None:
+        return resposta
+    repositorio.salvar_validacao(
+        {
+            "id": resposta.validacao_id,
+            "ativoId": None,
+            "atorId": pessoa["id"],
+            "resultado": resposta.resultado,
+            "itens": [i.model_dump(by_alias=True, exclude_none=True) for i in resposta.itens],
+            "em": agora(),
+        }
+    )
+    repositorio.registrar_evento(
+        "validacao",
+        pessoa["id"],
+        None,
+        {"validacaoId": resposta.validacao_id, "resultado": resposta.resultado},
+    )
+    return resposta
