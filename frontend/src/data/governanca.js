@@ -1,20 +1,17 @@
 // Dados do fluxo de governança. [SIMULADO] — roteiro fixo da demo, nada é calculado de verdade.
-// Origem dos critérios: ideia-itau-house.md, seção 3.3 (checklist do validador).
+// Validador sem IA no MVP (D-26): só as checagens fixas do RF-14. Quem julga é o coordenador (RF-19).
 
 export const CRITERIOS = [
-  { id: 'c1', nome: 'Credenciais, tokens ou senhas', checagem: 'Determinística (regex)' },
-  { id: 'c2', nome: 'Dado de cliente ou pessoal nos exemplos', checagem: 'Determinística + LLM' },
-  { id: 'c3', nome: 'Ferramentas e sistemas que o ativo acessa', checagem: 'Determinística (lê a definição)' },
-  { id: 'c4', nome: 'README, dono e limites de uso', checagem: 'Determinística' },
-  { id: 'c5', nome: 'Duplica algo que já existe no catálogo', checagem: 'Busca semântica + LLM' },
-  { id: 'c6', nome: 'Instruções fora da política', checagem: 'LLM' },
+  { id: 'c1', nome: 'Segredos e chaves', checagem: 'Por código' },
+  { id: 'c2', nome: 'Dados pessoais (CPF, e-mail, telefone)', checagem: 'Por código' },
+  { id: 'c3', nome: 'README ou descrição', checagem: 'Por código' },
+  { id: 'c4', nome: 'Autor e squad', checagem: 'Por código' },
 ];
 
-// resultado: 'ok' | 'falhou' | 'atencao' | 'humano'
+// Resultado do validador: aprovado ou barrado, com a lista de motivos (RF-14, RF-15).
 export const VEREDITOS = {
-  aprovado: { rotulo: 'Aprovado na verificação', tone: 'success', icone: 'circle-check' },
-  reprovado: { rotulo: 'Reprovado na verificação', tone: 'dark', icone: 'circle-alert' },
-  humano: { rotulo: 'Encaminhado para revisão humana', tone: 'neutral', icone: 'user-round-search' },
+  aprovado: { rotulo: 'Passou nas checagens', tone: 'success', icone: 'circle-check' },
+  reprovado: { rotulo: 'Barrado', tone: 'dark', icone: 'circle-alert' },
 };
 
 // Ato 1 da demo: a skill da Ana é reprovada, ela corrige e passa.
@@ -44,30 +41,21 @@ export const rascunhoAna = {
   ].join('\n'),
 };
 
-// Primeira passada do validador: reprovado, com motivo e correção sugerida.
+// Primeira passada do validador: barrado, com o que, onde e como corrigir (RF-15).
 export const verificacaoReprovada = {
   veredito: 'reprovado',
   rodadaEm: 'hoje às 14:33',
-  duracao: '8 s',
   itens: [
     {
       criterio: 'c1',
       resultado: 'falhou',
-      titulo: 'Encontramos um token no exemplo do prompt',
+      titulo: 'Tem um token no exemplo do prompt',
       evidencia: 'SKILL.md, linha 42 — JIRA_TOKEN="•••• (token colado direto no prompt)"',
-      comoCorrigir: 'Troque o valor por uma variável de ambiente e descreva no README como configurá-la. Depois é só pedir a verificação de novo.',
+      comoCorrigir: 'Leia o valor de uma variável de ambiente e descreva no README como configurá-la. Depois, valide de novo.',
     },
-    { criterio: 'c2', resultado: 'ok', titulo: 'Nenhum dado de cliente nos exemplos', evidencia: 'As histórias de exemplo usam nomes fictícios.' },
-    { criterio: 'c3', resultado: 'ok', titulo: 'Acessa só leitura de arquivo, sem rede', evidencia: 'A definição da skill não declara ferramenta de rede.' },
-    { criterio: 'c4', resultado: 'ok', titulo: 'README, dono e limites presentes', evidencia: 'Seções "O que faz", "Quando usar" e "Limites".' },
-    {
-      criterio: 'c5',
-      resultado: 'atencao',
-      titulo: 'Parecido com um ativo que já existe',
-      evidencia: 'Skill de tradução de regra de negócio em teste (Seguros · Vida) — 62% de similaridade.',
-      comoCorrigir: 'Vale explicar no README o que a sua faz de diferente. Se for a mesma coisa, contribuir na existente rende mais.',
-    },
-    { criterio: 'c6', resultado: 'ok', titulo: 'Nenhuma instrução fora da política', evidencia: 'Nenhuma tentativa de contornar guard rail ou exportar dado.' },
+    { criterio: 'c2', resultado: 'ok', titulo: 'Nenhum CPF, e-mail ou telefone nos exemplos' },
+    { criterio: 'c3', resultado: 'ok', titulo: 'README com o que faz, quando usar e limites' },
+    { criterio: 'c4', resultado: 'ok', titulo: 'Autor e squad preenchidos' },
   ],
 };
 
@@ -75,71 +63,49 @@ export const verificacaoReprovada = {
 export const verificacaoAprovada = {
   veredito: 'aprovado',
   rodadaEm: 'hoje às 14:41',
-  duracao: '7 s',
-  grau: 'baixo',
   itens: [
-    { criterio: 'c1', resultado: 'ok', titulo: 'Nenhuma credencial no código ou no prompt', evidencia: 'O token virou a variável JIRA_TOKEN, documentada no README.' },
-    { criterio: 'c2', resultado: 'ok', titulo: 'Nenhum dado de cliente nos exemplos', evidencia: 'As histórias de exemplo usam nomes fictícios.' },
-    { criterio: 'c3', resultado: 'ok', titulo: 'Acessa só leitura de arquivo, sem rede', evidencia: 'A definição da skill não declara ferramenta de rede.' },
-    { criterio: 'c4', resultado: 'ok', titulo: 'README, dono e limites presentes', evidencia: 'Seções "O que faz", "Quando usar" e "Limites".' },
-    { criterio: 'c5', resultado: 'atencao', titulo: 'Parecido com um ativo que já existe', evidencia: 'Você declarou a diferença no README. Segue como aviso, não bloqueia.' },
-    { criterio: 'c6', resultado: 'ok', titulo: 'Nenhuma instrução fora da política', evidencia: 'Nenhuma tentativa de contornar guard rail ou exportar dado.' },
+    { criterio: 'c1', resultado: 'ok', titulo: 'Nenhuma chave ou token no código ou no prompt' },
+    { criterio: 'c2', resultado: 'ok', titulo: 'Nenhum CPF, e-mail ou telefone nos exemplos' },
+    { criterio: 'c3', resultado: 'ok', titulo: 'README com o que faz, quando usar e limites' },
+    { criterio: 'c4', resultado: 'ok', titulo: 'Autor e squad preenchidos' },
   ],
 };
 
-// Fila do coordenador (perfil Cord+).
+// Fila do coordenador (perfil Cord+). Todo item já passou nas checagens fixas; a decisão é do coordenador (D-13, D-26).
 export const filaAprovacao = [
   {
     id: 'fila-001',
     nome: 'Critérios de aceitação a partir da história',
     tipo: 'skill',
     autor: { nome: 'Ana Ribeiro', iniciais: 'AR', squad: 'Cartões · Emissão' },
-    enviadoEm: 'hoje às 14:41',
     esperandoHa: '12 min',
     visibilidade: 'banco',
-    grau: 'baixo',
-    gates: ['Agente validador', 'Coordenação'],
-    veredito: 'aprovado',
-    resumoVerificacao: '5 de 6 critérios sem apontamento. 1 aviso de similaridade, declarado pela autora.',
-    apontamentos: [
-      { tom: 'atencao', texto: 'Parecido com "Skill de tradução de regra de negócio em teste" (Seguros · Vida), 62% de similaridade. A autora explicou a diferença no README.' },
-      { tom: 'info', texto: 'Sem versão anterior deste ativo no catálogo.' },
-    ],
-    resumo: 'Lê a história do Jira e devolve critérios de aceitação no padrão dado/então.',
+    checagens: 'Barrado na 1ª rodada (token no prompt). Passou na 2ª.',
+    apontamentos: [{ tom: 'info', texto: 'Alcance pedido: banco inteiro.' }],
   },
   {
     id: 'fila-002',
     nome: 'Agente de disparo de e-mail para a base de clientes',
     tipo: 'agente',
     autor: { nome: 'Igor Fontes', iniciais: 'IF', squad: 'Cartões · Retenção' },
-    enviadoEm: 'ontem às 17:20',
     esperandoHa: '21 h',
     visibilidade: 'banco',
-    grau: 'alto',
-    gates: ['Agente validador', 'Coordenação', 'Risco e segurança'],
-    veredito: 'humano',
-    resumoVerificacao: 'O validador não concluiu sozinho. Grau alto: acessa base de contatos e envia mensagem para fora.',
+    checagens: 'Passou nas 4 checagens fixas.',
     apontamentos: [
-      { tom: 'alerta', texto: 'Acessa a base de contatos de clientes e dispara e-mail. Ação com efeito externo e sem volta.' },
-      { tom: 'alerta', texto: 'Sem limite de volume declarado no README.' },
-      { tom: 'info', texto: 'Grau alto exige o parecer de risco e segurança antes do seu. O pedido já foi encaminhado.' },
+      { tom: 'atencao', texto: 'Declara acesso à base de contatos e envio de e-mail para fora do banco.' },
+      { tom: 'atencao', texto: 'O README não declara limite de volume.' },
+      { tom: 'info', texto: 'Alcance pedido: banco inteiro.' },
     ],
-    resumo: 'Monta e dispara campanhas de retenção a partir de uma lista de clientes.',
   },
   {
     id: 'fila-003',
     nome: 'Esqueleto de job de carga noturna',
     tipo: 'esqueleto',
     autor: { nome: 'Vitor Salles', iniciais: 'VS', squad: 'Cartões · Faturamento' },
-    enviadoEm: 'ontem às 11:05',
     esperandoHa: '1 d',
     visibilidade: 'frente',
-    grau: 'baixo',
-    gates: ['Agente validador', 'Coordenação'],
-    veredito: 'aprovado',
-    resumoVerificacao: '6 de 6 critérios sem apontamento.',
-    apontamentos: [{ tom: 'info', texto: 'Mesma squad mantém outro ativo de job agendado.' }],
-    resumo: 'Estrutura de job agendado com retentativa, log e alerta de falha.',
+    checagens: 'Passou nas 4 checagens fixas.',
+    apontamentos: [{ tom: 'info', texto: 'Alcance pedido: frente.' }],
   },
 ];
 

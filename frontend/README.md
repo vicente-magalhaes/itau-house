@@ -54,9 +54,9 @@ Layout no estilo do Reddit: topo com busca, lateral com navegação e filtros, f
 | `#/` | Início | Feed por popularidade (RF-25): "Em alta" soma curtidas e instalações; também "Mais curtidos" e "Novos". Botão "Gostei" em cada post (RF-28). |
 | `#/t/:tipo`, `#/f/:frente` | Feed filtrado | O mesmo feed, filtrado por tipo ou por frente pela lateral (RF-26). |
 | `#/ativo/:id` | Post | README, o que o ativo acessa, instalar, adaptar, compartilhar, comentários (RF-27, RF-29). |
-| `#/publicar` | Publicar | Hook detecta → validador reprova com motivo → correção → aprovado → post com prévia do feed → fila. |
+| `#/publicar` | Publicar | Hook detecta → validador barra com o que, onde e como corrigir → correção → passa → post com prévia do feed → fila. |
 | `#/sugestao` | No seu editor | O aviso chega enquanto o dev trabalha; ele vê o porquê e decide. |
-| `#/coord/fila` | Fila de aprovação | Só Coordenação (RF-32): gates por grau de risco, aprovar, devolver ou recusar com motivo. |
+| `#/coord/fila` | Fila de aprovação | Só Coordenação (RF-32): resultado das checagens, aprovar (RF-19), devolver ou recusar com motivo (RF-21). Quem julga é o coordenador (D-26). |
 | `#/coord/dados` | Dados | Só Coordenação: curtidas, instalações, derivações, instalações por frente, tabela por ativo e histórico de cada um (RF-30, RF-22). |
 
 O alcance vale no feed (RF-05): ativo de squad só aparece para a própria squad; ativo de frente, só para a mesma frente.
@@ -70,7 +70,7 @@ Tudo o que está simulado aparece marcado em tela com o selo **Simulado** (compo
 |---|---|
 | Navegação, filtros, busca, estados das telas | Real, roda no navegador |
 | Catálogo de ativos, pessoas, squads, números de reuso | **Fictício** (`src/data/catalogo.js`) |
-| Veredito do agente validador | **Simulado**: roteiro fixo em `src/data/governanca.js`, não roda modelo |
+| Resultado do validador | **Simulado**: roteiro fixo em `src/data/governanca.js`. O validador real faz só checagens fixas por código, sem IA (RF-14, D-26) |
 | Detecção por hook na ferramenta de código | **Simulado** em tela |
 | Login por SSO | **Simulado**: seletor de perfil |
 | Comentários, comando de instalação | **Simulados** |
@@ -101,5 +101,4 @@ frontend/
 Local, layout e área de dados estão em D-28. Continuam em aberto:
 
 - **Telas além do mínimo do D-12.** O D-12 pede página do post e fila de aprovação. Feed, publicar e "No seu editor" existem como apoio da demo; confirmar quais entram no vídeo.
-- **Grau de risco definindo os gates.** Grau baixo passa por validador e coordenação; grau alto também por risco e segurança (liga A-03 e A-04).
 - **Trilha e contadores fora do post.** A PRD pede a trilha (RF-22) e os contadores (RF-30) na página do post; o D-28 levou os dois para `#/coord/dados`. Confirmar com o time.

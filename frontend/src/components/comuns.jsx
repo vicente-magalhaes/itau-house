@@ -55,12 +55,6 @@ export function Vazio({ icone = 'search-x', titulo, acao }) {
   );
 }
 
-// Grau de risco do ativo: define quais gates a publicação precisa passar.
-export function SeloGrau({ grau }) {
-  if (grau === 'alto') return <Badge tone="dark">Grau alto</Badge>;
-  return <Badge tone="neutral">Grau baixo</Badge>;
-}
-
 // Toast fixo no canto, igual em todas as telas.
 export function Aviso({ children }) {
   return <div style={{ position: 'fixed', right: 'var(--space-5)', bottom: 'var(--space-5)', zIndex: 1100 }}>{children}</div>;

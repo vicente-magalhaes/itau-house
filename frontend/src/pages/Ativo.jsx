@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, IconButton, Icon, Tag, Dialog, Toast, Checkbox } from '../ds.js';
-import { Avatar, SeloSimulado, Vazio, SeloGrau, Aviso } from '../components/comuns.jsx';
+import { Avatar, SeloSimulado, Vazio, Aviso } from '../components/comuns.jsx';
 import { BotaoCurtir, Instalacoes } from '../components/Post.jsx';
 import { TextArea } from '../components/TextArea.jsx';
 import { Link, irPara } from '../router.jsx';
@@ -147,10 +147,7 @@ export function Ativo({ id }) {
 
       <aside className="stack stack-4 sticky">
         <div className="caixa stack stack-4">
-          <div className="row spread">
-            <span className="small strong">O que ele acessa</span>
-            <SeloGrau grau={ativo.grau} />
-          </div>
+          <span className="small strong">O que ele acessa</span>
           <ListaAcessos acessos={ativo.acessos} />
         </div>
 
