@@ -1,7 +1,7 @@
 ---
 summary: "Ideias do time ainda não decididas: persona afiada, mecanismos novos, tensões"
 read_when: "Desenho da solução, slides"
-review_by: 2026-09-27
+review_by: 2026-09-28
 ---
 
 # Brainstorm do time (Bruno, 26/09/2026)
@@ -36,12 +36,14 @@ Não constam em [04](04-solucao-itau-house.md). Candidatas, não escopo do MVP.
 - **Conta obrigatória para publicar.** Garante autoria.
 - **Visão do gestor:** quantas e quais pessoas usam os ativos que cada funcionário publicou. Base para incentivo.
 - **Status e reconhecimento:** contagem de uso e ranking viram meta a atingir e status a manter. "Skill do Ano".
-- **Agentes avaliadores antes da publicação:** uma leva de agentes confere se o ativo respeita os guard rails. Um coordenador humano dá a aprovação final ("coordenador só aprova"). Liga A-03.
+- **Agentes avaliadores antes da publicação:** uma leva de agentes confere se o ativo respeita os guard rails. Um coordenador humano dá a aprovação final ("coordenador só aprova"). Resolvido em 0013 e 0026: no MVP, validador de código sem IA e aprovação do coordenador; agente de julgamento só depois do MVP.
+
+Situação em 27/09: a avaliação virou só "Gostei" (0028); ranking pela 0015; visão do gestor pela 0028; avaliação antes de publicar pela 0026. Downvote, "Skill do Ano" e incentivo não constam da PRD nem das decisões.
 
 ## Risco e escala
 
 - Principal risco: publicar ativo que foge dos guard rails. Controle: agentes avaliadores + aprovação humana (liga R-03).
-- Para escalar: entender a estrutura interna e as restrições de compartilhamento entre gerências (liga A-04).
+- Para escalar: entender a estrutura interna e as restrições de compartilhamento entre gerências (A-04 fechada na 0013: quem publica escolhe o alcance).
 
 ## Próximos passos levantados
 
@@ -53,5 +55,5 @@ Não constam em [04](04-solucao-itau-house.md). Candidatas, não escopo do MVP.
 
 1. **A dor é mesmo retrabalho?** Resolvido em D-16: sim. A nota do EDA quis dizer que a pessoa já tem as skills dela; o compartilhamento é que é manual.
 2. **Exemplos para impacto na banca ≠ evidência.** Mostrar skills que "poderiam estar lá" funciona como storytelling. Precisa aparecer como simulação, não como uso real.
-3. **Gamificação e visão do gestor.** Resolvido em D-15: ranking por curtidas e instalações; gestor só vê a fila de aprovação.
-4. **Usabilidade:** o foco é criar ou publicar? Como gerar os gatilhos (hooks) para publicar sem esforço extra? Liga R-05.
+3. **Gamificação e visão do gestor.** Resolvido em D-15 e ajustado na 0028: ranking por curtidas e instalações; o gestor vê a fila de aprovação e a área de dados (#/coord/dados).
+4. **Usabilidade:** o foco é criar ou publicar? Como gerar os gatilhos (hooks) para publicar sem esforço extra? Liga R-05. Resolvido na PRD: o hook detecta o ativo novo ao fim da tarefa e convida a publicar (RF-11, RF-13, RF-16).
