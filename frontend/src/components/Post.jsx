@@ -1,6 +1,7 @@
 import React from 'react';
 import { Icon } from '../ds.js';
 import { Foto } from './comuns.jsx';
+import { NumeroVivo, Pulso } from './movimento.jsx';
 import { irPara } from '../router.jsx';
 import { useSessao } from '../sessao.jsx';
 import { iconeTipo, tempoRelativo } from '../data/catalogo.js';
@@ -22,8 +23,10 @@ export function BotaoCurtir({ ativo, noCard, desativado }) {
         if (!desativado) curtir(ativo.id);
       }}
     >
-      <Icon name="arrow-big-up" size={noCard ? 16 : 18} />
-      {total}
+      <Pulso gatilho={curtido} efeito="seta">
+        <Icon name="arrow-big-up" size={noCard ? 16 : 18} />
+      </Pulso>
+      <NumeroVivo valor={total} />
     </button>
   );
 }

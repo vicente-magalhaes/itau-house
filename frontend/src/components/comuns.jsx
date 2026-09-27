@@ -67,7 +67,7 @@ export function SeloSimulado({ children = 'Simulado', ajuda = 'Esta parte é uma
 
 export function Vazio({ icone = 'search-x', titulo, acao }) {
   return (
-    <div className="stack stack-3" style={{ alignItems: 'center', textAlign: 'center', padding: 'var(--space-8) var(--space-5)' }}>
+    <div className="stack stack-3 anima-entrar" style={{ alignItems: 'center', textAlign: 'center', padding: 'var(--space-8) var(--space-5)' }}>
       <Icon name={icone} size={32} color="var(--text-tertiary)" />
       <p className="strong">{titulo}</p>
       {acao}
@@ -77,13 +77,17 @@ export function Vazio({ icone = 'search-x', titulo, acao }) {
 
 // Toast fixo no canto, usado pelas telas de publicar e da fila.
 export function Aviso({ children }) {
-  return <div style={{ position: 'fixed', right: 'var(--space-5)', bottom: 'var(--space-5)', zIndex: 1100 }}>{children}</div>;
+  return (
+    <div className="aviso" style={{ position: 'fixed', right: 'var(--space-5)', bottom: 'var(--space-5)', zIndex: 1100 }}>
+      {children}
+    </div>
+  );
 }
 
-// Recado curto no pé da tela, disparado por avisar() da sessão.
-export function Recado({ children }) {
+// Recado curto no pé da tela, disparado por avisar() da sessão. `saindo` roda a animação de saída.
+export function Recado({ children, saindo }) {
   return (
-    <div role="status" className="recado">
+    <div role="status" className="recado" data-saindo={saindo ? '' : undefined}>
       <Icon name="check" size={18} color="var(--brand)" />
       {children}
     </div>

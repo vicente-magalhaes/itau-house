@@ -68,7 +68,7 @@ function ItemFila({ item, aberto, aoAlternar, aoAprovar, aoDevolver, aoRecusar }
       </div>
 
       {aberto && (
-        <div className="stack stack-4">
+        <div className="stack stack-4 anima-cair">
           <Gates />
           <span className="small">{item.checagens}</span>
           <ul className="stack stack-2" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
@@ -181,7 +181,7 @@ export function Aprovacoes() {
         (naFila.length === 0 ? (
           <Vazio icone="inbox" titulo="Nada esperando por você" />
         ) : (
-          <div className="stack stack-3">
+          <div className="stack stack-3 anima-escalonada">
             {naFila.map((item) => (
               <ItemFila
                 key={item.id}
@@ -200,7 +200,7 @@ export function Aprovacoes() {
         (decididos.length === 0 ? (
           <Vazio icone="history" titulo="Nada decidido ainda" />
         ) : (
-          <div className="stack stack-3">
+          <div className="stack stack-3 anima-escalonada">
             {decididos.map((d) => (
               <ItemDecidido key={d.id} registro={d} />
             ))}

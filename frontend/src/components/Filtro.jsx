@@ -78,7 +78,9 @@ export function Filtro({ rotulo, valor, opcoes, onChange }) {
         onKeyDown={teclaNoBotao}
       >
         {atual.label}
-        <Icon name={aberto ? 'chevron-up' : 'chevron-down'} size={16} color="var(--ih-ink2)" />
+        <span className="filtro-seta">
+          <Icon name="chevron-down" size={16} color="var(--ih-ink2)" />
+        </span>
       </button>
 
       {aberto && (

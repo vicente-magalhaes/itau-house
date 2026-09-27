@@ -118,7 +118,7 @@ export function Feed() {
         </div>
 
         {lista.length === 0 ? (
-          <div className="painel" style={{ alignItems: 'flex-start', padding: 'var(--space-6)' }}>
+          <div className="painel anima-entrar" style={{ alignItems: 'flex-start', padding: 'var(--space-6)' }}>
             <span className="icone-quadrado">
               <Icon name="hand" size={20} />
             </span>
@@ -131,7 +131,8 @@ export function Feed() {
             </Button>
           </div>
         ) : (
-          <div className="grade">
+          // Filtro novo remonta a grade e os cards entram de novo, um a um.
+          <div key={filtros.estante + filtros.papel + filtros.ordem} className="grade anima-escalonada">
             {lista.map((a) => (
               <PostCard key={a.id} ativo={a} />
             ))}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Icon } from '../ds.js';
 import { Foto } from '../components/comuns.jsx';
+import { NumeroVivo, Pulso } from '../components/movimento.jsx';
 import { useSessao } from '../sessao.jsx';
 import { pedidos, ESTANTES, iconeTipo } from '../data/catalogo.js';
 
@@ -22,7 +23,7 @@ export function Pedidos() {
         </Button>
       </div>
 
-      <div className="stack stack-4">
+      <div className="stack stack-4 anima-escalonada">
         {pedidos.map((p) => {
           const quero = querem.includes(p.id);
           const euCrio = criando.includes(p.id);
@@ -43,14 +44,18 @@ export function Pedidos() {
               </div>
               <div className="row wrap row-2">
                 {criador && (
-                  <span className="btn" style={{ cursor: 'default', padding: '0 var(--space-3) 0 var(--ih-gap-contagem)', background: 'var(--ih-surface)' }}>
+                  <span className="btn anima-surgir" style={{ cursor: 'default', padding: '0 var(--space-3) 0 var(--ih-gap-contagem)', background: 'var(--ih-surface)' }}>
                     <Foto pessoa={criador} tamanho={24} />
                     {euCrio ? 'Você está criando' : `${criador.primeiro} está criando`}
                   </span>
                 )}
                 <button type="button" className="btn btn-sec btn-querer" aria-pressed={quero} onClick={() => querer(p.id)}>
-                  <Icon name="arrow-big-up" size={18} />
-                  {p.querem + (quero ? 1 : 0)} também querem
+                  <Pulso gatilho={quero} efeito="seta">
+                    <Icon name="arrow-big-up" size={18} />
+                  </Pulso>
+                  <span>
+                    <NumeroVivo valor={p.querem + (quero ? 1 : 0)} /> também querem
+                  </span>
                 </button>
                 {!criador && (
                   <button
