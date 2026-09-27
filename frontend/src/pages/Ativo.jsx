@@ -398,8 +398,9 @@ export function Ativo({ id }) {
 
           <div className="painel">
             <h2 className="titulo-card">Governança</h2>
-            {trilha.map((t) => (
-              <div key={t.titulo} className="row row-3">
+            {/* O histórico repete eventos ("Validação realizada" a cada rodada): a chave leva a posição. */}
+            {trilha.map((t, i) => (
+              <div key={i + t.titulo} className="row row-3">
                 <span className="icone-quadrado">
                   <Icon name={t.icone} size={20} />
                 </span>
