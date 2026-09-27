@@ -8,7 +8,7 @@ import { entrarComGoogle } from '../google.js';
 // Tela de entrada (RF-23), do design "Entrar 1c Mãos juntas". Roda fora do AppShell.
 // Google é login real (T-41, 0034). Login e senha são [SIMULADO]: a senha não é conferida.
 
-// O primeiro nome no login também seleciona o perfil correspondente (RF-24).
+// O primeiro nome no login também escolhe o perfil (RF-24): "juliana" ou "juliana.prado@..." entra na coordenação.
 function perfilDoLogin(login, perfis) {
   const nome = login.trim().toLowerCase().split(/[@._\s-]/)[0];
   return perfis.find((p) => p.pessoa.primeiro.toLowerCase() === nome)?.value;

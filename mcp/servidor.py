@@ -93,16 +93,44 @@ def _ler(pasta: str) -> list[dict[str, str]] | str:
         return json.dumps({"erro": "arquivo_invalido", "mensagem": str(erro)}, ensure_ascii=False)
 
 
+def _com_links(resposta: str) -> str:
+    """Acrescenta a cada sugestão a url da página do ativo no site, para o link sair pronto."""
+    try:
+        corpo = json.loads(resposta)
+    except ValueError:
+        return resposta
+    if not isinstance(corpo, dict) or not corpo.get("sugestoes"):
+        return resposta
+    site = os.environ.get("ITAU_HOUSE_SITE", "https://itau-house.vercel.app").rstrip("/")
+    for sugestao in corpo["sugestoes"]:
+        ativo = sugestao.get("ativo") or {}
+        if not ativo.get("id"):
+            continue
+        sugestao["url"] = f"{site}/#/ativo/{quote(ativo['id'], safe='')}"
+        tipo = (ativo.get("tipo") or "ativo").replace("_", " ")
+        nome = ((ativo.get("autor") or {}).get("nome") or "").split(" ")[0]
+        rotulo = f"{tipo} de {nome}" if nome else ativo.get("nome", tipo)
+        sugestao["link"] = f"[{rotulo}]({sugestao['url']})"
+    # Vai na resposta, e não só na skill, porque o modelo às vezes responde sem carregar a skill.
+    corpo["comoMostrarLink"] = (
+        "Abaixo de cada sugestão, escreva: \"Quer ver os detalhes no navegador? Abra a <link>.\", "
+        "com o campo link exatamente como veio, em markdown. Nunca mostre a URL crua."
+    )
+    return json.dumps(corpo, ensure_ascii=False)
+
+
 @servidor.tool(description="Busque ativos parecidos com o pedido antes de criar um ativo.")
 def buscar_ativos(pedido: str, tipo: str | None = None) -> str:
-    return _chamar(
-        "POST",
-        "/api/busca",
-        {
-            "pedido": pedido,
-            "tipo": tipo,
-            "modo": os.environ.get("ITAU_HOUSE_MODO", "perguntar_antes"),
-        },
+    return _com_links(
+        _chamar(
+            "POST",
+            "/api/busca",
+            {
+                "pedido": pedido,
+                "tipo": tipo,
+                "modo": os.environ.get("ITAU_HOUSE_MODO", "perguntar_antes"),
+            },
+        )
     )
 
 

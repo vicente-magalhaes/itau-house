@@ -20,7 +20,8 @@ def test_usuarios_sem_cabecalho_ordenados_no_formato_do_contrato() -> None:
 
     assert resposta.status_code == 200
     pessoas = resposta.json()["usuarios"]
-    assert len(pessoas) == 20
+    # 20 pessoas fictícias e o autor real do harness-hacka (T-44).
+    assert len(pessoas) == 21
     assert [p["nome"] for p in pessoas] == sorted(p["nome"] for p in pessoas)
     assert all(set(p) == CHAVES_PESSOA for p in pessoas)
     assert {p["id"]: p for p in pessoas} == {p["id"]: p for p in catalogo.seed()["usuarios"]}
