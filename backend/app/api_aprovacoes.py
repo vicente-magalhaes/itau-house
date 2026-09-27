@@ -28,19 +28,20 @@ def fila(banco: Banco, pessoa: Pessoa) -> dict:
         a for a in banco.ativos() if a["status"] == "em_aprovacao" and catalogo.visivel(a, pessoa)
     ]
     ativos.sort(key=lambda a: a["enviadoEm"] or "")
-    return {
-        "itens": [
+    itens = []
+    for ativo in ativos:
+        validacoes = banco.validacoes(ativo["id"])
+        itens.append(
             {
-                "ativo": _detalhe(banco, a, pessoa),
-                "enviadoEm": a["enviadoEm"],
+                "ativo": _detalhe(banco, ativo, pessoa, validacoes),
+                "enviadoEm": ativo["enviadoEm"],
                 "validacoes": [
                     {"resultado": v["resultado"], "em": v["em"], "itens": v["itens"]}
-                    for v in banco.validacoes(a["id"])
+                    for v in validacoes
                 ],
             }
-            for a in ativos
-        ]
-    }
+        )
+    return {"itens": itens}
 
 
 class Decisao(BaseModel):

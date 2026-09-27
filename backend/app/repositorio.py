@@ -4,6 +4,8 @@ import os
 from copy import deepcopy
 from datetime import UTC, datetime
 from functools import lru_cache
+from threading import Lock
+from time import monotonic
 from typing import Protocol
 
 from supabase import create_client
@@ -35,6 +37,8 @@ class Repositorio(Protocol):
     def vincular_validacoes(self, ids: list[str], ator_id: str, ativo_id: str | None) -> bool: ...
 
     def curtido(self, ativo_id: str, usuario_id: str) -> bool: ...
+
+    def curtidos(self, usuario_id: str) -> set[str]: ...
 
     def alternar_curtida(self, ativo_id: str, usuario_id: str) -> bool: ...
 
@@ -120,6 +124,9 @@ class RepositorioMemoria:
     def curtido(self, ativo_id: str, usuario_id: str) -> bool:
         return (ativo_id, usuario_id) in self._curtidas
 
+    def curtidos(self, usuario_id: str) -> set[str]:
+        return {ativo_id for ativo_id, pessoa_id in self._curtidas if pessoa_id == usuario_id}
+
     def alternar_curtida(self, ativo_id: str, usuario_id: str) -> bool:
         chave = (ativo_id, usuario_id)
         if chave in self._curtidas:
@@ -132,6 +139,9 @@ class RepositorioMemoria:
 class RepositorioSupabase:
     def __init__(self, url: str, chave: str) -> None:
         self._cliente = create_client(url, chave)
+        self._usuarios_por_id: dict[str, dict] = {}
+        self._usuarios_expiram_em = 0.0
+        self._usuarios_lock = Lock()
 
     @staticmethod
     def _pessoa(linha: dict) -> dict:
@@ -153,11 +163,22 @@ class RepositorioSupabase:
         )
 
     def usuarios(self) -> list[dict]:
-        return [self._pessoa(linha) for linha in self._consulta().execute().data]
+        self._atualizar_usuarios()
+        return list(self._usuarios_por_id.values())
 
     def usuario(self, usuario_id: str) -> dict | None:
-        linhas = self._consulta().eq("id", usuario_id).limit(1).execute().data
-        return self._pessoa(linhas[0]) if linhas else None
+        self._atualizar_usuarios()
+        return self._usuarios_por_id.get(usuario_id)
+
+    def _atualizar_usuarios(self) -> None:
+        if monotonic() < self._usuarios_expiram_em:
+            return
+        with self._usuarios_lock:
+            if monotonic() < self._usuarios_expiram_em:
+                return
+            pessoas = (self._pessoa(linha) for linha in self._consulta().execute().data)
+            self._usuarios_por_id = {pessoa["id"]: pessoa for pessoa in pessoas}
+            self._usuarios_expiram_em = monotonic() + 60
 
     def _ativo(self, linha: dict, contadores: dict) -> dict:
         autor = self.usuario(linha["autor_id"])
@@ -353,6 +374,16 @@ class RepositorioSupabase:
             .execute()
             .data
         )
+
+    def curtidos(self, usuario_id: str) -> set[str]:
+        linhas = (
+            self._cliente.table("curtidas")
+            .select("ativo_id")
+            .eq("usuario_id", usuario_id)
+            .execute()
+            .data
+        )
+        return {linha["ativo_id"] for linha in linhas}
 
     def alternar_curtida(self, ativo_id: str, usuario_id: str) -> bool:
         if self.curtido(ativo_id, usuario_id):
