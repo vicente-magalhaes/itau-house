@@ -33,6 +33,7 @@ Tabela mantida à mão. Documento novo em `docs/` entra aqui.
 | [docs/07-identidade-visual.md](docs/07-identidade-visual.md) | Qual fonte de marca vale para quê, regras de front-end, cores, fontes, logo | Front-end, slides, vídeo |
 | [docs/08-equipe.md](docs/08-equipe.md) | Integrantes, papéis, contatos | Slide 6, ficha, divisão de tarefas |
 | [docs/10-guia-dicas-mentores.md](docs/10-guia-dicas-mentores.md) | Dicas dos mentores para a entrega final. Referência principal das perguntas de preparação (D-27) | Slides, pitch, vídeo, ficha, respostas à banca |
+| [docs/api.md](docs/api.md) | Contrato da API: rotas sob /api, JSON de entrada e saída, ferramentas do MCP | Back, front, MCP, plugin |
 | [docs/roteiro-demo.md](docs/roteiro-demo.md) | Roteiro da demo: narração, o que o dev digita, o que o plugin responde | Ensaio, vídeo, contrato da API |
 | [docs/fluxos.html](docs/fluxos.html) | Fonte de verdade dos fluxos (ciclo, descoberta, publicação, plataforma). Abrir no navegador; para mudar, editar `FLOWS` no arquivo | Desenho de fluxo, front-end |
 
