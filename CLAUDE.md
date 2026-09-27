@@ -33,9 +33,11 @@ Tabela mantida à mão. Documento novo em `docs/` entra aqui.
 | [docs/07-identidade-visual.md](docs/07-identidade-visual.md) | Qual fonte de marca vale para quê, regras de front-end, cores, fontes, logo | Front-end, slides, vídeo |
 | [docs/08-equipe.md](docs/08-equipe.md) | Integrantes, papéis, contatos | Slide 6, ficha, divisão de tarefas |
 | [docs/10-guia-dicas-mentores.md](docs/10-guia-dicas-mentores.md) | Dicas dos mentores para a entrega final. Referência principal das perguntas de preparação (D-27) | Slides, pitch, vídeo, ficha, respostas à banca |
+| [plugin/README.md](plugin/README.md) | Plugin do Claude Code: hooks, skill, comando e como rodar na demo | Plugin, MCP, ensaio |
 | [docs/api.md](docs/api.md) | Contrato da API: rotas sob /api, JSON de entrada e saída, ferramentas do MCP | Back, front, MCP, plugin |
 | [docs/roteiro-demo.md](docs/roteiro-demo.md) | Roteiro da demo: narração, o que o dev digita, o que o plugin responde | Ensaio, vídeo, contrato da API |
 | [docs/fluxos.html](docs/fluxos.html) | Fonte de verdade dos fluxos (ciclo, descoberta, publicação, plataforma). Abrir no navegador; para mudar, editar `FLOWS` no arquivo | Desenho de fluxo, front-end |
+| [docs/devin.md](docs/devin.md) | Plano do Devin: para quê, quando, o que fechar antes e o brief de cada tarefa | Abrir, revisar ou planejar uma sessão do Devin |
 
 Tasks, donos e ordem de execução: [KANBAN.md](KANBAN.md). Antes de começar uma task, marcar `Fazendo` lá; ao terminar, `Feito`.
 
@@ -75,6 +77,7 @@ Comandos completos no [README](README.md#como-rodar).
 - Ao fechar uma decisão, registrar com `/harness-hacka:decide` (0029). Ela vira um arquivo em `memoria/decisions/`, como `proposed`, e só uma pessoa aceita, com `accept NNNN`. Nos textos antigos, D-12 é a decisão 0012.
 - O repositório é privado durante o desenvolvimento. Antes da banca, será limpo para ficar só o código. `memoria/`, os documentos numerados de `docs/` e `itau-design-system/` são internos: citam pessoas e conversas do Itaú e contêm a marca do banco. `design-system/` fica, porque o front-end depende dele.
 - Escrever em português do Brasil, frases curtas.
+- `AGENTS.md` resume estas regras para agentes que não leem este arquivo, como o Devin. Mudou uma regra aqui, atualize lá.
 
 ## Configuração do Claude Code
 

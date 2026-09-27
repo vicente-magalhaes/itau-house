@@ -56,3 +56,18 @@ def test_ativos_publicados_passam_no_validador() -> None:
         arquivos.append(validador.Arquivo("README.md", a["readme"]))
         itens = validador.validar(arquivos, a["autorId"], a["squadId"])
         assert validador.resultado(itens) == "aprovado", a["id"]
+
+
+def test_cord_mais_ve_a_fila_do_proprio_squad_e_so_ela() -> None:
+    em_fila = {
+        "autorId": "u-rafael",
+        "status": "em_aprovacao",
+        "visibilidade": "frente",
+        "frente": "Pix",
+        "squadId": RAFAEL["squadId"],
+    }
+    rascunho = em_fila | {"status": "rascunho"}
+
+    assert catalogo.visivel(em_fila, catalogo.usuario("u-juliana"))
+    assert not catalogo.visivel(em_fila, catalogo.usuario("u-renato"))  # Cord+ de outro squad
+    assert not catalogo.visivel(rascunho, catalogo.usuario("u-juliana"))  # ainda não enviado

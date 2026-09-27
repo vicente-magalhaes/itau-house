@@ -97,3 +97,31 @@ def test_sem_usuario_responde_401() -> None:
     r = _validar([{"caminho": "SKILL.md", "conteudo": SKILL}], usuario=None)
 
     assert r.status_code == 401
+
+
+def test_readme_com_valor_de_exemplo_passa() -> None:
+    # O validador pede para documentar a variável no README; o exemplo não pode barrar de novo.
+    readme = '## Configurar\n\n```\nexport PIX_SANDBOX_API_KEY="sua_chave_aqui"\nPIX_SANDBOX_API_KEY=<sua chave>\n```\n'
+    r = _validar(
+        [
+            {"caminho": "SKILL.md", "conteudo": SKILL},
+            {"caminho": "README.md", "conteudo": readme},
+            {"caminho": "scripts/gerar_massa.py", "conteudo": SCRIPT_CORRIGIDO},
+        ]
+    )
+
+    assert r.json()["resultado"] == "aprovado"
+
+
+def test_valor_real_atribuido_continua_barrando() -> None:
+    r = _validar([{"caminho": "SKILL.md", "conteudo": SKILL + 'api_key = "k8f2Lq9zR4mT"\n'}])
+
+    assert r.json()["resultado"] == "barrado"
+
+
+def test_chave_pix_de_email_ficticio_passa() -> None:
+    # A massa de dados da cena 2 gera chaves Pix de e-mail; domínio fictício não é dado pessoal.
+    conteudo = SKILL + "Chaves de e-mail: cliente01@banco-ficticio.com.br, loja@pix.test\n"
+    r = _validar([{"caminho": "SKILL.md", "conteudo": conteudo}])
+
+    assert r.json()["resultado"] == "aprovado"

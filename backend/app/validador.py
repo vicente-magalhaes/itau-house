@@ -40,13 +40,30 @@ _SEGREDOS = [
     ),
     re.compile(r"(?P<valor>-----BEGIN [A-Z ]*PRIVATE KEY-----)"),
 ]
+# Valor de exemplo em documentação não é segredo: `API_KEY="sua_chave_aqui"`, `<sua chave>`, `${VAR}`.
+# Sem isso, o README que o próprio validador pede para escrever barraria de novo (cena 2).
+_EXEMPLO = re.compile(
+    r"(?i)^\$|^<.*>$|sua[_\- ]?chave|seu[_\- ]?token|your[_\-]?(?:api[_\-]?)?key"
+    r"|changeme|placeholder|exemplo|example|^x{4,}$|^\*+$"
+)
 
 # Qualquer CPF formatado barra, até o de exemplo (roteiro, "Cuidados").
 _CPF = re.compile(r"(?<!\d)(?P<valor>\d{3}\.\d{3}\.\d{3}-\d{2})(?!\d)")
 _EMAIL = re.compile(r"(?P<valor>[\w.+-]+@(?P<dominio>[\w-]+(?:\.[\w-]+)+))")
 _TELEFONE = re.compile(r"(?P<valor>\(?\b\d{2}\)?\s?9?\d{4}-\d{4}\b)")
-# Domínios reservados para exemplo não são dado pessoal.
-_DOMINIOS_EXEMPLO = ("example.com", "example.org", "example.net", "exemplo.com", "exemplo.com.br")
+# Domínios reservados para exemplo não são dado pessoal. `ficticio` cobre a massa de dados da cena 2.
+_DOMINIOS_EXEMPLO = (
+    "example.com",
+    "example.org",
+    "example.net",
+    "exemplo.com",
+    "exemplo.com.br",
+    "ficticio.com",
+    "ficticio.com.br",
+    ".test",
+    ".invalid",
+    ".example",
+)
 
 _ARQUIVOS_DESCRICAO = ("skill.md", "agent.md", "agente.md")
 
@@ -66,6 +83,8 @@ def _checar_segredos(arquivo: Arquivo) -> list[Item]:
             if not achado:
                 continue
             valor = achado.group("valor")
+            if _EXEMPLO.search(valor):
+                continue
             itens.append(
                 Item(
                     criterio="segredo",
@@ -75,8 +94,9 @@ def _checar_segredos(arquivo: Arquivo) -> list[Item]:
                     linha=n,
                     trecho=linha.strip().replace(valor, _mascarar(valor)),
                     como_corrigir=(
-                        "Leia o valor de uma variável de ambiente e documente no README "
-                        "como configurá-la. Depois, valide de novo."
+                        "Leia o valor de uma variável de ambiente. No README, mostre só o "
+                        "nome dela, sem o valor (ex.: export NOME_DA_VARIAVEL=<sua chave>). "
+                        "Depois, valide de novo."
                     ),
                 )
             )

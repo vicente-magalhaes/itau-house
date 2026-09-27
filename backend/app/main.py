@@ -2,6 +2,7 @@
 
 from fastapi import FastAPI
 
+from app.api_busca import router as busca
 from app.api_validacoes import router as validacoes
 
 # Tudo sob /api: o front chama a API pelo mesmo endereço (proxy do Vite em dev, nginx na demo).
@@ -22,3 +23,4 @@ def health() -> dict[str, str]:
 
 
 app.include_router(validacoes)
+app.include_router(busca)

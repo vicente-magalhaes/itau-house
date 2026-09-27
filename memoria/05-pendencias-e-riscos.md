@@ -20,7 +20,6 @@ Nos textos antigos, D-12 é a decisão 0012.
 | A-08 | Nome final do produto. | "Itaú House" é provisório. |
 | A-10 | Quem de fora do time testa o fluxo, e quando? | Obrigatório registrar pelo menos um teste com conclusão. |
 | A-13 | Conversar com um dev do Itaú no evento. | Em andamento: o time está buscando um dev. Lacuna principal de evidência. |
-| A-17 | Onde hospedar o MVP para os gestores acessarem? | Provável: Vercel e/ou Render (Vicente, 26/09). Precisa de link que abre sem login (ver 01). |
 | A-18 | O harness conta como elemento pré-existente (regulamento 7.1.1)? | Confirmar com a organização. Pendência que estava na decisão 0020. Ver [01](../docs/01-hackathon-regras-e-entregas.md), propriedade intelectual. |
 | A-19 | A trilha (RF-22) e os contadores (RF-30) ficam na página do post ou na área do Cord+? | A decisão 0028 levou os dois para `#/coord/dados`; a PRD pede na página do post. Confirmar com o time (Alexandre, 26/09). |
 
