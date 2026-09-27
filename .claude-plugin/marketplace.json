@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "itau-house",
+  "owner": { "name": "Grupo 4, Hackathon Itaú 2026" },
+  "description": "Itaú House: catálogo em que squads publicam e reaproveitam o que criam com IA. Protótipo de hackathon, dados fictícios.",
+  "plugins": [
+    {
+      "name": "itau-house",
+      "source": "./plugin",
+      "description": "Acha no Itaú House o que outra pessoa já criou com IA e ajuda a publicar o que você criou.",
+      "category": "workflow"
+    }
+  ]
+}

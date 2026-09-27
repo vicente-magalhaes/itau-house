@@ -15,7 +15,7 @@ Fale como o Itaú fala: "você", frases curtas, sem urgência, sem jargão sem e
 ## Descoberta
 
 1. Chame `buscar_ativos` com o pedido da pessoa, do jeito que ela escreveu, e o tipo de ativo.
-2. Se `gravada` for `true`, avise numa linha: "Resposta gravada da demo (o Claude está fora do ar)."
+2. Se `gravada` for `true`, avise numa linha: "Resposta gravada da demo (a IA da busca está fora do ar)."
 3. Se `indisponivel` for `true`, repita a `mensagem` e siga a tarefa do zero.
 4. Se `encontrou` for `false`, repita a `mensagem` ("Não encontrei nada parecido. Quando terminar, posso ajudar a publicar.") e crie do zero. Não invente um ativo parecido.
 5. Se encontrou, mostre cada sugestão assim, e nada além disso:

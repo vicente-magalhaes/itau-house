@@ -120,6 +120,12 @@ input::placeholder { color: var(--gray-500); }
   .topo { gap: var(--space-2); padding: 0 var(--space-4); }
   .some-no-estreito { display: none; }
 }
+/* "Instale no seu agente": no celular, só a tomada, do tamanho dos outros ícones do topo. */
+@media (max-width: 640px) {
+  .topo { gap: var(--space-1); }
+  .some-no-celular { display: none; }
+  .btn-instalar { min-width: 36px; padding: 0 var(--space-2); }
+}
 
 /* ---------- Página ---------- */
 .pagina { max-width: 1320px; margin: 0 auto; padding: var(--space-6) var(--space-6) var(--space-7); }
@@ -225,6 +231,14 @@ input::placeholder { color: var(--gray-500); }
 .numero { min-width: 128px; display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-4) var(--ih-pad); border-radius: var(--radius-md); background: var(--ih-bg); }
 .numero-valor { font: var(--fw-bold) var(--fs-h1)/1 var(--font-display); color: var(--ih-ink); }
 .numero-rotulo { font: var(--fw-bold) var(--fs-caption)/1.3 var(--font-text); color: var(--ih-ink); }
+
+/* Instalar no agente (RF-01): passos com conteúdo dentro, por isso sem a faixa cinza do .passo. */
+.passos-instalar { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--space-5); }
+.passo-instalar { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-3); align-items: start; }
+/* A descrição do modo alinha com o rótulo do Radio: círculo de 22px mais 10px de espaço. */
+.modo-instalar { display: flex; flex-direction: column; gap: var(--space-1); }
+.modo-instalar .texto { padding-left: var(--space-6); }
+.texto-instalar { max-height: 176px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--ih-ink); }
 
 /* ---------- Recado (toast) ---------- */
 .recado {

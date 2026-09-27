@@ -218,14 +218,14 @@ Relacionamentos, um por bullet:
 
 ## Stack
 
-**Decidido em D-11 (ambiente) e D-19 (IA, busca, banco).** Detalhes em [PRD.md](../PRD.md), seção 9.
+**Decidido em D-11 (ambiente), D-19 (busca e banco) e 0039 (IA: só o Gemini no MVP).** Detalhes em [PRD.md](../PRD.md), seção 9.
 
 | Camada | Candidata | Função |
 |---|---|---|
 | Back-end | Python + FastAPI | API REST. Orquestra o agente e as regras. |
 | Front-end | TypeScript + React (Vite) | Interface web. Componentes a definir (shadcn/ui ou MUI). |
 | Banco | Supabase (PostgreSQL) | Dados relacionais. Auth para login. Realtime se precisar de atualização ao vivo. |
-| IA | Claude via API (`claude-opus-5`), SDK `anthropic` | Intenção, ranqueamento, validador, adaptação. Esforço por rota. |
+| IA | Gemini pela API REST (`gemini-flash-lite-latest`), sem SDK (0039) | Só o ranqueamento da busca. O validador não usa IA (D-26), e quem adapta é o agente da pessoa (0030). |
 | Ambiente | Docker | Padroniza o ambiente do time. |
 
 Candidatas para o Itaú House **(sugestão Claude)**:

@@ -21,7 +21,6 @@ Nos textos antigos, D-12 é a decisão 0012.
 | A-10 | Quem de fora do time testa o fluxo, e quando? | Obrigatório registrar pelo menos um teste com conclusão. |
 | A-13 | Conversar com um dev do Itaú no evento. | Não aconteceu: nenhum dev do Itaú foi ouvido (Vicente, 27/09). Vira limitação declarada no pitch (R-06). |
 | A-18 | O harness conta como elemento pré-existente (regulamento 7.1.1)? | Confirmar com a organização. Pendência que estava na decisão 0020. Ver [01](../docs/01-hackathon-regras-e-entregas.md), propriedade intelectual. |
-| A-19 | A trilha (RF-22) e os contadores (RF-30) ficam na página do post ou na área do Cord+? | Resposta proposta na [0038](decisions/0038-trilha-e-contadores-ficam-no-post-a-area-do.md): no post, para todos; a área do Cord+ soma. Sai daqui quando a 0038 for aceita. |
 | A-20 | Ligar o Devin no MCP do Itaú House, para mostrar o mesmo catálogo em duas ferramentas? | **(sugestão Claude)** Plugins do Devin aceitam servidor MCP (F7). O nosso roda por stdio e chama a API por HTTP (T-12), então daria para apontar para o back publicado (0031). Não testado. Só depois de o fluxo principal rodar (R-08). Tornaria verdadeira a frase "agnóstico de ferramenta" (R-13). |
 
 ## Checklist de desenho do MVP (exigências do Case C)

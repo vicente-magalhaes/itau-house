@@ -115,7 +115,7 @@ Feed: `{ "ativos": [AtivoResumo] }`. Detalhe: `AtivoDetalhe`.
 
 ### Descoberta (plugin, via MCP)
 
-**`POST /api/busca`**: busca com justificativa (RF-05, RF-06, RF-11). O back filtra por visibilidade e o Claude ranqueia e justifica (D-19).
+**`POST /api/busca`**: busca com justificativa (RF-05, RF-06, RF-11). O back filtra por visibilidade e o Gemini ranqueia e justifica (0039).
 
 Entrada:
 ```json
@@ -135,7 +135,7 @@ Saída com resultado:
     }
   ],
   "gravada": false,
-  "modelo": "claude-opus-5"
+  "modelo": "gemini-flash-lite-latest"
 }
 ```
 Saída sem resultado:
@@ -144,9 +144,9 @@ Saída sem resultado:
 ```
 - No máximo 3 sugestões. Só entra quem passa do limiar de semelhança. Nenhum ativo é inventado: o back descarta qualquer id que o LLM devolva e que não esteja entre os candidatos.
 - `gravada: true` quando a resposta veio do fallback (RNF-04). O plugin e a tela avisam que é resposta gravada.
-- `modelo`: quem ranqueou, `claude-opus-5` ou `gemini-3.8-flash` (segundo provedor, 0032). `null` quando a resposta é gravada.
-- Sem Claude e com um pedido que não é cena da demo: `encontrou: false`, `indisponivel: true` e uma mensagem dizendo que a busca está fora do ar. Nunca responde "não encontrei" sem ter buscado.
-- O tipo pedido não filtra os candidatos: quem pede uma skill pode se servir de um agente. Vai só como contexto para o Claude.
+- `modelo`: o modelo do Gemini que ranqueou: `gemini-flash-lite-latest` ou um dos reservas, `gemini-3.1-flash-lite` e `gemini-3.5-flash` (0039). `null` quando a resposta é gravada.
+- Sem o Gemini e com um pedido que não é cena da demo: `encontrou: false`, `indisponivel: true` e uma mensagem dizendo que a busca está fora do ar. Nunca responde "não encontrei" sem ter buscado.
+- O tipo pedido não filtra os candidatos: quem pede uma skill pode se servir de um agente. Vai só como contexto para o Gemini.
 - A rota grava os eventos `intencao`, `busca` e `sugestao` (RF-10).
 
 **`POST /api/decisoes`**: registra o que a pessoa escolheu (RF-07, RF-10).
@@ -267,8 +267,8 @@ Decisão do coordenador:
 O plugin (T-13) já está em `plugin/` e espera este servidor. Quem fizer o MCP só precisa encaixar aqui.
 
 - **Nome do servidor:** `itau-house`. No Claude Code, as ferramentas aparecem como `mcp__plugin_itau-house_itau-house__<ferramenta>`. A skill do plugin cita só o nome curto.
-- **Onde e como sobe:** `mcp/servidor.py`, Python, transporte stdio. O plugin sobe com `uv run --directory mcp python servidor.py` (ver `plugin/.mcp.json`). Se mudar o comando, mude lá.
-- **Variáveis:** `ITAU_HOUSE_API` (padrão `http://localhost:8000`) e `ITAU_HOUSE_USUARIO` (padrão `u-rafael`). O servidor manda `X-Usuario-Id: $ITAU_HOUSE_USUARIO` em toda chamada.
+- **Onde e como sobe:** `plugin/mcp/servidor.py`, Python, transporte stdio. O plugin sobe com `uv run --directory ${CLAUDE_PLUGIN_ROOT}/mcp python servidor.py` (ver `plugin/.mcp.json`). Se mudar o comando, mude lá.
+- **Variáveis:** `ITAU_HOUSE_API` (padrão `http://localhost:8000`), `ITAU_HOUSE_USUARIO` (padrão `u-rafael`), `ITAU_HOUSE_SITE` (padrão `https://itau-house.vercel.app`, para os links) e `ITAU_HOUSE_MODO`. O servidor manda `X-Usuario-Id: $ITAU_HOUSE_USUARIO` em toda chamada. Quem instala pelo site grava as quatro no `env` do `settings.json` do usuário (RF-01).
 - **Resposta:** o JSON da rota, como texto. Em erro, o JSON de erro da API (`{erro, mensagem}`), sem levantar exceção. O agente lê a `mensagem` e explica para a pessoa.
 - O MCP roda na máquina da pessoa. Por isso `validar_ativo` e `montar_post` recebem uma **pasta** e leem os arquivos sozinhos: o agente não precisa colar conteúdo, e a linha que o validador aponta é a linha real.
 
@@ -300,7 +300,7 @@ Na leitura da pasta, ignore `.git/`, `__pycache__/`, `node_modules/`, binários 
 - Datas vêm com hora. `formatarData` precisa de `iso.slice(0, 10)`.
 - Validador: `reprovado` vira `barrado`, e os critérios `c1..c4` passam a ser `segredo`, `dado_pessoal`, `readme` e `autor`. `evidencia` sai de `arquivo`, `linha` e `trecho`.
 - A fila não traz `apontamentos`: seriam julgamento de IA, e a D-26 tira a IA do validador. "Alcance pedido" sai de `ativo.visibilidade`.
-- A busca não traz `aderencia` em porcentagem: o Claude não mede aderência, só ranqueia. Vem `motivo` e `limite`.
+- A busca não traz `aderencia` em porcentagem: a IA não mede aderência, só ranqueia. Vem `motivo` e `limite`.
 - As pessoas e os ativos do mock (Ana, Thiago, Rafael Costa) mudam para o elenco do roteiro. O seed é o T-04.
 
 ## Fora do contrato

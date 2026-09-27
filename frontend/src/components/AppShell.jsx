@@ -1,6 +1,7 @@
 import React from 'react';
 import { Logo, Icon } from '../ds.js';
 import { Foto, BotaoSec, Recado } from './comuns.jsx';
+import { InstalarNoAgente } from './InstalarNoAgente.jsx';
 import { useSaida } from './movimento.jsx';
 import { useSessao } from '../sessao.jsx';
 import { Link, irPara } from '../router.jsx';
@@ -37,7 +38,9 @@ function ItemNav({ para, rotulo, icone, contador, ativo }) {
 }
 
 export function AppShell({ rota, children }) {
-  const { pessoa, ehCoordenador, limparFiltros, recado } = useSessao();
+  const { pessoa, usuarioId, ehCoordenador, limparFiltros, recado } = useSessao();
+  const [instalando, setInstalando] = React.useState(false);
+  const fecharInstalar = React.useCallback(() => setInstalando(false), []);
   const fila = useFila();
   const itens = ehCoordenador ? [...NAV, ...navCoordenacao(fila.dados ? fila.dados.length : 0)] : NAV;
   const [recadoMostrado, recadoSaindo] = useSaida(recado);
@@ -57,6 +60,13 @@ export function AppShell({ rota, children }) {
           <Logo size={36} basePath="/" />
           <span className="some-no-estreito">Itaú House</span>
         </button>
+
+        {/* RF-01: instalar o Itaú House no agente da pessoa, de qualquer tela. Fundo branco e a tomada
+            laranja, como o ícone do tipo do ativo. No celular, só a tomada. */}
+        <BotaoSec className="btn-instalar" aria-label="Instale no seu agente" title="Instale no seu agente" onClick={() => setInstalando(true)}>
+          <Icon name="plug" size={18} color="var(--brand)" />
+          <span className="some-no-celular">Instale no seu agente</span>
+        </BotaoSec>
 
         <span className="topo-espaco" />
 
@@ -82,6 +92,8 @@ export function AppShell({ rota, children }) {
 
       {/* RNF-06: toda tela diz que é protótipo de hackathon e não produto oficial. */}
       <footer className="rodape caption">Protótipo do Hackathon Itaú 2026. Não é um produto oficial do Itaú.</footer>
+
+      {instalando && <InstalarNoAgente pessoa={pessoa} usuarioId={usuarioId} onClose={fecharInstalar} />}
 
       {recadoMostrado && (
         <Recado key={recadoMostrado} saindo={recadoSaindo}>

@@ -8,6 +8,11 @@ from pathlib import Path
 
 MODOS = ("perguntar_antes", "proativo", "sob_demanda")
 
+# O Claude Code conversa com o hook em UTF-8. No Windows, o Python usa cp1252 quando a saída é um
+# pipe: sem isto, "Itaú" chega quebrado ao Claude e "faça" no pedido não casa com a regra.
+for _fluxo in (sys.stdin, sys.stdout, sys.stderr):
+    _fluxo.reconfigure(encoding="utf-8")
+
 
 def modo() -> str:
     """Modo do plugin. Sem escolha explícita, perguntar antes (RF-02, D-17)."""

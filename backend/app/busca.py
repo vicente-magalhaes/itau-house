@@ -1,6 +1,6 @@
 """Busca com justificativa (RF-05, RF-06, RF-11), com respostas gravadas de reserva (RNF-04).
 
-O back filtra o que a pessoa pode ver. O Claude só ranqueia e justifica os candidatos (D-19).
+O back filtra o que a pessoa pode ver. O Gemini só ranqueia e justifica os candidatos (0039).
 Nenhum ativo é inventado: id fora da lista de candidatos é descartado.
 """
 
@@ -8,16 +8,13 @@ import json
 import os
 import time
 import uuid
-from functools import cache
 from pathlib import Path
 
-import anthropic
 import httpx2 as httpx
 
 from app import catalogo
 
-MODELO = "claude-opus-5"  # D-19
-# Segundo provedor, se o Claude falhar (0032). Sai antes das respostas gravadas.
+# Único provedor da busca (0039). Se ele falhar, as respostas gravadas assumem.
 MODELO_GEMINI = os.environ.get("GEMINI_MODELO", "gemini-flash-lite-latest")  # o 2.5 não aceita chave nova; o 3.8 estourou a cota diária gratuita em 27/09
 # Se o primeiro der 503 (demanda alta) ou 429 (cota gratuita é por modelo), tenta o seguinte.
 MODELOS_GEMINI = [MODELO_GEMINI, "gemini-3.1-flash-lite", "gemini-3.5-flash"]
@@ -62,13 +59,7 @@ _SCHEMA = {
 
 
 class Indisponivel(Exception):
-    """O Claude não respondeu a tempo, recusou ou não há chave."""
-
-
-@cache
-def _cliente() -> anthropic.Anthropic:
-    # Sem retentativas: o tempo total fica em 10 s e a reserva gravada assume.
-    return anthropic.Anthropic(timeout=TIMEOUT_S, max_retries=0)
+    """O Gemini não respondeu a tempo, recusou ou não há chave."""
 
 
 def _candidato(a: dict) -> dict:
@@ -91,30 +82,6 @@ def _conteudo(pedido: str, tipo: str | None, candidatos: list[dict]) -> str:
     )
 
 
-def ranquear_com_claude(pedido: str, tipo: str | None, candidatos: list[dict]) -> list[dict]:
-    """Chama o Claude e devolve as sugestões cruas do schema. Levanta Indisponivel."""
-    if not os.environ.get("ANTHROPIC_API_KEY"):
-        raise Indisponivel("sem chave")
-    conteudo = _conteudo(pedido, tipo, candidatos)
-    try:
-        resposta = _cliente().beta.messages.create(
-            model=MODELO,
-            max_tokens=4000,
-            system=_SISTEMA,
-            messages=[{"role": "user", "content": conteudo}],
-            output_config={"effort": "low", "format": {"type": "json_schema", "schema": _SCHEMA}},
-            # Recusa do classificador de segurança: o servidor tenta outro modelo (D-19).
-            betas=["server-side-fallback-2026-07-01"],
-            fallbacks="default",
-        )
-    except (anthropic.APITimeoutError, anthropic.APIConnectionError, anthropic.APIStatusError) as e:
-        raise Indisponivel(type(e).__name__) from e
-    if resposta.stop_reason != "end_turn":
-        raise Indisponivel(f"stop_reason={resposta.stop_reason}")
-    texto = next(b.text for b in resposta.content if b.type == "text")
-    return json.loads(texto)["sugestoes"]
-
-
 def _schema_gemini(no: dict) -> dict:
     """O Gemini aceita um subconjunto do JSON Schema: sem additionalProperties."""
     if not isinstance(no, dict):
@@ -135,7 +102,7 @@ def _schema_gemini(no: dict) -> dict:
 def ranquear_com_gemini(
     pedido: str, tipo: str | None, candidatos: list[dict], timeout: float = TIMEOUT_S
 ) -> list[dict]:
-    """Mesmo contrato do Claude, pelo Gemini. Levanta Indisponivel."""
+    """Chama o Gemini e devolve as sugestões cruas do schema. Levanta Indisponivel."""
     chave = os.environ.get("GEMINI_API_KEY")
     if not chave:
         raise Indisponivel("sem chave do Gemini")
@@ -172,16 +139,9 @@ def ranquear_com_gemini(
 
 
 def _ranquear(pedido: str, tipo: str | None, candidatos: list[dict]) -> tuple[list[dict], str]:
-    """Claude primeiro; se falhar, o Gemini com o tempo que sobrou dos 10 s (RNF-04)."""
-    inicio = time.monotonic()
-    try:
-        return ranquear_com_claude(pedido, tipo, candidatos), MODELO
-    except Indisponivel:
-        restante = TIMEOUT_S - (time.monotonic() - inicio)
-        if restante < 2:
-            raise
-        sugestoes = ranquear_com_gemini(pedido, tipo, candidatos, timeout=restante)
-        return sugestoes, _gemini_usado
+    """Sugestões cruas e o modelo que respondeu. Levanta Indisponivel."""
+    sugestoes = ranquear_com_gemini(pedido, tipo, candidatos)
+    return sugestoes, _gemini_usado
 
 
 def _gravada(pedido: str) -> list[dict] | None:
