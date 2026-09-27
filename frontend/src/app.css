@@ -32,6 +32,7 @@ input::placeholder { color: var(--gray-500); }
 .small { font: var(--fw-regular) var(--fs-body-sm)/1.45 var(--font-text); }
 .caption { font: var(--fw-regular) var(--fs-caption)/1.4 var(--font-text); color: var(--text-secondary); }
 .mono { font-family: ui-monospace, "Cascadia Code", "Consolas", monospace; font-size: var(--fs-body-sm); line-height: 1.6; }
+.bloco-codigo { margin: 0; padding: var(--space-3) var(--space-4); border-radius: var(--radius-sm); background: var(--ih-surface); overflow-x: auto; }
 .strong { font-weight: var(--fw-bold); color: var(--text-primary); }
 
 .divider { height: 1px; background: var(--border-subtle); border: 0; margin: 0; }
@@ -115,9 +116,6 @@ input::placeholder { color: var(--gray-500); }
 .topo-nav { display: flex; gap: var(--space-1); margin-left: var(--space-2); }
 .topo-espaco { flex: 1; }
 .topo-foto { width: 44px; height: 44px; padding: 0; border: 0; border-radius: var(--radius-pill); display: grid; place-items: center; cursor: pointer; background: transparent; }
-/* O selo completo só cabe no topo com a navegação da coordenação a partir desta largura. */
-.so-no-largo { display: none; }
-@media (min-width: 1360px) { .so-no-largo { display: inline; } }
 @media (max-width: 1080px) {
   .topo { gap: var(--space-2); padding: 0 var(--space-4); }
   .some-no-estreito { display: none; }

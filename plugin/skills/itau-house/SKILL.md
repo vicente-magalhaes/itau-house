@@ -32,7 +32,7 @@ Fale como o Itaú fala: "você", frases curtas, sem urgência, sem jargão sem e
 
 Um hook avisa quando a tarefa termina com um ativo novo. Aí:
 
-1. Chame `validar_ativo` com a pasta do ativo.
+1. Chame `validar_ativo` com a pasta do ativo (ou o arquivo, se for agente). Se o ativo usa arquivos do repositório que ficam fora da pasta dele (comum em agente: o script que ele chama, ex.: `scripts/gerar_massa.py`), passe-os em `extras`, aqui e no `montar_post`. Quem instalar vai precisar deles, e eles passam pela mesma checagem.
 2. **Barrado**: para cada item com `resultado: falhou`, diga o que é, o arquivo, a linha e o `comoCorrigir`. Termine com "Nada foi enviado." Pergunte se a pessoa quer que você corrija. Nunca corrija sem ela pedir (RF-15). Depois de corrigir, valide de novo.
 3. **Passou**: convide: "Quer publicar no Itaú House? Eu monto o post, você revisa e a coordenação do seu squad aprova." Se a pessoa disser não, pare. Nada é enviado (RF-16).
 4. Se ela disser sim, escreva o post: `nome`, `resumo` (uma frase sobre o que faz), `readme` (o que faz, quando usar, limites), `tags`, `ferramentas`, `manualInstalacao` e `derivadoDe` quando houver. Numa adaptação, copie as `ferramentas` do original sem perguntar. Chame `montar_post` com a pasta, esses campos, `visibilidade: "squad"` e os `validacaoIds` das rodadas desta tarefa (RF-17).

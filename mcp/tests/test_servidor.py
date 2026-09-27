@@ -278,3 +278,25 @@ def test_fumaca_backend_local(tmp_path, monkeypatch):
         and item["linha"] == 12
         for item in validacao["itens"]
     )
+
+
+def test_extras_entram_com_o_caminho_do_repositorio(tmp_path):
+    (tmp_path / ".claude" / "agents").mkdir(parents=True)
+    (tmp_path / "scripts").mkdir()
+    agente = tmp_path / ".claude" / "agents" / "massa-pix.md"
+    agente.write_text("---\ndescription: Exemplo\n---\n", encoding="utf-8")
+    (tmp_path / "scripts" / "gerar_massa.py").write_text("print(1)\n", encoding="utf-8")
+    caminhos = [a["caminho"] for a in servidor._ler(str(agente), ["scripts/gerar_massa.py"])]
+    assert caminhos == ["massa-pix.md", "scripts/gerar_massa.py"]
+
+
+def test_extras_fora_de_claude_acham_a_raiz_pelo_git(tmp_path):
+    (tmp_path / ".git").mkdir()
+    (tmp_path / "agentes").mkdir()
+    (tmp_path / "scripts").mkdir()
+    agente = tmp_path / "agentes" / "massa-pix.md"
+    agente.write_text("---\ndescription: Exemplo\n---\n", encoding="utf-8")
+    (tmp_path / "scripts" / "gerar_massa.py").write_text("print(1)\n", encoding="utf-8")
+    for extra in ("scripts/gerar_massa.py", str(tmp_path / "scripts" / "gerar_massa.py")):
+        caminhos = [a["caminho"] for a in servidor._ler(str(agente), [extra])]
+        assert caminhos == ["massa-pix.md", "scripts/gerar_massa.py"]

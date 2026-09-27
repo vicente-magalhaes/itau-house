@@ -128,7 +128,7 @@ def test_claude_fora_do_ar_usa_o_gemini(monkeypatch) -> None:
     monkeypatch.setattr(busca, "ranquear_com_gemini", gemini)
     r = _buscar(CENA1).json()
 
-    assert (r["gravada"], r["modelo"]) == (False, "gemini-3.8-flash")
+    assert (r["gravada"], r["modelo"]) == (False, busca.MODELO_GEMINI)
     assert r["sugestoes"][0]["ativo"]["id"] == "a-criterios-aceitacao"
 
 

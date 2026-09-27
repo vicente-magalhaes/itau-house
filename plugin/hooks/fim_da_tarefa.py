@@ -13,7 +13,9 @@ def instrucao(pastas: list[str]) -> str:
     lista = ", ".join(pastas)
     return (
         f"[Itaú House] Você criou ou mudou um ativo: {lista}. Antes de encerrar:\n"
-        "1. Chame validar_ativo do MCP itau-house com a pasta (ou o arquivo) do ativo.\n"
+        "1. Chame validar_ativo do MCP itau-house com a pasta (ou o arquivo) do ativo. "
+        "Se ele usa arquivos do repositório fora da pasta dele (ex.: o script que um agente chama), "
+        "passe-os em extras.\n"
         "2. Se barrar: mostre cada motivo com arquivo, linha e como corrigir, e diga que nada foi enviado. "
         "Não corrija sozinho: pergunte se a pessoa quer que você corrija (RF-15).\n"
         '3. Se passar: convide com estas palavras: "Quer publicar no Itaú House? Eu monto o post, '
