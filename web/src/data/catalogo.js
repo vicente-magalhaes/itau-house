@@ -2,12 +2,12 @@
 // Pessoas, squads, números de reuso e conteúdo de README são inventados para a demo.
 
 export const TIPOS = [
-  { value: 'skill', label: 'Skill', icone: 'sparkles' },
-  { value: 'agente', label: 'Agente', icone: 'bot' },
-  { value: 'mcp', label: 'MCP', icone: 'plug' },
-  { value: 'framework', label: 'Framework', icone: 'layers' },
-  { value: 'componente', label: 'Componente', icone: 'component' },
-  { value: 'esqueleto', label: 'Esqueleto de código', icone: 'file-code' },
+  { value: 'skill', label: 'Skill', plural: 'Skills', icone: 'scroll-text' },
+  { value: 'agente', label: 'Agente', plural: 'Agentes', icone: 'bot' },
+  { value: 'mcp', label: 'MCP', plural: 'MCPs', icone: 'cable' },
+  { value: 'framework', label: 'Framework', plural: 'Frameworks', icone: 'blocks' },
+  { value: 'componente', label: 'Componente', plural: 'Componentes', icone: 'component' },
+  { value: 'esqueleto', label: 'Esqueleto de código', plural: 'Esqueletos', icone: 'code-xml' },
 ];
 
 export const FRENTES = ['Cartões', 'Pix', 'Investimentos', 'Seguros', 'Crédito imobiliário', 'Canais digitais', 'Dados e analytics', 'Plataforma'];
@@ -36,6 +36,8 @@ export const ativos = [
     atualizadoEm: '2026-09-22',
     publicadoEm: '2026-08-14',
     reusos: 14,
+    curtidas: 42,
+    derivacoes: 3,
     squadsQueReusaram: ['Pix · Recebimentos', 'Investimentos · Renda fixa', 'Seguros · Vida'],
     tags: ['qualidade', 'refinamento', 'jira'],
     ferramentas: ['Claude Code', 'Copilot'],
@@ -82,6 +84,8 @@ export const ativos = [
     atualizadoEm: '2026-09-19',
     publicadoEm: '2026-06-02',
     reusos: 31,
+    curtidas: 57,
+    derivacoes: 2,
     squadsQueReusaram: ['Cartões · Emissão', 'Pix · Recebimentos', 'Plataforma · Core', 'Seguros · Vida'],
     tags: ['revisão', 'padrão de código', 'pr'],
     ferramentas: ['Agnóstico'],
@@ -120,6 +124,8 @@ export const ativos = [
     atualizadoEm: '2026-09-24',
     publicadoEm: '2026-04-10',
     reusos: 47,
+    curtidas: 88,
+    derivacoes: 6,
     squadsQueReusaram: ['Pix · Recebimentos', 'Cartões · Emissão', 'Investimentos · Renda fixa', 'Seguros · Vida', 'Crédito imobiliário · Originação'],
     tags: ['backend', 'fastapi', 'auditoria'],
     ferramentas: ['Agnóstico'],
@@ -148,6 +154,8 @@ export const ativos = [
     atualizadoEm: '2026-09-11',
     publicadoEm: '2026-07-21',
     reusos: 9,
+    curtidas: 12,
+    derivacoes: 1,
     squadsQueReusaram: ['Cartões · Emissão', 'Seguros · Vida'],
     tags: ['front', 'design system', 'tracking'],
     ferramentas: ['Agnóstico'],
@@ -174,6 +182,8 @@ export const ativos = [
     atualizadoEm: '2026-09-25',
     publicadoEm: '2026-09-01',
     reusos: 22,
+    curtidas: 35,
+    derivacoes: 0,
     squadsQueReusaram: ['Cartões · Emissão', 'Pix · Recebimentos', 'Dados e analytics · Engenharia'],
     tags: ['mcp', 'apis', 'descoberta'],
     ferramentas: ['Claude Code', 'Copilot'],
@@ -204,6 +214,8 @@ export const ativos = [
     atualizadoEm: '2026-09-16',
     publicadoEm: '2026-05-08',
     reusos: 38,
+    curtidas: 64,
+    derivacoes: 4,
     squadsQueReusaram: ['Cartões · Emissão', 'Pix · Recebimentos', 'Conta · Cadastro', 'Seguros · Vida'],
     tags: ['teste', 'dados sintéticos', 'compliance'],
     ferramentas: ['Agnóstico'],
@@ -230,6 +242,8 @@ export const ativos = [
     atualizadoEm: '2026-08-30',
     publicadoEm: '2026-03-19',
     reusos: 26,
+    curtidas: 29,
+    derivacoes: 2,
     squadsQueReusaram: ['Canais digitais · App', 'Cartões · Emissão', 'Investimentos · Renda fixa'],
     tags: ['backend', 'release', 'governança'],
     ferramentas: ['Agnóstico'],
@@ -253,6 +267,8 @@ export const ativos = [
     atualizadoEm: '2026-09-08',
     publicadoEm: '2026-07-04',
     reusos: 6,
+    curtidas: 7,
+    derivacoes: 0,
     squadsQueReusaram: ['Cartões · Emissão'],
     tags: ['teste', 'legado', 'migração'],
     ferramentas: ['Claude Code'],
@@ -278,6 +294,8 @@ export const ativos = [
     atualizadoEm: '2026-09-13',
     publicadoEm: '2026-09-13',
     reusos: 4,
+    curtidas: 18,
+    derivacoes: 1,
     squadsQueReusaram: ['Canais digitais · App'],
     tags: ['incidente', 'operação', 'documentação'],
     ferramentas: ['Agnóstico'],
@@ -301,6 +319,8 @@ export const ativos = [
     atualizadoEm: '2026-09-02',
     publicadoEm: '2026-02-27',
     reusos: 19,
+    curtidas: 23,
+    derivacoes: 2,
     squadsQueReusaram: ['Investimentos · Renda fixa', 'Seguros · Vida', 'Cartões · Faturamento'],
     tags: ['front', 'lista', 'design system'],
     ferramentas: ['Agnóstico'],
@@ -324,6 +344,8 @@ export const ativos = [
     atualizadoEm: '2026-09-23',
     publicadoEm: '2026-09-23',
     reusos: 1,
+    curtidas: 3,
+    derivacoes: 0,
     squadsQueReusaram: [],
     tags: ['conciliação', 'operação'],
     ferramentas: ['Claude Code'],
@@ -353,6 +375,8 @@ export const ativos = [
     atualizadoEm: '2026-09-20',
     publicadoEm: '2026-06-18',
     reusos: 11,
+    curtidas: 20,
+    derivacoes: 1,
     squadsQueReusaram: ['Cartões · Faturamento', 'Crédito imobiliário · Originação'],
     tags: ['teste', 'regra de negócio', 'qualidade'],
     ferramentas: ['Copilot', 'Claude Code'],
@@ -400,4 +424,46 @@ export function formatarData(iso) {
 export function formatarDataCurta(iso) {
   const [a, m, d] = iso.split('-').map(Number);
   return `${String(d).padStart(2, '0')}/${String(m).padStart(2, '0')}/${a}`;
+}
+
+export function pluralTipo(tipo) {
+  const t = TIPOS.find((x) => x.value === tipo);
+  return t ? t.plural : tipo;
+}
+
+// "Cartões · Emissão" -> "Cartões".
+export function frenteDaSquad(squad) {
+  return String(squad).split('·')[0].trim();
+}
+
+// Alcance (RF-05): ativo de squad só aparece para a própria squad; de frente, só para a mesma frente.
+export function visivelPara(ativo, pessoa) {
+  if (ativo.visibilidade === 'squad') return ativo.squad === pessoa.squad;
+  if (ativo.visibilidade === 'frente') return ativo.frente === frenteDaSquad(pessoa.squad);
+  return true;
+}
+
+// "Hoje" vem do próprio catálogo, não do relógio: a demo não envelhece até a banca.
+export const HOJE = ativos.reduce((maior, a) => (a.atualizadoEm > maior ? a.atualizadoEm : maior), ativos[0].atualizadoEm);
+
+export function tempoRelativo(iso) {
+  const dias = Math.max(0, Math.round((Date.parse(HOJE) - Date.parse(iso)) / 86400000));
+  if (dias === 0) return 'hoje';
+  if (dias < 30) return `há ${dias} d`;
+  const meses = Math.round(dias / 30);
+  return meses < 12 ? `há ${meses} m` : `há ${Math.round(meses / 12)} a`;
+}
+
+// Ordens do feed. "Em alta" é a popularidade do RF-25: curtidas + instalações.
+export const ORDENS = [
+  { value: 'alta', label: 'Em alta', icone: 'flame' },
+  { value: 'curtidos', label: 'Mais curtidos', icone: 'arrow-big-up' },
+  { value: 'novos', label: 'Novos', icone: 'clock' },
+];
+
+export function ordenar(lista, ordem, curtidasDe, instalacoesDe) {
+  const copia = lista.slice();
+  if (ordem === 'curtidos') return copia.sort((a, b) => curtidasDe(b) - curtidasDe(a) || instalacoesDe(b) - instalacoesDe(a));
+  if (ordem === 'novos') return copia.sort((a, b) => b.publicadoEm.localeCompare(a.publicadoEm));
+  return copia.sort((a, b) => curtidasDe(b) + instalacoesDe(b) - (curtidasDe(a) + instalacoesDe(a)));
 }

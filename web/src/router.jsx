@@ -38,15 +38,10 @@ export function casar(padrao, rota) {
   return params;
 }
 
-// Âncora que respeita a voz e o foco do teclado, sem sublinhado de link de texto.
-export function Link({ para, children, style, ...resto }) {
+// Âncora sem o sublinhado laranja do link de texto: a aparência vem da classe de quem usa.
+export function Link({ para, children, className = '', ...resto }) {
   return (
-    <a
-      href={'#' + para}
-      className="link-reset"
-      style={{ borderBottom: 0, color: 'inherit', fontWeight: 'inherit', ...style }}
-      {...resto}
-    >
+    <a href={'#' + para} className={('link-reset ' + className).trim()} {...resto}>
       {children}
     </a>
   );
