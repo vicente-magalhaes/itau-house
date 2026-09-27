@@ -1,7 +1,7 @@
 ---
-status: proposed
+status: accepted
 date: 2026-09-27
-decided_by:
+decided_by: Vicente
 supersedes: []
 superseded_by: []
 ---

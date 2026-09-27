@@ -43,7 +43,7 @@ citadas como D-01 a D-28. O número é o mesmo: D-12 é a 0012. A migração est
 | [0032](0032-gemini-como-segundo-provedor-da-busca.md) | Gemini como segundo provedor da busca | proposed |
 | [0033](0033-devin-le-o-repositorio-inteiro.md) | Devin lê o repositório inteiro | accepted |
 | [0034](0034-login-com-google-e-persona-escolhida.md) | Login com Google autentica; a persona continua escolhida | proposed |
-| [0035](0035-back-fala-com-o-supabase-pelo-cliente-python.md) | Back fala com o Supabase pelo cliente Python, atrás de um repositório | proposed |
+| [0035](0035-back-fala-com-o-supabase-pelo-cliente-python.md) | Back fala com o Supabase pelo cliente Python, atrás de um repositório | accepted |
 <!-- /harness-hacka:decisions -->
 
 | Status | Quer dizer |

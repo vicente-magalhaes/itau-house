@@ -53,7 +53,7 @@ O Devin só pega uma task depois que o "Fechar antes" dela, no [docs/devin.md](d
 | T-02 | Roteiro da demo: cena 1 (acha skill da PM e adapta) e cena 2 (cria, validador barra, corrige, coordenadora aprova) | Passo a passo com falas, telas e dados de cada clique em `docs/roteiro-demo.md` | Bruno | JP | — | todos P0 | Fazendo |
 | T-03 | Contrato da API: rotas, entradas e saídas em JSON | `docs/api.md` revisado por Vicente e Alexandre | Bruno | Vicente, Alexandre | T-02 | RF-05 a RF-32 | Feito |
 | T-04 | Catálogo fictício: squads, usuários (papéis, Cord+/−), 15 a 20 ativos inspirados em retrabalho real. Inclui a skill da PM da cena 1 e um ativo de alcance "squad" de outra squad (teste do RF-05) | Arquivo de seed no formato do T-03 | Bruno | JP (história), Vicente (formato) | T-03 | RNF-03, RNF-04 | Fazendo |
-| T-05 | Banco no Supabase: schema do modelo de dados da PRD (seção 10) | Tabelas criadas, `.env.example` com os nomes das variáveis | Bruno | Vicente | — | PRD §10 | Fazendo |
+| T-05 | Banco no Supabase: schema do modelo de dados da PRD (seção 10) | Tabelas criadas, `.env.example` com os nomes das variáveis | Bruno | Vicente | — | PRD §10 | Feito |
 | T-16 | Base do front: design system ligado, layout, aviso de protótipo, login simulado com troca de usuário | Tela de login escolhe usuário fictício e mostra perfil | Alexandre | Bruno | — | RF-23, RF-24, RNF-06 | Fazendo |
 | T-22 | Entrevista com um dev do Itaú no evento | Registro em `docs/03` com papel, data, alcance e limite. Frase de recorte revisada | JP | Bruno | — | A-13 | A fazer |
 
