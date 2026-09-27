@@ -45,6 +45,7 @@ citadas como D-01 a D-28. O número é o mesmo: D-12 é a 0012. A migração est
 | [0034](0034-login-com-google-e-persona-escolhida.md) | Login com Google autentica; a persona continua escolhida | proposed |
 | [0035](0035-back-fala-com-o-supabase-pelo-cliente-python.md) | Back fala com o Supabase pelo cliente Python, atrás de um repositório | accepted |
 | [0036](0036-harness-hacka-no-catalogo-como-ativo-real-com-o.md) | Harness-hacka no catálogo como ativo real, com o autor real | accepted |
+| [0037](0037-icone-do-google-fica-nas-cores-oficiais-como.md) | Ícone do Google fica nas cores oficiais, como exceção à regra de cor | accepted |
 <!-- /harness-hacka:decisions -->
 
 | Status | Quer dizer |
