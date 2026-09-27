@@ -10,7 +10,18 @@ import { ativoDaApi } from '../data/daApi.js';
 import { listarAtivos, useDaApi } from '../api.js';
 
 const OPCOES_ESTANTE = [{ value: 'tudo', label: 'Todas as estantes' }, ...Object.entries(ESTANTES).map(([value, e]) => ({ value, label: e.nome }))];
-const OPCOES_PAPEL = [{ value: 'todos', label: 'Todos os papéis' }, ...PAPEIS.map((p) => ({ value: p, label: p }))];
+
+// Filtros que saem dos próprios ativos (RF-26): papel de quem publicou e frente.
+// Da API vêm papéis que os fictícios não têm, como Risco e Coordenação: entram depois dos cinco de sempre.
+function opcoesPapel(lista) {
+  const extras = [...new Set(lista.map((a) => a.autor.papel).filter((p) => p && !PAPEIS.includes(p)))].sort();
+  return [{ value: 'todos', label: 'Todos os papéis' }, ...[...PAPEIS, ...extras].map((p) => ({ value: p, label: p }))];
+}
+
+function opcoesFrente(lista) {
+  const frentes = [...new Set(lista.map((a) => a.frente).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'pt-BR'));
+  return [{ value: 'todas', label: 'Todas as frentes' }, ...frentes.map((f) => ({ value: f, label: f }))];
+}
 
 // Pedidos abertos e os ativos mais reaproveitados. Fica fixa ao rolar.
 function Lateral({ visiveis }) {
@@ -76,10 +87,15 @@ export function Feed() {
     () => ativos.filter((a) => visivelPara(a, pessoa)),
   );
   const visiveis = React.useMemo(() => dados || [], [dados]);
+  const papeis = React.useMemo(() => opcoesPapel(visiveis), [visiveis]);
+  const frentes = React.useMemo(() => opcoesFrente(visiveis), [visiveis]);
 
   const lista = React.useMemo(() => {
     const filtrados = visiveis.filter(
-      (a) => (filtros.estante === 'tudo' || a.estante === filtros.estante) && (filtros.papel === 'todos' || a.autor.papel === filtros.papel),
+      (a) =>
+        (filtros.estante === 'tudo' || a.estante === filtros.estante) &&
+        (filtros.papel === 'todos' || a.autor.papel === filtros.papel) &&
+        (filtros.frente === 'todas' || a.frente === filtros.frente),
     );
     return buscar(filtrados, busca) || ordenar(filtrados, filtros.ordem, curtidasDe, reusosDe);
   }, [visiveis, filtros, busca, curtidasDe, reusosDe]);
@@ -89,9 +105,11 @@ export function Feed() {
     ? `${lista.length} ${lista.length === 1 ? 'resultado' : 'resultados'} pra "${termo}"`
     : filtros.estante !== 'tudo'
       ? ESTANTES[filtros.estante].nome
-      : filtros.ordem === 'alta'
+      : filtros.frente !== 'todas'
+        ? `Da frente ${filtros.frente}`
+        : filtros.ordem === 'alta'
         ? 'Em alta no banco'
-        : ORDENS.find((o) => o.value === filtros.ordem).label;
+          : ORDENS.find((o) => o.value === filtros.ordem).label;
 
   return (
     <div className="colunas">
@@ -121,7 +139,8 @@ export function Feed() {
           </h2>
           <div className="row wrap row-2">
             <Filtro rotulo="Estante" valor={filtros.estante} opcoes={OPCOES_ESTANTE} onChange={mudar('estante')} />
-            <Filtro rotulo="Publicado por" valor={filtros.papel} opcoes={OPCOES_PAPEL} onChange={mudar('papel')} />
+            <Filtro rotulo="Publicado por" valor={filtros.papel} opcoes={papeis} onChange={mudar('papel')} />
+            <Filtro rotulo="Frente" valor={filtros.frente} opcoes={frentes} onChange={mudar('frente')} />
             <Filtro rotulo="Ordenar" valor={filtros.ordem} opcoes={ORDENS} onChange={mudar('ordem')} />
           </div>
         </div>
@@ -145,7 +164,7 @@ export function Feed() {
           </div>
         ) : (
           // Filtro novo remonta a grade e os cards entram de novo, um a um.
-          <div key={filtros.estante + filtros.papel + filtros.ordem} className="grade anima-escalonada">
+          <div key={filtros.estante + filtros.papel + filtros.frente + filtros.ordem} className="grade anima-escalonada">
             {lista.map((a) => (
               <PostCard key={a.id} ativo={a} />
             ))}

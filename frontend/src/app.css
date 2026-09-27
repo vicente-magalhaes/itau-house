@@ -67,7 +67,7 @@ input::placeholder { color: var(--gray-500); }
 }
 .btn-sec { border: 1.5px solid var(--ih-line); background: var(--ih-bg); }
 .btn-sec:hover, .btn-nav:hover, .btn-nav[aria-current="page"] { background: var(--ih-surface); }
-.btn-nav { padding: 0 var(--space-3); }
+.btn-nav { min-width: 36px; padding: 0 var(--space-2); }
 .btn-aba[aria-pressed="true"] { background: var(--ih-ink); color: var(--ih-bg); }
 .btn-curtir { background: var(--ih-surface); }
 .btn-curtir-card { height: 32px; padding: 0 var(--space-3); border-radius: var(--radius-pill); }
@@ -113,7 +113,7 @@ input::placeholder { color: var(--gray-500); }
   display: flex; align-items: center; gap: var(--space-3); padding: 0; border: 0; background: transparent; cursor: pointer;
   color: var(--ih-ink); font: var(--fw-bold) var(--fs-h3)/1 var(--font-display); letter-spacing: var(--ls-display); white-space: nowrap;
 }
-.topo-nav { display: flex; gap: var(--space-1); margin-left: var(--space-2); }
+.topo-nav { display: flex; gap: var(--space-1); }
 .topo-espaco { flex: 1; }
 .topo-foto { width: 44px; height: 44px; padding: 0; border: 0; border-radius: var(--radius-pill); display: grid; place-items: center; cursor: pointer; background: transparent; }
 @media (max-width: 1080px) {

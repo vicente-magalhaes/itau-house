@@ -9,11 +9,13 @@ import { contaGuardada } from './google.js';
 const TEMPO_MAXIMO = 15000;
 
 // A API respondeu no formato do contrato: { erro, mensagem }. Vale como resposta; a tela mostra a mensagem.
+// `dados` é a resposta inteira: o reenvio barrado traz junto a `validacao`.
 export class ErroApi extends Error {
-  constructor(status, erro, mensagem) {
+  constructor(status, erro, mensagem, dados) {
     super(mensagem || 'A API recusou o pedido.');
     this.status = status;
     this.erro = erro;
+    this.dados = dados;
   }
 }
 
@@ -74,7 +76,7 @@ async function pedir(caminho, usuarioId, { metodo = 'GET', corpo } = {}) {
 
   // Sem proxy, o servidor estático devolve o index.html com 200. Por isso o JSON decide, não o status.
   const dados = await resposta.json().catch(() => null);
-  if (dados && typeof dados.erro === 'string') throw new ErroApi(resposta.status, dados.erro, dados.mensagem);
+  if (dados && typeof dados.erro === 'string') throw new ErroApi(resposta.status, dados.erro, dados.mensagem, dados);
   if (!resposta.ok || dados === null) throw new SemApi(`${caminho} respondeu ${resposta.status} fora do contrato`);
   return dados;
 }
@@ -87,6 +89,11 @@ export const listarAtivos = (usuarioId, ordem = 'alta') => pedir('/ativos?ordem=
 export const detalharAtivo = (usuarioId, id) => pedir('/ativos/' + encodeURIComponent(id), usuarioId);
 export const curtirAtivo = (usuarioId, id) => pedir(`/ativos/${encodeURIComponent(id)}/curtida`, usuarioId, { metodo: 'POST' });
 export const instalarAtivo = (usuarioId, id) => pedir(`/ativos/${encodeURIComponent(id)}/instalacoes`, usuarioId, { metodo: 'POST' });
+
+// Autor corrige e reenvia (RF-21, RF-31): vale em rascunho, barrado e devolvido. campos: só o que mudou.
+export const editarAtivo = (usuarioId, id, campos) => pedir('/ativos/' + encodeURIComponent(id), usuarioId, { metodo: 'PATCH', corpo: campos });
+// O back roda o validador de novo. Barrado: 422 com { erro: 'barrado', mensagem, validacao }.
+export const enviarAtivo = (usuarioId, id) => pedir(`/ativos/${encodeURIComponent(id)}/envio`, usuarioId, { metodo: 'POST' });
 
 // Coordenação, só Cord+ (RF-19, RF-21, RF-32). decisao: { decisao: 'aprovar' } ou { decisao: 'devolver', comentario }.
 export const listarAprovacoes = (usuarioId) => pedir('/aprovacoes', usuarioId).then((r) => r.itens);
