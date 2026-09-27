@@ -1,108 +1,92 @@
 import React from 'react';
-import { Button, Logo, Radio } from '../ds.js';
-import { Foto, SeloSimulado } from '../components/comuns.jsx';
+import { Button, Input, Logo } from '../ds.js';
 import { irPara } from '../router.jsx';
 import { useSessao } from '../sessao.jsx';
 import { PERFIS } from '../data/governanca.js';
 import { entrarComGoogle } from '../google.js';
 
-// Login simulado (RF-23) com troca de perfil Cord− / Cord+ (RF-24). Roda fora do AppShell.
+// Tela de entrada (RF-23), do design "Entrar 1c Mãos juntas". Roda fora do AppShell.
+// Google é login real (T-41, 0034). Login e senha são [SIMULADO]: a senha não é conferida.
 
-function OpcaoPerfil({ opcao, escolhido, onEscolher }) {
-  const selecionado = escolhido === opcao.value;
+// O login diz com qual perfil fictício entrar (RF-24). Começou pelo primeiro nome de um perfil
+// ("rafael", "rafael.costa@..."), entra nele. Qualquer outro entra como membro do squad.
+function perfilDoLogin(login) {
+  const nome = login.trim().toLowerCase().split(/[@._\s-]/)[0];
+  const achado = PERFIS.find((p) => p.pessoa.primeiro.toLowerCase() === nome);
+  return achado ? achado.value : 'dev';
+}
+
+function FormularioEntrar() {
+  const { entrar } = useSessao();
+  const [login, setLogin] = React.useState('');
+
   return (
-    <Radio
-      name="perfil"
-      value={opcao.value}
-      checked={selecionado}
-      onChange={onEscolher}
-      style={{
-        display: 'flex',
-        width: '100%',
-        alignItems: 'center',
-        gap: 'var(--space-3)',
-        padding: 'var(--space-3) var(--space-4)',
-        borderRadius: 'var(--radius-md)',
-        boxShadow: selecionado ? 'inset 0 0 0 2px var(--ih-ink)' : 'inset 0 0 0 1px var(--ih-line)',
-        transition: 'box-shadow var(--dur-base) var(--ease-standard)',
+    <form
+      className="stack stack-4"
+      onSubmit={(e) => {
+        e.preventDefault();
+        entrar(perfilDoLogin(login));
+        irPara('/');
       }}
-      label={
-        <span className="row row-3 grow">
-          <Foto pessoa={opcao.pessoa} tamanho={48} anel={selecionado} />
-          <span className="stack">
-            <span className="strong">{opcao.pessoa.nome}</span>
-            <span className="caption">
-              {opcao.rotulo} · {opcao.pessoa.squad}
-            </span>
-          </span>
-        </span>
-      }
-    />
+    >
+      <Button variant="outline" fullWidth onClick={entrarComGoogle}>
+        <img src="/assets/google-g.svg" alt="" width={18} height={18} style={{ display: 'block' }} />
+        Entrar com Google
+      </Button>
+      <div className="row row-3">
+        <span className="divider grow" />
+        <span className="caption" style={{ whiteSpace: 'nowrap' }}>Ou use seu login</span>
+        <span className="divider grow" />
+      </div>
+      <Input label="E-mail ou funcional" placeholder="voce@itau-unibanco.com.br" icon="user" value={login} onChange={(e) => setLogin(e.target.value)} />
+      <Input label="Senha" type="password" placeholder="Sua senha" icon="lock" />
+      <Button type="submit" fullWidth>
+        Entrar
+      </Button>
+    </form>
   );
 }
 
 export function Entrar() {
-  const { perfil, entrar } = useSessao();
-  const [escolhido, setEscolhido] = React.useState(perfil);
-
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', minHeight: '100vh' }}>
-      {/* Campo chapado laranja, com texto preto: branco sobre laranja só serve para display. */}
+    <div style={{ display: 'flex', flexWrap: 'wrap', minHeight: '100vh', background: 'var(--surface-page)' }}>
+      {/* A cor de fundo só aparece enquanto a ilustração carrega. */}
+      <div
+        role="img"
+        aria-label="Ilustração: várias mãos segurando a mesma peça"
+        style={{ flex: '1 1 560px', minHeight: 420, background: "var(--ilu-amarelo-300) url('/assets/ilustracoes/hero-maos-pedra.png') center / cover no-repeat" }}
+      />
+
       <div
         className="stack"
-        style={{ flex: '1 1 440px', justifyContent: 'space-between', background: 'var(--surface-brand)', padding: 'var(--space-8) var(--space-7)' }}
+        style={{
+          flex: '1 1 520px',
+          minWidth: 0,
+          boxSizing: 'border-box',
+          justifyContent: 'space-between',
+          gap: 'var(--space-7)',
+          padding: 'var(--space-7) var(--space-8) var(--space-7) clamp(var(--space-6), 8vw, var(--space-9))',
+        }}
       >
-        <Logo variant="negative" basePath="/" size={48} />
-        <div className="stack stack-4 anima-entrar" style={{ maxWidth: 440 }}>
-          <div style={{ font: 'var(--fw-bold) var(--fs-display-m)/var(--lh-tight) var(--font-display)', letterSpacing: 'var(--ls-display)', color: 'var(--on-brand-display)' }}>
-            Itaú House
-          </div>
-          <p style={{ font: 'var(--fw-regular) var(--fs-body-lg)/var(--lh-body) var(--font-text)', color: 'var(--on-brand)' }}>
-            O que uma pessoa do squad cria com IA vira do squad inteiro.
-          </p>
+        <div className="row" style={{ justifyContent: 'flex-end' }}>
+          <Logo basePath="/" size={48} />
         </div>
-        <span />
-      </div>
 
-      <div style={{ flex: '1 1 440px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'var(--space-8) var(--space-5)' }}>
-        <div className="stack stack-5 anima-escalonada" style={{ width: '100%', maxWidth: 400 }}>
-          <h1 className="titulo-pagina">Entrar</h1>
-
-          {/* Login real pelo Google (T-41, 0034). A hierarquia continua simulada. */}
-          <div className="stack stack-2">
-            <Button variant="primary" size="sm" fullWidth onClick={entrarComGoogle}>
-              Entrar com Google
-            </Button>
-            <span className="caption">
-              Login real pelo Google. A hierarquia é simulada: quem entra por aqui opera como coordenação.
-            </span>
+        <div className="stack stack-6 anima-escalonada" style={{ width: '100%', maxWidth: 420 }}>
+          <div className="stack stack-4">
+            <h1 style={{ margin: 0, font: 'var(--fw-heavy) var(--fs-display-l)/var(--lh-tight) var(--font-display)', letterSpacing: 'var(--ls-display)', color: 'var(--brand)' }}>
+              Itaú House
+            </h1>
+            <p style={{ margin: 0, font: 'var(--fw-regular) var(--fs-h3)/var(--lh-body) var(--font-display)', color: 'var(--text-primary)', textWrap: 'pretty' }}>
+              O que uma pessoa do squad cria com IA vira do squad inteiro.
+            </p>
           </div>
-
-          <span className="caption">Ou escolha um perfil de demonstração:</span>
-
-          <div className="stack stack-2" role="radiogroup" aria-label="Perfil">
-            {PERFIS.map((opcao) => (
-              <OpcaoPerfil key={opcao.value} opcao={opcao} escolhido={escolhido} onEscolher={setEscolhido} />
-            ))}
-          </div>
-
-          <Button
-            variant="outline"
-            size="sm"
-            fullWidth
-            onClick={() => {
-              entrar(escolhido);
-              irPara('/');
-            }}
-          >
-            Entrar com o perfil escolhido
-          </Button>
-
-          <div className="row row-2 wrap">
-            <SeloSimulado ajuda="O login com Google é real. Os perfis, squads e a hierarquia são fictícios.">Hierarquia simulada</SeloSimulado>
-            <span className="caption">Protótipo do Hackathon Itaú 2026. Não é um produto oficial do Itaú.</span>
-          </div>
+          <FormularioEntrar />
         </div>
+
+        <span className="caption">
+          Protótipo do Hackathon Itaú 2026. Não é um produto oficial do Itaú. O login com Google é real; login e senha e a hierarquia são simulados.
+        </span>
       </div>
     </div>
   );
