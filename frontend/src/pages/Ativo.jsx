@@ -49,7 +49,7 @@ function LinhaPessoa({ pessoa, detalhe, texto }) {
   );
 }
 
-// Trecho com `código` no meio do texto.
+// Trecho com `código` e **negrito** no meio do texto. Dentro do código, os asteriscos ficam como estão.
 function TextoComCodigo({ texto }) {
   return texto.split('`').map((parte, i) =>
     i % 2 ? (
@@ -57,17 +57,30 @@ function TextoComCodigo({ texto }) {
         {parte}
       </code>
     ) : (
-      parte
+      <React.Fragment key={i}>{parte.split('**').map((trecho, j) => (j % 2 ? <strong key={j}>{trecho}</strong> : trecho))}</React.Fragment>
     ),
   );
 }
 
-// Markdown simples do README e do manual: títulos, listas e parágrafos. Sem dependência nova.
+// Markdown simples do README e do manual: títulos, listas, parágrafos e blocos de código. Sem dependência nova.
 function Markdown({ texto }) {
   const blocos = [];
   let lista = null;
-  texto.split('\n').forEach((bruta) => {
+  let codigo = null;
+  // O texto do banco de produção pode vir com \r\n.
+  texto.split(/\r?\n/).forEach((bruta) => {
     const linha = bruta.trim();
+    // Cerca de código (```): as linhas de dentro vão para um bloco só, como estão.
+    if (linha.startsWith('```')) {
+      lista = null;
+      if (codigo) codigo = null;
+      else blocos.push({ tipo: 'codigo', linhas: (codigo = []) });
+      return;
+    }
+    if (codigo) {
+      codigo.push(bruta);
+      return;
+    }
     if (/^[-*] /.test(linha)) {
       if (!lista) {
         lista = [];
@@ -89,6 +102,13 @@ function Markdown({ texto }) {
             <h3 key={i} className="titulo-card" style={{ marginTop: i ? 'var(--space-2)' : 0 }}>
               {b.texto}
             </h3>
+          );
+        }
+        if (b.tipo === 'codigo') {
+          return (
+            <pre key={i} className="mono bloco-codigo">
+              <code>{b.linhas.join('\n')}</code>
+            </pre>
           );
         }
         if (b.tipo === 'lista') {

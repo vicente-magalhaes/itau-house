@@ -254,8 +254,8 @@ Este brief supõe a base da DV-5 (decisão 0035) na `main`. Leia o `backend/app/
 **Pronto quando.** Relatório com cada item marcado como ok ou falhou, e print do que falhou.
 
 **Resultado (27/09).** Seis itens ok e quatro falhas. O Claude corrigiu três na branch `fix/dv-4-conferencia`:
-- Aviso de protótipo (RNF-06): o selo do topo diz "Protótipo de hackathon · não é produto oficial do Itaú", e toda tela interna ganhou rodapé com o aviso completo. Em tela com menos de 1360 px, o selo fica curto e o rodapé completa.
-- Login (RF-23): o bloco de login e senha tem o marcador [SIMULADO]. O Google é login real e fica sem o marcador.
+- Aviso de protótipo (RNF-06): toda tela interna tem rodapé com "Protótipo do Hackathon Itaú 2026. Não é um produto oficial do Itaú." O selo do topo saiu, a pedido do Vicente.
+- Login (RF-23): o Vicente tirou o login e a senha simulados. Ficam o Google e a escolha de persona, e o rodapé da entrada diz "O login com Google é real; as personas são simuladas."
 - 404 em Dados → "Abrir o post": a área de dados lia o catálogo fictício antigo (`a1`…`a14`). Agora lê da API, com os mesmos ids do início e do post. O link "Ver dados deste ativo" voltou para os ativos da API. Os 14 ativos conferidos, detalhe e post, sem "não encontrado".
 - Falta decidir: o vermelho do ícone do Google na entrada. É logo de terceiro, e cabe a uma pessoa dizer se é exceção à regra de cor.
 

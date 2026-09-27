@@ -1,22 +1,15 @@
 import React from 'react';
-import { Button, Input, Logo } from '../ds.js';
-import { Foto, SeloSimulado } from '../components/comuns.jsx';
+import { Button, Logo } from '../ds.js';
+import { Foto } from '../components/comuns.jsx';
 import { irPara } from '../router.jsx';
 import { useSessao } from '../sessao.jsx';
 import { entrarComGoogle } from '../google.js';
 
 // Tela de entrada (RF-23), do design "Entrar 1c Mãos juntas". Roda fora do AppShell.
-// Google é login real (T-41, 0034). Login e senha são [SIMULADO]: a senha não é conferida.
-
-// O primeiro nome no login também escolhe o perfil (RF-24): "juliana" ou "juliana.prado@..." entra na coordenação.
-function perfilDoLogin(login, perfis) {
-  const nome = login.trim().toLowerCase().split(/[@._\s-]/)[0];
-  return perfis.find((p) => p.pessoa.primeiro.toLowerCase() === nome)?.value;
-}
+// Google é login real (T-41, 0034). A persona é [SIMULADO]: quem entra escolhe com qual pessoa fictícia opera (RF-24).
 
 function FormularioEntrar() {
   const { entrar, perfisDisponiveis } = useSessao();
-  const [login, setLogin] = React.useState('');
   const [selecionado, setSelecionado] = React.useState('dev');
 
   return (
@@ -34,17 +27,9 @@ function FormularioEntrar() {
       </Button>
       <div className="row row-3">
         <span className="divider grow" />
-        <span className="caption" style={{ whiteSpace: 'nowrap' }}>Ou use seu login</span>
-        {/* RF-23: o marcador literal, como pede a PRD. */}
-        <SeloSimulado ajuda="Login e senha não são conferidos. Você entra como uma das pessoas fictícias da demo.">[SIMULADO]</SeloSimulado>
+        <span className="caption" style={{ whiteSpace: 'nowrap' }}>Ou escolha uma persona</span>
         <span className="divider grow" />
       </div>
-      <Input label="E-mail ou funcional" placeholder="voce@itau-unibanco.com.br" icon="user" value={login} onChange={(e) => {
-        setLogin(e.target.value);
-        const perfil = perfilDoLogin(e.target.value, perfisDisponiveis);
-        if (perfil) setSelecionado(perfil);
-      }} />
-      <Input label="Senha" type="password" placeholder="Sua senha" icon="lock" />
       <div className="stack stack-2" role="group" aria-label="Escolha seu perfil simulado">
         {perfisDisponiveis.map((p) => (
           <button key={p.value} type="button" className="btn btn-sec row row-3" aria-pressed={selecionado === p.value} onClick={() => setSelecionado(p.value)} style={{ height: 'auto', justifyContent: 'flex-start', padding: 'var(--space-2) var(--space-3)', borderColor: selecionado === p.value ? 'var(--brand)' : undefined }}>
@@ -100,9 +85,11 @@ export function Entrar() {
           <FormularioEntrar />
         </div>
 
-        <span className="caption">
-          Protótipo do Hackathon Itaú 2026. Não é um produto oficial do Itaú. O login com Google é real; login e senha e a hierarquia são simulados.
-        </span>
+        <p className="caption" style={{ margin: 0 }}>
+          Protótipo do Hackathon Itaú 2026. Não é um produto oficial do Itaú.
+          <br />
+          O login com Google é real; as personas são simuladas.
+        </p>
       </div>
     </div>
   );
