@@ -21,7 +21,6 @@ export const VISIBILIDADES = [
 ];
 
 // acessos = a lista de permissões que aparece antes de instalar.
-// grau: 'baixo' | 'alto' — grau alto exige revisão de risco e segurança além do coordenador.
 export const ativos = [
   {
     id: 'ativo-001',
@@ -41,7 +40,6 @@ export const ativos = [
     squadsQueReusaram: ['Pix · Recebimentos', 'Investimentos · Renda fixa', 'Seguros · Vida'],
     tags: ['qualidade', 'refinamento', 'jira'],
     ferramentas: ['Claude Code', 'Copilot'],
-    grau: 'baixo',
     status: 'publicado',
     acessos: [
       { icone: 'file-text', titulo: 'Lê arquivos do repositório aberto', detalhe: 'Só leitura. Não escreve.' },
@@ -65,10 +63,10 @@ export const ativos = [
     ],
     historico: [
       { data: '2026-08-13', evento: 'Detectada pelo hook na sessão de Ana Ribeiro', quem: 'Itaú House' },
-      { data: '2026-08-13', evento: 'Reprovada na verificação: token de exemplo no prompt', quem: 'Agente validador' },
-      { data: '2026-08-14', evento: 'Corrigida e aprovada na verificação', quem: 'Agente validador' },
+      { data: '2026-08-13', evento: 'Barrada nas checagens: token no exemplo do prompt', quem: 'Validador' },
+      { data: '2026-08-14', evento: 'Corrigida e aprovada nas checagens', quem: 'Validador' },
       { data: '2026-08-14', evento: 'Publicação aprovada', quem: 'Rafael Costa (coordenação Cartões)' },
-      { data: '2026-09-22', evento: 'Versão 1.2.0 revalidada', quem: 'Agente validador' },
+      { data: '2026-09-22', evento: 'Versão 1.2.0 revalidada', quem: 'Validador' },
     ],
   },
   {
@@ -89,7 +87,6 @@ export const ativos = [
     squadsQueReusaram: ['Cartões · Emissão', 'Pix · Recebimentos', 'Plataforma · Core', 'Seguros · Vida'],
     tags: ['revisão', 'padrão de código', 'pr'],
     ferramentas: ['Agnóstico'],
-    grau: 'baixo',
     status: 'publicado',
     acessos: [
       { icone: 'git-pull-request', titulo: 'Lê o diff do pull request', detalhe: 'Só leitura. Não aprova nem faz merge.' },
@@ -108,7 +105,7 @@ export const ativos = [
     ],
     historico: [
       { data: '2026-06-02', evento: 'Publicação aprovada', quem: 'Letícia Moraes (coordenação Canais)' },
-      { data: '2026-09-19', evento: 'Versão 2.0.1 revalidada', quem: 'Agente validador' },
+      { data: '2026-09-19', evento: 'Versão 2.0.1 revalidada', quem: 'Validador' },
     ],
   },
   {
@@ -129,7 +126,6 @@ export const ativos = [
     squadsQueReusaram: ['Pix · Recebimentos', 'Cartões · Emissão', 'Investimentos · Renda fixa', 'Seguros · Vida', 'Crédito imobiliário · Originação'],
     tags: ['backend', 'fastapi', 'auditoria'],
     ferramentas: ['Agnóstico'],
-    grau: 'baixo',
     status: 'publicado',
     acessos: [
       { icone: 'folder', titulo: 'Escreve arquivos na pasta do projeto', detalhe: 'Cria a estrutura da rota e os testes.' },
@@ -159,7 +155,6 @@ export const ativos = [
     squadsQueReusaram: ['Cartões · Emissão', 'Seguros · Vida'],
     tags: ['front', 'design system', 'tracking'],
     ferramentas: ['Agnóstico'],
-    grau: 'baixo',
     status: 'publicado',
     acessos: [
       { icone: 'folder', titulo: 'Escreve arquivos na pasta do projeto', detalhe: '' },
@@ -187,7 +182,6 @@ export const ativos = [
     squadsQueReusaram: ['Cartões · Emissão', 'Pix · Recebimentos', 'Dados e analytics · Engenharia'],
     tags: ['mcp', 'apis', 'descoberta'],
     ferramentas: ['Claude Code', 'Copilot'],
-    grau: 'alto',
     status: 'publicado',
     acessos: [
       { icone: 'globe', titulo: 'Acessa a rede interna', detalhe: 'Só o catálogo de APIs. Nenhum endpoint transacional.' },
@@ -198,7 +192,6 @@ export const ativos = [
     comentarios: [],
     historico: [
       { data: '2026-09-01', evento: 'Publicação aprovada', quem: 'Rodrigo Pinto (coordenação Plataforma)' },
-      { data: '2026-09-01', evento: 'Grau alto: revisado por risco e segurança', quem: 'Sérgio Almeida (Segurança)' },
     ],
   },
   {
@@ -219,7 +212,6 @@ export const ativos = [
     squadsQueReusaram: ['Cartões · Emissão', 'Pix · Recebimentos', 'Conta · Cadastro', 'Seguros · Vida'],
     tags: ['teste', 'dados sintéticos', 'compliance'],
     ferramentas: ['Agnóstico'],
-    grau: 'baixo',
     status: 'publicado',
     acessos: [
       { icone: 'folder', titulo: 'Escreve arquivos de teste', detalhe: '' },
@@ -247,7 +239,6 @@ export const ativos = [
     squadsQueReusaram: ['Canais digitais · App', 'Cartões · Emissão', 'Investimentos · Renda fixa'],
     tags: ['backend', 'release', 'governança'],
     ferramentas: ['Agnóstico'],
-    grau: 'baixo',
     status: 'publicado',
     acessos: [{ icone: 'folder', titulo: 'Escreve arquivos de configuração', detalhe: '' }],
     readme: '## O que faz\nPadroniza feature flags com dono e validade. Flag vencida entra na lista de remoção.',
@@ -272,7 +263,6 @@ export const ativos = [
     squadsQueReusaram: ['Cartões · Emissão'],
     tags: ['teste', 'legado', 'migração'],
     ferramentas: ['Claude Code'],
-    grau: 'baixo',
     status: 'publicado',
     acessos: [
       { icone: 'folder', titulo: 'Lê e escreve arquivos de teste', detalhe: 'Não toca em código de produção.' },
@@ -299,7 +289,6 @@ export const ativos = [
     squadsQueReusaram: ['Canais digitais · App'],
     tags: ['incidente', 'operação', 'documentação'],
     ferramentas: ['Agnóstico'],
-    grau: 'baixo',
     status: 'publicado',
     acessos: [{ icone: 'file-text', titulo: 'Lê o registro de incidente que você colar', detalhe: 'Nada é buscado automaticamente.' }],
     readme: '## O que faz\nMonta o rascunho do pós-morte a partir da linha do tempo do incidente.',
@@ -324,7 +313,6 @@ export const ativos = [
     squadsQueReusaram: ['Investimentos · Renda fixa', 'Seguros · Vida', 'Cartões · Faturamento'],
     tags: ['front', 'lista', 'design system'],
     ferramentas: ['Agnóstico'],
-    grau: 'baixo',
     status: 'publicado',
     acessos: [{ icone: 'folder', titulo: 'Escreve arquivos na pasta do projeto', detalhe: '' }],
     readme: '## O que faz\nGera a tela de lista completa: busca, filtros, paginação e estado vazio.',
@@ -349,7 +337,6 @@ export const ativos = [
     squadsQueReusaram: [],
     tags: ['conciliação', 'operação'],
     ferramentas: ['Claude Code'],
-    grau: 'alto',
     status: 'publicado',
     acessos: [
       { icone: 'database', titulo: 'Lê o arquivo de extrato que você indicar', detalhe: 'Arquivo local. Nenhum sistema transacional.' },
@@ -359,7 +346,6 @@ export const ativos = [
     comentarios: [],
     historico: [
       { data: '2026-09-23', evento: 'Publicação aprovada', quem: 'Marcos Leal (coordenação Pix)' },
-      { data: '2026-09-23', evento: 'Grau alto: revisado por risco e segurança', quem: 'Sérgio Almeida (Segurança)' },
     ],
   },
   {
@@ -380,7 +366,6 @@ export const ativos = [
     squadsQueReusaram: ['Cartões · Faturamento', 'Crédito imobiliário · Originação'],
     tags: ['teste', 'regra de negócio', 'qualidade'],
     ferramentas: ['Copilot', 'Claude Code'],
-    grau: 'baixo',
     status: 'publicado',
     acessos: [{ icone: 'folder', titulo: 'Escreve arquivos de teste', detalhe: '' }],
     readme: '## O que faz\nLê a regra escrita pela área de negócio e devolve o teste, além da lista do que ficou ambíguo.',

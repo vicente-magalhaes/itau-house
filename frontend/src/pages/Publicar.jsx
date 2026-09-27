@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Icon, Tag, Input, Select, Toast } from '../ds.js';
-import { SeloSimulado, SeloGrau, Aviso } from '../components/comuns.jsx';
+import { SeloSimulado, Aviso } from '../components/comuns.jsx';
 import { PostCard } from '../components/Post.jsx';
 import { TextArea } from '../components/TextArea.jsx';
 import { irPara } from '../router.jsx';
@@ -8,7 +8,7 @@ import { useSessao } from '../sessao.jsx';
 import { CRITERIOS, VEREDITOS, rascunhoAna, verificacaoReprovada, verificacaoAprovada } from '../data/governanca.js';
 import { VISIBILIDADES, rotuloTipo, iconeTipo } from '../data/catalogo.js';
 
-// Publicação (RF-13 a RF-19): o hook detecta, o validador confere, a pessoa corrige e a coordenação decide.
+// Publicação (RF-13 a RF-19): o hook detecta, o validador confere por código (sem IA, D-26), a pessoa corrige e a coordenação decide.
 
 const PASSOS = ['Detecção', 'Verificação', 'Post', 'Fila'];
 
@@ -74,7 +74,7 @@ function LinhaCriterio({ item }) {
       <div className="stack stack-1 grow">
         <span className="row row-2 wrap">
           <span className="small strong">{item.titulo}</span>
-          {criterio && <span className="caption">{criterio.checagem}</span>}
+          {criterio && <span className="caption">{criterio.nome}</span>}
         </span>
         {item.resultado !== 'ok' && item.evidencia && (
           <span className={pareceCodigo(item.evidencia) ? 'mono muted' : 'caption'} style={{ overflowWrap: 'anywhere' }}>
@@ -230,7 +230,7 @@ export function Publicar() {
               <>
                 <span className="row row-2 small strong">
                   <Icon name="shield-check" size={18} />
-                  Verificando
+                  Checagens fixas, por código
                 </span>
                 <ul className="stack stack-2" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
                   {CRITERIOS.map((c, i) => {
@@ -252,7 +252,7 @@ export function Publicar() {
                 <div className="row row-3">
                   <Icon name={aprovado ? 'circle-check' : 'circle-alert'} size={24} color={aprovado ? 'var(--status-success)' : 'var(--status-error)'} />
                   <span className="strong grow" style={{ fontSize: 'var(--fs-body-lg)' }}>{veredito.rotulo}</span>
-                  <SeloSimulado ajuda="O agente validador é simulado. O resultado desta demonstração é fixo.">Validador simulado</SeloSimulado>
+                  <SeloSimulado ajuda="O validador faz checagens fixas por código, sem IA. Nesta demonstração o resultado é fixo.">Validador simulado</SeloSimulado>
                 </div>
                 <ul className="stack" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
                   {resultado.itens.map((item) => (
@@ -350,11 +350,10 @@ export function Publicar() {
             <div className="row row-3">
               <Icon name="circle-check" size={24} color="var(--status-success)" />
               <span className="strong grow" style={{ fontSize: 'var(--fs-body-lg)' }}>Na fila da coordenação</span>
-              <SeloGrau grau={verificacaoAprovada.grau} />
             </div>
             <ul className="stack stack-3" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
               {[
-                { icone: 'circle-check', cor: 'var(--status-success)', titulo: 'Agente validador', nota: `aprovado na 2ª rodada, ${verificacaoAprovada.rodadaEm}` },
+                { icone: 'circle-check', cor: 'var(--status-success)', titulo: 'Validador', nota: `passou na 2ª rodada, ${verificacaoAprovada.rodadaEm}` },
                 { icone: 'user-round', cor: 'var(--text-primary)', titulo: 'Coordenação', nota: 'Rafael Costa decide' },
                 { icone: visDef.icone, cor: 'var(--text-tertiary)', titulo: 'Publicação', nota: visDef.label },
               ].map((g) => (

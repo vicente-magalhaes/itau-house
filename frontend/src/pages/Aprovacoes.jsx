@@ -1,13 +1,12 @@
 import React from 'react';
 import { Button, IconButton, Icon, Badge, Tabs, Dialog, Toast, Input } from '../ds.js';
-import { Avatar, SeloSimulado, Vazio, SeloGrau, Aviso } from '../components/comuns.jsx';
+import { Avatar, SeloSimulado, Vazio, Aviso } from '../components/comuns.jsx';
 import { useSessao } from '../sessao.jsx';
-import { filaAprovacao, VEREDITOS } from '../data/governanca.js';
+import { filaAprovacao } from '../data/governanca.js';
 import { iconeTipo, rotuloTipo } from '../data/catalogo.js';
 
-// Fila do Cord+ (RF-32): aprovar (RF-19) ou devolver com motivo (RF-21). A decisão é sempre de uma pessoa.
-
-const ICONE_VEREDITO = { aprovado: 'circle-check', humano: 'user-round', reprovado: 'circle-alert' };
+// Fila do Cord+ (RF-32): aprovar (RF-19) ou devolver com motivo (RF-21).
+// O validador só faz checagens fixas por código; quem julga é o coordenador (D-13, D-26).
 
 // Erro é azul-marinho com ícone, nunca vermelho.
 const TOM_APONTAMENTO = {
@@ -22,36 +21,30 @@ const DECISOES = {
   recusar: { rotulo: 'Recusada', tone: 'dark', toast: 'Publicação recusada.' },
 };
 
-function estadoDoGate(nome) {
-  if (nome === 'Agente validador') return { icone: 'circle-check', cor: 'var(--status-success)' };
-  if (nome === 'Coordenação') return { icone: 'user-round', cor: 'var(--text-primary)', atual: true };
-  return { icone: 'clock', cor: 'var(--text-tertiary)' };
-}
+// Validador já passou; a vez é do coordenador; publicar vem depois.
+const GATES = [
+  { nome: 'Validador', icone: 'circle-check', cor: 'var(--status-success)' },
+  { nome: 'Coordenação', icone: 'user-round', atual: true },
+  { nome: 'Publicado', icone: 'clock', cor: 'var(--text-tertiary)' },
+];
 
-function Gates({ gates }) {
+function Gates() {
   return (
     <div className="row row-2 wrap" role="group" aria-label="Etapas até a publicação">
-      {gates.map((g, i) => {
-        const e = estadoDoGate(g);
-        return (
-          <React.Fragment key={g}>
-            {i > 0 && <Icon name="chevron-right" size={14} color="var(--text-tertiary)" />}
-            <span className="pastilha" style={e.atual ? { background: 'var(--brand)', color: 'var(--on-brand)' } : undefined}>
-              <Icon name={e.icone} size={14} color={e.atual ? 'var(--on-brand)' : e.cor} />
-              {g}
-            </span>
-          </React.Fragment>
-        );
-      })}
+      {GATES.map((g, i) => (
+        <React.Fragment key={g.nome}>
+          {i > 0 && <Icon name="chevron-right" size={14} color="var(--text-tertiary)" />}
+          <span className="pastilha" style={g.atual ? { background: 'var(--brand)', color: 'var(--on-brand)' } : undefined}>
+            <Icon name={g.icone} size={14} color={g.atual ? 'var(--on-brand)' : g.cor} />
+            {g.nome}
+          </span>
+        </React.Fragment>
+      ))}
     </div>
   );
 }
 
 function ItemFila({ item, aberto, aoAlternar, aoAprovar, aoDevolver, aoRecusar }) {
-  const veredito = VEREDITOS[item.veredito];
-  // Grau alto não se decide na hierarquia: risco e segurança opina antes.
-  const bloqueado = item.grau === 'alto';
-
   return (
     <div className="caixa stack stack-4">
       <div className="row row-3">
@@ -67,17 +60,17 @@ function ItemFila({ item, aberto, aoAlternar, aoAprovar, aoDevolver, aoRecusar }
             <span>há {item.esperandoHa}</span>
           </span>
         </div>
-        <SeloGrau grau={item.grau} />
-        <Badge tone={veredito.tone}>
-          <Icon name={ICONE_VEREDITO[item.veredito]} size={12} style={{ marginRight: 'var(--space-1)' }} />
-          {item.veredito === 'humano' ? 'Revisão humana' : 'Validador ok'}
+        <Badge tone="success">
+          <Icon name="circle-check" size={12} style={{ marginRight: 'var(--space-1)' }} />
+          Checagens ok
         </Badge>
         <IconButton icon={aberto ? 'chevron-up' : 'chevron-down'} label={aberto ? `Fechar ${item.nome}` : `Abrir ${item.nome}`} size={36} onClick={aoAlternar} />
       </div>
 
       {aberto && (
         <div className="stack stack-4">
-          <Gates gates={item.gates} />
+          <Gates />
+          <span className="small">{item.checagens}</span>
           <ul className="stack stack-2" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
             {item.apontamentos.map((a, i) => {
               const t = TOM_APONTAMENTO[a.tom] || TOM_APONTAMENTO.info;
@@ -90,7 +83,7 @@ function ItemFila({ item, aberto, aoAlternar, aoAprovar, aoDevolver, aoRecusar }
             })}
           </ul>
           <div className="row row-3 wrap">
-            <Button variant="primary" size="sm" iconLeft="check" disabled={bloqueado} onClick={aoAprovar}>
+            <Button variant="primary" size="sm" iconLeft="check" onClick={aoAprovar}>
               Aprovar
             </Button>
             <Button variant="outline" size="sm" iconLeft="undo-2" onClick={aoDevolver}>
@@ -99,7 +92,6 @@ function ItemFila({ item, aberto, aoAlternar, aoAprovar, aoDevolver, aoRecusar }
             <Button variant="ghost" size="sm" iconLeft="x" onClick={aoRecusar}>
               Recusar
             </Button>
-            {bloqueado && <span className="caption">Aguardando o parecer de risco e segurança</span>}
           </div>
         </div>
       )}
