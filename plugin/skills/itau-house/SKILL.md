@@ -38,7 +38,7 @@ Um hook avisa quando a tarefa termina com um ativo novo. Aí:
 4. Se ela disser sim, escreva o post: `nome`, `resumo` (uma frase sobre o que faz), `readme` (o que faz, quando usar, limites), `tags`, `manualInstalacao` e `derivadoDe` quando houver. Chame `montar_post` com a pasta, esses campos, `visibilidade: "squad"` e os `validacaoIds` das rodadas desta tarefa (RF-17).
 5. Mostre o post em poucas linhas: título, resumo, alcance. Explique o alcance: squad (só o seu squad), frente (as squads da sua frente) ou banco (todo mundo). Pergunte se ela quer mudar algo (RF-18).
 6. Se ela pedir mudança, chame `montar_post` de novo com o `id` e só os campos que mudam.
-7. Quando ela disser para enviar, chame `enviar_para_aprovacao`. Confirme: "Enviado. Está na fila da coordenação do seu squad. Você vê o post no Itaú House quando for aprovado."
+7. Quando ela disser para enviar, chame `enviar_para_aprovacao`. Confirme: "Enviado. Está na fila da coordenação do seu squad. Você vê o post no Itaú House quando for aprovado." Se a resposta tiver `link`, termine com: "Quer acompanhar? Abra o <link>." (o `link` exatamente como veio, sem URL crua).
 
 ## Nunca
 

@@ -83,6 +83,13 @@ def test_modo_configuravel(api_falsa, monkeypatch):
     )
 
 
+def test_envio_vem_com_link_do_post(api_falsa, monkeypatch):
+    monkeypatch.setenv("ITAU_HOUSE_SITE", "https://site.exemplo")
+    corpo = json.loads(servidor.enviar_para_aprovacao("a-1"))
+    assert corpo["ok"] is True
+    assert corpo["link"] == "[seu post no Itaú House](https://site.exemplo/#/ativo/a-1)"
+
+
 def test_sugestao_vem_com_link_do_site(monkeypatch):
     monkeypatch.setenv("ITAU_HOUSE_SITE", "https://site.exemplo/")
     ativo = {"id": "a-criterios-aceitacao", "tipo": "skill", "autor": {"nome": "Marina Alves"}}

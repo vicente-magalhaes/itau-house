@@ -201,7 +201,22 @@ def montar_post(
 
 @servidor.tool(description="Envie o rascunho revisado pela pessoa para a coordenação do squad.")
 def enviar_para_aprovacao(id: str) -> str:
-    return _chamar("POST", f"/api/ativos/{quote(id, safe='')}/envio")
+    resposta = _chamar("POST", f"/api/ativos/{quote(id, safe='')}/envio")
+    try:
+        corpo = json.loads(resposta)
+    except ValueError:
+        return resposta
+    if not isinstance(corpo, dict) or corpo.get("erro"):
+        return resposta
+    # Link para a página do post, onde o autor vê que está na fila (mesmo formato do link da busca).
+    site = os.environ.get("ITAU_HOUSE_SITE", "https://itau-house.vercel.app").rstrip("/")
+    corpo["url"] = f"{site}/#/ativo/{quote(id, safe='')}"
+    corpo["link"] = f"[seu post no Itaú House]({corpo['url']})"
+    corpo["comoMostrarLink"] = (
+        "Termine a confirmação com: \"Quer acompanhar? Abra o <link>.\", "
+        "com o campo link exatamente como veio, em markdown. Nunca mostre a URL crua."
+    )
+    return json.dumps(corpo, ensure_ascii=False)
 
 
 if __name__ == "__main__":
