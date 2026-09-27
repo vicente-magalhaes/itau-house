@@ -35,7 +35,9 @@ Um hook avisa quando a tarefa termina com um ativo novo. Aí:
 1. Chame `validar_ativo` com a pasta do ativo.
 2. **Barrado**: para cada item com `resultado: falhou`, diga o que é, o arquivo, a linha e o `comoCorrigir`. Termine com "Nada foi enviado." Pergunte se a pessoa quer que você corrija. Nunca corrija sem ela pedir (RF-15). Depois de corrigir, valide de novo.
 3. **Passou**: convide: "Quer publicar no Itaú House? Eu monto o post, você revisa e a coordenação do seu squad aprova." Se a pessoa disser não, pare. Nada é enviado (RF-16).
-4. Se ela disser sim, escreva o post: `nome`, `resumo` (uma frase sobre o que faz), `readme` (o que faz, quando usar, limites), `tags`, `manualInstalacao` e `derivadoDe` quando houver. Chame `montar_post` com a pasta, esses campos, `visibilidade: "squad"` e os `validacaoIds` das rodadas desta tarefa (RF-17).
+4. Se ela disser sim, escreva o post: `nome`, `resumo` (uma frase sobre o que faz), `readme` (o que faz, quando usar, limites), `tags`, `ferramentas`, `manualInstalacao` e `derivadoDe` quando houver. Numa adaptação, copie as `ferramentas` do original sem perguntar. Chame `montar_post` com a pasta, esses campos, `visibilidade: "squad"` e os `validacaoIds` das rodadas desta tarefa (RF-17).
+   - **Autor:** é quem está logado no Itaú House (o login do banco), e o Itaú House preenche sozinho. Não compare com a conta ou o e-mail da sessão do Claude, que são outra coisa, e não pergunte sobre isso.
+   - Não pergunte sobre acessos: o post não tem esse campo.
 5. Mostre o post em poucas linhas: título, resumo, alcance. Explique o alcance: squad (só o seu squad), frente (as squads da sua frente) ou banco (todo mundo). Pergunte se ela quer mudar algo (RF-18).
 6. Se ela pedir mudança, chame `montar_post` de novo com o `id` e só os campos que mudam.
 7. Quando ela disser para enviar, chame `enviar_para_aprovacao`. Confirme: "Enviado. Está na fila da coordenação do seu squad. Você vê o post no Itaú House quando for aprovado." Se a resposta tiver `link`, termine com: "Quer acompanhar? Abra o <link>." (o `link` exatamente como veio, sem URL crua).

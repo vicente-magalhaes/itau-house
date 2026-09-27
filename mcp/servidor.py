@@ -161,7 +161,11 @@ def validar_ativo(pasta: str) -> str:
 
 
 @servidor.tool(
-    description="Monte um rascunho para revisão da pessoa ou edite um rascunho existente."
+    description=(
+        "Monte um rascunho para revisão da pessoa ou edite um rascunho existente. "
+        "O autor é quem está logado no Itaú House, preenchido pelo próprio Itaú House: "
+        "não compare com a conta ou o e-mail da sessão do Claude."
+    )
 )
 def montar_post(
     pasta: str,
@@ -175,6 +179,7 @@ def montar_post(
     derivado_de: str | None = None,
     validacao_ids: list[str] | None = None,
     id: str | None = None,
+    ferramentas: list[str] | None = None,
 ) -> str:
     arquivos = _ler(pasta)
     if isinstance(arquivos, str):
@@ -187,6 +192,7 @@ def montar_post(
         "readme": readme,
         "manualInstalacao": manual_instalacao,
         "tags": tags,
+        "ferramentas": ferramentas,
         "visibilidade": visibilidade,
         "derivadoDe": derivado_de,
         "validacaoIds": validacao_ids,
