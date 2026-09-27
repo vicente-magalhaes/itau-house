@@ -1,0 +1,17 @@
+# Login com Google no Supabase do time (RF-23). Só isto é enviado: o que não está declarado
+# aqui fica como está no projeto remoto. NÃO use o supabase/config.toml para isso: ele é o
+# modelo local inteiro e um `config push` dele mudaria MFA, e-mail, Twilio e o pooler.
+# Aplicar com: supabase/ligar_google.sh (mostra o diff e pede confirmação).
+project_id = "itau-house"
+
+[auth]
+site_url = "http://localhost:5173"
+# Quando o front estiver na Vercel (0031), acrescente a URL exata dele. Nada de curinga
+# *.vercel.app: qualquer site da Vercel poderia receber o token do login.
+additional_redirect_urls = ["http://localhost:5173/**", "http://localhost:8080/**"]
+
+[auth.external.google]
+enabled = true
+client_id = "env(GOOGLE_CLIENT_ID)"
+secret = "env(GOOGLE_CLIENT_SECRET)"
+skip_nonce_check = false

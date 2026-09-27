@@ -1,8 +1,17 @@
 import React from 'react';
 import { PERFIS } from './data/governanca.js';
+import { contaGuardada, esquecerConta, lerRetornoDoGoogle } from './google.js';
 
 // Sessão do esboço. O login por SSO é [SIMULADO]: trocar de perfil é só um seletor.
 const SessaoContext = React.createContext(null);
+
+// Precisa rodar antes do roteador ler o fragmento da URL: o token do Google chega nele (T-41).
+// Quem entra com Google opera como coordenação: a hierarquia é simulada (0034).
+const voltouDoGoogle = lerRetornoDoGoogle();
+if (voltouDoGoogle) {
+  localStorage.setItem('ih.perfil', 'coordenador');
+  localStorage.setItem('ih.entrou', 'sim');
+}
 
 // Curtidas ficam por perfil no localStorage: uma por pessoa por ativo (RF-28).
 function lerCurtidos(perfil) {
@@ -30,6 +39,7 @@ export function SessaoProvider({ children }) {
   const [busca, setBusca] = React.useState('');
   const [filtros, setFiltros] = React.useState(FILTROS_INICIAIS);
   const [recado, setRecado] = React.useState(null);
+  const [contaGoogle, setContaGoogle] = React.useState(contaGuardada);
 
   // Recado curto no rodapé da tela. Some sozinho.
   const temporizador = React.useRef(null);
@@ -54,7 +64,13 @@ export function SessaoProvider({ children }) {
   const sair = React.useCallback(() => {
     setEntrou(false);
     localStorage.removeItem('ih.entrou');
+    esquecerConta();
+    setContaGoogle(null);
   }, []);
+
+  React.useEffect(() => {
+    if (voltouDoGoogle) avisar(`Você entrou com o Google como ${voltouDoGoogle.email}. Na demo, você opera como coordenação.`);
+  }, [avisar]);
 
   const usar = React.useCallback((id) => {
     setUsados((atual) => (atual.includes(id) ? atual : [...atual, id]));
@@ -98,6 +114,7 @@ export function SessaoProvider({ children }) {
       limparFiltros,
       recado,
       avisar,
+      contaGoogle,
       trocarPerfil,
       entrar,
       sair,
@@ -108,7 +125,7 @@ export function SessaoProvider({ children }) {
       curtidasDe,
       reusosDe,
     };
-  }, [perfil, entrou, usados, curtidos, querem, criando, busca, filtros, limparFiltros, recado, avisar, trocarPerfil, entrar, sair, usar, curtir, querer, criar, curtidasDe, reusosDe]);
+  }, [perfil, entrou, usados, curtidos, querem, criando, busca, filtros, limparFiltros, recado, avisar, contaGoogle, trocarPerfil, entrar, sair, usar, curtir, querer, criar, curtidasDe, reusosDe]);
 
   return <SessaoContext.Provider value={valor}>{children}</SessaoContext.Provider>;
 }

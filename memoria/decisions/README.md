@@ -41,6 +41,8 @@ citadas como D-01 a D-28. O número é o mesmo: D-12 é a 0012. A migração est
 | [0030](0030-agente-da-pessoa-adapta-e-monta-o-post.md) | O agente da pessoa adapta o ativo e escreve o post | accepted |
 | [0031](0031-hospedagem-front-na-vercel-back-no-render.md) | Hospedagem: front na Vercel, back no Render | accepted |
 | [0032](0032-gemini-como-segundo-provedor-da-busca.md) | Gemini como segundo provedor da busca | proposed |
+| [0033](0033-devin-le-o-repositorio-inteiro.md) | Devin lê o repositório inteiro | accepted |
+| [0034](0034-login-com-google-e-persona-escolhida.md) | Login com Google autentica; a persona continua escolhida | proposed |
 <!-- /harness-hacka:decisions -->
 
 | Status | Quer dizer |
