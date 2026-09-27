@@ -258,18 +258,26 @@ Decisão do coordenador:
 - Ativo fora de `em_aprovacao` → 409.
 - Saída: `AtivoDetalhe`.
 
-## Ferramentas do MCP (T-12) → rotas
+## Contrato do MCP (T-12)
 
-| Ferramenta | Rota |
-|---|---|
-| `buscar_ativos` | `POST /api/busca` |
-| `detalhar_ativo` | `GET /api/ativos/{id}` |
-| `registrar_decisao` | `POST /api/decisoes` |
-| `validar_ativo` | `POST /api/validacoes` |
-| `montar_post` | `POST /api/ativos` e, para editar, `PATCH /api/ativos/{id}` |
-| `enviar_para_aprovacao` | `POST /api/ativos/{id}/envio` |
+O plugin (T-13) já está em `plugin/` e espera este servidor. Quem fizer o MCP só precisa encaixar aqui.
 
-O MCP repassa `X-Usuario-Id` a partir de `ITAU_HOUSE_USUARIO`.
+- **Nome do servidor:** `itau-house`. No Claude Code, as ferramentas aparecem como `mcp__plugin_itau-house_itau-house__<ferramenta>`. A skill do plugin cita só o nome curto.
+- **Onde e como sobe:** `mcp/servidor.py`, Python, transporte stdio. O plugin sobe com `uv run --directory mcp python servidor.py` (ver `plugin/.mcp.json`). Se mudar o comando, mude lá.
+- **Variáveis:** `ITAU_HOUSE_API` (padrão `http://localhost:8000`) e `ITAU_HOUSE_USUARIO` (padrão `u-rafael`). O servidor manda `X-Usuario-Id: $ITAU_HOUSE_USUARIO` em toda chamada.
+- **Resposta:** o JSON da rota, como texto. Em erro, o JSON de erro da API (`{erro, mensagem}`), sem levantar exceção. O agente lê a `mensagem` e explica para a pessoa.
+- O MCP roda na máquina da pessoa. Por isso `validar_ativo` e `montar_post` recebem uma **pasta** e leem os arquivos sozinhos: o agente não precisa colar conteúdo, e a linha que o validador aponta é a linha real.
+
+| Ferramenta | Entrada | Rota |
+|---|---|---|
+| `buscar_ativos` | `pedido: str`, `tipo: str \| None` | `POST /api/busca` com `{pedido, tipo, modo}`. `modo` vem de `ITAU_HOUSE_MODO` (padrão `perguntar_antes`) |
+| `detalhar_ativo` | `id: str` | `GET /api/ativos/{id}` |
+| `registrar_decisao` | `busca_id: str`, `ativo_id: str \| None`, `decisao: "usar" \| "adaptar" \| "ignorar"` | `POST /api/decisoes` |
+| `validar_ativo` | `pasta: str` (pasta da skill ou arquivo do agente) | Lê os arquivos de texto da pasta, com caminho relativo a ela, e chama `POST /api/validacoes` com `{arquivos}` |
+| `montar_post` | `pasta: str`, `nome`, `tipo`, `resumo`, `readme`, `manual_instalacao`, `tags`, `visibilidade` (padrão `squad`), `derivado_de`, `validacao_ids`. Com `id: str`, edita | Sem `id`: lê a pasta e chama `POST /api/ativos`. Com `id`: `PATCH /api/ativos/{id}` só com os campos enviados |
+| `enviar_para_aprovacao` | `id: str` | `POST /api/ativos/{id}/envio` |
+
+Na leitura da pasta, ignore `.git/`, `__pycache__/`, `node_modules/`, binários e arquivos com mais de 200 KB.
 
 ## O que muda em relação ao que já existe
 
