@@ -19,4 +19,4 @@ superseded_by: []
 ## Origin
 
 Era a D-24 na tabela "Decidido" da antiga `05-decisoes-e-pendencias.md`. Texto copiado sem mudança.
-Ajustada pela [0028](0028-decisoes-em-arquivos.md): a 05 virou `05-pendencias-e-riscos.md`, e as decisões ficam nesta pasta.
+Ajustada pela [0029](0029-decisoes-em-arquivos.md): a 05 virou `05-pendencias-e-riscos.md`, e as decisões ficam nesta pasta.

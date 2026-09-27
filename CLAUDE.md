@@ -71,7 +71,7 @@ Comandos completos no [README](README.md#como-rodar).
 - Uma persona, uma tarefa, um fluxo funcionando. Resistir a adicionar funcionalidades.
 - Código segue a PRD (`PRD.md`, quando existir). Cada mudança cita o requisito (RF/RN/RNF) que atende.
 - Git: trabalhar numa branch `feat/` ou `fix/` criada a partir da `main`. Antes de juntar, trazer a `main` para a branch e conferir que o fluxo principal roda. Juntar com merge direto na `main`. Sem `dev` e sem Pull Request. Nunca commitar direto na `main`.
-- Ao fechar uma decisão, registrar com `/harness-hacka:decide` (0028). Ela vira um arquivo em `memoria/decisions/`, como `proposed`, e só uma pessoa aceita, com `accept NNNN`. Nos textos antigos, D-12 é a decisão 0012.
+- Ao fechar uma decisão, registrar com `/harness-hacka:decide` (0029). Ela vira um arquivo em `memoria/decisions/`, como `proposed`, e só uma pessoa aceita, com `accept NNNN`. Nos textos antigos, D-12 é a decisão 0012.
 - O repositório é privado durante o desenvolvimento. Antes da banca, será limpo para ficar só o código. `memoria/`, os documentos numerados de `docs/` e `itau-design-system/` são internos: citam pessoas e conversas do Itaú e contêm a marca do banco. `design-system/` fica, porque o front-end depende dele.
 - Escrever em português do Brasil, frases curtas.
 

@@ -3,8 +3,8 @@
 Uma decisão por arquivo, `NNNN-titulo.md`. Crie com `/harness-hacka:decide`. Os status
 seguem o MADR.
 
-Da 0001 à 0027, as decisões ficavam na tabela da antiga `05-decisoes-e-pendencias.md` e eram
-citadas como D-01 a D-27. O número é o mesmo: D-12 é a 0012. A migração está na 0028.
+Da 0001 à 0028, as decisões ficavam na tabela da antiga `05-decisoes-e-pendencias.md` e eram
+citadas como D-01 a D-28. O número é o mesmo: D-12 é a 0012. A migração está na 0029.
 
 <!-- harness-hacka:decisions -->
 | Decisão | Título | Status |
@@ -36,7 +36,8 @@ citadas como D-01 a D-27. O número é o mesmo: D-12 é a 0012. A migração est
 | [0025](0025-metrica-retorno-de-tempo.md) | Métrica principal: retorno de tempo | accepted |
 | [0026](0026-governanca-em-tres-tempos.md) | Governança em três tempos | accepted |
 | [0027](0027-guia-dos-mentores-como-referencia.md) | Guia dos mentores como referência principal | accepted |
-| [0028](0028-decisoes-em-arquivos.md) | Decisões em arquivos, uma por decisão | accepted |
+| [0028](0028-front-da-demo-em-frontend.md) | Front da demo em frontend/, no estilo do Reddit | accepted |
+| [0029](0029-decisoes-em-arquivos.md) | Decisões em arquivos, uma por decisão | accepted |
 <!-- /harness-hacka:decisions -->
 
 | Status | Quer dizer |

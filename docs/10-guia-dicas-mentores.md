@@ -77,7 +77,7 @@ Leitura nossa, não faz parte do guia.
 | 4. O que já existe | A-05 e R-01 em [05](../memoria/05-pendencias-e-riscos.md). Ver a nota abaixo sobre o regulamento. |
 | 5. Valor para usuário e negócio | Retorno de tempo (decisão [0025](../memoria/decisions/0025-metrica-retorno-de-tempo.md)). |
 | 6. Como medir | Métrica de impacto (decisão [0025](../memoria/decisions/0025-metrica-retorno-de-tempo.md)), sugestões em aberto em [05](../memoria/05-pendencias-e-riscos.md) e PRD, seção 11. |
-| 7. Uso de IA | Governança em três tempos (decisão [0026](../memoria/decisions/0026-governanca-em-tres-tempos.md)). Checagem fixa ou por IA no RF-14 da PRD. Custo na PRD, seção 9. |
+| 7. Uso de IA | Governança em três tempos (decisão [0026](../memoria/decisions/0026-governanca-em-tres-tempos.md)). Validador só por código, sem IA no MVP, no RF-14 da PRD. Custo na PRD, seção 9. |
 | 8. Experiência e dados | Real ou simulado na PRD, seção 9. Quem pode ver no RF-05. |
 | 9. Dividir e decidir | Papéis (decisão [0021](../memoria/decisions/0021-papeis-do-time.md)) e [KANBAN.md](../KANBAN.md). Decisões em [decisions/](../memoria/decisions/README.md). |
 | 10. História clara | [Roteiro da demo](roteiro-demo.md). Riscos e perguntas em [05](../memoria/05-pendencias-e-riscos.md). |

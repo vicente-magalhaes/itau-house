@@ -6,7 +6,7 @@ supersedes: []
 superseded_by: []
 ---
 
-# 0028: Decisões em arquivos, uma por decisão
+# 0029: Decisões em arquivos, uma por decisão
 
 ## Rule
 
@@ -14,7 +14,7 @@ superseded_by: []
 
 ## Context
 
-As D-01 a D-27 ficavam na tabela "Decidido" da `05-decisoes-e-pendencias.md`, como a [0020](0020-harness-do-time.md) previa. O harness não enxerga decisão dentro de nota. O resumo do início de sessão não listava nenhuma, a trava do `accept NNNN` não valia (as D-24 a D-27 foram escritas direto na tabela pelo agente) e o `check` não conferia substituição, como a da 0018 sobre a 0003. Vicente pediu a migração em 26/09/2026.
+As D-01 a D-28 ficavam na tabela "Decidido" da `05-decisoes-e-pendencias.md`, como a [0020](0020-harness-do-time.md) previa. A D-28, do Alexandre, entrou na `main` durante a migração e ficou com o número 28; por isso esta decisão, escrita depois, é a 0029. O harness não enxerga decisão dentro de nota. O resumo do início de sessão não listava nenhuma, a trava do `accept NNNN` não valia (as D-24 a D-27 foram escritas direto na tabela pelo agente) e o `check` não conferia substituição, como a da 0018 sobre a 0003. Vicente pediu a migração em 26/09/2026.
 
 ## Options
 

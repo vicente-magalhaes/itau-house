@@ -22,6 +22,7 @@ Nos textos antigos, D-12 é a decisão 0012.
 | A-13 | Conversar com um dev do Itaú no evento. | Em andamento: o time está buscando um dev. Lacuna principal de evidência. |
 | A-17 | Onde hospedar o MVP para os gestores acessarem? | Provável: Vercel e/ou Render (Vicente, 26/09). Precisa de link que abre sem login (ver 01). |
 | A-18 | O harness conta como elemento pré-existente (regulamento 7.1.1)? | Confirmar com a organização. Pendência que estava na decisão 0020. Ver [01](../docs/01-hackathon-regras-e-entregas.md), propriedade intelectual. |
+| A-19 | A trilha (RF-22) e os contadores (RF-30) ficam na página do post ou na área do Cord+? | A decisão 0028 levou os dois para `#/coord/dados`; a PRD pede na página do post. Confirmar com o time (Alexandre, 26/09). |
 
 ## Checklist de desenho do MVP (exigências do Case C)
 
@@ -63,7 +64,7 @@ Posição do time na [decisão 0026](decisions/0026-governanca-em-tres-tempos.md
 - No MVP, uma pessoa aprova a entrada de um ativo no hub: o coordenador do squad (decisão 0013).
 - O dono do ativo define quem pode ver.
 - Nada vai para produção sem os gates que o Itaú já tem.
-- Regra simples é código, não IA: chave, CPF, e-mail, README e autor (RF-14). A IA fica com o que pede julgamento, como informação interna ou escopo (dica 7 do guia dos mentores).
+- No MVP, o validador é só código, sem IA: chave, CPF, e-mail, README e autor (RF-14). O julgamento é do coordenador (RF-19), como a dica 7 do guia dos mentores pede: regra simples onde ela resolve.
 - Cada aprovação e devolução vira dado; a devolução já exige comentário (RF-21). Depois do MVP, esse histórico serve para construir um agente de julgamento que decide a entrada sozinho. Pergunta provável da banca: R-09.
 
 ## Riscos e perguntas prováveis da banca
