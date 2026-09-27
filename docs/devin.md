@@ -43,7 +43,7 @@ Um brief só roda com os itens dele marcados. Quem abre a sessão confere.
 
 **Antes da primeira sessão**
 - [x] `AGENTS.md` na `main`.
-- [ ] Decidir e registrar que o Devin pode ler o repositório inteiro. Ao conectar, ele indexa tudo, inclusive `memoria/`, os documentos numerados de `docs/` e `itau-design-system/`. Contra: a regra de segurança diz "não colar em serviço externo", e o regulamento tem a 3.7.2. A favor: a ferramenta veio da organização, e o Claude Code já lê o mesmo conteúdo.
+- [x] Decidido na [0033](../memoria/decisions/0033-devin-le-o-repositorio-inteiro.md): o Devin lê o repositório inteiro, inclusive `memoria/`, os documentos numerados de `docs/` e `itau-design-system/`. Ele não copia nada desse conteúdo para código, commit ou relatório.
 - [ ] Devin ligado ao GitHub só neste repositório, com o ambiente montado (ver "Como começar").
 
 **DV-1 (deploy)**
