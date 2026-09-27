@@ -50,7 +50,7 @@ Um brief só roda com os itens dele marcados. Quem abre a sessão confere.
 - [x] A-17 decidida e aceita: [decisão 0031](../memoria/decisions/0031-hospedagem-front-na-vercel-back-no-render.md), front na Vercel e back no Render.
 - [x] Contas na Vercel e no Render criadas pelo Vicente em 27/09, entrando com o GitHub dele. Nenhum projeto criado, e o app de cada uma no GitHub só tem acesso ao `itau-house`. O repositório está na conta pessoal dele, e a documentação da Vercel só restringe o plano grátis em repositório de organização. Então a Vercel deve publicar commits de todo o time. Conferir no primeiro merge de outra pessoa.
 - [x] Tokens da Vercel e do Render guardados nos Secrets do Devin. Nunca no texto da sessão, nunca no repositório. Estão como segredos pessoais do Vicente, com os nomes `VERCEL_TOKEN` e `RENDER_API_KEY`, desde 27/09. O token da Vercel tem escopo Centao → All Projects e vence em pouco tempo. A chave do Render não expira: revogar depois da banca.
-- [x] `SUPABASE_URL` e `SUPABASE_SECRET_KEY` à mão para uma pessoa colar no painel do Render. O back ainda não usa, mas vai usar. O Devin não recebe essas chaves. O Vicente cola no painel do Render.
+- [x] `SUPABASE_URL` e `SUPABASE_SECRET_KEY` à mão para uma pessoa colar no painel do Render. O back ainda não usa, mas vai usar. O Devin não recebe essas chaves. O Vicente pôs as duas no Environment Group `itau-house-supabase` do Render, em 27/09.
 - [x] Região do projeto no Supabase, para pôr no texto da sessão. Não é segredo. É `us-east-1` (Virgínia do Norte), e no Render a região equivalente é Virginia (US East).
 - [x] Como manter o Render acordado: fluxo no n8n (T-40, ver abaixo). O Devin não configura ping.
 
@@ -117,7 +117,7 @@ Cada brief é autossuficiente. O Devin lê o `AGENTS.md` e o brief da tarefa del
 - Front na Vercel, como site estático do Vite, com build em `frontend/`. O build importa `../design-system`, então a Vercel precisa enxergar essa pasta. As rotas do front são por hash: não precisa de fallback de SPA.
 - O front chama `/api/...` por caminho relativo. Na Vercel, um rewrite de `/api/:path*` para `https://<serviço>.onrender.com/api/:path*`. Sem CORS no back, sem `VITE_API_URL` e sem URL do back no código do front.
 - Os headers de segurança do `nginx.conf.template` vão para o `vercel.json`: `X-Content-Type-Options`, `X-Frame-Options` e `Referrer-Policy`.
-- Configuração como código: `render.yaml` na raiz e `vercel.json`. No `render.yaml`, `SUPABASE_URL` e `SUPABASE_SECRET_KEY` com `sync: false`: uma pessoa cola o valor no painel.
+- Configuração como código: `render.yaml` na raiz e `vercel.json`. `SUPABASE_URL` e `SUPABASE_SECRET_KEY` já estão no Environment Group `itau-house-supabase` do Render, criado pelo Vicente no painel. No `render.yaml`, ligue o serviço a esse grupo com `fromGroup`. Não leia os valores, nem pela API.
 - Publicação pela integração Git das duas plataformas, a partir da `main`. Se a plataforma tiver opção nativa de esperar o CI verde, ligue.
 
 **Não faça.**
