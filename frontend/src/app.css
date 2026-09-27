@@ -67,7 +67,7 @@ input::placeholder { color: var(--gray-500); }
 }
 .btn-sec { border: 1.5px solid var(--ih-line); background: var(--ih-bg); }
 .btn-sec:hover, .btn-nav:hover, .btn-nav[aria-current="page"] { background: var(--ih-surface); }
-.btn-nav { padding: 0 var(--space-3); }
+.btn-nav { min-width: 36px; padding: 0 var(--space-2); }
 .btn-aba[aria-pressed="true"] { background: var(--ih-ink); color: var(--ih-bg); }
 .btn-curtir { background: var(--ih-surface); }
 .btn-curtir-card { height: 32px; padding: 0 var(--space-3); border-radius: var(--radius-pill); }

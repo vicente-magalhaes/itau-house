@@ -20,11 +20,17 @@ function navCoordenacao(naFila) {
   ];
 }
 
+// Só o ícone na tela. O rótulo fica para o leitor de tela e para a dica do mouse.
 function ItemNav({ para, rotulo, icone, contador, ativo }) {
   return (
-    <Link para={para} className="btn btn-nav" aria-current={ativo ? 'page' : undefined}>
+    <Link
+      para={para}
+      className="btn btn-nav"
+      aria-current={ativo ? 'page' : undefined}
+      aria-label={contador > 0 ? `${rotulo}, ${contador}` : rotulo}
+      title={rotulo}
+    >
       <Icon name={icone} size={18} />
-      {rotulo}
       {contador > 0 && <span className="contador">{contador}</span>}
     </Link>
   );
