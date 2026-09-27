@@ -4,7 +4,10 @@ from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException
 
+from app.api_aprovacoes import router as aprovacoes
+from app.api_ativos import router as ativos
 from app.api_busca import router as busca
+from app.api_decisoes import router as decisoes
 from app.api_usuarios import router as usuarios
 from app.api_validacoes import router as validacoes
 from app.erros import ErroApi, tratar_erro_api, tratar_http_exception, tratar_validacao
@@ -32,3 +35,6 @@ def health() -> dict[str, str]:
 app.include_router(validacoes)
 app.include_router(busca)
 app.include_router(usuarios)
+app.include_router(ativos)
+app.include_router(decisoes)
+app.include_router(aprovacoes)
