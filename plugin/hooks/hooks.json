@@ -1,9 +1,13 @@
 {
+  "$comment": "`python` primeiro porque no Windows `python3` costuma não existir ou ser o atalho da Microsoft Store; `python3` em seguida porque no macOS e em Linux o nome `python` pode não existir. Mesmo padrão do harness-hacka.",
   "hooks": {
     "UserPromptSubmit": [
       {
         "hooks": [
-          { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/intencao.py\"" }
+          {
+            "type": "command",
+            "command": "if command -v python >/dev/null 2>&1; then p=python; else p=python3; fi; exec \"$p\" \"${CLAUDE_PLUGIN_ROOT}/hooks/intencao.py\""
+          }
         ]
       }
     ],
@@ -11,14 +15,20 @@
       {
         "matcher": "Write|Edit|MultiEdit",
         "hooks": [
-          { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/ativo_novo.py\"" }
+          {
+            "type": "command",
+            "command": "if command -v python >/dev/null 2>&1; then p=python; else p=python3; fi; exec \"$p\" \"${CLAUDE_PLUGIN_ROOT}/hooks/ativo_novo.py\""
+          }
         ]
       }
     ],
     "Stop": [
       {
         "hooks": [
-          { "type": "command", "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/fim_da_tarefa.py\"" }
+          {
+            "type": "command",
+            "command": "if command -v python >/dev/null 2>&1; then p=python; else p=python3; fi; exec \"$p\" \"${CLAUDE_PLUGIN_ROOT}/hooks/fim_da_tarefa.py\""
+          }
         ]
       }
     ]

@@ -24,7 +24,7 @@ def rodar(tmp_path):
             [sys.executable, str(HOOKS / hook)],
             input=json.dumps(entrada),
             capture_output=True,
-            text=True,
+            encoding="utf-8",  # como o Claude Code, também no Windows
             env=env,
         )
 

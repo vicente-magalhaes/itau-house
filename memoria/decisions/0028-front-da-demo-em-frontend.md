@@ -1,9 +1,9 @@
 ---
-status: accepted
+status: superseded
 date: 2026-09-26
 decided_by: time
 supersedes: []
-superseded_by: []
+superseded_by: [0038]
 ---
 
 # 0028: Front da demo em frontend/, no estilo do Reddit

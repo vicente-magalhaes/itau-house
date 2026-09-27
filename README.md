@@ -71,7 +71,7 @@ Para um piloto real, o Copilot corporativo precisa ter MCP liberado nas polític
 | Back-end | Python + FastAPI |
 | Front-end | TypeScript + React + Vite, com o design system do Itaú |
 | Banco | Supabase (PostgreSQL) na nuvem |
-| IA | Claude via API (Claude Opus 5), com esforço ajustado por tarefa. A IA ranqueia e justifica a semelhança entre ativos. |
+| IA | Gemini via API (`gemini-flash-lite-latest`, com dois modelos de reserva). A IA ranqueia e justifica a semelhança entre ativos. O validador não usa IA. |
 | Ambiente | Docker + Docker Compose |
 
 **Como o ambiente é montado**
@@ -92,6 +92,8 @@ itau-house/
 ├─ backend/                 API em Python (FastAPI), com Dockerfile próprio
 ├─ frontend/                interface em React (Vite), com Dockerfile e config do nginx
 ├─ design-system/           tokens, componentes React e regras de voz da marca
+├─ plugin/                  plugin do Claude Code: hooks, skill, comando /itau-house e o servidor MCP
+├─ .claude-plugin/          marketplace do plugin, para instalar com claude plugin install
 ├─ supabase/                banco: migrações e dados fictícios (seed)
 ├─ docker-compose.yml       ambiente de desenvolvimento
 ├─ docker-compose.prod.yml  build de produção

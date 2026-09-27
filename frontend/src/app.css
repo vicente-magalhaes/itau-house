@@ -226,6 +226,14 @@ input::placeholder { color: var(--gray-500); }
 .numero-valor { font: var(--fw-bold) var(--fs-h1)/1 var(--font-display); color: var(--ih-ink); }
 .numero-rotulo { font: var(--fw-bold) var(--fs-caption)/1.3 var(--font-text); color: var(--ih-ink); }
 
+/* Instalar no agente (RF-01): passos com conteúdo dentro, por isso sem a faixa cinza do .passo. */
+.passos-instalar { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--space-5); }
+.passo-instalar { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-3); align-items: start; }
+/* A descrição do modo alinha com o rótulo do Radio: círculo de 22px mais 10px de espaço. */
+.modo-instalar { display: flex; flex-direction: column; gap: var(--space-1); }
+.modo-instalar .texto { padding-left: var(--space-6); }
+.texto-instalar { max-height: 176px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--ih-ink); }
+
 /* ---------- Recado (toast) ---------- */
 .recado {
   position: fixed; left: 50%; bottom: var(--space-6); transform: translateX(-50%); z-index: 40;

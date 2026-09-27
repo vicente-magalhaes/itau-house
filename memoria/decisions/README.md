@@ -36,17 +36,18 @@ citadas como D-01 a D-28. O número é o mesmo: D-12 é a 0012. A migração est
 | [0025](0025-metrica-retorno-de-tempo.md) | Métrica principal: retorno de tempo | accepted |
 | [0026](0026-governanca-em-tres-tempos.md) | Governança em três tempos | accepted |
 | [0027](0027-guia-dos-mentores-como-referencia.md) | Guia dos mentores como referência principal | accepted |
-| [0028](0028-front-da-demo-em-frontend.md) | Front da demo em frontend/, no estilo do Reddit | accepted |
+| [0028](0028-front-da-demo-em-frontend.md) | Front da demo em frontend/, no estilo do Reddit | superseded by 0038 |
 | [0029](0029-decisoes-em-arquivos.md) | Decisões em arquivos, uma por decisão | accepted |
 | [0030](0030-agente-da-pessoa-adapta-e-monta-o-post.md) | O agente da pessoa adapta o ativo e escreve o post | accepted |
 | [0031](0031-hospedagem-front-na-vercel-back-no-render.md) | Hospedagem: front na Vercel, back no Render | accepted |
 | [0032](0032-gemini-como-segundo-provedor-da-busca.md) | Gemini como segundo provedor da busca | proposed |
 | [0033](0033-devin-le-o-repositorio-inteiro.md) | Devin lê o repositório inteiro | accepted |
-| [0034](0034-login-com-google-e-persona-escolhida.md) | Login com Google autentica; a persona continua escolhida | proposed |
+| [0034](0034-login-com-google-e-persona-escolhida.md) | Login com Google autentica; a persona continua escolhida | accepted |
 | [0035](0035-back-fala-com-o-supabase-pelo-cliente-python.md) | Back fala com o Supabase pelo cliente Python, atrás de um repositório | accepted |
 | [0036](0036-harness-hacka-no-catalogo-como-ativo-real-com-o.md) | Harness-hacka no catálogo como ativo real, com o autor real | accepted |
 | [0037](0037-icone-do-google-fica-nas-cores-oficiais-como.md) | Ícone do Google fica nas cores oficiais, como exceção à regra de cor | accepted |
-| [0038](0038-trilha-e-contadores-ficam-no-post-a-area-do.md) | Trilha e contadores ficam no post; a área do Cord+ soma os números | proposed |
+| [0038](0038-trilha-e-contadores-ficam-no-post-a-area-do.md) | Trilha e contadores ficam no post; a área do Cord+ soma os números | accepted |
+| [0039](0039-gemini-como-unico-provedor-de-ia-no-mvp.md) | Gemini como único provedor de IA no MVP | proposed |
 <!-- /harness-hacka:decisions -->
 
 | Status | Quer dizer |
