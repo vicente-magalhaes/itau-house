@@ -30,10 +30,10 @@ O Devin só pega uma task depois que o "Fechar antes" dela, no [docs/devin.md](d
 ## Ordem de cada um
 
 - **Bruno:** T-02 → T-03 → T-04 → T-05 (assumida do Vicente) → T-10 → T-11 → T-13 → T-14 → T-24 → T-30 (vídeo completo) → T-37 (secundária)
-- **Vicente:** T-39 → T-12 → T-34 → T-35. Em paralelo, abre, revisa e junta o que o Devin faz (T-38, T-25, T-06, T-07, T-15), e valida a T-38 e a T-15
-- **Alexandre:** T-16 → T-17 → T-18 → T-19 → T-20 → T-24. A T-40 entra assim que o T-38 tiver o link
+- **Vicente:** T-40 → T-34 → T-35. Em paralelo, abre, revisa e junta o que o Devin faz (T-38, T-25, T-39, T-12, T-06, T-07, T-15), e valida a T-38 e a T-15
+- **Alexandre:** T-16 → T-17 → T-18 → T-19 → T-20 → T-24
 - **JP:** T-01 → T-22 → T-23 → T-26 → T-27 → T-28 → T-29 → T-31 → T-32 → T-33 → T-36 → T-35
-- **Devin:** T-38 (agora) → T-25 (depois do T-05) → T-06 e T-07 (depois do T-39 e do M1) → T-15, com a conferência do link
+- **Devin:** T-38 e T-25 entregues → T-39 e T-12 (agora, em paralelo) → T-06 e T-07 (depois do T-39) → T-15, com a conferência do link
 
 ## Marcos
 
@@ -65,7 +65,7 @@ O Devin só pega uma task depois que o "Fechar antes" dela, no [docs/devin.md](d
 | T-07 | API de publicação: rascunho, envio, fila, aprovar, devolver, eventos. Pelo Devin ([DV-2](docs/devin.md#dv-2-rotas-do-back)) | Ativo sai de rascunho e chega a publicado só com aprovação do Cord+ do squad. Testes no CI | Vicente (Devin) | Bruno | T-03, T-05, T-39 | RF-17 a RF-22, RF-32, RNF-01, RNF-02 | A fazer |
 | T-10 | Busca com justificativa: filtro de visibilidade + Claude ranqueia (esforço baixo, saída por schema) | Pedido da cena 1 retorna a skill da PM com motivo. Pedido da cena 2 retorna "não encontrei" | Bruno | Vicente | T-04, T-06 | RF-05, RF-06 | Fazendo |
 | T-11 | Validador: checagens fixas por código (chave, CPF, e-mail, README, autor), sem IA (D-26) | Skill da cena 2 com chave de API é barrada com arquivo, linha e sugestão. Corrigida, passa | Bruno | Vicente | T-03 | RF-14, RF-15 | Fazendo |
-| T-12 | Servidor MCP: `buscar_ativos`, `detalhar_ativo`, `registrar_decisao`, `validar_ativo`, `montar_post`, `enviar_para_aprovacao` | Claude Code chama cada ferramenta e recebe resposta real da API | Vicente | Bruno | T-06, T-07 | RF-10, RF-17, RNF-05 | A fazer |
+| T-12 | Servidor MCP: `buscar_ativos`, `detalhar_ativo`, `registrar_decisao`, `validar_ativo`, `montar_post`, `enviar_para_aprovacao`. Pelo Devin ([DV-6](docs/devin.md#dv-6-servidor-mcp)) | Claude Code chama cada ferramenta e recebe resposta real da API | Vicente (Devin) | Bruno | T-06, T-07 | RF-10, RF-17, RNF-05 | A fazer |
 | T-13 | Plugin do Claude Code: hook de intenção, modo perguntar antes, instruções de uso, hook de ativo novo e convite a publicar ao fim da tarefa | Cena 1 e cena 2 rodam no Claude Code seguindo o roteiro | Bruno | Alexandre | T-12 | RF-02, RF-03, RF-04, RF-07, RF-08, RF-09, RF-11, RF-13, RF-16 | Fazendo |
 | T-17 | Feed: cards com título, tipo, autor, papel, squad, curtidas, instalações | Feed lista o seed na ordem de popularidade | Alexandre | Bruno | T-06 | RF-25 | Fazendo |
 | T-18 | Página do post: detalhes, contadores, trilha de aprovação, "derivado de" com link | Post da skill da PM mostra a derivação criada na cena 1 | Alexandre | Bruno | T-06 | RF-27, RF-30, RF-22 | Fazendo |

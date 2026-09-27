@@ -27,14 +27,14 @@ O gargalo é revisar e juntar sem conflito. Por isso: poucas sessões, bem delim
 | [DV-3](#dv-3-reset-da-demo) | Reset da demo: um comando volta o banco ao seed | T-25 | Depois da migração aplicada (T-05) | Bruno |
 | [DV-4](#dv-4-conferência-do-site-publicado) | Conferência do site publicado contra o checklist de entrega | T-15 | Depois do deploy com dados (T-15) | Vicente |
 | [DV-5](#dv-5-base-do-back) | Base do back: repositório, usuário pelo cabeçalho, erro no formato do contrato e rota de molde | T-39 | Agora, em paralelo com a DV-3 | Bruno |
+| [DV-6](#dv-6-servidor-mcp) | Servidor MCP com as seis ferramentas do contrato | T-12 | Agora, em paralelo com a DV-5 | Bruno |
 
-Ordem: DV-1 feita em 27/09. DV-3 e DV-5 juntas, porque ficam em pastas diferentes (`supabase/` e `backend/`). DV-2 depois da DV-5 juntada. DV-4 depois do T-15.
+Ordem: DV-1 e DV-3 feitas em 27/09. DV-5 e DV-6 juntas, porque ficam em pastas diferentes (`backend/` e `mcp/`). DV-2 depois da DV-5 juntada. DV-4 depois do T-15.
 
 ## O que não vai para o Devin
 
 - **Migração (T-05).** Aplicar no Supabase precisa de uma pessoa. A base do back (T-39) saiu desta lista em 27/09: o Vicente aprovou o plano, as escolhas estão na [decisão 0035](../memoria/decisions/0035-back-fala-com-o-supabase-pelo-cliente-python.md), e o Devin executa como DV-5.
 - **Busca com o Claude (T-10) e validador (T-11).** São do Bruno: prompt e regra de produto.
-- **Servidor MCP (T-12).** É fino e depende das rotas. A descrição das ferramentas muda como o Claude Code se comporta na demo. Rende mais com o Vicente iterando junto com o plugin do Bruno.
 - Plugin (T-13), telas (T-16 a T-20), conteúdo do seed (T-04), roteiro, pitch, ficha, slides e vídeo.
 - Qualquer decisão de produto que não está na PRD.
 
@@ -69,6 +69,9 @@ Um brief só roda com os itens dele marcados. Quem abre a sessão confere.
 
 **DV-5 (base do back)**
 - [x] Plano aprovado pelo Vicente em 27/09. Escolhas na [decisão 0035](../memoria/decisions/0035-back-fala-com-o-supabase-pelo-cliente-python.md).
+
+**DV-6 (servidor MCP)**
+- [x] Contrato do MCP fechado no [docs/api.md](api.md) (M1) e plugin na `main` (T-13). Liberada pelo Vicente em 27/09. O MCP saiu de "O que não vai para o Devin": a primeira versão das descrições sai da skill do plugin, e o Bruno, que valida a T-12, ajusta depois junto com o plugin.
 
 ### Manter o Render acordado
 
@@ -277,6 +280,60 @@ Este brief supõe a base da DV-5 (decisão 0035) na `main`. Leia o `backend/app/
 - A `feat/base-do-back` tem push, sem PR.
 
 **Relatório.** Arquivos criados, como rodar o teste da versão Supabase na base local, e o que a DV-2 precisa saber para acrescentar métodos ao repositório.
+
+### DV-6: Servidor MCP
+
+**Kanban:** T-12. **Branch:** `feat/mcp`. **Requisitos:** RF-10, RF-17 e RNF-05.
+
+**Objetivo.** Fazer o servidor MCP `itau-house`, que o plugin do Claude Code (`plugin/.mcp.json`) sobe na máquina da pessoa. Ele segue a seção "Contrato do MCP (T-12)" do [docs/api.md](api.md).
+
+**Ler antes.** `AGENTS.md`. O [docs/api.md](api.md) inteiro: a tabela do MCP e as rotas que cada ferramenta chama. Todo o `plugin/`, principalmente o `.mcp.json` e o `skills/itau-house/SKILL.md`. As cenas 1 e 2 do [docs/roteiro-demo.md](roteiro-demo.md).
+
+**Já decidido.**
+- `mcp/` é um projeto uv próprio, com `mcp/pyproject.toml`, Python 3.12 e o SDK oficial do MCP (`mcp`, com FastMCP) e `httpx`. Transporte stdio. O comando do plugin, `uv run --directory mcp python servidor.py`, precisa funcionar sem mudança.
+- As seis ferramentas têm os nomes e as entradas exatamente da tabela do contrato. Cada uma chama a rota da tabela em `ITAU_HOUSE_API` (padrão `http://localhost:8000`), com `X-Usuario-Id: $ITAU_HOUSE_USUARIO` (padrão `u-rafael`). A `buscar_ativos` manda `modo` de `ITAU_HOUSE_MODO` (padrão `perguntar_antes`).
+- **Resposta:** o JSON da rota, como texto.
+  - Em erro HTTP, devolve o JSON de erro da API (`{erro, mensagem}`) como texto, sem levantar exceção.
+  - Com a API fora do ar, devolve `{"erro": "api_fora_do_ar", "mensagem": ...}`, em pt-BR.
+  - Timeout de 90 s: o back publicado leva até 1 min para acordar.
+- **Leitura da pasta** em `validar_ativo` e `montar_post`:
+  - aceitam a pasta da skill ou um arquivo só, como o de um agente;
+  - leem os arquivos de texto com caminho relativo à pasta;
+  - ignoram `.git/`, `__pycache__/`, `node_modules/`, binários e arquivos acima de 200 KB.
+- **`montar_post`:**
+  - os parâmetros em snake_case viram camelCase no JSON (`manual_instalacao` → `manualInstalacao`, `derivado_de` → `derivadoDe`, `validacao_ids` → `validacaoIds`);
+  - sem `id`, faz `POST /api/ativos`;
+  - com `id`, faz `PATCH /api/ativos/{id}` só com os campos enviados.
+- **Descrições das ferramentas:** curtas, em pt-BR, dizendo quando usar cada uma, coerentes com o `plugin/skills/itau-house/SKILL.md`. Não prometem o que a rota não faz. O Bruno ajusta depois, junto com o plugin.
+
+**Não faça.**
+- Não mexa em `backend/`, `frontend/`, `plugin/`, `supabase/`, no README nem no CI. Se o plugin precisar de mudança para falar com o servidor, pare e explique no relatório.
+- Não invente rota nem campo. Hoje só existem `POST /api/busca` e `POST /api/validacoes`. As outras quatro chegam com a DV-2: teste contra uma API falsa.
+- Nenhuma chave no código. O servidor não precisa de nenhuma.
+
+**Testes que precisam existir** (`mcp/tests/`, com uma API falsa, por exemplo `httpx.MockTransport`):
+- Cada ferramenta chama o método e o caminho certos, com `X-Usuario-Id` e o corpo em camelCase.
+- `montar_post` sem `id` faz POST. Com `id`, faz PATCH só com os campos enviados.
+- Erro 4xx sai como `{erro, mensagem}` em texto, sem exceção. API fora do ar sai como `api_fora_do_ar`.
+- Leitura da pasta:
+  - ignora `.git/`, `node_modules/`, binário e arquivo acima de 200 KB;
+  - o caminho é relativo à pasta;
+  - a linha que o validador aponta é a linha real do arquivo.
+- O servidor sobe por stdio e lista as seis ferramentas, pelo cliente do SDK.
+- Teste de fumaça contra o back real na sua máquina (`cd backend && uv run uvicorn app.main:app`), sem chave de LLM:
+  - `buscar_ativos` com o pedido da cena 1 volta a resposta gravada;
+  - `validar_ativo` numa pasta com a chave falsa da cena 2 volta `barrado`.
+
+**Pronto quando.**
+- `cd mcp && uv run pytest` passa.
+- `uv run --directory mcp python servidor.py` sobe e responde à listagem de ferramentas.
+- O teste de fumaça contra o back local passou.
+- A `feat/mcp` tem push, sem PR.
+
+**Relatório.**
+- Como ligar o plugin com este servidor no Claude Code, na máquina de uma pessoa.
+- Quais ferramentas só vão funcionar de ponta a ponta depois da DV-2.
+- O texto de cada descrição de ferramenta, para o Bruno revisar.
 
 ## Registro das sessões
 
