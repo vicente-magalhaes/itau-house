@@ -19,7 +19,7 @@ Um fórum interno em que as squads do Itaú publicam e reaproveitam agentes, ski
 - Agentes duplicados: pessoas recriam agentes que já existem, ou não conseguem criar o que outro já tem.
 - Falta de visibilidade: ninguém sabe o que cada um está usando (F2).
 - Perda de conhecimento entre times (F1).
-Evidências em [03-evidencias-pesquisa.md](03-evidencias-pesquisa.md).
+Evidências em [03-evidencias-pesquisa.md](../docs/03-evidencias-pesquisa.md).
 
 ## Persona: membro do squad, com governança do coordenador (D-18)
 
@@ -58,6 +58,7 @@ O MVP demonstra o ciclo descoberta → publicação (D-12). Fluxos detalhados em
   - Como impedir que um ativo carregue dado sensível ou segredo?
   - Como rastrear quem publicou, quem aprovou e quem reaproveitou?
 - Limites do case: não conectar a sistemas reais do banco; nada vai para produção sem humano.
+- Evolução (D-26): no MVP, o coordenador decide e as checagens fixas são código, sem IA. Cada decisão vira dado. Depois do MVP, um agente de julgamento construído sobre esse histórico passa a avaliar a entrada.
 
 ## Produtização aplicada a nós mesmos (narrativa)
 

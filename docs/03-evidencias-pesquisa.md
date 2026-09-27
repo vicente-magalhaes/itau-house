@@ -22,6 +22,7 @@ Regras de evidência do guia:
 | F2 | 3 pessoas de Finanças do Itaú, atuação cross-squad | 26/09/2026, no evento | Uso de IA entre squads | n = 3. Conversa informal. |
 | F3 | Product Analyst (PA), atua em uma squad | 26/09/2026, no evento | Jornada de produtização e dor do dev | n = 1. Relato sobre o time de dev, não do próprio dev. |
 | F4 | Mentores do hackathon | 26/09/2026 | Orientação de recorte | Não registrado em detalhe. |
+| F5 | 2 mentores de produto, externos ao Itaú | 26/09/2026, no evento | Pergunta sobre a métrica de impacto | n = 2. Não são do Itaú. É orientação sobre a entrega, não evidência da dor. |
 
 Ainda não conversamos com um dev. É a persona escolhida. Lacuna principal. Em andamento: o time está buscando um dev no evento (A-13).
 
@@ -64,7 +65,7 @@ Interpretação nossa: F2 e F3 chegam à mesma dor por caminhos diferentes. Falt
   - "homologados": um time específico cria e disponibiliza para o banco inteiro.
 - Os times consomem skills e agentes de outros times.
 
-Interpretação nossa: há compartilhamento, mas F2 diz que não se sabe o que cada um usa. Hipótese: o que existe não resolve descoberta nem reuso no momento do trabalho. **Não validado.** Ver risco R-01 em [05-decisoes-e-pendencias.md](05-decisoes-e-pendencias.md).
+Interpretação nossa: há compartilhamento, mas F2 diz que não se sabe o que cada um usa. Hipótese: o que existe não resolve descoberta nem reuso no momento do trabalho. **Não validado.** Ver risco R-01 em [05-decisoes-e-pendencias.md](../memoria/05-decisoes-e-pendencias.md).
 
 ### IA no Itaú
 
@@ -107,6 +108,12 @@ Interpretação nossa: há compartilhamento, mas F2 diz que não se sabe o que c
 
 Já existe e funciona (não reinventar): OKRs em árvore, SVM, usabilidade, árvore de indicadores, dashboards, IA de sentimento, rollout gradual, gates de mudança, skills homologadas, KB do Íai.
 
+## F5: mentores de produto (externos ao Itaú)
+
+- Pergunta: qual é a métrica de impacto de vocês? Como mostrar que o MVP, aplicado a uma squad específica, trouxe retorno e eficiência? (paráfrase)
+- Resposta do time: retorno de tempo, convertido em reais (D-25 em [05](../memoria/05-decisoes-e-pendencias.md)).
+- A pergunta bate com as dicas 5 e 6 do [guia dos mentores](10-guia-dicas-mentores.md).
+
 ## Mapa do fluxo ponta a ponta (base para o entregável do Case C)
 
 Junção de F1 e F3. Onde a dor aparece:
@@ -123,8 +130,8 @@ Junção de F1 e F3. Onde a dor aparece:
 ## Lacunas (tudo que depender disso é hipótese)
 
 - Nenhum dev entrevistado ainda (busca em andamento).
-- Frequência e custo do retrabalho: sem número.
+- Frequência e custo do retrabalho: sem número medido. Já sabemos como calcular (retorno de tempo, D-25), mas o exemplo usa premissas do time. O número real só sai de um piloto.
 - Como o dev procura hoje algo que já existe (GitHub interno? pergunta no chat? não procura?).
 - Como funciona o catálogo de skills e agentes homologados: onde fica, quem homologa, quem usa.
 - Tempo por etapa do fluxo.
-- Quais decisões as pessoas querem manter humanas (F1 não chegou a responder).
+- Quais decisões as pessoas querem manter humanas (F1 não chegou a responder). O time tem uma proposta (D-26), mas ninguém do Itaú foi ouvido sobre ela.

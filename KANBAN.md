@@ -52,7 +52,7 @@ O Claude rascunha textos (ficha, Q&A, pesquisa, catálogo) quando pedido. Sempre
 | T-04 | Catálogo fictício: squads, usuários (papéis, Cord+/−), 15 a 20 ativos inspirados em retrabalho real. Inclui a skill da PM da cena 1 e um ativo de alcance "squad" de outra squad (teste do RF-05) | Arquivo de seed no formato do T-03 | Bruno | JP (história), Vicente (formato) | T-03 | RNF-03, RNF-04 | A fazer |
 | T-05 | Banco no Supabase: schema do modelo de dados da PRD (seção 10) | Tabelas criadas, `.env.example` com os nomes das variáveis | Vicente | Bruno | — | PRD §10 | A fazer |
 | T-16 | Base do front: design system ligado, layout, aviso de protótipo, login simulado com troca de usuário | Tela de login escolhe usuário fictício e mostra perfil | Alexandre | Bruno | — | RF-23, RF-24, RNF-06 | A fazer |
-| T-22 | Entrevista com um dev do Itaú no evento | Registro em `memoria/03` com papel, data, alcance e limite. Frase de recorte revisada | JP | Bruno | — | A-13 | A fazer |
+| T-22 | Entrevista com um dev do Itaú no evento | Registro em `docs/03` com papel, data, alcance e limite. Frase de recorte revisada | JP | Bruno | — | A-13 | A fazer |
 
 ## Fase 1: construir em paralelo (hoje à noite)
 
@@ -67,7 +67,7 @@ O Claude rascunha textos (ficha, Q&A, pesquisa, catálogo) quando pedido. Sempre
 | T-17 | Feed: cards com título, tipo, autor, papel, squad, curtidas, instalações | Feed lista o seed na ordem de popularidade | Alexandre | Bruno | T-06 | RF-25 | A fazer |
 | T-18 | Página do post: detalhes, contadores, trilha de aprovação, "derivado de" com link | Post da skill da PM mostra a derivação criada na cena 1 | Alexandre | Bruno | T-06 | RF-27, RF-30, RF-22 | A fazer |
 | T-19 | Fila de aprovação do Cord+: ver resultado do validador, aprovar, devolver com comentário | Coordenadora aprova o ativo da cena 2 e ele aparece no feed | Alexandre | Vicente | T-07 | RF-32, RF-19, RF-21 | A fazer |
-| T-23 | Evidências: registrar a fonte do "bench do centão" ou descartar. Buscar dados públicos sobre retrabalho e reuso, com fonte (pedir ao Claude) | `memoria/03` atualizado. Nada sem fonte vai para o slide | JP | Bruno | — | critério "Dados" | A fazer |
+| T-23 | Evidências: registrar a fonte do "bench do centão" ou descartar. Buscar dados públicos sobre retrabalho e reuso, com fonte (pedir ao Claude) | `docs/03` atualizado. Nada sem fonte vai para o slide | JP | Bruno | — | critério "Dados" | A fazer |
 | T-26 | Diferenciação: comparar com Backstage, catálogos de agentes e as skills homologadas do Itaú | Uma frase clara de por que é diferente, em `memoria/05` (A-05) | JP | Bruno | — | A-05, R-01 | A fazer |
 
 ## Fase 2: integrar e testar (amanhã cedo)
