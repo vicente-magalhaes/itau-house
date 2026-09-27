@@ -5,7 +5,8 @@
       "args": ["run", "--directory", "${CLAUDE_PLUGIN_ROOT}/../mcp", "python", "servidor.py"],
       "env": {
         "ITAU_HOUSE_API": "${ITAU_HOUSE_API:-http://localhost:8000}",
-        "ITAU_HOUSE_USUARIO": "${ITAU_HOUSE_USUARIO:-u-rafael}"
+        "ITAU_HOUSE_USUARIO": "${ITAU_HOUSE_USUARIO:-u-rafael}",
+        "ITAU_HOUSE_SITE": "${ITAU_HOUSE_SITE:-https://itau-house.vercel.app}"
       }
     }
   }

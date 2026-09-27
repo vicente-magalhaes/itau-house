@@ -116,10 +116,12 @@ export const filaAprovacao = [
   },
 ];
 
-// Login simulado (RF-23, RF-24). Quem cria é qualquer membro do squad (D-18); na demo, a PM Ana.
-// usuarioId é quem a API enxerga (X-Usuario-Id): o elenco do roteiro da demo, no seed do back (T-04).
-// A pessoa da tela ainda é a dos dados fictícios, até o elenco do front mudar para o do roteiro.
+// Login simulado (RF-23, RF-24). Quem cria é qualquer membro do squad (D-18).
+// usuarioId é quem a API enxerga (X-Usuario-Id). A pessoa da tela é a mesma do seed do back (T-04):
+// o elenco do roteiro da demo, com o Rafael (dev) e a Juliana (coordenadora) da squad Pix · Cobranças.
+const RAFAEL = { id: 'u-rafael', nome: 'Rafael Nunes', primeiro: 'Rafael', iniciais: 'RN', papel: 'Engenharia', cargo: 'Dev pleno', squad: 'Pix · Cobranças', foto: '/assets/pessoas/rafael.jpg' };
+const JULIANA = { id: 'u-juliana', nome: 'Juliana Prado', primeiro: 'Juliana', iniciais: 'JP', papel: 'Coordenação', cargo: 'Coordenadora', squad: 'Pix · Cobranças', foto: '/assets/pessoas/juliana.jpg' };
 export const PERFIS = [
-  { value: 'dev', rotulo: 'Membro do squad', descricao: 'Publica, busca e reaproveita ativos.', pessoa: pessoas.ana, usuarioId: 'u-rafael' },
-  { value: 'coordenador', rotulo: 'Coordenação', descricao: 'Tudo o que o squad vê, mais a fila de aprovação.', pessoa: pessoas.rafael, usuarioId: 'u-juliana' },
+  { value: 'dev', rotulo: 'Membro do squad', descricao: 'Publica, busca e reaproveita ativos.', pessoa: RAFAEL, usuarioId: 'u-rafael' },
+  { value: 'coordenador', rotulo: 'Coordenação', descricao: 'Tudo o que o squad vê, mais a fila de aprovação.', pessoa: JULIANA, usuarioId: 'u-juliana' },
 ];
