@@ -71,8 +71,23 @@ const avisadas = new Set();
 // Devolve { dados, origem: 'api' | 'ficticio', erro, carregando }.
 export function useDaApi(chave, carregar, ficticio) {
   const [resultado, setResultado] = React.useState(() => guardadas.get(chave) || null);
+  const [rodada, setRodada] = React.useState(0);
 
-  // Quem dispara a leitura é a chave. As funções mudam a cada render e não disparam nada.
+  // Quem volta do Claude Code para o navegador vê o que o plugin acabou de mudar (roteiro, cena 1, passo 5).
+  React.useEffect(() => {
+    const aoFocar = () => setRodada((n) => n + 1);
+    const aoMostrar = () => {
+      if (document.visibilityState === 'visible') aoFocar();
+    };
+    window.addEventListener('focus', aoFocar);
+    document.addEventListener('visibilitychange', aoMostrar);
+    return () => {
+      window.removeEventListener('focus', aoFocar);
+      document.removeEventListener('visibilitychange', aoMostrar);
+    };
+  }, []);
+
+  // Quem dispara a leitura é a chave (ou a volta à janela). As funções mudam a cada render e não disparam nada.
   const lerDaApi = React.useEffectEvent(carregar);
   const lerFicticio = React.useEffectEvent(ficticio);
 
@@ -95,7 +110,7 @@ export function useDaApi(chave, carregar, ficticio) {
     return () => {
       viva = false;
     };
-  }, [chave]);
+  }, [chave, rodada]);
 
   const atual = resultado && resultado.chave === chave ? resultado : guardadas.get(chave);
   return {

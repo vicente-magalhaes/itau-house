@@ -1,6 +1,8 @@
 // Converte o JSON do contrato (docs/api.md) no formato que as telas já usam, o dos dados fictícios de catalogo.js.
 // Assim a tela é a mesma com a API ou sem ela. Campo que o contrato não traz fica vazio, nunca inventado.
 
+import { tempoRelativo } from './catalogo.js';
+
 // Enum `tipo` do contrato -> rótulo da tela. Os rótulos existentes são os de catalogo.js.
 const TIPOS = {
   skill: 'Skill',
@@ -69,5 +71,29 @@ export function ativoDaApi(a) {
     adapt: a.derivacoes,
     // A tela compara e calcula a data sem hora (docs/api.md, "O que muda").
     atualizadoEm: (a.atualizadoEm || a.publicadoEm || '').slice(0, 10) || null,
+  };
+}
+
+function linhas(texto) {
+  const n = String(texto || '').split('\n').length;
+  return n === 1 ? '1 linha' : `${n} linhas`;
+}
+
+// AtivoDetalhe do contrato -> ativo da página (RF-27).
+// dentro: os arquivos. deriv: as derivações de `usos`. trilha: o `historico` (RF-22).
+// papeis fica null: o contrato não traz o reuso por papel, e a página mostra as squads no lugar.
+export function ativoDetalheDaApi(a) {
+  const derivacoes = (a.usos || []).filter((u) => u.tipo === 'derivacao');
+  return {
+    ...ativoDaApi(a),
+    dentro: (a.arquivos || []).map((f) => ({ nome: f.caminho, detalhe: linhas(f.conteudo) })),
+    deriv: derivacoes.map((u) => ({
+      pessoa: pessoaDaApi(u.pessoa),
+      detalhe: [u.pessoa.cargo, u.pessoa.squad].filter(Boolean).join(' · '),
+      texto: 'Adaptou ' + tempoRelativo(u.em.slice(0, 10)),
+    })),
+    papeis: null,
+    aprovou: a.aprovadoPor ? a.aprovadoPor.nome : null,
+    trilha: a.historico || [],
   };
 }

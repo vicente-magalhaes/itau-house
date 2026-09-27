@@ -56,7 +56,7 @@ Redesign feito no Claude Design (`Itau House.dc.html`): topo com navegação, se
 |---|---|---|
 | `#/entrar` | Entrada | SSO **simulado** (RF-23). O perfil (Membro do squad / Coordenação) troca o que a interface mostra (RF-24). |
 | `#/` | Início | Busca em linguagem natural, filtros por estante, papel e ordem (RF-26): Em alta, Mais curtidos, Mais reaproveitados, Mais adaptados e Novos. Cards por popularidade (RF-25) com curtir (RF-28). Lateral com pedidos abertos e os ativos mais reaproveitados, com a foto de quem criou. |
-| `#/ativo/:id` | Ativo | Capa, usar, adaptar, curtir. **O que ele acessa**, como as permissões de um aplicativo, e a confirmação "Entendi o que este ativo acessa" antes de usar (RF-29). "Usar em" com os passos de cada ferramenta, o que tem dentro, árvore de adaptações, reaproveitamento por papel (RF-30) e governança (RF-22) (RF-27). |
+| `#/ativo/:id` | Ativo | Capa, usar, adaptar, curtir. **O que ele acessa**, como as permissões de um aplicativo, e a confirmação "Entendi o que este ativo acessa" antes de usar (RF-29). "Usar em" com os passos de cada ferramenta, o que tem dentro, árvore de adaptações, reaproveitamento por papel (RF-30) e governança (RF-22) (RF-27). Com a API: README, arquivos, manual de instalação, "Adaptado de" com link ao original (RF-09), squads que reaproveitaram no lugar do reuso por papel e a trilha do histórico. Relê ao voltar para a janela. |
 | `#/pedidos` | Pedidos | O que alguém procurou e não achou. "Também quero" e "Eu crio". |
 | `#/perfil`, `#/perfil/:id` | Perfil | O que a pessoa publicou, reaproveitamentos, papéis alcançados, adaptações e quem adaptou. "Sair" fica no próprio perfil. |
 | `#/publicar` | Publicar | Hook detecta → validador barra com o que, onde e como corrigir → correção → passa → post com prévia do card → fila. |
@@ -80,7 +80,7 @@ Tudo o que está simulado aparece marcado em tela com o selo **Simulado** (compo
 | Resultado do validador | **Simulado**: roteiro fixo em `src/data/governanca.js`. O validador real faz só checagens fixas por código, sem IA (RF-14, D-26) |
 | Detecção por hook na ferramenta de código | **Simulado** em tela |
 | Login por SSO | **Simulado**: seletor de perfil |
-| Dados vindos da API e do banco | Só o início pede à API (T-17). As outras telas usam `src/data/` |
+| Dados vindos da API e do banco | O início (T-17) e a página do ativo (T-18) pedem à API. As outras telas usam `src/data/` |
 | Integração com Copilot ou Claude Code | Ainda não ligada |
 
 ## Estrutura

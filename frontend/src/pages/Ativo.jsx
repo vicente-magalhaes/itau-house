@@ -1,11 +1,24 @@
 import React from 'react';
-import { Button, Icon, Dialog, Checkbox } from '../ds.js';
+import { Button, Icon, Dialog, Checkbox, Badge } from '../ds.js';
 import { Foto, BotaoSec, SeloSimulado, Vazio } from '../components/comuns.jsx';
 import { BotaoCurtir } from '../components/Post.jsx';
 import { Pulso } from '../components/movimento.jsx';
 import { Link, irPara } from '../router.jsx';
 import { useSessao } from '../sessao.jsx';
-import { acharAtivo, visivelPara, PAPEIS, iconeTipo, rotuloVisibilidade, tempoRelativo, passosDeUso } from '../data/catalogo.js';
+import {
+  acharAtivo,
+  visivelPara,
+  PAPEIS,
+  VISIBILIDADES,
+  iconeTipo,
+  iconeVisibilidade,
+  rotuloVisibilidade,
+  tempoRelativo,
+  formatarDataCurta,
+  passosDeUso,
+} from '../data/catalogo.js';
+import { ativoDetalheDaApi } from '../data/daApi.js';
+import { detalharAtivo, useDaApi } from '../api.js';
 
 function voltar() {
   if (window.history.length > 1) window.history.back();
@@ -13,9 +26,10 @@ function voltar() {
 }
 
 // Pessoa com foto, nome e uma linha de detalhe. Abre o perfil.
+// Quem vem nos `usos` da API não traz id (docs/api.md): a linha só mostra, não abre perfil.
 function LinhaPessoa({ pessoa, detalhe, texto }) {
-  return (
-    <button type="button" className="linha-pessoa" onClick={() => irPara('/perfil/' + pessoa.id)}>
+  const conteudo = (
+    <>
       <Foto pessoa={pessoa} tamanho={48} />
       <span className="stack stack-1" style={{ minWidth: 0 }}>
         <span className="nome">
@@ -23,8 +37,94 @@ function LinhaPessoa({ pessoa, detalhe, texto }) {
         </span>
         <span className="texto">{texto}</span>
       </span>
+    </>
+  );
+  if (!pessoa.id) return <div className="row row-3">{conteudo}</div>;
+  return (
+    <button type="button" className="linha-pessoa" onClick={() => irPara('/perfil/' + pessoa.id)}>
+      {conteudo}
     </button>
   );
+}
+
+// Trecho com `código` no meio do texto.
+function TextoComCodigo({ texto }) {
+  return texto.split('`').map((parte, i) =>
+    i % 2 ? (
+      <code key={i} className="mono">
+        {parte}
+      </code>
+    ) : (
+      parte
+    ),
+  );
+}
+
+// Markdown simples do README e do manual: títulos, listas e parágrafos. Sem dependência nova.
+function Markdown({ texto }) {
+  const blocos = [];
+  let lista = null;
+  texto.split('\n').forEach((bruta) => {
+    const linha = bruta.trim();
+    if (/^[-*] /.test(linha)) {
+      if (!lista) {
+        lista = [];
+        blocos.push({ tipo: 'lista', itens: lista });
+      }
+      lista.push(linha.slice(2));
+      return;
+    }
+    lista = null;
+    if (!linha) return;
+    const titulo = linha.match(/^#{1,6} (.*)$/);
+    blocos.push(titulo ? { tipo: 'titulo', texto: titulo[1] } : { tipo: 'paragrafo', texto: linha });
+  });
+  return (
+    <div className="stack stack-2">
+      {blocos.map((b, i) => {
+        if (b.tipo === 'titulo') {
+          return (
+            <h3 key={i} className="titulo-card" style={{ marginTop: i ? 'var(--space-2)' : 0 }}>
+              {b.texto}
+            </h3>
+          );
+        }
+        if (b.tipo === 'lista') {
+          return (
+            <ul key={i} className="texto" style={{ paddingLeft: 'var(--space-5)' }}>
+              {b.itens.map((t, j) => (
+                <li key={j}>
+                  <TextoComCodigo texto={t} />
+                </li>
+              ))}
+            </ul>
+          );
+        }
+        return (
+          <p key={i} className="texto">
+            <TextoComCodigo texto={b.texto} />
+          </p>
+        );
+      })}
+    </div>
+  );
+}
+
+// Status de quem não está publicado: o autor vê o próprio rascunho, o Cord+ vê o que está na fila.
+const STATUS = {
+  rascunho: 'Rascunho',
+  barrado: 'Barrado no validador',
+  em_aprovacao: 'Aguardando aprovação',
+  devolvido: 'Devolvido ao autor',
+};
+
+// Ícone de cada evento da trilha (RF-22), pelo texto do evento. "Enviado para aprovação" é envio, não aprovação.
+function iconeEvento(evento) {
+  if (/devolv/i.test(evento)) return 'undo-2';
+  if (/envi/i.test(evento)) return 'send';
+  if (/aprov/i.test(evento)) return 'user-check';
+  if (/valid|barr/i.test(evento)) return 'shield-check';
+  return 'history';
 }
 
 // O que o ativo acessa, como as permissões de um aplicativo. Aparece na página e antes de usar (RF-29).
@@ -76,24 +176,46 @@ function UsarEm({ ativo }) {
 
 // Página do ativo (RF-27): capa, ações, o que ele acessa, como usar, conteúdo, derivações, reuso por papel e trilha (RF-22, RF-30).
 export function Ativo({ id }) {
-  const ativo = acharAtivo(id);
-  const { pessoa, usados, usar, reusosDe, avisar, ehCoordenador } = useSessao();
+  const { pessoa, usuarioId, usados, usar, reusosDe, avisar, ehCoordenador } = useSessao();
+  // A API responde 404 para o que a persona não vê (RF-05). Nos dados fictícios, o filtro de alcance é daqui.
+  const { dados: ativo, origem, erro, carregando } = useDaApi(
+    `ativo:${usuarioId}:${id}`,
+    () => detalharAtivo(usuarioId, id).then(ativoDetalheDaApi),
+    () => {
+      const a = acharAtivo(id);
+      return a && visivelPara(a, pessoa) ? a : null;
+    },
+  );
   const [confirmando, setConfirmando] = React.useState(false);
   const [ciente, setCiente] = React.useState(false);
 
-  if (!ativo || !visivelPara(ativo, pessoa)) {
-    return <Vazio icone="search-x" titulo="Este ativo não está disponível para você" acao={<Button size="sm" onClick={() => irPara('/')}>Voltar ao início</Button>} />;
+  if (carregando) return <Vazio icone="loader" titulo="Carregando o ativo" />;
+  if (!ativo) {
+    const titulo = erro && erro.status !== 404 ? erro.message : 'Este ativo não está disponível para você';
+    return <Vazio icone="search-x" titulo={titulo} acao={<Button size="sm" onClick={() => irPara('/')}>Voltar ao início</Button>} />;
   }
 
   const autor = ativo.autor;
   const usado = usados.includes(ativo.id);
-  const maior = Math.max(...ativo.papeis, 1);
-  const deFora = ativo.papeis.reduce((t, n, i) => t + (PAPEIS[i] !== autor.papel ? n : 0), 0);
+  const ferramenta = ativo.ferr[0] || 'editor';
+  // Reuso por papel (RF-30): só os dados fictícios têm. Da API vêm as squads que reaproveitaram.
+  const papeis = ativo.papeis;
+  const maior = papeis ? Math.max(...papeis, 1) : 1;
+  const deFora = papeis ? papeis.reduce((t, n, i) => t + (PAPEIS[i] !== autor.papel ? n : 0), 0) : 0;
+  const squads = ativo.squadsQueReusaram || [];
+  const alcance = VISIBILIDADES.find((v) => v.value === ativo.visibilidade);
+  // Trilha (RF-22): da API vem o histórico de eventos; nos fictícios, o que o catálogo declara.
+  const eventos = ativo.trilha
+    ? ativo.trilha.map((h) => ({ icone: iconeEvento(h.evento), titulo: h.evento, detalhe: [h.quem, h.em && formatarDataCurta(h.em.slice(0, 10))].filter(Boolean).join(' · ') }))
+    : [
+        { icone: 'shield-check', titulo: 'Passou no validador', detalhe: 'Sem segredo, sem dado pessoal e com descrição' },
+        { icone: 'user-check', titulo: 'Aprovado por ' + ativo.aprovou, detalhe: 'Coordenação da squad de quem publicou' },
+      ];
   const trilha = [
-    { icone: 'shield-check', titulo: 'Passou no validador', detalhe: 'Sem segredo, sem dado pessoal e com descrição' },
-    { icone: 'user-check', titulo: 'Aprovado por ' + ativo.aprovou, detalhe: 'Coordenação da squad de quem publicou' },
-    { icone: 'globe', titulo: 'Alcance: ' + rotuloVisibilidade(ativo.visibilidade), detalhe: 'Qualquer pessoa do banco encontra' },
-    { icone: 'tag', titulo: 'Versão ' + ativo.versao, detalhe: 'Atualizado ' + tempoRelativo(ativo.atualizadoEm) },
+    ...eventos,
+    ...(ativo.comentarioCoordenador ? [{ icone: 'message-square', titulo: 'Comentário da coordenação', detalhe: ativo.comentarioCoordenador }] : []),
+    { icone: iconeVisibilidade(ativo.visibilidade), titulo: 'Alcance: ' + rotuloVisibilidade(ativo.visibilidade), detalhe: alcance ? alcance.descricao : '' },
+    { icone: 'tag', titulo: 'Versão ' + ativo.versao, detalhe: ativo.atualizadoEm ? 'Atualizado ' + tempoRelativo(ativo.atualizadoEm) : '' },
   ];
 
   const fechar = () => {
@@ -103,7 +225,7 @@ export function Ativo({ id }) {
   const confirmar = () => {
     usar(ativo.id);
     fechar();
-    avisar(`Pronto! Uma cópia foi pro seu ${ativo.ferr[0]}. O crédito fica com ${autor.primeiro}.`);
+    avisar(`Pronto! Uma cópia foi pro seu ${ferramenta}. O crédito fica com ${autor.primeiro}.`);
   };
 
   return (
@@ -113,19 +235,33 @@ export function Ativo({ id }) {
       </BotaoSec>
 
       <section className="capa-ativo">
-        <span className="tipo-ativo">
-          <Icon name={iconeTipo(ativo.tipo)} size={20} color="var(--brand)" />
-          {ativo.tipo}
-        </span>
+        <div className="row row-3 wrap">
+          <span className="tipo-ativo">
+            <Icon name={iconeTipo(ativo.tipo)} size={20} color="var(--brand)" />
+            {ativo.tipo}
+          </span>
+          {STATUS[ativo.status] && <Badge tone="neutral">{STATUS[ativo.status]}</Badge>}
+        </div>
         <h1 className="titulo-pagina">{ativo.titulo}</h1>
         <p className="texto">{ativo.resumo}</p>
+        {/* Origem da adaptação, com link para o original (RF-09, RF-27). */}
+        {ativo.derivadoDe && (
+          <div className="row row-2">
+            <Icon name="git-fork" size={16} color="var(--ih-ink2)" />
+            <p className="texto">
+              Adaptado de{' '}
+              <Link para={'/ativo/' + ativo.derivadoDe.id} className="btn-texto">
+                {ativo.derivadoDe.nome}
+              </Link>
+              {ativo.derivadoDe.autor && `, de ${ativo.derivadoDe.autor.nome}`}
+            </p>
+          </div>
+        )}
         <button type="button" className="linha-pessoa" onClick={() => irPara('/perfil/' + autor.id)}>
           <Foto pessoa={autor} tamanho={48} />
           <span className="stack stack-1">
             <span className="nome">{autor.nome}</span>
-            <span className="meta">
-              {autor.cargo} · {autor.squad} · {tempoRelativo(ativo.atualizadoEm)}
-            </span>
+            <span className="meta">{[autor.cargo, autor.squad, ativo.atualizadoEm && tempoRelativo(ativo.atualizadoEm)].filter(Boolean).join(' · ')}</span>
           </span>
         </button>
       </section>
@@ -154,7 +290,14 @@ export function Ativo({ id }) {
 
       <div className="colunas">
         <div className="coluna-principal coluna-principal-ativo">
-          <UsarEm key={ativo.id} ativo={ativo} />
+          {ativo.readme && (
+            <section className="stack stack-4">
+              <h2 className="titulo-secao">Sobre</h2>
+              <Markdown texto={ativo.readme} />
+            </section>
+          )}
+
+          {ativo.ferr.length > 0 && <UsarEm key={ativo.id} ativo={ativo} />}
 
           <section className="stack stack-2">
             <h2 className="titulo-secao">O que tem dentro</h2>
@@ -168,6 +311,14 @@ export function Ativo({ id }) {
               </div>
             ))}
           </section>
+
+          {/* Manual de quem publicou (RF-17). O botão de instalar com o manual é o RF-29 (T-20). */}
+          {ativo.manualInstalacao && (
+            <section className="stack stack-4">
+              <h2 className="titulo-secao">Como instalar</h2>
+              <Markdown texto={ativo.manualInstalacao} />
+            </section>
+          )}
 
           <section className="stack stack-4">
             <div className="stack stack-2">
@@ -184,8 +335,8 @@ export function Ativo({ id }) {
               </span>
             </div>
             <div className="arvore-ramos">
-              {ativo.deriv.map((d) => (
-                <LinhaPessoa key={d.pessoa.id} pessoa={d.pessoa} detalhe={d.pessoa.papel} texto={d.texto} />
+              {ativo.deriv.map((d, i) => (
+                <LinhaPessoa key={d.pessoa.id || i} pessoa={d.pessoa} detalhe={d.detalhe || d.pessoa.papel} texto={d.texto} />
               ))}
             </div>
           </section>
@@ -202,20 +353,40 @@ export function Ativo({ id }) {
 
           <div className="painel">
             <h2 className="titulo-card">Quem reaproveitou</h2>
-            <p className="texto">
-              {deFora} dos {ativo.reusos} reaproveitamentos vieram de fora de {autor.papel}.
-            </p>
-            {PAPEIS.map((papel, i) => (
-              <div key={papel} className="stack stack-2">
-                <div className="row spread nome" style={{ lineHeight: 1 }}>
-                  <span>{papel}</span>
-                  <span style={{ color: 'var(--ih-ink2)' }}>{ativo.papeis[i]}</span>
-                </div>
-                <div className="barra-papel">
-                  <span style={{ width: Math.round((ativo.papeis[i] / maior) * 100) + '%' }} />
-                </div>
-              </div>
-            ))}
+            {papeis ? (
+              <>
+                <p className="texto">
+                  {deFora} dos {ativo.reusos} reaproveitamentos vieram de fora de {autor.papel}.
+                </p>
+                {PAPEIS.map((papel, i) => (
+                  <div key={papel} className="stack stack-2">
+                    <div className="row spread nome" style={{ lineHeight: 1 }}>
+                      <span>{papel}</span>
+                      <span style={{ color: 'var(--ih-ink2)' }}>{papeis[i]}</span>
+                    </div>
+                    <div className="barra-papel">
+                      <span style={{ width: Math.round((papeis[i] / maior) * 100) + '%' }} />
+                    </div>
+                  </div>
+                ))}
+              </>
+            ) : (
+              <>
+                <p className="texto">
+                  {squads.length === 0
+                    ? 'Nenhuma squad reaproveitou ainda.'
+                    : `${squads.length} ${squads.length === 1 ? 'squad reaproveitou' : 'squads reaproveitaram'}.`}
+                </p>
+                {squads.map((s) => (
+                  <div key={s} className="row row-3">
+                    <Icon name="users" size={20} color="var(--ih-ink2)" />
+                    <span className="texto" style={{ color: 'var(--ih-ink)' }}>
+                      {s}
+                    </span>
+                  </div>
+                ))}
+              </>
+            )}
           </div>
 
           <div className="painel">
@@ -231,7 +402,8 @@ export function Ativo({ id }) {
                 </span>
               </div>
             ))}
-            {ehCoordenador && (
+            {/* A área de dados ainda lê só os fictícios: com um ativo da API, o link cairia em "não encontrado". */}
+            {ehCoordenador && origem === 'ficticio' && (
               <Link para={'/coord/dados/' + ativo.id} className="btn btn-sec" style={{ alignSelf: 'flex-start' }}>
                 <Icon name="chart-column" size={18} />
                 Ver dados deste ativo
