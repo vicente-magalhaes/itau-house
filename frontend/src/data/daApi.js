@@ -1,7 +1,7 @@
 // Converte o JSON do contrato (docs/api.md) no formato que as telas já usam, o dos dados fictícios de catalogo.js.
 // Assim a tela é a mesma com a API ou sem ela. Campo que o contrato não traz fica vazio, nunca inventado.
 
-import { tempoRelativo } from './catalogo.js';
+import { tempoRelativo, rotuloVisibilidade } from './catalogo.js';
 
 // Enum `tipo` do contrato -> rótulo da tela. Os rótulos existentes são os de catalogo.js.
 const TIPOS = {
@@ -95,5 +95,50 @@ export function ativoDetalheDaApi(a) {
     papeis: null,
     aprovou: a.aprovadoPor ? a.aprovadoPor.nome : null,
     trilha: a.historico || [],
+  };
+}
+
+// Há quanto tempo o item espera na fila, pelo relógio de quem abre: "12 min", "3 h", "1 d".
+function esperando(iso) {
+  const minutos = Math.max(1, Math.round((Date.now() - Date.parse(iso)) / 60000));
+  if (minutos < 60) return `${minutos} min`;
+  const horas = Math.round(minutos / 60);
+  return horas < 24 ? `${horas} h` : `${Math.round(horas / 24)} d`;
+}
+
+// Rodadas do validador por código (RF-14, D-26): "Barrado na 1ª rodada. Passou na 2ª."
+function resumoDasRodadas(validacoes) {
+  if (!validacoes.length) return 'Sem rodada do validador registrada.';
+  if (validacoes.length === 1 && validacoes[0].resultado === 'aprovado') {
+    const n = (validacoes[0].itens || []).length;
+    return n ? `Passou nas ${n} checagens fixas.` : 'Passou nas checagens fixas.';
+  }
+  return validacoes.map((v, i) => (v.resultado === 'barrado' ? `Barrado na ${i + 1}ª rodada.` : `Passou na ${i + 1}ª.`)).join(' ');
+}
+
+// Item da fila do contrato -> item da tela de aprovações (RF-32).
+// O contrato não traz apontamentos (D-26): a lista mostra o que o validador barrou e o alcance pedido.
+export function itemFilaDaApi(item) {
+  const ativo = ativoDetalheDaApi(item.ativo);
+  const validacoes = item.validacoes || [];
+  const barrados = validacoes.flatMap((v, i) =>
+    (v.itens || [])
+      .filter((x) => x.resultado === 'falhou')
+      .map((x) => {
+        const onde = x.arquivo ? `, em ${x.arquivo}${x.linha ? `, linha ${x.linha}` : ''}` : '';
+        return { tom: 'atencao', texto: `${i + 1}ª rodada: ${x.titulo}${onde}.` };
+      }),
+  );
+  return {
+    id: ativo.id,
+    nome: ativo.titulo,
+    tipo: ativo.tipo,
+    estante: ativo.estante,
+    autor: ativo.autor,
+    visibilidade: ativo.visibilidade,
+    esperandoHa: item.enviadoEm ? esperando(item.enviadoEm) : null,
+    checagens: resumoDasRodadas(validacoes),
+    apontamentos: [...barrados, { tom: 'info', texto: `Alcance pedido: ${rotuloVisibilidade(ativo.visibilidade).toLowerCase()}.` }],
+    daApi: true,
   };
 }

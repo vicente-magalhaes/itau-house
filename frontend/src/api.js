@@ -66,6 +66,11 @@ export const decidirAprovacao = (usuarioId, ativoId, decisao) =>
 const guardadas = new Map();
 const avisadas = new Set();
 
+// Pede de novo uma leitura em toda tela que a usa. Ex.: depois de aprovar, a fila e o contador do topo.
+export function recarregar(chave) {
+  window.dispatchEvent(new CustomEvent('ih:recarregar', { detail: chave }));
+}
+
 // Lê da API e, se ela não tiver a rota, usa os dados fictícios.
 // `chave` identifica a leitura e precisa mudar junto com o que `carregar` usa (a persona, o id).
 // Devolve { dados, origem: 'api' | 'ficticio', erro, carregando }.
@@ -86,6 +91,14 @@ export function useDaApi(chave, carregar, ficticio) {
       document.removeEventListener('visibilitychange', aoMostrar);
     };
   }, []);
+
+  React.useEffect(() => {
+    const aoPedir = (e) => {
+      if (e.detail === chave) setRodada((n) => n + 1);
+    };
+    window.addEventListener('ih:recarregar', aoPedir);
+    return () => window.removeEventListener('ih:recarregar', aoPedir);
+  }, [chave]);
 
   // Quem dispara a leitura é a chave (ou a volta à janela). As funções mudam a cada render e não disparam nada.
   const lerDaApi = React.useEffectEvent(carregar);

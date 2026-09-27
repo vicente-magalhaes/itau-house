@@ -60,7 +60,7 @@ Redesign feito no Claude Design (`Itau House.dc.html`): topo com navegação, se
 | `#/pedidos` | Pedidos | O que alguém procurou e não achou. "Também quero" e "Eu crio". |
 | `#/perfil`, `#/perfil/:id` | Perfil | O que a pessoa publicou, reaproveitamentos, papéis alcançados, adaptações e quem adaptou. "Sair" fica no próprio perfil. |
 | `#/publicar` | Publicar | Hook detecta → validador barra com o que, onde e como corrigir → correção → passa → post com prévia do card → fila. |
-| `#/coord/fila` | Fila de aprovação | Só Coordenação (RF-32): resultado das checagens, aprovar (RF-19), devolver ou recusar com motivo (RF-21). Quem julga é o coordenador (D-26). |
+| `#/coord/fila` | Fila de aprovação | Só Coordenação (RF-32): resultado das checagens, aprovar (RF-19), devolver ou recusar com motivo (RF-21). Quem julga é o coordenador (D-26). Com a API: o que o validador barrou em cada rodada, o alcance pedido e o link para o post; só aprovar e devolver, sem desfazer, como no contrato. O contador do topo lê a mesma fila. |
 | `#/coord/dados` | Dados | Só Coordenação: curtidas, reaproveitamentos, adaptações, por frente, tabela por ativo e trilha de cada um (RF-30, RF-22). |
 
 O alcance vale no início, no perfil e na página do ativo (RF-05): ativo de squad só aparece para a própria squad; ativo de frente, só para a mesma frente. Na demo, todo ativo tem alcance "Banco inteiro".
@@ -80,7 +80,7 @@ Tudo o que está simulado aparece marcado em tela com o selo **Simulado** (compo
 | Resultado do validador | **Simulado**: roteiro fixo em `src/data/governanca.js`. O validador real faz só checagens fixas por código, sem IA (RF-14, D-26) |
 | Detecção por hook na ferramenta de código | **Simulado** em tela |
 | Login por SSO | **Simulado**: seletor de perfil |
-| Dados vindos da API e do banco | O início (T-17) e a página do ativo (T-18) pedem à API. As outras telas usam `src/data/` |
+| Dados vindos da API e do banco | O início (T-17), a página do ativo (T-18) e a fila de aprovação (T-19) pedem à API. As outras telas usam `src/data/` |
 | Integração com Copilot ou Claude Code | Ainda não ligada |
 
 ## Estrutura
@@ -98,6 +98,7 @@ frontend/
    ├─ sessao.jsx           perfil, login simulado, curtidas, usados, pedidos, busca e filtros
    ├─ ds.js                ponte para os componentes do design system
    ├─ api.js               rotas da plataforma (docs/api.md) e o useDaApi, que cai em src/data/ sem a rota
+   ├─ fila.js              useFila: a fila do Cord+, lida pela tela de aprovações e pelo contador do topo
    ├─ app.css              utilitários de layout, só com tokens
    ├─ components/          AppShell (topo), Post (card de ativo e Gostei), Filtro (lista no padrão dos botões), peças comuns (Foto, BotaoSec, Recado)
    ├─ data/                catálogo, pedidos e roteiro de governança, fictícios; daApi.js converte o JSON da API

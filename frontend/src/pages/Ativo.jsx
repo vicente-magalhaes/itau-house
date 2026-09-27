@@ -197,6 +197,8 @@ export function Ativo({ id }) {
 
   const autor = ativo.autor;
   const usado = usados.includes(ativo.id);
+  // Os fictícios não têm status: estão todos publicados.
+  const publicado = !ativo.status || ativo.status === 'publicado';
   const ferramenta = ativo.ferr[0] || 'editor';
   // Reuso por papel (RF-30): só os dados fictícios têm. Da API vêm as squads que reaproveitaram.
   const papeis = ativo.papeis;
@@ -267,22 +269,27 @@ export function Ativo({ id }) {
       </section>
 
       <div className="row wrap" style={{ gap: 'var(--space-2) var(--space-4)' }}>
-        <Pulso gatilho={usado} efeito="confirmar">
-          <Button
-            variant="primary"
-            size="sm"
-            iconLeft={usado ? 'check' : 'download'}
-            onClick={() => {
-              if (!usado) setConfirmando(true);
-            }}
-          >
-            {usado ? 'Em uso' : 'Usar'}
-          </Button>
-        </Pulso>
-        <BotaoSec icone="git-fork" onClick={() => avisar(`Criamos sua versão. Ela entra na árvore como derivada do trabalho de ${autor.primeiro}.`)}>
-          Adaptar pra mim
-        </BotaoSec>
-        <BotaoCurtir ativo={ativo} />
+        {/* Só o publicado se usa, adapta e curte. Na fila, o coordenador lê o post antes de decidir. */}
+        {publicado && (
+          <>
+            <Pulso gatilho={usado} efeito="confirmar">
+              <Button
+                variant="primary"
+                size="sm"
+                iconLeft={usado ? 'check' : 'download'}
+                onClick={() => {
+                  if (!usado) setConfirmando(true);
+                }}
+              >
+                {usado ? 'Em uso' : 'Usar'}
+              </Button>
+            </Pulso>
+            <BotaoSec icone="git-fork" onClick={() => avisar(`Criamos sua versão. Ela entra na árvore como derivada do trabalho de ${autor.primeiro}.`)}>
+              Adaptar pra mim
+            </BotaoSec>
+            <BotaoCurtir ativo={ativo} />
+          </>
+        )}
         <span className="texto">
           {reusosDe(ativo)} reaproveitamentos · {ativo.adapt} adaptações
         </span>
