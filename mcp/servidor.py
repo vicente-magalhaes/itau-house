@@ -23,12 +23,22 @@ def _chamar(metodo: str, caminho: str, corpo: dict | None = None) -> str:
                 headers={"X-Usuario-Id": os.environ.get("ITAU_HOUSE_USUARIO", "u-rafael")},
                 json=corpo,
             )
-        return json.dumps(resposta.json(), ensure_ascii=False)
     except httpx.RequestError:
         return json.dumps(
             {
                 "erro": "api_fora_do_ar",
                 "mensagem": "A API do Itaú House está fora do ar. Tente novamente.",
+            },
+            ensure_ascii=False,
+        )
+    # Um 502 em HTML durante o deploy, ou um 500 em texto, não pode virar exceção.
+    try:
+        return json.dumps(resposta.json(), ensure_ascii=False)
+    except ValueError:
+        return json.dumps(
+            {
+                "erro": "resposta_invalida",
+                "mensagem": f"A API respondeu {resposta.status_code} sem JSON. Tente de novo em instantes.",
             },
             ensure_ascii=False,
         )

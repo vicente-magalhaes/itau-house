@@ -1,3 +1,4 @@
+import contextlib
 import json
 from pathlib import Path
 
@@ -84,14 +85,18 @@ def test_modo_configuravel(api_falsa, monkeypatch):
 
 def test_leitura_de_pasta_e_arquivo(api_falsa, tmp_path):
     (tmp_path / "scripts").mkdir()
-    (tmp_path / "scripts" / "gerar.py").write_text("primeira\nsegunda\n", encoding="utf-8")
-    (tmp_path / "SKILL.md").write_text("description: Exemplo\n", encoding="utf-8")
+    (tmp_path / "scripts" / "gerar.py").write_text(
+        "primeira\nsegunda\n", encoding="utf-8", newline="\n"
+    )
+    (tmp_path / "SKILL.md").write_text("description: Exemplo\n", encoding="utf-8", newline="\n")
     for pasta in (".git", "__pycache__", "node_modules"):
         (tmp_path / pasta).mkdir()
         (tmp_path / pasta / "oculto.txt").write_text("ignorar", encoding="utf-8")
     (tmp_path / "binario.dat").write_bytes(b"abc\x00def")
     (tmp_path / "grande.txt").write_text("x" * (200 * 1024 + 1), encoding="utf-8")
-    (tmp_path / "atalho.txt").symlink_to(tmp_path / "SKILL.md")
+    # No Windows, criar atalho pede permissão de administrador. Sem ele, o teste segue.
+    with contextlib.suppress(OSError):
+        (tmp_path / "atalho.txt").symlink_to(tmp_path / "SKILL.md")
 
     servidor.validar_ativo(str(tmp_path))
     conferir_chamada(
@@ -116,7 +121,7 @@ def test_leitura_de_pasta_e_arquivo(api_falsa, tmp_path):
 
 
 def test_montar_post_cria_e_edita_somente_os_campos_fornecidos(api_falsa, tmp_path):
-    (tmp_path / "SKILL.md").write_text("description: Exemplo\n", encoding="utf-8")
+    (tmp_path / "SKILL.md").write_text("description: Exemplo\n", encoding="utf-8", newline="\n")
     arquivos = [{"caminho": "SKILL.md", "conteudo": "description: Exemplo\n"}]
 
     servidor.montar_post(
@@ -181,6 +186,18 @@ def test_erros_da_api_e_conexao(api_falsa, monkeypatch):
         "erro": "api_fora_do_ar",
         "mensagem": "A API do Itaú House está fora do ar. Tente novamente.",
     }
+
+
+def test_resposta_sem_json_nao_vira_excecao(api_falsa, monkeypatch):
+    transporte = httpx.MockTransport(
+        lambda requisicao: httpx.Response(502, text="<html>Bad Gateway</html>")
+    )
+    monkeypatch.setattr(
+        servidor.httpx, "Client", lambda **opcoes: CLIENTE_REAL(transport=transporte, **opcoes)
+    )
+    resposta = json.loads(servidor.detalhar_ativo("a-1"))
+    assert resposta["erro"] == "resposta_invalida"
+    assert "502" in resposta["mensagem"]
 
 
 def test_pasta_inexistente_nao_chama_api(api_falsa, tmp_path):
