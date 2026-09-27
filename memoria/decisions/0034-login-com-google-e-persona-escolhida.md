@@ -6,7 +6,7 @@ supersedes: []
 superseded_by: []
 ---
 
-# 0033: Login com Google autentica; a persona continua escolhida
+# 0034: Login com Google autentica; a persona continua escolhida
 
 ## Rule
 
