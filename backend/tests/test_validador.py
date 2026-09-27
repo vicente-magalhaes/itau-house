@@ -86,6 +86,13 @@ def test_sem_descricao_barra() -> None:
     assert readme["resultado"] == "falhou"
 
 
+def test_usuario_desconhecido_barra_por_autor() -> None:
+    r = _validar([{"caminho": "SKILL.md", "conteudo": SKILL}], usuario="u-nao-existe")
+
+    autor = next(i for i in r.json()["itens"] if i["criterio"] == "autor")
+    assert autor["resultado"] == "falhou"
+
+
 def test_sem_usuario_responde_401() -> None:
     r = _validar([{"caminho": "SKILL.md", "conteudo": SKILL}], usuario=None)
 

@@ -277,6 +277,7 @@ O MCP repassa `X-Usuario-Id` a partir de `ITAU_HOUSE_USUARIO`.
 - `validacoes.ativo_id` precisa aceitar `null`: a validação roda antes de o rascunho existir.
 - Campos a mais no ativo: `tags`, `ferramentas`, `versao`, `acessos` (jsonb), `atualizado_em`. Em `usuarios`: `cargo`, `iniciais`.
 - O enum `papel` ganha `dados` e `coordenacao`. O enum `tipo` ganha `componente`, que o front já usa.
+- Seed (T-04) em `backend/app/dados/seed.json`, neste formato. Os ids são legíveis (`u-rafael`, `a-criterios-aceitacao`): sugiro chave `text` em vez de `uuid`, e as URLs da demo ficam legíveis também. Os contadores do seed são a base inicial, e eventos novos somam em cima deles.
 
 **Front (Alexandre)**
 - `reusos` passa a se chamar `instalacoes`.

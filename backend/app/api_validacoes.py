@@ -7,7 +7,7 @@ from fastapi import APIRouter, Header, HTTPException
 from pydantic import BaseModel, ConfigDict
 from pydantic.alias_generators import to_camel
 
-from app import validador
+from app import catalogo, validador
 
 router = APIRouter(prefix="/api", tags=["publicação"])
 
@@ -41,19 +41,15 @@ class ValidacaoOut(_Camel):
     itens: list[ItemOut]
 
 
-def _squad_do_usuario(usuario_id: str) -> str | None:
-    # Sem banco ainda (T-05): todo usuário do login simulado tem squad.
-    # Quando a tabela usuarios existir, buscar o squad_id aqui.
-    return "definido no seed"
-
-
 @router.post("/validacoes", response_model=ValidacaoOut, response_model_exclude_none=True)
 def validar(corpo: ValidacaoIn, x_usuario_id: str | None = Header(default=None)) -> ValidacaoOut:
     """Checagens fixas por código, sem IA (D-26). Não cria ativo e nada vai para a fila."""
     if not x_usuario_id:
         raise HTTPException(401, {"erro": "sem_usuario", "mensagem": "Entre com um usuário."})
     arquivos = [validador.Arquivo(a.caminho, a.conteudo) for a in corpo.arquivos]
-    itens = validador.validar(arquivos, x_usuario_id, _squad_do_usuario(x_usuario_id))
+    # Até o banco existir (T-05), o usuário vem do seed.
+    pessoa = catalogo.usuario(x_usuario_id) or {}
+    itens = validador.validar(arquivos, pessoa.get("id"), pessoa.get("squadId"))
     # TODO(T-07): gravar a validação e o evento `validacao` quando o banco existir.
     return ValidacaoOut(
         validacao_id=f"v-{uuid.uuid4()}",

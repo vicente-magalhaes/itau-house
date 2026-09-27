@@ -1,0 +1,1227 @@
+{
+  "$comment": "Catálogo fictício do Itaú House (T-04). [SIMULADO]: pessoas, squads, números e conteúdo são inventados. Formato do contrato em docs/api.md. Contadores são a base inicial; eventos novos somam em cima.",
+  "squads": [
+    {
+      "id": "s-pix-cobrancas",
+      "nome": "Pix · Cobranças",
+      "frente": "Pix"
+    },
+    {
+      "id": "s-pix-recebimentos",
+      "nome": "Pix · Recebimentos",
+      "frente": "Pix"
+    },
+    {
+      "id": "s-cartoes-fatura",
+      "nome": "Cartões · Fatura",
+      "frente": "Cartões"
+    },
+    {
+      "id": "s-cartoes-emissao",
+      "nome": "Cartões · Emissão",
+      "frente": "Cartões"
+    },
+    {
+      "id": "s-canais-app",
+      "nome": "Canais digitais · App",
+      "frente": "Canais digitais"
+    },
+    {
+      "id": "s-plataforma-core",
+      "nome": "Plataforma · Core",
+      "frente": "Plataforma"
+    },
+    {
+      "id": "s-seguros-vida",
+      "nome": "Seguros · Vida",
+      "frente": "Seguros"
+    },
+    {
+      "id": "s-dados-qualidade",
+      "nome": "Dados e analytics · Qualidade",
+      "frente": "Dados e analytics"
+    },
+    {
+      "id": "s-invest-renda-fixa",
+      "nome": "Investimentos · Renda fixa",
+      "frente": "Investimentos"
+    }
+  ],
+  "usuarios": [
+    {
+      "id": "u-rafael",
+      "nome": "Rafael Nunes",
+      "iniciais": "RN",
+      "papel": "dev",
+      "cargo": "Dev pleno",
+      "squadId": "s-pix-cobrancas",
+      "squad": "Pix · Cobranças",
+      "frente": "Pix",
+      "perfil": "cord_menos"
+    },
+    {
+      "id": "u-juliana",
+      "nome": "Juliana Prado",
+      "iniciais": "JP",
+      "papel": "coordenacao",
+      "cargo": "Coordenadora",
+      "squadId": "s-pix-cobrancas",
+      "squad": "Pix · Cobranças",
+      "frente": "Pix",
+      "perfil": "cord_mais"
+    },
+    {
+      "id": "u-thiago",
+      "nome": "Thiago Moreira",
+      "iniciais": "TM",
+      "papel": "dev",
+      "cargo": "Dev sênior",
+      "squadId": "s-pix-recebimentos",
+      "squad": "Pix · Recebimentos",
+      "frente": "Pix",
+      "perfil": "cord_menos"
+    },
+    {
+      "id": "u-marcos",
+      "nome": "Marcos Leal",
+      "iniciais": "ML",
+      "papel": "coordenacao",
+      "cargo": "Coordenador",
+      "squadId": "s-pix-recebimentos",
+      "squad": "Pix · Recebimentos",
+      "frente": "Pix",
+      "perfil": "cord_mais"
+    },
+    {
+      "id": "u-marina",
+      "nome": "Marina Alves",
+      "iniciais": "MA",
+      "papel": "produto",
+      "cargo": "PM",
+      "squadId": "s-cartoes-fatura",
+      "squad": "Cartões · Fatura",
+      "frente": "Cartões",
+      "perfil": "cord_menos"
+    },
+    {
+      "id": "u-otavio",
+      "nome": "Otávio Reis",
+      "iniciais": "OR",
+      "papel": "dev",
+      "cargo": "QA",
+      "squadId": "s-cartoes-fatura",
+      "squad": "Cartões · Fatura",
+      "frente": "Cartões",
+      "perfil": "cord_menos"
+    },
+    {
+      "id": "u-renato",
+      "nome": "Renato Lima",
+      "iniciais": "RL",
+      "papel": "coordenacao",
+      "cargo": "Coordenador",
+      "squadId": "s-cartoes-fatura",
+      "squad": "Cartões · Fatura",
+      "frente": "Cartões",
+      "perfil": "cord_mais"
+    },
+    {
+      "id": "u-ana",
+      "nome": "Ana Ribeiro",
+      "iniciais": "AR",
+      "papel": "dev",
+      "cargo": "Dev front",
+      "squadId": "s-cartoes-emissao",
+      "squad": "Cartões · Emissão",
+      "frente": "Cartões",
+      "perfil": "cord_menos"
+    },
+    {
+      "id": "u-sergio",
+      "nome": "Sérgio Antunes",
+      "iniciais": "SA",
+      "papel": "coordenacao",
+      "cargo": "Coordenador",
+      "squadId": "s-cartoes-emissao",
+      "squad": "Cartões · Emissão",
+      "frente": "Cartões",
+      "perfil": "cord_mais"
+    },
+    {
+      "id": "u-felipe",
+      "nome": "Felipe Tanaka",
+      "iniciais": "FT",
+      "papel": "dev",
+      "cargo": "Tech lead",
+      "squadId": "s-canais-app",
+      "squad": "Canais digitais · App",
+      "frente": "Canais digitais",
+      "perfil": "cord_menos"
+    },
+    {
+      "id": "u-julia",
+      "nome": "Júlia Ramos",
+      "iniciais": "JR",
+      "papel": "produto",
+      "cargo": "PM",
+      "squadId": "s-canais-app",
+      "squad": "Canais digitais · App",
+      "frente": "Canais digitais",
+      "perfil": "cord_menos"
+    },
+    {
+      "id": "u-leticia",
+      "nome": "Letícia Moraes",
+      "iniciais": "LM",
+      "papel": "coordenacao",
+      "cargo": "Coordenadora",
+      "squadId": "s-canais-app",
+      "squad": "Canais digitais · App",
+      "frente": "Canais digitais",
+      "perfil": "cord_mais"
+    },
+    {
+      "id": "u-camila",
+      "nome": "Camila Duarte",
+      "iniciais": "CD",
+      "papel": "dev",
+      "cargo": "Dev sênior",
+      "squadId": "s-plataforma-core",
+      "squad": "Plataforma · Core",
+      "frente": "Plataforma",
+      "perfil": "cord_menos"
+    },
+    {
+      "id": "u-rodrigo",
+      "nome": "Rodrigo Pinto",
+      "iniciais": "RP",
+      "papel": "coordenacao",
+      "cargo": "Arquiteto e coordenador",
+      "squadId": "s-plataforma-core",
+      "squad": "Plataforma · Core",
+      "frente": "Plataforma",
+      "perfil": "cord_mais"
+    },
+    {
+      "id": "u-patricia",
+      "nome": "Patrícia Rezende",
+      "iniciais": "PR",
+      "papel": "design",
+      "cargo": "Designer",
+      "squadId": "s-seguros-vida",
+      "squad": "Seguros · Vida",
+      "frente": "Seguros",
+      "perfil": "cord_menos"
+    },
+    {
+      "id": "u-helena",
+      "nome": "Helena Castro",
+      "iniciais": "HC",
+      "papel": "coordenacao",
+      "cargo": "Coordenadora",
+      "squadId": "s-seguros-vida",
+      "squad": "Seguros · Vida",
+      "frente": "Seguros",
+      "perfil": "cord_mais"
+    },
+    {
+      "id": "u-aline",
+      "nome": "Aline Souza",
+      "iniciais": "AS",
+      "papel": "dados",
+      "cargo": "Cientista de dados",
+      "squadId": "s-dados-qualidade",
+      "squad": "Dados e analytics · Qualidade",
+      "frente": "Dados e analytics",
+      "perfil": "cord_menos"
+    },
+    {
+      "id": "u-gustavo",
+      "nome": "Gustavo Ferraz",
+      "iniciais": "GF",
+      "papel": "coordenacao",
+      "cargo": "Coordenador",
+      "squadId": "s-dados-qualidade",
+      "squad": "Dados e analytics · Qualidade",
+      "frente": "Dados e analytics",
+      "perfil": "cord_mais"
+    },
+    {
+      "id": "u-lucas",
+      "nome": "Lucas Almeida",
+      "iniciais": "LA",
+      "papel": "risco",
+      "cargo": "Analista de risco",
+      "squadId": "s-invest-renda-fixa",
+      "squad": "Investimentos · Renda fixa",
+      "frente": "Investimentos",
+      "perfil": "cord_menos"
+    },
+    {
+      "id": "u-denise",
+      "nome": "Denise Rocha",
+      "iniciais": "DR",
+      "papel": "coordenacao",
+      "cargo": "Coordenadora",
+      "squadId": "s-invest-renda-fixa",
+      "squad": "Investimentos · Renda fixa",
+      "frente": "Investimentos",
+      "perfil": "cord_mais"
+    }
+  ],
+  "ativos": [
+    {
+      "id": "a-criterios-aceitacao",
+      "nome": "Demanda em critérios de aceitação",
+      "tipo": "skill",
+      "resumo": "Transforma a demanda em critérios de aceitação no formato Dado/Quando/Então, com o caso incompleto e as perguntas para o refinamento.",
+      "autorId": "u-marina",
+      "squadId": "s-cartoes-fatura",
+      "squad": "Cartões · Fatura",
+      "frente": "Cartões",
+      "visibilidade": "banco",
+      "status": "publicado",
+      "tags": [
+        "qualidade",
+        "refinamento",
+        "produto"
+      ],
+      "ferramentas": [
+        "Claude Code",
+        "Copilot"
+      ],
+      "versao": "1.2.0",
+      "readme": "## O que faz\nRecebe uma demanda e devolve critérios de aceitação testáveis, no formato Dado/Quando/Então.\nSempre inclui o caso incompleto e uma lista de perguntas para o refinamento.\n\n## Quando usar\nNo refinamento, antes de a história ir para desenvolvimento.\n\n## Limites\nNão gera casos de teste. Não conhece as regras do seu domínio: revise antes de colar no card.",
+      "arquivos": [
+        {
+          "caminho": "SKILL.md",
+          "conteudo": "---\nname: demanda-em-criterios-de-aceitacao\ndescription: Transforma a descrição de uma demanda em critérios de aceitação no formato Dado/Quando/Então.\n---\n# Demanda em critérios de aceitação\n\nQuando a pessoa colar uma demanda (história, pedido de negócio ou ticket):\n\n1. Resuma em uma frase o objetivo da demanda.\n2. Liste as regras de negócio explícitas. Marque como \"a confirmar\" o que estiver implícito.\n3. Escreva de 3 a 7 critérios no formato:\n   - **Dado** <contexto>\n   - **Quando** <ação>\n   - **Então** <resultado observável>\n4. Inclua sempre um critério para o caso incompleto: o que acontece quando falta informação.\n5. Termine com \"Perguntas para o refinamento\": o que o texto não responde.\n\n## Não faça\n- Não invente regra de negócio.\n- Não escreva casos de teste nem código.\n"
+        }
+      ],
+      "manualInstalacao": "Claude Code: copie a pasta para `.claude/skills/`. Copilot: cole o conteúdo do SKILL.md nas instruções do repositório.",
+      "acessos": [
+        {
+          "icone": "file-text",
+          "titulo": "Lê o texto que você colar",
+          "detalhe": "Não busca nada sozinho."
+        },
+        {
+          "icone": "globe",
+          "titulo": "Sem acesso à rede",
+          "detalhe": "Não faz chamadas externas."
+        }
+      ],
+      "derivadoDe": null,
+      "curtidas": 23,
+      "instalacoes": 41,
+      "derivacoes": 3,
+      "squadsQueReusaram": [
+        "Canais digitais · App",
+        "Seguros · Vida",
+        "Dados e analytics · Qualidade",
+        "Investimentos · Renda fixa"
+      ],
+      "usos": [
+        {
+          "tipo": "derivacao",
+          "pessoaId": "u-aline",
+          "em": "2026-09-19T15:10:00-03:00"
+        },
+        {
+          "tipo": "instalacao",
+          "pessoaId": "u-lucas",
+          "em": "2026-09-17T11:02:00-03:00"
+        },
+        {
+          "tipo": "derivacao",
+          "pessoaId": "u-patricia",
+          "em": "2026-09-09T16:45:00-03:00"
+        },
+        {
+          "tipo": "derivacao",
+          "pessoaId": "u-felipe",
+          "em": "2026-08-28T10:30:00-03:00"
+        }
+      ],
+      "enviadoEm": "2026-08-14T09:20:00-03:00",
+      "aprovadoPorId": "u-renato",
+      "publicadoEm": "2026-08-14T10:00:00-03:00",
+      "atualizadoEm": "2026-09-22T09:30:00-03:00"
+    },
+    {
+      "id": "a-criterios-fatura",
+      "nome": "Critérios de aceitação para histórias de fatura",
+      "tipo": "skill",
+      "resumo": "Escreve critérios de aceitação e casos de teste para histórias de fatura do cartão, com as regras de fechamento e vencimento da squad.",
+      "autorId": "u-otavio",
+      "squadId": "s-cartoes-fatura",
+      "squad": "Cartões · Fatura",
+      "frente": "Cartões",
+      "visibilidade": "squad",
+      "status": "publicado",
+      "tags": [
+        "qualidade",
+        "teste",
+        "fatura"
+      ],
+      "ferramentas": [
+        "Claude Code"
+      ],
+      "versao": "1.0.0",
+      "readme": "## O que faz\nCritérios de aceitação e casos de teste para histórias de fatura.\n\n## Limites\nUsa as regras internas de fechamento da squad. Por isso fica só na squad.",
+      "arquivos": [
+        {
+          "caminho": "SKILL.md",
+          "conteudo": "---\nname: criterios-fatura\ndescription: Critérios de aceitação e casos de teste para histórias de fatura.\n---\n# Critérios para fatura\nUse as regras de fechamento e vencimento da squad Cartões · Fatura.\n"
+        }
+      ],
+      "manualInstalacao": "Claude Code: copie a pasta para `.claude/skills/`. Copilot: cole o conteúdo do SKILL.md nas instruções do repositório.",
+      "acessos": [
+        {
+          "icone": "file-text",
+          "titulo": "Lê o texto que você colar",
+          "detalhe": "Não busca nada sozinho."
+        },
+        {
+          "icone": "globe",
+          "titulo": "Sem acesso à rede",
+          "detalhe": "Não faz chamadas externas."
+        }
+      ],
+      "derivadoDe": null,
+      "curtidas": 4,
+      "instalacoes": 6,
+      "derivacoes": 0,
+      "squadsQueReusaram": [],
+      "usos": [],
+      "enviadoEm": "2026-09-05T09:20:00-03:00",
+      "aprovadoPorId": "u-renato",
+      "publicadoEm": "2026-09-05T10:00:00-03:00",
+      "atualizadoEm": "2026-09-05T10:00:00-03:00"
+    },
+    {
+      "id": "a-revisor-pr",
+      "nome": "Revisor de PR com as regras da frente",
+      "tipo": "agente",
+      "resumo": "Revisa o pull request contra o guia de código da frente e cita o trecho do guia que sustenta cada comentário.",
+      "autorId": "u-felipe",
+      "squadId": "s-canais-app",
+      "squad": "Canais digitais · App",
+      "frente": "Canais digitais",
+      "visibilidade": "banco",
+      "status": "publicado",
+      "tags": [
+        "revisão",
+        "padrão de código",
+        "pr"
+      ],
+      "ferramentas": [
+        "Agnóstico"
+      ],
+      "versao": "2.0.1",
+      "readme": "## O que faz\nLê o diff e compara com o guia de código da frente. Cada comentário cita o item do guia.\n\n## Limites\nNão aprova nem bloqueia o PR. A decisão continua com quem revisa.",
+      "arquivos": [
+        {
+          "caminho": "agente.md",
+          "conteudo": "---\nname: revisor-pr\ndescription: Revisa PR contra o guia de código da frente.\n---\n# Revisor de PR\nPara cada comentário, cite o item do guia que o sustenta.\n"
+        }
+      ],
+      "manualInstalacao": "Claude Code: copie a pasta para `.claude/skills/`. Copilot: cole o conteúdo do SKILL.md nas instruções do repositório.",
+      "acessos": [
+        {
+          "icone": "git-pull-request",
+          "titulo": "Lê o diff do pull request",
+          "detalhe": "Só leitura. Não aprova nem faz merge."
+        },
+        {
+          "icone": "message-square",
+          "titulo": "Escreve comentários no PR",
+          "detalhe": "Comentário simples, nunca aprovação."
+        }
+      ],
+      "derivadoDe": null,
+      "curtidas": 57,
+      "instalacoes": 31,
+      "derivacoes": 2,
+      "squadsQueReusaram": [
+        "Plataforma · Core",
+        "Pix · Recebimentos",
+        "Seguros · Vida"
+      ],
+      "usos": [],
+      "enviadoEm": "2026-06-02T09:20:00-03:00",
+      "aprovadoPorId": "u-leticia",
+      "publicadoEm": "2026-06-02T10:00:00-03:00",
+      "atualizadoEm": "2026-09-19T10:00:00-03:00"
+    },
+    {
+      "id": "a-revisor-pr-pix",
+      "nome": "Revisor de PR com as regras de Pix",
+      "tipo": "agente",
+      "resumo": "Versão do revisor de PR com o guia de código da frente Pix e as regras de idempotência das transações.",
+      "autorId": "u-thiago",
+      "squadId": "s-pix-recebimentos",
+      "squad": "Pix · Recebimentos",
+      "frente": "Pix",
+      "visibilidade": "frente",
+      "status": "publicado",
+      "tags": [
+        "revisão",
+        "pix",
+        "pr"
+      ],
+      "ferramentas": [
+        "Agnóstico"
+      ],
+      "versao": "1.0.0",
+      "readme": "## O que faz\nMesmo revisor de PR, com o guia da frente Pix e checagens de idempotência.\n\n## Origem\nDerivado do revisor da Canais digitais · App.",
+      "arquivos": [
+        {
+          "caminho": "agente.md",
+          "conteudo": "---\nname: revisor-pr-pix\ndescription: Revisa PR contra o guia de código da frente Pix.\n---\n# Revisor de PR (Pix)\nConfira idempotência em toda rota que cria transação.\n"
+        }
+      ],
+      "manualInstalacao": "Claude Code: copie a pasta para `.claude/skills/`. Copilot: cole o conteúdo do SKILL.md nas instruções do repositório.",
+      "acessos": [
+        {
+          "icone": "git-pull-request",
+          "titulo": "Lê o diff do pull request",
+          "detalhe": "Só leitura."
+        }
+      ],
+      "derivadoDe": "a-revisor-pr",
+      "curtidas": 9,
+      "instalacoes": 5,
+      "derivacoes": 0,
+      "squadsQueReusaram": [],
+      "usos": [],
+      "enviadoEm": "2026-09-12T09:20:00-03:00",
+      "aprovadoPorId": "u-marcos",
+      "publicadoEm": "2026-09-12T10:00:00-03:00",
+      "atualizadoEm": "2026-09-12T10:00:00-03:00"
+    },
+    {
+      "id": "a-esqueleto-fastapi",
+      "nome": "Esqueleto de endpoint FastAPI com trilha de auditoria",
+      "tipo": "esqueleto",
+      "resumo": "Rota, validação, log de auditoria e teste já ligados. O time só escreve a regra de negócio.",
+      "autorId": "u-camila",
+      "squadId": "s-plataforma-core",
+      "squad": "Plataforma · Core",
+      "frente": "Plataforma",
+      "visibilidade": "banco",
+      "status": "publicado",
+      "tags": [
+        "backend",
+        "fastapi",
+        "auditoria"
+      ],
+      "ferramentas": [
+        "Agnóstico"
+      ],
+      "versao": "3.1.0",
+      "readme": "## O que faz\nGera a estrutura de um endpoint novo: rota, schema de entrada, log de auditoria e teste.\n\n## Limites\nNão decide o contrato da API. O time define entrada e saída.",
+      "arquivos": [
+        {
+          "caminho": "SKILL.md",
+          "conteudo": "---\nname: esqueleto-fastapi\ndescription: Gera endpoint FastAPI com auditoria e teste.\n---\n# Esqueleto FastAPI\nCrie rota, schema, log de auditoria e teste.\n"
+        }
+      ],
+      "manualInstalacao": "Claude Code: copie a pasta para `.claude/skills/`. Copilot: cole o conteúdo do SKILL.md nas instruções do repositório.",
+      "acessos": [
+        {
+          "icone": "folder",
+          "titulo": "Escreve arquivos na pasta do projeto",
+          "detalhe": ""
+        },
+        {
+          "icone": "globe",
+          "titulo": "Sem acesso à rede",
+          "detalhe": "Não faz chamadas externas."
+        }
+      ],
+      "derivadoDe": null,
+      "curtidas": 88,
+      "instalacoes": 47,
+      "derivacoes": 6,
+      "squadsQueReusaram": [
+        "Pix · Recebimentos",
+        "Cartões · Emissão",
+        "Investimentos · Renda fixa",
+        "Seguros · Vida"
+      ],
+      "usos": [],
+      "enviadoEm": "2026-04-10T09:20:00-03:00",
+      "aprovadoPorId": "u-rodrigo",
+      "publicadoEm": "2026-04-10T10:00:00-03:00",
+      "atualizadoEm": "2026-09-24T10:00:00-03:00"
+    },
+    {
+      "id": "a-feature-flag",
+      "nome": "Framework de feature flag por squad",
+      "tipo": "framework",
+      "resumo": "Padrão de feature flag com dono, prazo de validade e lista de remoção das flags vencidas.",
+      "autorId": "u-camila",
+      "squadId": "s-plataforma-core",
+      "squad": "Plataforma · Core",
+      "frente": "Plataforma",
+      "visibilidade": "banco",
+      "status": "publicado",
+      "tags": [
+        "backend",
+        "release",
+        "governança"
+      ],
+      "ferramentas": [
+        "Agnóstico"
+      ],
+      "versao": "1.4.2",
+      "readme": "## O que faz\nPadroniza feature flags com dono e validade. Flag vencida entra na lista de remoção.",
+      "arquivos": [
+        {
+          "caminho": "README.md",
+          "conteudo": "# Feature flag por squad\nToda flag tem dono e data de validade."
+        }
+      ],
+      "manualInstalacao": "Claude Code: copie a pasta para `.claude/skills/`. Copilot: cole o conteúdo do SKILL.md nas instruções do repositório.",
+      "acessos": [
+        {
+          "icone": "folder",
+          "titulo": "Escreve arquivos na pasta do projeto",
+          "detalhe": ""
+        }
+      ],
+      "derivadoDe": null,
+      "curtidas": 29,
+      "instalacoes": 26,
+      "derivacoes": 2,
+      "squadsQueReusaram": [
+        "Canais digitais · App",
+        "Cartões · Emissão"
+      ],
+      "usos": [],
+      "enviadoEm": "2026-03-19T09:20:00-03:00",
+      "aprovadoPorId": "u-rodrigo",
+      "publicadoEm": "2026-03-19T10:00:00-03:00",
+      "atualizadoEm": "2026-08-30T10:00:00-03:00"
+    },
+    {
+      "id": "a-mcp-catalogo-apis",
+      "nome": "MCP do catálogo de APIs internas",
+      "tipo": "mcp",
+      "resumo": "Deixa o agente consultar o catálogo de APIs internas e responder qual serviço já expõe o dado antes de construir.",
+      "autorId": "u-rodrigo",
+      "squadId": "s-plataforma-core",
+      "squad": "Plataforma · Core",
+      "frente": "Plataforma",
+      "visibilidade": "banco",
+      "status": "publicado",
+      "tags": [
+        "mcp",
+        "apis",
+        "descoberta"
+      ],
+      "ferramentas": [
+        "Claude Code",
+        "Copilot"
+      ],
+      "versao": "0.9.2",
+      "readme": "## O que faz\nExpõe o catálogo de APIs para o agente.\n\n## Limites\nSó metadados: nome, dono e contrato. Não chama a API nem lê dado de cliente. [SIMULADO]",
+      "arquivos": [
+        {
+          "caminho": "README.md",
+          "conteudo": "# MCP do catálogo de APIs\nFerramenta: buscar_api(dado)."
+        }
+      ],
+      "manualInstalacao": "Claude Code: copie a pasta para `.claude/skills/`. Copilot: cole o conteúdo do SKILL.md nas instruções do repositório.",
+      "acessos": [
+        {
+          "icone": "key",
+          "titulo": "Usa a credencial do próprio usuário",
+          "detalhe": "Nenhum segredo dentro do ativo."
+        },
+        {
+          "icone": "database",
+          "titulo": "Lê metadados de serviços",
+          "detalhe": "Nunca dado de cliente."
+        }
+      ],
+      "derivadoDe": null,
+      "curtidas": 35,
+      "instalacoes": 22,
+      "derivacoes": 0,
+      "squadsQueReusaram": [
+        "Cartões · Emissão",
+        "Pix · Recebimentos"
+      ],
+      "usos": [],
+      "enviadoEm": "2026-09-01T09:20:00-03:00",
+      "aprovadoPorId": "u-rodrigo",
+      "publicadoEm": "2026-09-01T10:00:00-03:00",
+      "atualizadoEm": "2026-09-25T10:00:00-03:00"
+    },
+    {
+      "id": "a-resumo-incidente",
+      "nome": "Resumo de incidente para o pós-morte",
+      "tipo": "skill",
+      "resumo": "Junta linha do tempo, impacto e ações do incidente num rascunho de pós-morte para o time revisar.",
+      "autorId": "u-thiago",
+      "squadId": "s-pix-recebimentos",
+      "squad": "Pix · Recebimentos",
+      "frente": "Pix",
+      "visibilidade": "frente",
+      "status": "publicado",
+      "tags": [
+        "incidente",
+        "operação",
+        "documentação"
+      ],
+      "ferramentas": [
+        "Claude Code",
+        "Copilot"
+      ],
+      "versao": "1.0.0",
+      "readme": "## O que faz\nMonta o rascunho do pós-morte a partir da linha do tempo que você colar.\n\n## Limites\nNão atribui culpa nem define causa raiz sozinho.",
+      "arquivos": [
+        {
+          "caminho": "SKILL.md",
+          "conteudo": "---\nname: resumo-incidente\ndescription: Rascunho de pós-morte a partir da linha do tempo do incidente.\n---\n# Resumo de incidente\nSeções: linha do tempo, impacto, ações, perguntas em aberto.\n"
+        }
+      ],
+      "manualInstalacao": "Claude Code: copie a pasta para `.claude/skills/`. Copilot: cole o conteúdo do SKILL.md nas instruções do repositório.",
+      "acessos": [
+        {
+          "icone": "file-text",
+          "titulo": "Lê o texto que você colar",
+          "detalhe": "Não busca nada sozinho."
+        },
+        {
+          "icone": "globe",
+          "titulo": "Sem acesso à rede",
+          "detalhe": "Não faz chamadas externas."
+        }
+      ],
+      "derivadoDe": null,
+      "curtidas": 18,
+      "instalacoes": 4,
+      "derivacoes": 1,
+      "squadsQueReusaram": [],
+      "usos": [],
+      "enviadoEm": "2026-09-13T09:20:00-03:00",
+      "aprovadoPorId": "u-marcos",
+      "publicadoEm": "2026-09-13T10:00:00-03:00",
+      "atualizadoEm": "2026-09-13T10:00:00-03:00"
+    },
+    {
+      "id": "a-conciliacao-extrato",
+      "nome": "Agente de conciliação de extrato",
+      "tipo": "agente",
+      "resumo": "Compara o extrato do parceiro com o registro interno e lista as diferenças para a pessoa analisar.",
+      "autorId": "u-thiago",
+      "squadId": "s-pix-recebimentos",
+      "squad": "Pix · Recebimentos",
+      "frente": "Pix",
+      "visibilidade": "squad",
+      "status": "publicado",
+      "tags": [
+        "conciliação",
+        "operação"
+      ],
+      "ferramentas": [
+        "Claude Code"
+      ],
+      "versao": "0.4.0",
+      "readme": "## O que faz\nCompara dois extratos e lista as diferenças. Não corrige nada sozinho.\n\n## Limites\nSó na squad enquanto o formato do parceiro não estabiliza.",
+      "arquivos": [
+        {
+          "caminho": "agente.md",
+          "conteudo": "---\nname: conciliacao-extrato\ndescription: Compara extratos e lista diferenças.\n---\n# Conciliação\nListe diferenças. Nunca corrija.\n"
+        }
+      ],
+      "manualInstalacao": "Claude Code: copie a pasta para `.claude/skills/`. Copilot: cole o conteúdo do SKILL.md nas instruções do repositório.",
+      "acessos": [
+        {
+          "icone": "file-text",
+          "titulo": "Lê o texto que você colar",
+          "detalhe": "Não busca nada sozinho."
+        },
+        {
+          "icone": "globe",
+          "titulo": "Sem acesso à rede",
+          "detalhe": "Não faz chamadas externas."
+        }
+      ],
+      "derivadoDe": null,
+      "curtidas": 3,
+      "instalacoes": 1,
+      "derivacoes": 0,
+      "squadsQueReusaram": [],
+      "usos": [],
+      "enviadoEm": "2026-09-23T09:20:00-03:00",
+      "aprovadoPorId": "u-marcos",
+      "publicadoEm": "2026-09-23T10:00:00-03:00",
+      "atualizadoEm": "2026-09-23T10:00:00-03:00"
+    },
+    {
+      "id": "a-insights-pesquisa",
+      "nome": "Resgate de insights da plataforma de pesquisa",
+      "tipo": "skill",
+      "resumo": "Busca nos relatórios de pesquisa com cliente o que já se sabe sobre um tema e devolve os achados com a fonte de cada um.",
+      "autorId": "u-patricia",
+      "squadId": "s-seguros-vida",
+      "squad": "Seguros · Vida",
+      "frente": "Seguros",
+      "visibilidade": "banco",
+      "status": "publicado",
+      "tags": [
+        "pesquisa",
+        "design",
+        "discovery"
+      ],
+      "ferramentas": [
+        "Claude Code",
+        "Copilot"
+      ],
+      "versao": "1.0.0",
+      "readme": "## O que faz\nDado um tema, lista o que as pesquisas anteriores já disseram, com o relatório e a data de cada achado.\n\n## Limites\nSó resume. Não tira conclusão nova sem a fonte.",
+      "arquivos": [
+        {
+          "caminho": "SKILL.md",
+          "conteudo": "---\nname: insights-pesquisa\ndescription: Resgata achados de pesquisas anteriores com a fonte.\n---\n# Insights de pesquisa\nCada achado vem com relatório e data.\n"
+        }
+      ],
+      "manualInstalacao": "Claude Code: copie a pasta para `.claude/skills/`. Copilot: cole o conteúdo do SKILL.md nas instruções do repositório.",
+      "acessos": [
+        {
+          "icone": "file-text",
+          "titulo": "Lê o texto que você colar",
+          "detalhe": "Não busca nada sozinho."
+        },
+        {
+          "icone": "globe",
+          "titulo": "Sem acesso à rede",
+          "detalhe": "Não faz chamadas externas."
+        }
+      ],
+      "derivadoDe": null,
+      "curtidas": 31,
+      "instalacoes": 19,
+      "derivacoes": 1,
+      "squadsQueReusaram": [
+        "Canais digitais · App",
+        "Cartões · Fatura"
+      ],
+      "usos": [],
+      "enviadoEm": "2026-07-08T09:20:00-03:00",
+      "aprovadoPorId": "u-helena",
+      "publicadoEm": "2026-07-08T10:00:00-03:00",
+      "atualizadoEm": "2026-09-02T10:00:00-03:00"
+    },
+    {
+      "id": "a-roteiro-usabilidade",
+      "nome": "Roteiro de teste de usabilidade moderado",
+      "tipo": "skill",
+      "resumo": "Monta o roteiro do teste moderado a partir do protótipo e das hipóteses: tarefas, perguntas e o que observar.",
+      "autorId": "u-patricia",
+      "squadId": "s-seguros-vida",
+      "squad": "Seguros · Vida",
+      "frente": "Seguros",
+      "visibilidade": "banco",
+      "status": "publicado",
+      "tags": [
+        "design",
+        "usabilidade",
+        "pesquisa"
+      ],
+      "ferramentas": [
+        "Claude Code",
+        "Copilot"
+      ],
+      "versao": "1.0.0",
+      "readme": "## O que faz\nTransforma hipóteses e telas em roteiro de teste: tarefas, perguntas neutras e sinais a observar.",
+      "arquivos": [
+        {
+          "caminho": "SKILL.md",
+          "conteudo": "---\nname: roteiro-usabilidade\ndescription: Roteiro de teste de usabilidade moderado.\n---\n# Roteiro de usabilidade\nPerguntas neutras. Uma tarefa por hipótese.\n"
+        }
+      ],
+      "manualInstalacao": "Claude Code: copie a pasta para `.claude/skills/`. Copilot: cole o conteúdo do SKILL.md nas instruções do repositório.",
+      "acessos": [
+        {
+          "icone": "file-text",
+          "titulo": "Lê o texto que você colar",
+          "detalhe": "Não busca nada sozinho."
+        },
+        {
+          "icone": "globe",
+          "titulo": "Sem acesso à rede",
+          "detalhe": "Não faz chamadas externas."
+        }
+      ],
+      "derivadoDe": null,
+      "curtidas": 16,
+      "instalacoes": 12,
+      "derivacoes": 0,
+      "squadsQueReusaram": [],
+      "usos": [],
+      "enviadoEm": "2026-08-21T09:20:00-03:00",
+      "aprovadoPorId": "u-helena",
+      "publicadoEm": "2026-08-21T10:00:00-03:00",
+      "atualizadoEm": "2026-08-21T10:00:00-03:00"
+    },
+    {
+      "id": "a-ata-notebook",
+      "nome": "Ata de reunião para o notebook do time",
+      "tipo": "skill",
+      "resumo": "Transforma a transcrição da reunião em ata com decisões, responsáveis e prazos, no formato que o notebook do time lê.",
+      "autorId": "u-julia",
+      "squadId": "s-canais-app",
+      "squad": "Canais digitais · App",
+      "frente": "Canais digitais",
+      "visibilidade": "banco",
+      "status": "publicado",
+      "tags": [
+        "produto",
+        "documentação",
+        "reunião"
+      ],
+      "ferramentas": [
+        "Claude Code",
+        "Copilot"
+      ],
+      "versao": "1.0.0",
+      "readme": "## O que faz\nDa transcrição para ata: decisões, quem faz, até quando e o que ficou em aberto.\n\n## Limites\nNão registra o que não foi dito. Revise os nomes antes de salvar.",
+      "arquivos": [
+        {
+          "caminho": "SKILL.md",
+          "conteudo": "---\nname: ata-notebook\ndescription: Ata com decisões, responsáveis e prazos.\n---\n# Ata\nSeções: decisões, responsáveis, prazos, em aberto.\n"
+        }
+      ],
+      "manualInstalacao": "Claude Code: copie a pasta para `.claude/skills/`. Copilot: cole o conteúdo do SKILL.md nas instruções do repositório.",
+      "acessos": [
+        {
+          "icone": "file-text",
+          "titulo": "Lê o texto que você colar",
+          "detalhe": "Não busca nada sozinho."
+        },
+        {
+          "icone": "globe",
+          "titulo": "Sem acesso à rede",
+          "detalhe": "Não faz chamadas externas."
+        }
+      ],
+      "derivadoDe": null,
+      "curtidas": 38,
+      "instalacoes": 29,
+      "derivacoes": 2,
+      "squadsQueReusaram": [
+        "Seguros · Vida",
+        "Plataforma · Core",
+        "Pix · Recebimentos"
+      ],
+      "usos": [],
+      "enviadoEm": "2026-05-30T09:20:00-03:00",
+      "aprovadoPorId": "u-leticia",
+      "publicadoEm": "2026-05-30T10:00:00-03:00",
+      "atualizadoEm": "2026-09-10T10:00:00-03:00"
+    },
+    {
+      "id": "a-kb-alucinacao",
+      "nome": "Bateria de perguntas contra alucinação da base de conhecimento",
+      "tipo": "agente",
+      "resumo": "Gera perguntas e respostas esperadas a partir da base de conhecimento do produto e aponta onde a IA respondeu fora dela.",
+      "autorId": "u-aline",
+      "squadId": "s-dados-qualidade",
+      "squad": "Dados e analytics · Qualidade",
+      "frente": "Dados e analytics",
+      "visibilidade": "banco",
+      "status": "publicado",
+      "tags": [
+        "ia",
+        "qualidade",
+        "base de conhecimento"
+      ],
+      "ferramentas": [
+        "Claude Code",
+        "Copilot"
+      ],
+      "versao": "1.1.0",
+      "readme": "## O que faz\nMonta a bateria de perguntas a partir da base de conhecimento e compara as respostas da IA com a fonte.\n\n## Limites\nMarca suspeitas. Quem decide se é alucinação é a pessoa.",
+      "arquivos": [
+        {
+          "caminho": "agente.md",
+          "conteudo": "---\nname: kb-alucinacao\ndescription: Perguntas e respostas esperadas para testar a base de conhecimento.\n---\n# Bateria contra alucinação\nToda resposta esperada cita o trecho da base.\n"
+        }
+      ],
+      "manualInstalacao": "Claude Code: copie a pasta para `.claude/skills/`. Copilot: cole o conteúdo do SKILL.md nas instruções do repositório.",
+      "acessos": [
+        {
+          "icone": "file-text",
+          "titulo": "Lê o texto que você colar",
+          "detalhe": "Não busca nada sozinho."
+        },
+        {
+          "icone": "globe",
+          "titulo": "Sem acesso à rede",
+          "detalhe": "Não faz chamadas externas."
+        }
+      ],
+      "derivadoDe": null,
+      "curtidas": 44,
+      "instalacoes": 21,
+      "derivacoes": 3,
+      "squadsQueReusaram": [
+        "Canais digitais · App",
+        "Seguros · Vida"
+      ],
+      "usos": [],
+      "enviadoEm": "2026-06-25T09:20:00-03:00",
+      "aprovadoPorId": "u-gustavo",
+      "publicadoEm": "2026-06-25T10:00:00-03:00",
+      "atualizadoEm": "2026-09-18T10:00:00-03:00"
+    },
+    {
+      "id": "a-grau-mudanca",
+      "nome": "Checklist de grau de mudança antes da subida",
+      "tipo": "skill",
+      "resumo": "Lê a descrição da mudança e sugere o grau e os gates que se aplicam (compliance, risco, fraude), com o porquê de cada um.",
+      "autorId": "u-lucas",
+      "squadId": "s-invest-renda-fixa",
+      "squad": "Investimentos · Renda fixa",
+      "frente": "Investimentos",
+      "visibilidade": "banco",
+      "status": "publicado",
+      "tags": [
+        "risco",
+        "governança",
+        "release"
+      ],
+      "ferramentas": [
+        "Claude Code",
+        "Copilot"
+      ],
+      "versao": "1.0.0",
+      "readme": "## O que faz\nSugere o grau da mudança e os gates, explicando cada escolha.\n\n## Limites\nSugestão. O grau oficial continua com a gestão de mudança.",
+      "arquivos": [
+        {
+          "caminho": "SKILL.md",
+          "conteudo": "---\nname: grau-mudanca\ndescription: Sugere grau e gates da mudança.\n---\n# Grau de mudança\nPara cada gate, diga por que se aplica.\n"
+        }
+      ],
+      "manualInstalacao": "Claude Code: copie a pasta para `.claude/skills/`. Copilot: cole o conteúdo do SKILL.md nas instruções do repositório.",
+      "acessos": [
+        {
+          "icone": "file-text",
+          "titulo": "Lê o texto que você colar",
+          "detalhe": "Não busca nada sozinho."
+        },
+        {
+          "icone": "globe",
+          "titulo": "Sem acesso à rede",
+          "detalhe": "Não faz chamadas externas."
+        }
+      ],
+      "derivadoDe": null,
+      "curtidas": 27,
+      "instalacoes": 33,
+      "derivacoes": 2,
+      "squadsQueReusaram": [
+        "Pix · Recebimentos",
+        "Cartões · Emissão",
+        "Plataforma · Core"
+      ],
+      "usos": [],
+      "enviadoEm": "2026-07-15T09:20:00-03:00",
+      "aprovadoPorId": "u-denise",
+      "publicadoEm": "2026-07-15T10:00:00-03:00",
+      "atualizadoEm": "2026-09-15T10:00:00-03:00"
+    },
+    {
+      "id": "a-botao-contratacao",
+      "nome": "Botão de contratação com rota e tracking",
+      "tipo": "componente",
+      "resumo": "Botão do design system já ligado à rota de contratação e ao evento de tracking padrão da frente.",
+      "autorId": "u-ana",
+      "squadId": "s-cartoes-emissao",
+      "squad": "Cartões · Emissão",
+      "frente": "Cartões",
+      "visibilidade": "frente",
+      "status": "publicado",
+      "tags": [
+        "front",
+        "design system",
+        "tracking"
+      ],
+      "ferramentas": [
+        "Agnóstico"
+      ],
+      "versao": "1.0.4",
+      "readme": "## O que faz\nEntrega o botão com a rota de contratação e o evento de tracking da frente Cartões.",
+      "arquivos": [
+        {
+          "caminho": "README.md",
+          "conteudo": "# Botão de contratação\nProps: produto, origem."
+        }
+      ],
+      "manualInstalacao": "Claude Code: copie a pasta para `.claude/skills/`. Copilot: cole o conteúdo do SKILL.md nas instruções do repositório.",
+      "acessos": [
+        {
+          "icone": "folder",
+          "titulo": "Escreve arquivos na pasta do projeto",
+          "detalhe": ""
+        }
+      ],
+      "derivadoDe": null,
+      "curtidas": 12,
+      "instalacoes": 9,
+      "derivacoes": 1,
+      "squadsQueReusaram": [],
+      "usos": [],
+      "enviadoEm": "2026-07-21T09:20:00-03:00",
+      "aprovadoPorId": "u-sergio",
+      "publicadoEm": "2026-07-21T10:00:00-03:00",
+      "atualizadoEm": "2026-09-11T10:00:00-03:00"
+    },
+    {
+      "id": "a-tela-consulta",
+      "nome": "Esqueleto de tela de consulta com filtros",
+      "tipo": "esqueleto",
+      "resumo": "Tela de lista com busca, filtros, paginação e estado vazio, já no design system.",
+      "autorId": "u-felipe",
+      "squadId": "s-canais-app",
+      "squad": "Canais digitais · App",
+      "frente": "Canais digitais",
+      "visibilidade": "banco",
+      "status": "publicado",
+      "tags": [
+        "front",
+        "lista",
+        "design system"
+      ],
+      "ferramentas": [
+        "Agnóstico"
+      ],
+      "versao": "2.2.0",
+      "readme": "## O que faz\nGera a tela de lista completa: busca, filtros, paginação e estado vazio.",
+      "arquivos": [
+        {
+          "caminho": "README.md",
+          "conteudo": "# Tela de consulta\nUse os componentes do design system."
+        }
+      ],
+      "manualInstalacao": "Claude Code: copie a pasta para `.claude/skills/`. Copilot: cole o conteúdo do SKILL.md nas instruções do repositório.",
+      "acessos": [
+        {
+          "icone": "folder",
+          "titulo": "Escreve arquivos na pasta do projeto",
+          "detalhe": ""
+        }
+      ],
+      "derivadoDe": null,
+      "curtidas": 23,
+      "instalacoes": 19,
+      "derivacoes": 2,
+      "squadsQueReusaram": [
+        "Investimentos · Renda fixa",
+        "Seguros · Vida"
+      ],
+      "usos": [],
+      "enviadoEm": "2026-02-27T09:20:00-03:00",
+      "aprovadoPorId": "u-leticia",
+      "publicadoEm": "2026-02-27T10:00:00-03:00",
+      "atualizadoEm": "2026-09-02T10:00:00-03:00"
+    },
+    {
+      "id": "a-migracao-testes",
+      "nome": "Agente de migração de teste legado",
+      "tipo": "agente",
+      "resumo": "Converte testes antigos para o padrão atual da frente e explica cada conversão que fez.",
+      "autorId": "u-otavio",
+      "squadId": "s-cartoes-fatura",
+      "squad": "Cartões · Fatura",
+      "frente": "Cartões",
+      "visibilidade": "frente",
+      "status": "publicado",
+      "tags": [
+        "teste",
+        "legado",
+        "migração"
+      ],
+      "ferramentas": [
+        "Claude Code"
+      ],
+      "versao": "1.1.0",
+      "readme": "## O que faz\nConverte testes antigos para o padrão atual, com um resumo do que mudou em cada arquivo.",
+      "arquivos": [
+        {
+          "caminho": "agente.md",
+          "conteudo": "---\nname: migracao-testes\ndescription: Migra testes legados para o padrão atual.\n---\n# Migração de testes\nNão toque em código de produção.\n"
+        }
+      ],
+      "manualInstalacao": "Claude Code: copie a pasta para `.claude/skills/`. Copilot: cole o conteúdo do SKILL.md nas instruções do repositório.",
+      "acessos": [
+        {
+          "icone": "folder",
+          "titulo": "Escreve arquivos na pasta do projeto",
+          "detalhe": ""
+        }
+      ],
+      "derivadoDe": null,
+      "curtidas": 7,
+      "instalacoes": 6,
+      "derivacoes": 0,
+      "squadsQueReusaram": [],
+      "usos": [],
+      "enviadoEm": "2026-07-04T09:20:00-03:00",
+      "aprovadoPorId": "u-renato",
+      "publicadoEm": "2026-07-04T10:00:00-03:00",
+      "atualizadoEm": "2026-09-08T10:00:00-03:00"
+    },
+    {
+      "id": "a-job-carga-fatura",
+      "nome": "Esqueleto de job de carga noturna da fatura",
+      "tipo": "esqueleto",
+      "resumo": "Job noturno com reprocessamento, alerta de falha e trilha de execução.",
+      "autorId": "u-otavio",
+      "squadId": "s-cartoes-fatura",
+      "squad": "Cartões · Fatura",
+      "frente": "Cartões",
+      "visibilidade": "frente",
+      "status": "em_aprovacao",
+      "tags": [
+        "backend",
+        "job",
+        "fatura"
+      ],
+      "ferramentas": [
+        "Agnóstico"
+      ],
+      "versao": "1.0.0",
+      "readme": "## O que faz\nGera o job de carga com reprocessamento e alerta.",
+      "arquivos": [
+        {
+          "caminho": "README.md",
+          "conteudo": "# Job de carga noturna\nReprocessa só o lote que falhou."
+        }
+      ],
+      "manualInstalacao": "Claude Code: copie a pasta para `.claude/skills/`. Copilot: cole o conteúdo do SKILL.md nas instruções do repositório.",
+      "acessos": [
+        {
+          "icone": "folder",
+          "titulo": "Escreve arquivos na pasta do projeto",
+          "detalhe": ""
+        }
+      ],
+      "derivadoDe": null,
+      "curtidas": 0,
+      "instalacoes": 0,
+      "derivacoes": 0,
+      "squadsQueReusaram": [],
+      "usos": [],
+      "enviadoEm": "2026-09-26T09:20:00-03:00",
+      "aprovadoPorId": null,
+      "publicadoEm": null,
+      "atualizadoEm": "2026-09-26T10:00:00-03:00"
+    }
+  ]
+}
