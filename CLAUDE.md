@@ -15,9 +15,6 @@ A tabela abaixo é gerada pelo harness-hacka a partir do frontmatter de cada not
 <!-- harness-hacka:index -->
 | Arquivo | Conteúdo | Ler quando |
 |---|---|---|
-| [memoria/04-solucao-itau-house.md](memoria/04-solucao-itau-house.md) | Tese atual, persona, mecanismos, governança, expansão, teses descartadas | Tudo sobre o produto |
-| [memoria/05-pendencias-e-riscos.md](memoria/05-pendencias-e-riscos.md) | Em aberto, riscos e perguntas da banca, sugestões para o time avaliar | Antes de tratar algo como decidido; ao preparar respostas à banca |
-| [memoria/09-brainstorm-time.md](memoria/09-brainstorm-time.md) | Ideias do time ainda não decididas: persona afiada, mecanismos novos, tensões | Desenho da solução, slides |
 <!-- /harness-hacka:index -->
 
 ## Documentos de referência

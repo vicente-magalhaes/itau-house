@@ -17,9 +17,6 @@ roteiro da demo), fica em [`docs/`](../docs/) (D-24).
 <!-- harness-hacka:index -->
 | Arquivo | Conteúdo | Ler quando |
 |---|---|---|
-| [04-solucao-itau-house.md](04-solucao-itau-house.md) | Tese atual, persona, mecanismos, governança, expansão, teses descartadas | Tudo sobre o produto |
-| [05-pendencias-e-riscos.md](05-pendencias-e-riscos.md) | Em aberto, riscos e perguntas da banca, sugestões para o time avaliar | Antes de tratar algo como decidido; ao preparar respostas à banca |
-| [09-brainstorm-time.md](09-brainstorm-time.md) | Ideias do time ainda não decididas: persona afiada, mecanismos novos, tensões | Desenho da solução, slides |
 <!-- /harness-hacka:index -->
 
 ## Regras
