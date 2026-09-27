@@ -5,7 +5,7 @@ Protótipo de hackathon. Dados fictícios.
 
 ## Instalar em todos os projetos (RF-01)
 
-Quem não programa usa o botão **Instale no seu agente**, no próprio perfil do site: escolhe o modo, copia um texto e cola no Claude Code. O agente confere git, uv e Python e roda:
+Quem não programa usa o botão laranja **Instale no seu agente**, no topo do site: escolhe o modo, copia um texto e cola no Claude Code. O agente confere git, uv e Python e roda:
 
 ```bash
 claude plugin marketplace add vicente-magalhaes/itau-house --sparse .claude-plugin plugin

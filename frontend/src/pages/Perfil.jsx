@@ -2,7 +2,6 @@ import React from 'react';
 import { Button } from '../ds.js';
 import { Foto, BotaoSec, Vazio } from '../components/comuns.jsx';
 import { PostCard } from '../components/Post.jsx';
-import { InstalarNoAgente } from '../components/InstalarNoAgente.jsx';
 import { irPara } from '../router.jsx';
 import { useSessao } from '../sessao.jsx';
 import { detalharAtivo, listarAtivos, useDaApi } from '../api.js';
@@ -12,8 +11,6 @@ import { ativos, pessoas, visivelPara } from '../data/catalogo.js';
 // Perfil de impacto: o que a pessoa publicou, quanto foi reaproveitado e por quem foi adaptado.
 export function Perfil({ id }) {
   const { pessoa: eu, usuarioId, usuarios, carregandoUsuarios, sair } = useSessao();
-  const [instalando, setInstalando] = React.useState(false);
-  const fecharInstalar = React.useCallback(() => setInstalando(false), []);
   const pessoa = id ? (usuarios ? usuarios.find((p) => p.id === id) : pessoas[id]) : eu;
   const { dados: meus, origem, erro, carregando } = useDaApi(
     `perfil:${usuarioId}:${id || usuarioId}`,
@@ -52,21 +49,15 @@ export function Perfil({ id }) {
             {pessoa.cargo} · {pessoa.squad}
           </span>
           {souEu && (
-            <div className="row wrap row-2">
-              {/* RF-01: o passo a passo para instalar o Itaú House no agente da pessoa. */}
-              <Button size="sm" iconLeft="plug" onClick={() => setInstalando(true)}>
-                Instale no seu agente
-              </Button>
-              <BotaoSec
-                icone="log-out"
-                onClick={() => {
-                  sair();
-                  irPara('/entrar');
-                }}
-              >
-                Sair
-              </BotaoSec>
-            </div>
+            <BotaoSec
+              icone="log-out"
+              onClick={() => {
+                sair();
+                irPara('/entrar');
+              }}
+            >
+              Sair
+            </BotaoSec>
           )}
         </div>
         {!carregando && !erro && <div className="row wrap row-2">
@@ -118,8 +109,6 @@ export function Perfil({ id }) {
           })}
         </aside>
       </div>
-
-      {instalando && <InstalarNoAgente pessoa={pessoa} usuarioId={usuarioId} onClose={fecharInstalar} />}
     </div>
   );
 }

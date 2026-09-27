@@ -1,6 +1,7 @@
 import React from 'react';
-import { Logo, Icon } from '../ds.js';
+import { Button, IconButton, Logo, Icon } from '../ds.js';
 import { Foto, BotaoSec, Recado } from './comuns.jsx';
+import { InstalarNoAgente } from './InstalarNoAgente.jsx';
 import { useSaida } from './movimento.jsx';
 import { useSessao } from '../sessao.jsx';
 import { Link, irPara } from '../router.jsx';
@@ -37,7 +38,9 @@ function ItemNav({ para, rotulo, icone, contador, ativo }) {
 }
 
 export function AppShell({ rota, children }) {
-  const { pessoa, ehCoordenador, limparFiltros, recado } = useSessao();
+  const { pessoa, usuarioId, ehCoordenador, limparFiltros, recado } = useSessao();
+  const [instalando, setInstalando] = React.useState(false);
+  const fecharInstalar = React.useCallback(() => setInstalando(false), []);
   const fila = useFila();
   const itens = ehCoordenador ? [...NAV, ...navCoordenacao(fila.dados ? fila.dados.length : 0)] : NAV;
   const [recadoMostrado, recadoSaindo] = useSaida(recado);
@@ -58,6 +61,16 @@ export function AppShell({ rota, children }) {
           <span className="some-no-estreito">Itaú House</span>
         </button>
 
+        {/* RF-01: instalar o Itaú House no agente da pessoa, de qualquer tela. No celular, só a tomada. */}
+        <span className="some-no-celular">
+          <Button size="sm" iconLeft="plug" onClick={() => setInstalando(true)}>
+            Instale no seu agente
+          </Button>
+        </span>
+        <span className="so-no-celular">
+          <IconButton icon="plug" label="Instale no seu agente" variant="filled" size={36} onClick={() => setInstalando(true)} />
+        </span>
+
         <span className="topo-espaco" />
 
         <nav className="topo-nav" aria-label="Navegação">
@@ -66,7 +79,7 @@ export function AppShell({ rota, children }) {
           ))}
         </nav>
 
-        {/* Secundário de propósito: o único laranja da tela é a ação principal da página. */}
+        {/* Secundário de propósito: no topo, o laranja fica só com o "Instale no seu agente". */}
         <BotaoSec icone="plus" onClick={() => irPara('/publicar')}>
           Publicar
         </BotaoSec>
@@ -82,6 +95,8 @@ export function AppShell({ rota, children }) {
 
       {/* RNF-06: toda tela diz que é protótipo de hackathon e não produto oficial. */}
       <footer className="rodape caption">Protótipo do Hackathon Itaú 2026. Não é um produto oficial do Itaú.</footer>
+
+      {instalando && <InstalarNoAgente pessoa={pessoa} usuarioId={usuarioId} onClose={fecharInstalar} />}
 
       {recadoMostrado && (
         <Recado key={recadoMostrado} saindo={recadoSaindo}>
