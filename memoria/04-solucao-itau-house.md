@@ -58,6 +58,7 @@ O MVP demonstra o ciclo descoberta → publicação (D-12). Fluxos detalhados em
   - Como impedir que um ativo carregue dado sensível ou segredo?
   - Como rastrear quem publicou, quem aprovou e quem reaproveitou?
 - Limites do case: não conectar a sistemas reais do banco; nada vai para produção sem humano.
+- Evolução (D-26): no MVP, o coordenador decide e as checagens fixas são código, sem IA. Cada decisão vira dado. Depois do MVP, um agente de julgamento construído sobre esse histórico passa a avaliar a entrada.
 
 ## Produtização aplicada a nós mesmos (narrativa)
 

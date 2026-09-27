@@ -98,7 +98,7 @@ itau-house/
 ├─ .github/workflows/       CI: build das imagens e smoke test
 ├─ .claude/                 configuração do Claude Code: permissões, hooks e regras de segurança
 ├─ PRD.md                   requisitos do produto (RN, RF, RNF)
-├─ docs/                    referência: regras do hackathon, evidências, formato da PRD, marca, fluxos, roteiro da demo
+├─ docs/                    referência: regras do hackathon, dicas dos mentores, evidências, formato da PRD, marca, fluxos, roteiro da demo
 ├─ CLAUDE.md                contexto e regras para os agentes de IA que desenvolvem o projeto
 ├─ memoria/                 memória do projeto: tese, decisões, pendências e diário das sessões
 └─ itau-design-system/      guia de marca e logos do Itaú

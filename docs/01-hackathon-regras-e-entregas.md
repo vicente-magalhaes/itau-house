@@ -61,6 +61,7 @@ Vídeo, 2 min: a demo narrada. Não repete o pitch. Mostra a revisão humana e o
 Perguntas, 2 min: ter respostas curtas prontas para os riscos e perguntas prováveis (tabela R-01 a R-08 em [05-decisoes-e-pendencias.md](../memoria/05-decisoes-e-pendencias.md)). Combinar antes quem responde cada tema.
 
 Preparação:
+- Referência principal das perguntas de preparação: o [guia dos mentores](10-guia-dicas-mentores.md) (D-27). Não muda entregas nem critérios.
 - Vídeo com áudio testado e cópia local disponível.
 - Protótipo aberto com dados de teste prontos, caso a banca peça para ver ao vivo (regulamento 4.3).
 - Ensaiar com cronômetro. Combinar quem fala e quando troca. Não é preciso que todos falem.

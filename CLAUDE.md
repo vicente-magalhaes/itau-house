@@ -8,7 +8,7 @@ Solução: **Itaú House** (nome provisório). Fórum interno em que squads publ
 
 Ler antes de qualquer tarefa. Os documentos brutos originais foram descartados; `memoria/` e `docs/` são a fonte (D-24).
 - `memoria/`: o que muda e envelhece. Tese, decisões, pendências, ideias em aberto e o diário das sessões. O harness-hacka revisa.
-- `docs/`: referência estável, com fonte. Regulamento, enunciado, pesquisa, formato da PRD, marca, equipe, fluxos e roteiro.
+- `docs/`: referência estável, com fonte. Regulamento, dicas dos mentores, enunciado, pesquisa, formato da PRD, marca, equipe, fluxos e roteiro.
 
 A tabela abaixo é gerada pelo harness-hacka a partir do frontmatter de cada nota (`summary`, `read_when`, `review_by`). Não editar à mão: nota nova ganha frontmatter e depois `harness-hacka index --update`.
 
@@ -32,6 +32,7 @@ Tabela mantida à mão. Documento novo em `docs/` entra aqui.
 | [docs/06-prd-e-stack.md](docs/06-prd-e-stack.md) | Formato da PRD, restrições do evento e resumo da stack (a fonte é a PRD, seção 9) | Mexer na PRD |
 | [docs/07-identidade-visual.md](docs/07-identidade-visual.md) | Qual fonte de marca vale para quê, regras de front-end, cores, fontes, logo | Front-end, slides, vídeo |
 | [docs/08-equipe.md](docs/08-equipe.md) | Integrantes, papéis, contatos | Slide 6, ficha, divisão de tarefas |
+| [docs/10-guia-dicas-mentores.md](docs/10-guia-dicas-mentores.md) | Dicas dos mentores para a entrega final. Referência principal das perguntas de preparação (D-27) | Slides, pitch, vídeo, ficha, respostas à banca |
 | [docs/roteiro-demo.md](docs/roteiro-demo.md) | Roteiro da demo: narração, o que o dev digita, o que o plugin responde | Ensaio, vídeo, contrato da API |
 | [docs/fluxos.html](docs/fluxos.html) | Fonte de verdade dos fluxos (ciclo, descoberta, publicação, plataforma). Abrir no navegador; para mudar, editar `FLOWS` no arquivo | Desenho de fluxo, front-end |
 
