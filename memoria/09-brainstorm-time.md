@@ -7,7 +7,7 @@ review_by: 2026-09-27
 # Brainstorm do time (Bruno, 26/09/2026)
 
 Rascunho de ideias do Bruno, pensando nos seis blocos dos slides.
-**Nada aqui é decisão.** Decisões ficam em [05-decisoes-e-pendencias.md](05-decisoes-e-pendencias.md).
+**Nada aqui é decisão.** Decisões ficam em [decisions/](decisions/README.md).
 
 ## Persona, mais afiada
 

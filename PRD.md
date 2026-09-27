@@ -9,7 +9,7 @@
 | **Data** | 26/09/2026 |
 
 Protótipo do Hackathon Itaú 2026, Case C. Não é produto oficial do Itaú. Todos os dados são fictícios.
-Fluxos visuais: [docs/fluxos.html](docs/fluxos.html). Decisões: [memoria/05-decisoes-e-pendencias.md](memoria/05-decisoes-e-pendencias.md).
+Fluxos visuais: [docs/fluxos.html](docs/fluxos.html). Decisões: [memoria/decisions/](memoria/decisions/README.md). Pendências e riscos: [memoria/05-pendencias-e-riscos.md](memoria/05-pendencias-e-riscos.md).
 
 **Glossário**
 
