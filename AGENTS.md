@@ -20,6 +20,7 @@ Não é produto oficial do Itaú. Todos os dados são fictícios.
 | `backend/` | API em Python 3.12 com FastAPI, gerenciada com uv. Rotas sob `/api` | `uv sync`, `uv run pytest`, `uv run ruff check .`, `uv run ruff format .` |
 | `frontend/` | React 19 + Vite + TypeScript, com JSX. Importa `../design-system` | `npm ci`, `npm run build`, `npm run lint` |
 | `design-system/` | Tokens CSS e componentes React da marca | — |
+| `mcp/` | Servidor MCP que o plugin do Claude Code sobe (T-12). Projeto uv próprio, Python 3.12 | `uv sync`, `uv run pytest` |
 | `supabase/` | Migrações e seed do banco, que é o Supabase na nuvem | Agente não aplica nada no banco (ver "Banco") |
 | raiz | `docker-compose.yml` (dev), `docker-compose.prod.yml` (produção, nginx em :8080) e CI em `.github/workflows/` | `docker compose up --build` |
 
