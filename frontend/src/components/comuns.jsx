@@ -31,6 +31,26 @@ export function Avatar({ iniciais, tamanho = 40, tone = 'brand', style }) {
   );
 }
 
+// Foto redonda da pessoa. Sem internet, ou se a imagem falhar, mostra as iniciais.
+export function Foto({ pessoa, tamanho = 40, anel, className = '', style }) {
+  const [falhou, setFalhou] = React.useState(false);
+  const classes = ['foto', anel ? 'foto-anel' : '', className].filter(Boolean).join(' ');
+  if (falhou || !pessoa.foto) {
+    return <Avatar iniciais={pessoa.iniciais} tamanho={tamanho} tone="neutro" style={{ ...(anel ? { boxShadow: '0 0 0 2px var(--brand)' } : null), ...style }} />;
+  }
+  return <img src={pessoa.foto} alt="" width={tamanho} height={tamanho} className={classes} style={{ width: tamanho, height: tamanho, ...style }} onError={() => setFalhou(true)} />;
+}
+
+// Botão secundário do redesign: 36px e borda fina, como o primário do DS em tamanho sm.
+export function BotaoSec({ icone, children, onClick, type = 'button', className = '', ...resto }) {
+  return (
+    <button type={type} className={('btn btn-sec ' + className).trim()} onClick={onClick} {...resto}>
+      {icone && <Icon name={icone} size={18} />}
+      {children}
+    </button>
+  );
+}
+
 // Marca o que é simulado. O regulamento exige deixar isso explícito em tela.
 // O gatilho é focável e leva a explicação em texto: quem usa teclado ou leitor de tela também lê o aviso.
 export function SeloSimulado({ children = 'Simulado', ajuda = 'Esta parte é uma simulação do protótipo. Nada é conectado a um sistema real do Itaú.', placement = 'top', style }) {
@@ -55,7 +75,17 @@ export function Vazio({ icone = 'search-x', titulo, acao }) {
   );
 }
 
-// Toast fixo no canto, igual em todas as telas.
+// Toast fixo no canto, usado pelas telas de publicar e da fila.
 export function Aviso({ children }) {
   return <div style={{ position: 'fixed', right: 'var(--space-5)', bottom: 'var(--space-5)', zIndex: 1100 }}>{children}</div>;
+}
+
+// Recado curto no pé da tela, disparado por avisar() da sessão.
+export function Recado({ children }) {
+  return (
+    <div role="status" className="recado">
+      <Icon name="check" size={18} color="var(--brand)" />
+      {children}
+    </div>
+  );
 }

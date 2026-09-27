@@ -2,7 +2,7 @@ import React from 'react';
 import { Icon } from './Icon.jsx';
 export function IconButton({ icon, label, variant = 'ghost', size = 44, disabled, onClick, style }) {
   const [h, setH] = React.useState(false);
-  const map = { ghost: ['transparent', 'var(--gray-50)', 'var(--itau-preto)'], filled: ['var(--itau-laranja)', 'var(--laranja-400)', 'var(--itau-preto)'], subtle: ['var(--gray-50)', 'var(--gray-100)', 'var(--itau-preto)'], inverse: ['var(--itau-preto)', 'var(--gray-800)', 'var(--itau-branco)'] };
+  const map = { ghost: ['transparent', 'var(--surface-subtle)', 'var(--text-primary)'], filled: ['var(--itau-laranja)', 'var(--laranja-400)', 'var(--itau-preto)'], subtle: ['var(--surface-subtle)', 'var(--surface-muted)', 'var(--text-primary)'], inverse: ['var(--itau-preto)', 'var(--gray-800)', 'var(--itau-branco)'] };
   const [bg, hv, fg] = map[variant] || map.ghost;
   return (
     <button aria-label={label} title={label} disabled={disabled} onClick={onClick} onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)}

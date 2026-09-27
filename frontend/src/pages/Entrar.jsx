@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Logo, Radio } from '../ds.js';
-import { Avatar, SeloSimulado } from '../components/comuns.jsx';
+import { Foto, SeloSimulado } from '../components/comuns.jsx';
 import { irPara } from '../router.jsx';
 import { useSessao } from '../sessao.jsx';
 import { PERFIS } from '../data/governanca.js';
@@ -22,11 +22,11 @@ function OpcaoPerfil({ opcao, escolhido, onEscolher }) {
         gap: 'var(--space-3)',
         padding: 'var(--space-3) var(--space-4)',
         borderRadius: 'var(--radius-md)',
-        boxShadow: selecionado ? 'inset 0 0 0 2px var(--itau-preto)' : 'inset 0 0 0 1px var(--border-default)',
+        boxShadow: selecionado ? 'inset 0 0 0 2px var(--ih-ink)' : 'inset 0 0 0 1px var(--ih-line)',
       }}
       label={
         <span className="row row-3 grow">
-          <Avatar iniciais={opcao.pessoa.iniciais} tamanho={36} tone={selecionado ? 'brand' : 'neutro'} />
+          <Foto pessoa={opcao.pessoa} tamanho={40} anel={selecionado} />
           <span className="stack">
             <span className="strong">{opcao.pessoa.nome}</span>
             <span className="caption">
@@ -74,7 +74,7 @@ export function Entrar() {
 
           <Button
             variant="primary"
-            size="lg"
+            size="sm"
             fullWidth
             onClick={() => {
               entrar(escolhido);
