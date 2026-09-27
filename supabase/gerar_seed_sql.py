@@ -79,8 +79,9 @@ for a in ativos_json:
         evento(u["tipo"], u["pessoaId"], u["em"])
 
 sql = (
-    "-- Dados fictícios de demonstração. Nada aqui é dado real (regulamento 3.8).\n"
-    "-- Nomes de pessoas, squads e ativos são inventados.\n"
+    "-- Dados fictícios de demonstração (regulamento 3.8). Nomes de pessoas, squads e ativos são inventados.\n"
+    "-- Exceção única: o ativo a-harness-hacka, o autor dele (u-vicente) e a squad do time (s-itau-house)\n"
+    "-- são reais, com consentimento (decisão 0036).\n"
     "--\n"
     "-- GERADO por supabase/gerar_seed_sql.py a partir de backend/app/dados/seed.json. Não editar à mão.\n"
     "-- Aplicar na nuvem junto com as migrações: supabase db push --include-seed\n"
