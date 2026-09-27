@@ -44,7 +44,7 @@ Um brief só roda com os itens dele marcados. Quem abre a sessão confere.
 **Antes da primeira sessão**
 - [x] `AGENTS.md` na `main`.
 - [x] Decidido na [0033](../memoria/decisions/0033-devin-le-o-repositorio-inteiro.md): o Devin lê o repositório inteiro, inclusive `memoria/`, os documentos numerados de `docs/` e `itau-design-system/`. Ele não copia nada desse conteúdo para código, commit ou relatório.
-- [ ] Devin ligado ao GitHub só neste repositório, com o ambiente montado (ver "Como começar").
+- [x] Devin ligado ao GitHub só neste repositório, com o ambiente montado (ver "Como começar"). Blueprint aprovado em 27/09: Python 3.12 com uv, Node 24, Docker com Compose e a CLI da Vercel. Testes, lint e build passaram na `main` `10a2cdc`.
 
 **DV-1 (deploy)**
 - [x] A-17 decidida e aceita: [decisão 0031](../memoria/decisions/0031-hospedagem-front-na-vercel-back-no-render.md), front na Vercel e back no Render.
