@@ -49,7 +49,7 @@ Um brief só roda com os itens dele marcados. Quem abre a sessão confere.
 **DV-1 (deploy)**
 - [x] A-17 decidida e aceita: [decisão 0031](../memoria/decisions/0031-hospedagem-front-na-vercel-back-no-render.md), front na Vercel e back no Render.
 - [x] Contas na Vercel e no Render criadas pelo Vicente em 27/09, entrando com o GitHub dele. Nenhum projeto criado, e o app de cada uma no GitHub só tem acesso ao `itau-house`. O repositório está na conta pessoal dele, e a documentação da Vercel só restringe o plano grátis em repositório de organização. Então a Vercel deve publicar commits de todo o time. Conferir no primeiro merge de outra pessoa.
-- [x] Tokens da Vercel e do Render guardados nos Secrets do Devin. Nunca no texto da sessão, nunca no repositório. Estão como segredos pessoais do Vicente, com os nomes `VERCEL_TOKEN` e `RENDER_API_KEY`, desde 27/09. O token da Vercel tem escopo Centao → All Projects e vence em pouco tempo. A chave do Render não expira: revogar depois da banca.
+- [x] Tokens da Vercel e do Render guardados nos Secrets do Devin. Nunca no texto da sessão, nunca no repositório. Estão como segredos pessoais do Vicente, com os nomes `VERCEL_TOKEN` e `RENDER_API_TOKEN`, desde 27/09. O token da Vercel tem escopo Centao → All Projects e vence em pouco tempo. A chave do Render não expira: revogar depois da banca.
 - [x] `SUPABASE_URL` e `SUPABASE_SECRET_KEY` à mão para uma pessoa colar no painel do Render. O back ainda não usa, mas vai usar. O Devin não recebe essas chaves. O Vicente pôs as duas no Environment Group `itau-house-supabase` do Render, em 27/09.
 - [x] Região do projeto no Supabase, para pôr no texto da sessão. Não é segredo. É `us-east-1` (Virgínia do Norte), e no Render a região equivalente é Virginia (US East).
 - [x] Como manter o Render acordado: fluxo no n8n (T-40, ver abaixo). O Devin não configura ping.
@@ -73,12 +73,12 @@ Um brief só roda com os itens dele marcados. Quem abre a sessão confere.
 
 Decidido: um fluxo no n8n, que o time já conhece (T-40, do Alexandre).
 - No plano grátis, o back dorme depois de 15 min sem acesso e leva de 30 s a 1 min para acordar. Se o link estiver frio, parece que o sistema travou.
-- O fluxo: um Schedule Trigger a cada 8 min e um HTTP Request `GET https://<domínio-da-vercel>/api/health`, com timeout de 90 s e "Retry On Fail" ligado.
+- O fluxo: um Schedule Trigger a cada 8 min e um HTTP Request `GET https://itau-house.vercel.app/api/health`, com timeout de 90 s e "Retry On Fail" ligado.
 - A chamada vai pelo domínio da Vercel, não pelo do Render. Assim o ping acorda o back e confere o caminho inteiro.
 - O n8n precisa ficar ligado 24 h, como o n8n Cloud ou uma instância que o time já usa. Num notebook que dorme, o ping para junto.
 - Não precisa de chave: a URL é pública.
 - Se o n8n de vocês já tiver um canal de aviso configurado, avisar o time quando falhar duas vezes seguidas. Se não tiver, fica sem alerta.
-- O plano grátis do Render dá 750 h por mês. Um serviço acordado o mês inteiro cabe.
+- O plano grátis do Render dá 750 h por mês, somadas entre todos os serviços Free da conta. A conta do Vicente tem outro serviço Free, o `evolution-api`. Se os dois ficarem acordados o mês inteiro, as horas não bastam. Quando acabam, o Render suspende os serviços Free até o dia 1º.
 - Mesmo com o ping, abrir o link um minuto antes de gravar o vídeo e antes da banca.
 
 ## Como começar
@@ -236,6 +236,8 @@ Quem abriu a sessão preenche ao juntar. Vira base para a declaração de uso de
 
 | Data | Tarefa | Quem abriu | Resultado | ACUs | O que corrigimos na revisão |
 |---|---|---|---|---|---|
+| 27/09 | Ambiente (blueprint) | Vicente | Ambiente pronto. Relatou 3 falhas da `main` sem corrigir: erro 401 dentro de `detail`, 422 padrão do FastAPI em inglês e contadores desencontrados no front | a preencher | Nada: a sessão não mexe em arquivo |
+| 27/09 | DV-1 (T-38) | Vicente | `feat/deploy` com `render.yaml`, `vercel.json` e seção "Deploy" no README. No ar em https://itau-house.vercel.app | a preencher | Nada no código. Revisão do Claude conferiu o "Pronto quando" e que as pastas internas dão 404 no site. O segredo do Render se chama `RENDER_API_TOKEN`, e o docs foi corrigido |
 
 ## Fontes
 
