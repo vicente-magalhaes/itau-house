@@ -58,13 +58,13 @@ export function AppShell({ rota, children }) {
           <span className="some-no-estreito">Itaú House</span>
         </button>
 
+        <span className="topo-espaco" />
+
         <nav className="topo-nav" aria-label="Navegação">
           {itens.map((i) => (
             <ItemNav key={i.para} {...i} ativo={i.para === '/' ? rota === '/' : rota.startsWith(i.para)} />
           ))}
         </nav>
-
-        <span className="topo-espaco" />
 
         {/* Secundário de propósito: o único laranja da tela é a ação principal da página. */}
         <BotaoSec icone="plus" onClick={() => irPara('/publicar')}>

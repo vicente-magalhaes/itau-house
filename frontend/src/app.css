@@ -113,7 +113,7 @@ input::placeholder { color: var(--gray-500); }
   display: flex; align-items: center; gap: var(--space-3); padding: 0; border: 0; background: transparent; cursor: pointer;
   color: var(--ih-ink); font: var(--fw-bold) var(--fs-h3)/1 var(--font-display); letter-spacing: var(--ls-display); white-space: nowrap;
 }
-.topo-nav { display: flex; gap: var(--space-1); margin-left: var(--space-2); }
+.topo-nav { display: flex; gap: var(--space-1); }
 .topo-espaco { flex: 1; }
 .topo-foto { width: 44px; height: 44px; padding: 0; border: 0; border-radius: var(--radius-pill); display: grid; place-items: center; cursor: pointer; background: transparent; }
 @media (max-width: 1080px) {
