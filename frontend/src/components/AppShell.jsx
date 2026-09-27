@@ -20,11 +20,17 @@ function navCoordenacao(naFila) {
   ];
 }
 
+// Só o ícone na tela. O rótulo fica para o leitor de tela e para a dica do mouse.
 function ItemNav({ para, rotulo, icone, contador, ativo }) {
   return (
-    <Link para={para} className="btn btn-nav" aria-current={ativo ? 'page' : undefined}>
+    <Link
+      para={para}
+      className="btn btn-nav"
+      aria-current={ativo ? 'page' : undefined}
+      aria-label={contador > 0 ? `${rotulo}, ${contador}` : rotulo}
+      title={rotulo}
+    >
       <Icon name={icone} size={18} />
-      {rotulo}
       {contador > 0 && <span className="contador">{contador}</span>}
     </Link>
   );
@@ -52,13 +58,13 @@ export function AppShell({ rota, children }) {
           <span className="some-no-estreito">Itaú House</span>
         </button>
 
+        <span className="topo-espaco" />
+
         <nav className="topo-nav" aria-label="Navegação">
           {itens.map((i) => (
             <ItemNav key={i.para} {...i} ativo={i.para === '/' ? rota === '/' : rota.startsWith(i.para)} />
           ))}
         </nav>
-
-        <span className="topo-espaco" />
 
         {/* Secundário de propósito: o único laranja da tela é a ação principal da página. */}
         <BotaoSec icone="plus" onClick={() => irPara('/publicar')}>
