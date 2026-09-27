@@ -18,7 +18,7 @@ Itens marcados **(sugestão Claude)** são propostas para o time avaliar, não d
 | D-03 | Persona inicial: dev. É a mais afetada por retrabalho e dá o MVP de maior aprendizado. **Revisada em D-18.** | 26/09/2026 |
 | D-04 | Argumento do recorte: começar pequeno por governança e compliance, depois expandir. | 26/09/2026 |
 | D-05 | Expansão fica como próximos passos: produto, design e risco → Finanças → conhecimento executivo (notebooks, PPTs). | 26/09/2026 |
-| D-06 | A PRD não é entregável, mas será escrita, objetiva e focada em requisitos e stack, como contexto para os agentes de desenvolvimento. Ver [06-prd-e-stack.md](06-prd-e-stack.md). | 26/09/2026 |
+| D-06 | A PRD não é entregável, mas será escrita, objetiva e focada em requisitos e stack, como contexto para os agentes de desenvolvimento. Ver [06-prd-e-stack.md](../docs/06-prd-e-stack.md). | 26/09/2026 |
 | D-07 | Só dados fictícios. Integrações simuladas ficam marcadas como simuladas em tela, vídeo e slides. | regra do evento |
 | D-08 | Git: só `main` e branches de trabalho (`feat/`, `fix/`). Cada um faz merge direto da própria branch na `main`, sem `dev` e sem Pull Request, por agilidade. O Claude pode dar push (liberado em `.claude/settings.json`). | 26/09/2026 |
 | D-10 | Formato da banca: 3 min de pitch, 2 min de vídeo demo, 2 min de perguntas. | 26/09/2026 |
@@ -36,6 +36,7 @@ Itens marcados **(sugestão Claude)** são propostas para o time avaliar, não d
 | D-21 | Papéis. **Bruno:** produto e camada de IA (roteiro da demo, catálogo fictício, busca, validador, plugin). **Vicente:** back-end, MCP, banco e deploy, com Devin. **Alexandre:** front-end. **JP:** apresentação e evidência (prazo, entrevista, slides, ficha, pitch, vídeo). Cada task tem dono e validador diferentes. Tasks e ordem em [KANBAN.md](../KANBAN.md). Fecha A-11. | 26/09/2026 |
 | D-22 | Banco: Supabase na nuvem, um projeto só para dev e produção. Sem Supabase local. Motivo (Vicente): todos os dados são fictícios, inclusive em produção, e o MVP precisa estar online para os gestores acessarem. Controle: estrutura só por migração versionada e seed no repo, para recriar o banco do zero. | 26/09/2026 |
 | D-23 | Vídeo demo (T-30) inteiro com o Bruno: roteiro, gravação, narração, edição e publicação. Motivo: experiência com o próprio canal no YouTube. JP valida. Ajusta D-21. | 26/09/2026 |
+| D-24 | `memoria/` guarda só o que muda e envelhece: tese (04), decisões e pendências (05), brainstorm (09) e o diário das sessões. A referência estável, com fonte, vai para `docs/` com o mesmo nome: regulamento (01), enunciado (02), evidências (03), formato da PRD (06), identidade visual (07) e equipe (08). Motivo (Vicente): parte da memória era documento, não nota que o harness precisa revisar. Critério: o que envelhece fica em `memoria/`; o que não vence vai para `docs/`. Os documentos numerados de `docs/` continuam internos (D-09). | 26/09/2026 |
 
 ## Em aberto
 

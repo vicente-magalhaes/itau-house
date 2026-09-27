@@ -20,7 +20,7 @@ Rascunho de ideias do Bruno, pensando nos seis blocos dos slides.
 
 | Item | Situação |
 |---|---|
-| Benchmark e entrevista com diretor ("bench do centão") | **Fonte não registrada em [03](03-evidencias-pesquisa.md).** Registrar quem, quando, alcance e limite antes de citar. |
+| Benchmark e entrevista com diretor ("bench do centão") | **Fonte não registrada em [03](../docs/03-evidencias-pesquisa.md).** Registrar quem, quando, alcance e limite antes de citar. |
 | Discovery com os mentores | Já consta como F4. |
 | Métricas acionáveis (velocidade e qualidade) | Conhecimento do time, não é evidência. Serve para o modelo de mensuração. |
 

@@ -1,6 +1,6 @@
 # Regras de segurança
 
-Sempre ativas. Baseadas no regulamento do hackathon e em [memoria/01-hackathon-regras-e-entregas.md](../../memoria/01-hackathon-regras-e-entregas.md).
+Sempre ativas. Baseadas no regulamento do hackathon e em [docs/01-hackathon-regras-e-entregas.md](../../docs/01-hackathon-regras-e-entregas.md).
 
 ## Segredos
 
@@ -24,7 +24,7 @@ Sempre ativas. Baseadas no regulamento do hackathon e em [memoria/01-hackathon-r
 
 ## Conteúdo interno do time
 
-- `memoria/` e `itau-design-system/` são internos. Citam pessoas e conversas do Itaú e contêm a marca do banco.
+- `memoria/`, os documentos numerados de `docs/` e `itau-design-system/` são internos. Citam pessoas e conversas do Itaú e contêm a marca do banco.
 - Não publicar, não colar em serviço externo e não copiar esse conteúdo para o código da aplicação.
 - O repositório é privado. Antes da banca, será limpo para ficar só o código (decisão D-09).
 

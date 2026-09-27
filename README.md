@@ -10,7 +10,7 @@ Num squad orientado por IA, cada pessoa cria os próprios agentes, skills e atal
 
 O resultado é retrabalho. E uma skill que um PM criou, e que ajudaria o dev, nunca chega até ele.
 
-Chegamos a essa dor conversando com pessoas do Itaú: três pessoas de Finanças que trabalham com várias squads, uma product analyst que acompanha a jornada de produto dentro de uma squad e um gestor de design. Detalhes e limites de cada conversa em `memoria/03-evidencias-pesquisa.md`.
+Chegamos a essa dor conversando com pessoas do Itaú: três pessoas de Finanças que trabalham com várias squads, uma product analyst que acompanha a jornada de produto dentro de uma squad e um gestor de design. Detalhes e limites de cada conversa em `docs/03-evidencias-pesquisa.md`.
 
 ## A proposta
 
@@ -98,9 +98,9 @@ itau-house/
 ├─ .github/workflows/       CI: build das imagens e smoke test
 ├─ .claude/                 configuração do Claude Code: permissões, hooks e regras de segurança
 ├─ PRD.md                   requisitos do produto (RN, RF, RNF)
-├─ docs/fluxos.html         fluxogramas do produto
+├─ docs/                    referência: regras do hackathon, evidências, formato da PRD, marca, fluxos, roteiro da demo
 ├─ CLAUDE.md                contexto e regras para os agentes de IA que desenvolvem o projeto
-├─ memoria/                 memória do projeto: regras do hackathon, evidências, decisões, formato da PRD
+├─ memoria/                 memória do projeto: tese, decisões, pendências e diário das sessões
 └─ itau-design-system/      guia de marca e logos do Itaú
 ```
 
@@ -197,7 +197,7 @@ git push origin main
 
 **Commits** seguem o padrão Conventional Commits (`feat:`, `fix:`, `docs:`, `chore:`, `refactor:`, `test:`) e citam o requisito da PRD que atendem, por exemplo `feat: descreve a mudança (RF-03)`. Assim dá para sair de qualquer requisito e achar onde ele foi implementado.
 
-**Uso de IA na construção.** O projeto é desenvolvido com apoio do Claude Code. O contexto que os agentes usam fica no `CLAUDE.md` e na pasta `memoria/`. O que eles podem ou não fazer, os hooks e as regras de segurança ficam em `.claude/`. O fluxo de trabalho com IA que montamos para o time vai ser descrito aqui em breve.
+**Uso de IA na construção.** O projeto é desenvolvido com apoio do Claude Code. O contexto que os agentes usam fica no `CLAUDE.md` e nas pastas `memoria/` e `docs/`. O que eles podem ou não fazer, os hooks e as regras de segurança ficam em `.claude/`. O fluxo de trabalho com IA que montamos para o time vai ser descrito aqui em breve.
 
 ## Segurança
 

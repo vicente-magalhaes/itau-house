@@ -64,7 +64,7 @@ Interpretação nossa: F2 e F3 chegam à mesma dor por caminhos diferentes. Falt
   - "homologados": um time específico cria e disponibiliza para o banco inteiro.
 - Os times consomem skills e agentes de outros times.
 
-Interpretação nossa: há compartilhamento, mas F2 diz que não se sabe o que cada um usa. Hipótese: o que existe não resolve descoberta nem reuso no momento do trabalho. **Não validado.** Ver risco R-01 em [05-decisoes-e-pendencias.md](05-decisoes-e-pendencias.md).
+Interpretação nossa: há compartilhamento, mas F2 diz que não se sabe o que cada um usa. Hipótese: o que existe não resolve descoberta nem reuso no momento do trabalho. **Não validado.** Ver risco R-01 em [05-decisoes-e-pendencias.md](../memoria/05-decisoes-e-pendencias.md).
 
 ### IA no Itaú
 

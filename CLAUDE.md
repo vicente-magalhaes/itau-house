@@ -6,26 +6,36 @@ Solução: **Itaú House** (nome provisório). Fórum interno em que squads publ
 
 ## Memória do projeto
 
-Ler antes de qualquer tarefa. Os documentos brutos originais foram descartados; a memória é a fonte.
+Ler antes de qualquer tarefa. Os documentos brutos originais foram descartados; `memoria/` e `docs/` são a fonte (D-24).
+- `memoria/`: o que muda e envelhece. Tese, decisões, pendências, ideias em aberto e o diário das sessões. O harness-hacka revisa.
+- `docs/`: referência estável, com fonte. Regulamento, enunciado, pesquisa, formato da PRD, marca, equipe, fluxos e roteiro.
+
 A tabela abaixo é gerada pelo harness-hacka a partir do frontmatter de cada nota (`summary`, `read_when`, `review_by`). Não editar à mão: nota nova ganha frontmatter e depois `harness-hacka index --update`.
 
 <!-- harness-hacka:index -->
 | Arquivo | Conteúdo | Ler quando |
 |---|---|---|
-| [memoria/01-hackathon-regras-e-entregas.md](memoria/01-hackathon-regras-e-entregas.md) | Entregas, limites, formato da banca, critérios, restrições do regulamento | Qualquer entrega: slides, vídeo, ficha, protótipo |
-| [memoria/02-case-c-enunciado.md](memoria/02-case-c-enunciado.md) | O que a organização pede no Case C, personas de exemplo | Desenho da solução e do fluxo |
-| [memoria/03-evidencias-pesquisa.md](memoria/03-evidencias-pesquisa.md) | O que ouvimos de pessoas do Itaú, com limites; fluxo as-is | Argumentos, slide de evidências, mapa ponta a ponta |
 | [memoria/04-solucao-itau-house.md](memoria/04-solucao-itau-house.md) | Tese atual, persona, mecanismos, governança, expansão, teses descartadas | Tudo sobre o produto |
 | [memoria/05-decisoes-e-pendencias.md](memoria/05-decisoes-e-pendencias.md) | Decidido, em aberto, riscos, perguntas da banca | Antes de assumir qualquer decisão |
-| [memoria/06-prd-e-stack.md](memoria/06-prd-e-stack.md) | Formato da PRD e stack candidata | Escrever a PRD ou começar a codar |
-| [memoria/07-identidade-visual.md](memoria/07-identidade-visual.md) | Qual fonte de marca vale para quê, regras de front-end, cores, fontes, logo | Front-end, slides, vídeo |
-| [memoria/08-equipe.md](memoria/08-equipe.md) | Integrantes, perfil, contatos | Slide 6, ficha, divisão de tarefas |
 | [memoria/09-brainstorm-time.md](memoria/09-brainstorm-time.md) | Ideias do time ainda não decididas: persona afiada, mecanismos novos, tensões | Desenho da solução, slides |
 <!-- /harness-hacka:index -->
 
-Tasks, donos e ordem de execução: [KANBAN.md](KANBAN.md). Antes de começar uma task, marcar `Fazendo` lá; ao terminar, `Feito`.
+## Documentos de referência
 
-Fluxos do produto: [docs/fluxos.html](docs/fluxos.html). É a fonte de verdade dos fluxos (ciclo, descoberta, publicação, plataforma). Abrir no navegador. Para mudar um fluxo, editar os dados em `FLOWS` no próprio arquivo.
+Tabela mantida à mão. Documento novo em `docs/` entra aqui.
+
+| Arquivo | Conteúdo | Ler quando |
+|---|---|---|
+| [docs/01-hackathon-regras-e-entregas.md](docs/01-hackathon-regras-e-entregas.md) | Entregas, limites, formato da banca, critérios, restrições do regulamento | Qualquer entrega: slides, vídeo, ficha, protótipo |
+| [docs/02-case-c-enunciado.md](docs/02-case-c-enunciado.md) | O que a organização pede no Case C, personas de exemplo | Desenho da solução e do fluxo |
+| [docs/03-evidencias-pesquisa.md](docs/03-evidencias-pesquisa.md) | O que ouvimos de pessoas do Itaú, com limites; fluxo as-is | Argumentos, slide de evidências, mapa ponta a ponta |
+| [docs/06-prd-e-stack.md](docs/06-prd-e-stack.md) | Formato da PRD, restrições do evento e resumo da stack (a fonte é a PRD, seção 9) | Mexer na PRD |
+| [docs/07-identidade-visual.md](docs/07-identidade-visual.md) | Qual fonte de marca vale para quê, regras de front-end, cores, fontes, logo | Front-end, slides, vídeo |
+| [docs/08-equipe.md](docs/08-equipe.md) | Integrantes, papéis, contatos | Slide 6, ficha, divisão de tarefas |
+| [docs/roteiro-demo.md](docs/roteiro-demo.md) | Roteiro da demo: narração, o que o dev digita, o que o plugin responde | Ensaio, vídeo, contrato da API |
+| [docs/fluxos.html](docs/fluxos.html) | Fonte de verdade dos fluxos (ciclo, descoberta, publicação, plataforma). Abrir no navegador; para mudar, editar `FLOWS` no arquivo | Desenho de fluxo, front-end |
+
+Tasks, donos e ordem de execução: [KANBAN.md](KANBAN.md). Antes de começar uma task, marcar `Fazendo` lá; ao terminar, `Feito`.
 
 ## Design system
 
@@ -35,7 +45,7 @@ Ponto de entrada: [design-system/readme.md](design-system/readme.md). Skill: `it
 - Cor, fonte, raio, sombra e espaçamento só por token CSS. Nada de hex ou px de marca solto no código.
 - Nunca vermelho, roxo ou gradiente. Erro usa `--status-error` (azul-marinho) com ícone.
 - Texto de interface em pt-BR, falando com "você", CTA sem urgência.
-- Detalhes e interpretações provisórias em [memoria/07-identidade-visual.md](memoria/07-identidade-visual.md).
+- Detalhes e interpretações provisórias em [docs/07-identidade-visual.md](docs/07-identidade-visual.md).
 
 ## Ambiente (Docker)
 
@@ -61,7 +71,7 @@ Comandos completos no [README](README.md#como-rodar).
 - Código segue a PRD (`PRD.md`, quando existir). Cada mudança cita o requisito (RF/RN/RNF) que atende.
 - Git: trabalhar numa branch `feat/` ou `fix/` criada a partir da `main`. Antes de juntar, trazer a `main` para a branch e conferir que o fluxo principal roda. Juntar com merge direto na `main`. Sem `dev` e sem Pull Request. Nunca commitar direto na `main`.
 - Ao fechar uma decisão, registrar em `memoria/05-decisoes-e-pendencias.md` com data.
-- O repositório é privado durante o desenvolvimento. Antes da banca, será limpo para ficar só o código. `memoria/` e `itau-design-system/` são internos: citam pessoas e conversas do Itaú e contêm a marca do banco. `design-system/` fica, porque o front-end depende dele.
+- O repositório é privado durante o desenvolvimento. Antes da banca, será limpo para ficar só o código. `memoria/`, os documentos numerados de `docs/` e `itau-design-system/` são internos: citam pessoas e conversas do Itaú e contêm a marca do banco. `design-system/` fica, porque o front-end depende dele.
 - Escrever em português do Brasil, frases curtas.
 
 ## Configuração do Claude Code

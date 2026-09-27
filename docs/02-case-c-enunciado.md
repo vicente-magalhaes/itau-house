@@ -7,7 +7,7 @@ review_by: 2026-10-01
 # Case C: Jornada de agentes (enunciado e orientações da organização)
 
 Fontes: regulamento 4.1.3, guia dos participantes (página do Case C), slides da abertura (apresentados por Rodrigo Terron, newhack).
-Este arquivo registra o que a organização pede. A nossa resposta está em [04-solucao-itau-house.md](04-solucao-itau-house.md).
+Este arquivo registra o que a organização pede. A nossa resposta está em [04-solucao-itau-house.md](../memoria/04-solucao-itau-house.md).
 
 ## Enunciado
 

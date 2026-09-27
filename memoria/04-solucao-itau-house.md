@@ -19,7 +19,7 @@ Um fórum interno em que as squads do Itaú publicam e reaproveitam agentes, ski
 - Agentes duplicados: pessoas recriam agentes que já existem, ou não conseguem criar o que outro já tem.
 - Falta de visibilidade: ninguém sabe o que cada um está usando (F2).
 - Perda de conhecimento entre times (F1).
-Evidências em [03-evidencias-pesquisa.md](03-evidencias-pesquisa.md).
+Evidências em [03-evidencias-pesquisa.md](../docs/03-evidencias-pesquisa.md).
 
 ## Persona: membro do squad, com governança do coordenador (D-18)
 

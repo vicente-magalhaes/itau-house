@@ -1,7 +1,8 @@
 # Memória do projeto
 
-O que o projeto sabe, escrito para pessoas e para agentes de código. Mantida com o
-harness-hacka.
+O que o projeto sabe e que muda com o tempo, escrito para pessoas e para agentes de código.
+Mantida com o harness-hacka. Referência estável, que não vence (regulamento, enunciado,
+pesquisa, formato da PRD, marca, equipe), fica em [`docs/`](../docs/) (D-24).
 
 | Onde | O que guarda | Quem escreve |
 |---|---|---|
@@ -16,14 +17,8 @@ harness-hacka.
 <!-- harness-hacka:index -->
 | Arquivo | Conteúdo | Ler quando |
 |---|---|---|
-| [01-hackathon-regras-e-entregas.md](01-hackathon-regras-e-entregas.md) | Entregas, limites, formato da banca, critérios, restrições do regulamento | Qualquer entrega: slides, vídeo, ficha, protótipo |
-| [02-case-c-enunciado.md](02-case-c-enunciado.md) | O que a organização pede no Case C, personas de exemplo | Desenho da solução e do fluxo |
-| [03-evidencias-pesquisa.md](03-evidencias-pesquisa.md) | O que ouvimos de pessoas do Itaú, com limites; fluxo as-is | Argumentos, slide de evidências, mapa ponta a ponta |
 | [04-solucao-itau-house.md](04-solucao-itau-house.md) | Tese atual, persona, mecanismos, governança, expansão, teses descartadas | Tudo sobre o produto |
 | [05-decisoes-e-pendencias.md](05-decisoes-e-pendencias.md) | Decidido, em aberto, riscos, perguntas da banca | Antes de assumir qualquer decisão |
-| [06-prd-e-stack.md](06-prd-e-stack.md) | Formato da PRD e stack candidata | Escrever a PRD ou começar a codar |
-| [07-identidade-visual.md](07-identidade-visual.md) | Qual fonte de marca vale para quê, regras de front-end, cores, fontes, logo | Front-end, slides, vídeo |
-| [08-equipe.md](08-equipe.md) | Integrantes, perfil, contatos | Slide 6, ficha, divisão de tarefas |
 | [09-brainstorm-time.md](09-brainstorm-time.md) | Ideias do time ainda não decididas: persona afiada, mecanismos novos, tensões | Desenho da solução, slides |
 <!-- /harness-hacka:index -->
 
