@@ -105,6 +105,7 @@ export function SessaoProvider({ children }) {
     return {
       perfil,
       pessoa: def.pessoa,
+      usuarioId: def.usuarioId,
       rotuloPerfil: def.rotulo,
       ehCoordenador: perfil === 'coordenador',
       entrou,

@@ -1,11 +1,13 @@
 import React from 'react';
 import { Button, Icon } from '../ds.js';
-import { Foto } from '../components/comuns.jsx';
+import { Foto, Vazio } from '../components/comuns.jsx';
 import { Filtro } from '../components/Filtro.jsx';
 import { PostCard } from '../components/Post.jsx';
 import { irPara } from '../router.jsx';
 import { useSessao } from '../sessao.jsx';
 import { ativos, pedidos, ESTANTES, PAPEIS, ORDENS, ordenar, buscar, visivelPara } from '../data/catalogo.js';
+import { ativoDaApi } from '../data/daApi.js';
+import { listarAtivos, useDaApi } from '../api.js';
 
 const OPCOES_ESTANTE = [{ value: 'tudo', label: 'Todas as estantes' }, ...Object.entries(ESTANTES).map(([value, e]) => ({ value, label: e.nome }))];
 const OPCOES_PAPEL = [{ value: 'todos', label: 'Todos os papéis' }, ...PAPEIS.map((p) => ({ value: p, label: p }))];
@@ -63,10 +65,17 @@ function Lateral({ visiveis }) {
 
 // Início: busca em linguagem natural, filtros e cards por popularidade (RF-25, RF-26, RF-28).
 export function Feed() {
-  const { pessoa, busca, setBusca, filtros, setFiltros, curtidasDe, reusosDe } = useSessao();
+  const { pessoa, usuarioId, busca, setBusca, filtros, setFiltros, curtidasDe, reusosDe } = useSessao();
   const mudar = (campo) => (valor) => setFiltros((f) => ({ ...f, [campo]: valor }));
 
-  const visiveis = React.useMemo(() => ativos.filter((a) => visivelPara(a, pessoa)), [pessoa]);
+  // A API já devolve só o que a persona pode ver (RF-05). Nos dados fictícios, o filtro de alcance é daqui.
+  // A ordem fica na tela: as cinco ordens do filtro saem da mesma lista.
+  const { dados, erro, carregando } = useDaApi(
+    'ativos:' + usuarioId,
+    () => listarAtivos(usuarioId).then((lista) => lista.map(ativoDaApi)),
+    () => ativos.filter((a) => visivelPara(a, pessoa)),
+  );
+  const visiveis = React.useMemo(() => dados || [], [dados]);
 
   const lista = React.useMemo(() => {
     const filtrados = visiveis.filter(
@@ -117,7 +126,11 @@ export function Feed() {
           </div>
         </div>
 
-        {lista.length === 0 ? (
+        {carregando ? (
+          <Vazio icone="loader" titulo="Carregando o catálogo" />
+        ) : erro ? (
+          <Vazio icone="circle-alert" titulo={erro.message} />
+        ) : lista.length === 0 ? (
           <div className="painel anima-entrar" style={{ alignItems: 'flex-start', padding: 'var(--space-6)' }}>
             <span className="icone-quadrado">
               <Icon name="hand" size={20} />

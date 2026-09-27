@@ -1,8 +1,10 @@
 import React from 'react';
 import { Button, IconButton, Icon, Badge, Tabs, Dialog, Toast, Input } from '../ds.js';
 import { Avatar, BotaoSec, SeloSimulado, Vazio, Aviso } from '../components/comuns.jsx';
+import { Link } from '../router.jsx';
 import { useSessao } from '../sessao.jsx';
-import { filaAprovacao } from '../data/governanca.js';
+import { useFila } from '../fila.js';
+import { decidirAprovacao, SemApi } from '../api.js';
 import { iconeTipo } from '../data/catalogo.js';
 
 // Fila do Cord+ (RF-32): aprovar (RF-19) ou devolver com motivo (RF-21).
@@ -17,7 +19,7 @@ const TOM_APONTAMENTO = {
 
 const DECISOES = {
   aprovar: { rotulo: 'Aprovada', tone: 'success', toast: 'Publicação aprovada.' },
-  ajuste: { rotulo: 'Devolvida', tone: 'neutral', toast: 'Devolvida para a autora com o motivo.' },
+  ajuste: { rotulo: 'Devolvida', tone: 'neutral', toast: 'Devolvida com o motivo para quem publicou.' },
   recusar: { rotulo: 'Recusada', tone: 'dark', toast: 'Publicação recusada.' },
 };
 
@@ -44,7 +46,8 @@ function Gates() {
   );
 }
 
-function ItemFila({ item, aberto, aoAlternar, aoAprovar, aoDevolver, aoRecusar }) {
+// aoRecusar só existe nos dados fictícios: o contrato da API tem aprovar e devolver.
+function ItemFila({ item, aberto, enviando, aoAlternar, aoAprovar, aoDevolver, aoRecusar }) {
   return (
     <div className="caixa stack stack-4">
       <div className="row row-3">
@@ -56,8 +59,12 @@ function ItemFila({ item, aberto, aoAlternar, aoAprovar, aoDevolver, aoRecusar }
             <span>{item.autor.nome}</span>
             <span aria-hidden="true">·</span>
             <span>{item.autor.squad}</span>
-            <span aria-hidden="true">·</span>
-            <span>há {item.esperandoHa}</span>
+            {item.esperandoHa && (
+              <>
+                <span aria-hidden="true">·</span>
+                <span>há {item.esperandoHa}</span>
+              </>
+            )}
           </span>
         </div>
         <Badge tone="success">
@@ -82,16 +89,24 @@ function ItemFila({ item, aberto, aoAlternar, aoAprovar, aoDevolver, aoRecusar }
               );
             })}
           </ul>
+          {/* O post inteiro, como vai aparecer no feed (RF-32). O Cord+ do squad vê o ativo na fila (RF-05). */}
+          {item.daApi && (
+            <Link para={'/ativo/' + item.id} className="btn-texto" style={{ alignSelf: 'flex-start' }}>
+              Ver o post completo
+            </Link>
+          )}
           <div className="row row-3 wrap">
-            <Button variant="primary" size="sm" iconLeft="check" onClick={aoAprovar}>
+            <Button variant="primary" size="sm" iconLeft="check" disabled={enviando} onClick={aoAprovar}>
               Aprovar
             </Button>
-            <BotaoSec icone="undo-2" onClick={aoDevolver}>
+            <BotaoSec icone="undo-2" disabled={enviando} onClick={aoDevolver}>
               Devolver
             </BotaoSec>
-            <BotaoSec icone="x" onClick={aoRecusar}>
-              Recusar
-            </BotaoSec>
+            {aoRecusar && (
+              <BotaoSec icone="x" onClick={aoRecusar}>
+                Recusar
+              </BotaoSec>
+            )}
           </div>
         </div>
       )}
@@ -117,24 +132,54 @@ function ItemDecidido({ registro }) {
 }
 
 export function Aprovacoes() {
-  const { pessoa } = useSessao();
+  const { pessoa, usuarioId } = useSessao();
+  const fila = useFila();
+  const daApi = fila.origem === 'api';
 
   const [aba, setAba] = React.useState('espera');
-  const [abertoId, setAbertoId] = React.useState(filaAprovacao[0] ? filaAprovacao[0].id : null);
+  // undefined: ninguém abriu nem fechou nada ainda, então abre o primeiro da fila, que pode chegar depois.
+  const [abertoId, setAbertoId] = React.useState(undefined);
   const [decididos, setDecididos] = React.useState([]);
   const [dialogo, setDialogo] = React.useState(null); // { id, decisao }
   const [motivo, setMotivo] = React.useState('');
   const [erroMotivo, setErroMotivo] = React.useState('');
-  const [toast, setToast] = React.useState(null); // { id, texto, tone }
+  const [toast, setToast] = React.useState(null); // { id, texto, tone, desfazivel }
+  const [enviando, setEnviando] = React.useState(null); // id do item cuja decisão está indo para a API
 
+  const itens = fila.dados || [];
   const decididosIds = decididos.map((d) => d.id);
-  const naFila = filaAprovacao.filter((i) => !decididosIds.includes(i.id));
-  const itemDoDialogo = dialogo ? filaAprovacao.find((i) => i.id === dialogo.id) : null;
+  const naFila = itens.filter((i) => !decididosIds.includes(i.id));
+  const aberto = abertoId === undefined ? (naFila[0] ? naFila[0].id : null) : abertoId;
+  const itemDoDialogo = dialogo ? itens.find((i) => i.id === dialogo.id) : null;
 
-  function registrar(item, decisao, motivoTexto) {
+  function anotar(item, decisao, motivoTexto) {
     setDecididos((atual) => [{ id: item.id, item, decisao, quem: pessoa.nome, quando: 'agora', motivo: motivoTexto || '' }, ...atual]);
     setAbertoId(null);
-    setToast({ id: item.id, texto: DECISOES[decisao].toast, tone: decisao === 'aprovar' ? 'success' : 'neutral' });
+    setToast({ id: item.id, texto: DECISOES[decisao].toast, tone: decisao === 'aprovar' ? 'success' : 'neutral', desfazivel: !daApi });
+  }
+
+  // Com a API, a decisão vale de verdade (RF-19, RF-21): não tem desfazer, e o item sai da fila e do contador.
+  // Devolve true quando a decisão ficou registrada.
+  async function registrar(item, decisao, motivoTexto) {
+    if (!daApi) {
+      anotar(item, decisao, motivoTexto);
+      return true;
+    }
+    setEnviando(item.id);
+    try {
+      await decidirAprovacao(usuarioId, item.id, decisao === 'aprovar' ? { decisao: 'aprovar' } : { decisao: 'devolver', comentario: motivoTexto });
+      anotar(item, decisao, motivoTexto);
+      fila.recarregar();
+      return true;
+    } catch (e) {
+      const semApi = e instanceof SemApi;
+      setToast({ id: item.id, texto: semApi ? 'Não conseguimos falar com o Itaú House. Tente de novo.' : e.message, tone: 'error', desfazivel: false });
+      // A API recusou (ex.: 409, outra pessoa já decidiu): a fila mudou, então lê de novo.
+      if (!semApi) fila.recarregar();
+      return false;
+    } finally {
+      setEnviando(null);
+    }
   }
 
   function fecharDialogo() {
@@ -144,17 +189,16 @@ export function Aprovacoes() {
   }
 
   // Devolver e recusar exigem motivo: é o que a pessoa autora vai ler.
-  function enviarDialogo() {
+  async function enviarDialogo() {
     if (!motivo.trim()) {
       setErroMotivo('Escreva o motivo. Ele vai junto para a pessoa autora.');
       return;
     }
-    registrar(itemDoDialogo, dialogo.decisao, motivo.trim());
-    fecharDialogo();
+    if (await registrar(itemDoDialogo, dialogo.decisao, motivo.trim())) fecharDialogo();
   }
 
   function desfazer() {
-    if (!toast) return;
+    if (!toast || !toast.desfazivel) return;
     setDecididos((atual) => atual.filter((d) => d.id !== toast.id));
     setAbertoId(toast.id);
     setAba('espera');
@@ -165,7 +209,13 @@ export function Aprovacoes() {
     <div className="stack stack-5" style={{ maxWidth: 860 }}>
       <div className="row spread">
         <h1 className="titulo-pagina">Fila de aprovação</h1>
-        <SeloSimulado ajuda="Fila, ativos e pareceres são fictícios. Nada vem de um sistema do Itaú.">Fila simulada</SeloSimulado>
+        {daApi ? (
+          <SeloSimulado ajuda="A fila e a decisão são do protótipo, de verdade. Pessoas e ativos são fictícios. Nada vem de um sistema do Itaú.">
+            Dados fictícios
+          </SeloSimulado>
+        ) : (
+          <SeloSimulado ajuda="Fila, ativos e pareceres são fictícios. Nada vem de um sistema do Itaú.">Fila simulada</SeloSimulado>
+        )}
       </div>
 
       <Tabs
@@ -178,7 +228,11 @@ export function Aprovacoes() {
       />
 
       {aba === 'espera' &&
-        (naFila.length === 0 ? (
+        (fila.carregando ? (
+          <Vazio icone="loader" titulo="Carregando a fila" />
+        ) : fila.erro ? (
+          <Vazio icone="circle-alert" titulo={fila.erro.message} />
+        ) : naFila.length === 0 ? (
           <Vazio icone="inbox" titulo="Nada esperando por você" />
         ) : (
           <div className="stack stack-3 anima-escalonada">
@@ -186,11 +240,12 @@ export function Aprovacoes() {
               <ItemFila
                 key={item.id}
                 item={item}
-                aberto={abertoId === item.id}
-                aoAlternar={() => setAbertoId(abertoId === item.id ? null : item.id)}
+                aberto={aberto === item.id}
+                enviando={enviando === item.id}
+                aoAlternar={() => setAbertoId(aberto === item.id ? null : item.id)}
                 aoAprovar={() => registrar(item, 'aprovar')}
                 aoDevolver={() => setDialogo({ id: item.id, decisao: 'ajuste' })}
-                aoRecusar={() => setDialogo({ id: item.id, decisao: 'recusar' })}
+                aoRecusar={daApi ? undefined : () => setDialogo({ id: item.id, decisao: 'recusar' })}
               />
             ))}
           </div>
@@ -214,7 +269,7 @@ export function Aprovacoes() {
           actions={
             <>
               <BotaoSec onClick={fecharDialogo}>Voltar</BotaoSec>
-              <Button variant="secondary" size="sm" iconLeft="send" onClick={enviarDialogo}>
+              <Button variant="secondary" size="sm" iconLeft="send" disabled={enviando === dialogo.id} onClick={enviarDialogo}>
                 {dialogo.decisao === 'ajuste' ? 'Devolver' : 'Recusar'}
               </Button>
             </>
@@ -235,7 +290,7 @@ export function Aprovacoes() {
 
       {toast && (
         <Aviso>
-          <Toast tone={toast.tone} action="Desfazer" onAction={desfazer} onClose={() => setToast(null)}>
+          <Toast tone={toast.tone} action={toast.desfazivel ? 'Desfazer' : undefined} onAction={desfazer} onClose={() => setToast(null)}>
             {toast.texto}
           </Toast>
         </Aviso>

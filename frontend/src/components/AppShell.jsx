@@ -4,7 +4,7 @@ import { Foto, BotaoSec, Recado } from './comuns.jsx';
 import { useSaida } from './movimento.jsx';
 import { useSessao } from '../sessao.jsx';
 import { Link, irPara } from '../router.jsx';
-import { filaAprovacao } from '../data/governanca.js';
+import { useFila } from '../fila.js';
 import { pedidos } from '../data/catalogo.js';
 
 const NAV = [
@@ -12,11 +12,13 @@ const NAV = [
   { para: '/pedidos', rotulo: 'Pedidos', icone: 'hand', contador: pedidos.length },
 ];
 
-// Área da coordenação (RF-24): só aparece no perfil Coordenação.
-const NAV_COORDENACAO = [
-  { para: '/coord/fila', rotulo: 'Fila', icone: 'inbox', contador: filaAprovacao.length },
-  { para: '/coord/dados', rotulo: 'Dados', icone: 'chart-column' },
-];
+// Área da coordenação (RF-24): só aparece no perfil Coordenação. O contador da fila vem da mesma leitura da tela.
+function navCoordenacao(naFila) {
+  return [
+    { para: '/coord/fila', rotulo: 'Fila', icone: 'inbox', contador: naFila },
+    { para: '/coord/dados', rotulo: 'Dados', icone: 'chart-column' },
+  ];
+}
 
 function ItemNav({ para, rotulo, icone, contador, ativo }) {
   return (
@@ -30,7 +32,8 @@ function ItemNav({ para, rotulo, icone, contador, ativo }) {
 
 export function AppShell({ rota, children }) {
   const { pessoa, ehCoordenador, limparFiltros, recado } = useSessao();
-  const itens = ehCoordenador ? [...NAV, ...NAV_COORDENACAO] : NAV;
+  const fila = useFila();
+  const itens = ehCoordenador ? [...NAV, ...navCoordenacao(fila.dados ? fila.dados.length : 0)] : NAV;
   const [recadoMostrado, recadoSaindo] = useSaida(recado);
 
   return (

@@ -30,8 +30,8 @@ npm run lint     # oxlint
 | UI | React 19 | Telas em JSX, como os componentes de `design-system/components/`. |
 | Tipos | TypeScript com `allowJs` | O `tsc -b` aceita as telas `.jsx` sem checá-las. Código novo pode ser `.tsx`; o design system tem `.d.ts` para cada componente. |
 | Rotas | roteador por hash, em `src/router.jsx` | Sem dependência nova. Funciona em qualquer hospedagem estática e no nginx do build de produção. |
-| Estado | `useState` e um contexto de sessão | Os dados ainda não vêm da API. A sessão guarda perfil, curtidas, filtros e o recado da tela. |
-| Dados | arquivos em `src/data/` | Fictícios, até as rotas do T-06 e do T-07 existirem. |
+| Estado | `useState` e um contexto de sessão | A sessão guarda perfil, curtidas, filtros e o recado da tela. |
+| Dados | `src/api.js`, com `src/data/` de reserva | A tela pede à API (`docs/api.md`). Se a rota ainda não existe (a lista vem do `/api/openapi.json`) ou o back não responde, usa os fictícios de `src/data/`. Rota nova só aparece depois de recarregar a página. `src/data/daApi.js` converte o JSON do contrato no formato das telas. |
 
 ## Design system
 
@@ -56,11 +56,11 @@ Redesign feito no Claude Design (`Itau House.dc.html`): topo com navegação, se
 |---|---|---|
 | `#/entrar` | Entrada | SSO **simulado** (RF-23). O perfil (Membro do squad / Coordenação) troca o que a interface mostra (RF-24). |
 | `#/` | Início | Busca em linguagem natural, filtros por estante, papel e ordem (RF-26): Em alta, Mais curtidos, Mais reaproveitados, Mais adaptados e Novos. Cards por popularidade (RF-25) com curtir (RF-28). Lateral com pedidos abertos e os ativos mais reaproveitados, com a foto de quem criou. |
-| `#/ativo/:id` | Ativo | Capa, usar, adaptar, curtir. **O que ele acessa**, como as permissões de um aplicativo, e a confirmação "Entendi o que este ativo acessa" antes de usar (RF-29). "Usar em" com os passos de cada ferramenta, o que tem dentro, árvore de adaptações, reaproveitamento por papel (RF-30) e governança (RF-22) (RF-27). |
+| `#/ativo/:id` | Ativo | Capa, usar, adaptar, curtir. **O que ele acessa**, como as permissões de um aplicativo, e a confirmação "Entendi o que este ativo acessa" antes de usar (RF-29). "Usar em" com os passos de cada ferramenta, o que tem dentro, árvore de adaptações, reaproveitamento por papel (RF-30) e governança (RF-22) (RF-27). Com a API: README, arquivos, manual de instalação, "Adaptado de" com link ao original (RF-09), squads que reaproveitaram no lugar do reuso por papel e a trilha do histórico. Relê ao voltar para a janela. |
 | `#/pedidos` | Pedidos | O que alguém procurou e não achou. "Também quero" e "Eu crio". |
 | `#/perfil`, `#/perfil/:id` | Perfil | O que a pessoa publicou, reaproveitamentos, papéis alcançados, adaptações e quem adaptou. "Sair" fica no próprio perfil. |
 | `#/publicar` | Publicar | Hook detecta → validador barra com o que, onde e como corrigir → correção → passa → post com prévia do card → fila. |
-| `#/coord/fila` | Fila de aprovação | Só Coordenação (RF-32): resultado das checagens, aprovar (RF-19), devolver ou recusar com motivo (RF-21). Quem julga é o coordenador (D-26). |
+| `#/coord/fila` | Fila de aprovação | Só Coordenação (RF-32): resultado das checagens, aprovar (RF-19), devolver ou recusar com motivo (RF-21). Quem julga é o coordenador (D-26). Com a API: o que o validador barrou em cada rodada, o alcance pedido e o link para o post; só aprovar e devolver, sem desfazer, como no contrato. O contador do topo lê a mesma fila. |
 | `#/coord/dados` | Dados | Só Coordenação: curtidas, reaproveitamentos, adaptações, por frente, tabela por ativo e trilha de cada um (RF-30, RF-22). |
 
 O alcance vale no início, no perfil e na página do ativo (RF-05): ativo de squad só aparece para a própria squad; ativo de frente, só para a mesma frente. Na demo, todo ativo tem alcance "Banco inteiro".
@@ -80,7 +80,8 @@ Tudo o que está simulado aparece marcado em tela com o selo **Simulado** (compo
 | Resultado do validador | **Simulado**: roteiro fixo em `src/data/governanca.js`. O validador real faz só checagens fixas por código, sem IA (RF-14, D-26) |
 | Detecção por hook na ferramenta de código | **Simulado** em tela |
 | Login por SSO | **Simulado**: seletor de perfil |
-| Dados vindos da API e do banco, integração com Copilot ou Claude Code | Ainda não ligados: as telas usam `src/data/` |
+| Dados vindos da API e do banco | O início (T-17), a página do ativo (T-18) e a fila de aprovação (T-19) pedem à API. As outras telas usam `src/data/` |
+| Integração com Copilot ou Claude Code | Ainda não ligada |
 
 ## Estrutura
 
@@ -96,9 +97,11 @@ frontend/
    ├─ router.jsx           roteador por hash e o componente Link
    ├─ sessao.jsx           perfil, login simulado, curtidas, usados, pedidos, busca e filtros
    ├─ ds.js                ponte para os componentes do design system
+   ├─ api.js               rotas da plataforma (docs/api.md) e o useDaApi, que cai em src/data/ sem a rota
+   ├─ fila.js              useFila: a fila do Cord+, lida pela tela de aprovações e pelo contador do topo
    ├─ app.css              utilitários de layout, só com tokens
    ├─ components/          AppShell (topo), Post (card de ativo e Gostei), Filtro (lista no padrão dos botões), peças comuns (Foto, BotaoSec, Recado)
-   ├─ data/                catálogo, pedidos e roteiro de governança, fictícios
+   ├─ data/                catálogo, pedidos e roteiro de governança, fictícios; daApi.js converte o JSON da API
    └─ pages/               uma tela por arquivo
 ```
 
