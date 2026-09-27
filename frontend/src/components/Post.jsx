@@ -6,10 +6,10 @@ import { irPara } from '../router.jsx';
 import { useSessao } from '../sessao.jsx';
 import { iconeTipo, tempoRelativo } from '../data/catalogo.js';
 
-// Um "gostei" por pessoa por ativo. Clicar de novo desfaz (RF-28).
+// Um "gostei" por pessoa por ativo. Clicar de novo desfaz (RF-28). Com a API, a curtida vai para o back.
 export function BotaoCurtir({ ativo, noCard, desativado }) {
-  const { curtidos, curtir, curtidasDe } = useSessao();
-  const curtido = curtidos.includes(ativo.id);
+  const { curtidoDe, curtir, curtidasDe } = useSessao();
+  const curtido = curtidoDe(ativo);
   const total = curtidasDe(ativo);
   return (
     <button
@@ -20,7 +20,7 @@ export function BotaoCurtir({ ativo, noCard, desativado }) {
       disabled={desativado}
       onClick={(e) => {
         e.stopPropagation();
-        if (!desativado) curtir(ativo.id);
+        if (!desativado) curtir(ativo);
       }}
     >
       <Pulso gatilho={curtido} efeito="seta">

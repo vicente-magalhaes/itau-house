@@ -1,7 +1,8 @@
 import React from 'react';
-import { Button, Icon, Dialog, Checkbox, Badge, Toast } from '../ds.js';
+import { Button, Icon, Dialog, Checkbox, Badge, Toast, Input, Select } from '../ds.js';
 import { Foto, BotaoSec, SeloSimulado, Vazio, Aviso } from '../components/comuns.jsx';
 import { BotaoCurtir } from '../components/Post.jsx';
+import { TextArea } from '../components/TextArea.jsx';
 import { NumeroVivo, Pulso } from '../components/movimento.jsx';
 import { Link, irPara } from '../router.jsx';
 import { useSessao } from '../sessao.jsx';
@@ -20,7 +21,7 @@ import {
   formatarHoras,
 } from '../data/catalogo.js';
 import { ativoDetalheDaApi } from '../data/daApi.js';
-import { detalharAtivo, useDaApi } from '../api.js';
+import { detalharAtivo, editarAtivo, enviarAtivo, recarregar, SemApi, useDaApi } from '../api.js';
 
 function voltar() {
   if (window.history.length > 1) window.history.back();
@@ -235,12 +236,87 @@ function UsarEm({ ativo }) {
   );
 }
 
+// Status em que o autor ainda mexe no post e reenvia (docs/api.md, PATCH).
+const EDITAVEIS = ['rascunho', 'barrado', 'devolvido'];
+
+function mensagemDeFalha(e) {
+  return e instanceof SemApi ? 'Não conseguimos falar com o Itaú House. Tente de novo.' : e.message;
+}
+
+// O autor corrige o texto e o alcance antes de reenviar (RF-21, RF-31). Os arquivos se corrigem no editor:
+// o plugin atualiza o post, e o envio passa pelo validador de novo.
+function EditarPost({ ativo, aoFechar, aoSalvar }) {
+  const originais = {
+    nome: ativo.titulo || '',
+    resumo: ativo.resumo || '',
+    readme: ativo.readme || '',
+    manualInstalacao: ativo.manualInstalacao || '',
+    visibilidade: ativo.visibilidade,
+  };
+  const [campos, setCampos] = React.useState(originais);
+  const [erroNome, setErroNome] = React.useState('');
+  const [salvando, setSalvando] = React.useState(false);
+  const mudar = (campo) => (e) => {
+    setCampos((c) => ({ ...c, [campo]: e.target.value }));
+    if (campo === 'nome') setErroNome('');
+  };
+
+  async function salvar() {
+    if (!campos.nome.trim()) {
+      setErroNome('O post precisa de um nome.');
+      return;
+    }
+    // PATCH só com o que mudou (docs/api.md).
+    const mudou = Object.fromEntries(Object.entries(campos).filter(([k, v]) => v !== originais[k]));
+    if (!Object.keys(mudou).length) {
+      aoFechar();
+      return;
+    }
+    setSalvando(true);
+    const ok = await aoSalvar(mudou);
+    setSalvando(false);
+    if (ok) aoFechar();
+  }
+
+  return (
+    <Dialog
+      title="Editar post"
+      onClose={aoFechar}
+      width={640}
+      actions={
+        <>
+          <BotaoSec onClick={aoFechar}>Cancelar</BotaoSec>
+          <Button variant="secondary" size="sm" iconLeft="check" disabled={salvando} onClick={salvar}>
+            Salvar
+          </Button>
+        </>
+      }
+    >
+      {/* O Dialog do DS não limita a altura: o formulário rola por dentro, e título e botões ficam na tela. */}
+      <div className="stack stack-4" style={{ maxHeight: 'calc(100vh - 240px)', overflowY: 'auto', padding: 'var(--space-1)' }}>
+        <Input label="Nome" value={campos.nome} onChange={mudar('nome')} error={erroNome} />
+        <Select
+          label="Quem pode ver"
+          value={campos.visibilidade}
+          onChange={mudar('visibilidade')}
+          options={VISIBILIDADES.map((v) => ({ value: v.value, label: v.label }))}
+        />
+        <TextArea label="Resumo" value={campos.resumo} onChange={mudar('resumo')} rows={2} />
+        <TextArea label="README" value={campos.readme} onChange={mudar('readme')} rows={6} mono />
+        <TextArea label="Como instalar" value={campos.manualInstalacao} onChange={mudar('manualInstalacao')} rows={3} />
+        <p className="meta">Os arquivos do ativo você corrige no seu editor. O plugin do Itaú House atualiza o post, e o envio passa pelo validador de novo.</p>
+      </div>
+    </Dialog>
+  );
+}
+
 // Página do ativo (RF-27): capa, ações, tempo economizado (0025), o que ele acessa, como usar, conteúdo, derivações, reuso por papel e trilha (RF-22, RF-30).
 export function Ativo({ id }) {
   const { pessoa, usuarioId, usados, usar, reusosDe, avisar, ehCoordenador } = useSessao();
+  const chave = `ativo:${usuarioId}:${id}`;
   // A API responde 404 para o que a persona não vê (RF-05). Nos dados fictícios, o filtro de alcance é daqui.
-  const { dados: ativo, erro, carregando } = useDaApi(
-    `ativo:${usuarioId}:${id}`,
+  const { dados: ativo, origem, erro, carregando } = useDaApi(
+    chave,
     () => detalharAtivo(usuarioId, id).then(ativoDetalheDaApi),
     () => {
       const a = acharAtivo(id);
@@ -249,6 +325,11 @@ export function Ativo({ id }) {
   );
   const [confirmando, setConfirmando] = React.useState(false);
   const [ciente, setCiente] = React.useState(false);
+  const [registrando, setRegistrando] = React.useState(false);
+  const [editando, setEditando] = React.useState(false);
+  const [enviando, setEnviando] = React.useState(false);
+  // O que o validador barrou no último reenvio feito daqui: { itens }.
+  const [barrado, setBarrado] = React.useState(null);
   // Quem enviou chega aqui pelo link do plugin: o aviso confirma que o post está na fila (RF-18, RF-19).
   const [envioVisto, setEnvioVisto] = React.useState(false);
 
@@ -264,6 +345,8 @@ export function Ativo({ id }) {
   const autorOriginal = ativo.derivadoDe && ativo.derivadoDe.autor ? ativo.derivadoDe.autor.nome.split(' ')[0] : null;
   // Os fictícios não têm status: estão todos publicados.
   const publicado = !ativo.status || ativo.status === 'publicado';
+  const daApi = origem === 'api';
+  const editavel = daApi && autor.id === usuarioId && EDITAVEIS.includes(ativo.status);
   const ferramenta = ativo.ferr[0] || 'editor';
   // Reuso por papel (RF-30): só os dados fictícios têm. Da API vêm as squads que reaproveitaram.
   const papeis = ativo.papeis;
@@ -289,11 +372,55 @@ export function Ativo({ id }) {
     setConfirmando(false);
     setCiente(false);
   };
-  const confirmar = () => {
-    usar(ativo.id);
+  // Com a API, usar registra a instalação (RF-29). Nada é copiado sozinho: o passo a passo é de quem publicou.
+  const confirmar = async () => {
+    setRegistrando(true);
+    const ok = await usar(ativo);
+    setRegistrando(false);
+    if (!ok) return;
     fechar();
-    avisar(`Pronto! Uma cópia foi pro seu ${ferramenta}. O crédito fica com ${autor.primeiro}.`);
+    avisar(
+      daApi
+        ? `Instalação registrada. O passo a passo fica em "Como instalar". O crédito fica com ${autor.primeiro}.`
+        : `Pronto! Uma cópia foi pro seu ${ferramenta}. O crédito fica com ${autor.primeiro}.`,
+    );
   };
+
+  async function salvarEdicao(campos) {
+    try {
+      await editarAtivo(usuarioId, ativo.id, campos);
+      recarregar(chave);
+      avisar('Post atualizado.');
+      return true;
+    } catch (e) {
+      avisar(mensagemDeFalha(e));
+      return false;
+    }
+  }
+
+  // Reenvio (RF-21): o back valida de novo. Passou: vai para a fila. Barrou: mostra o que e onde.
+  async function reenviar() {
+    setEnviando(true);
+    try {
+      await enviarAtivo(usuarioId, ativo.id);
+      setBarrado(null);
+    } catch (e) {
+      if (e.erro === 'barrado') setBarrado((e.dados && e.dados.validacao) || { itens: [] });
+      else avisar(mensagemDeFalha(e));
+    } finally {
+      setEnviando(false);
+      recarregar(chave);
+    }
+  }
+
+  // Adaptar de verdade é no editor: o plugin traz o ativo e marca a origem (docs/api.md, "Adaptação: sem rota").
+  const adaptar = () =>
+    avisar(
+      daApi
+        ? `Para adaptar, peça ao seu agente no Claude Code. O plugin do Itaú House traz o ativo e o crédito fica com ${autor.primeiro}.`
+        : `Criamos sua versão. Ela entra na árvore como derivada do trabalho de ${autor.primeiro}.`,
+    );
+  const falhas = barrado ? (barrado.itens || []).filter((x) => x.resultado === 'falhou') : [];
 
   return (
     <div className="stack stack-5">
@@ -349,16 +476,52 @@ export function Ativo({ id }) {
                 {usado ? 'Em uso' : 'Usar'}
               </Button>
             </Pulso>
-            <BotaoSec icone="git-fork" onClick={() => avisar(`Criamos sua versão. Ela entra na árvore como derivada do trabalho de ${autor.primeiro}.`)}>
+            <BotaoSec icone="git-fork" onClick={adaptar}>
               Adaptar pra mim
             </BotaoSec>
             <BotaoCurtir ativo={ativo} />
+          </>
+        )}
+        {editavel && (
+          <>
+            <Button variant="primary" size="sm" iconLeft="send" disabled={enviando} onClick={reenviar}>
+              Enviar para aprovação
+            </Button>
+            <BotaoSec icone="pencil" onClick={() => setEditando(true)}>
+              Editar post
+            </BotaoSec>
           </>
         )}
         <span className="texto">
           {reusosDe(ativo)} reaproveitamentos · {ativo.adapt} adaptações
         </span>
       </div>
+
+      {editavel && ativo.comentarioCoordenador && (
+        <div className="painel" role="note">
+          <span className="nome">A coordenação pediu</span>
+          <p className="texto">{ativo.comentarioCoordenador}</p>
+        </div>
+      )}
+
+      {editavel && (barrado || ativo.status === 'barrado') && (
+        <div className="painel" role="alert">
+          <div className="row row-2">
+            <Icon name="circle-alert" size={20} color="var(--status-error)" />
+            <span className="nome">O validador barrou o envio</span>
+          </div>
+          {falhas.map((f, i) => (
+            <div key={i} className="stack stack-1">
+              <span className="texto" style={{ color: 'var(--ih-ink)' }}>
+                {f.titulo}
+                {f.arquivo && ` · ${f.arquivo}${f.linha ? `, linha ${f.linha}` : ''}`}
+              </span>
+              {f.comoCorrigir && <span className="meta">{f.comoCorrigir}</span>}
+            </div>
+          ))}
+          <p className="meta">Corrija os arquivos no seu editor. O plugin do Itaú House atualiza o post, e aí você envia de novo.</p>
+        </div>
+      )}
 
       <div className="colunas">
         <div className="coluna-principal coluna-principal-ativo">
@@ -495,22 +658,37 @@ export function Ativo({ id }) {
           actions={
             <>
               <BotaoSec onClick={fechar}>Agora não</BotaoSec>
-              <Button variant="secondary" size="sm" disabled={!ciente} onClick={confirmar}>
+              <Button variant="secondary" size="sm" disabled={!ciente || registrando} onClick={confirmar}>
                 Usar
               </Button>
             </>
           }
         >
           <div className="stack stack-4">
+            {/* Instalar mostra o passo a passo de quem publicou (RF-29). */}
+            {ativo.manualInstalacao && (
+              <div className="stack stack-2">
+                <span className="nome">Passo a passo</span>
+                <Markdown texto={ativo.manualInstalacao} />
+              </div>
+            )}
             <p className="texto">Antes de usar, veja o que este ativo acessa no seu ambiente.</p>
             <ListaAcessos acessos={ativo.acessos} />
             <Checkbox checked={ciente} onChange={setCiente} label="Entendi o que este ativo acessa" />
             <div>
-              <SeloSimulado ajuda="O uso é simulado. Nada é instalado nem copiado; só o contador de reaproveitamentos muda.">Uso simulado</SeloSimulado>
+              {daApi ? (
+                <SeloSimulado ajuda="A instalação conta de verdade no contador. Nada é copiado sozinho: os arquivos você leva seguindo o passo a passo.">
+                  Cópia manual
+                </SeloSimulado>
+              ) : (
+                <SeloSimulado ajuda="O uso é simulado. Nada é instalado nem copiado; só o contador de reaproveitamentos muda.">Uso simulado</SeloSimulado>
+              )}
             </div>
           </div>
         </Dialog>
       )}
+
+      {editando && <EditarPost ativo={ativo} aoFechar={() => setEditando(false)} aoSalvar={salvarEdicao} />}
 
       {naFila && !envioVisto && (
         <Aviso>
