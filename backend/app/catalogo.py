@@ -24,6 +24,13 @@ def visivel(ativo: dict, pessoa: dict) -> bool:
     """Regra única de visibilidade. Vale para feed, detalhe, busca e MCP."""
     if ativo["autorId"] == pessoa["id"]:
         return True
+    # O Cord+ vê o que está na fila do seu squad, para abrir o post antes de aprovar (docs/api.md).
+    if (
+        ativo["status"] == "em_aprovacao"
+        and pessoa["perfil"] == "cord_mais"
+        and ativo["squadId"] == pessoa["squadId"]
+    ):
+        return True
     if ativo["status"] != "publicado":
         return False
     if ativo["visibilidade"] == "banco":

@@ -72,6 +72,7 @@ Mostra o mecanismo (+1 derivação, +1 instalação). Sem número de impacto.
 ## Cuidados
 
 - `scripts/gerar_massa.py` já existe no repositório do Rafael, com uma chave **inventada** na linha 12 (prefixo `ihs_demo_`). Conferir que o `block_secrets.py` e o scanner do GitHub não travam o arquivo.
-- A skill da cena 2 não pode ter CPF de exemplo escrito. Se tiver, a checagem barra por dado pessoal e a cena muda.
+- A skill da cena 2 gera chaves Pix. Exemplo de e-mail só com domínio fictício (`@banco-ficticio.com.br`, `.test`). CPF e telefone de exemplo nunca escritos: a checagem barra por dado pessoal e a cena muda. A instrução do plugin (T-13) precisa dizer isso.
+- No README, a variável aparece sem valor (`<sua chave>`). Valor de exemplo passa; valor com cara de chave barra.
 - O plugin pergunta uma vez por pedido. Conferir no ensaio.
 - Se passar de 2 min, o primeiro corte é o passo 5 da cena 1.
