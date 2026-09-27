@@ -22,20 +22,22 @@ Nomes, squads, ativos e números são **fictícios**.
 
 Selo em toda tela: "Protótipo de hackathon · dados fictícios". Esperas da IA são cortadas na edição.
 
-## Cena 1: acha e adapta (0:06–0:50)
+## Cena 1: acha e usa o harness do Vicente (0:06–0:50)
+
+Ativo real do time: o harness-hacka, que o Vicente (PM na demo) publicou. Adaptar ele no hackathon levou 2 a 3 horas.
 
 | # | Tela | O que acontece | Sistema |
 |---|---|---|---|
-| 1 | Claude Code | Rafael digita: `cria uma skill que transforma a demanda em critérios de aceitação e casos de teste` | Hook reconhece "skill" (RF-03) |
+| 1 | Claude Code | Rafael digita: `cria uma skill que faça o agente lembrar das decisões do projeto entre uma sessão e outra` | Hook reconhece "skill" (RF-03) |
 | 2 | Claude Code | Plugin: "Quer que eu procure no Itaú House se alguém já fez algo parecido?" Rafael: `sim` | RF-04 |
-| 3 | Claude Code | Plugin mostra **Demanda em critérios de aceitação** · Marina Alves, PM, Cartões Fatura · 23 curtidas · 41 instalações. Motivo: "Escreve critérios em Dado/Quando/Então. Faz metade do que você pediu; não gera casos de teste." Opções: usar, adaptar, ignorar | `buscar_ativos` (RF-05, RF-06) |
-| 4 | Claude Code | Rafael: `adaptar`. Plugin mostra o que manteve e o que acrescentou (casos positivo, negativo e de borda). Rafael: `pode salvar` | `registrar_decisao`, `derivado_de` (RF-07 a RF-10) |
-| 5 | Plataforma | Post da Marina: derivações 3 → **4**, com "Rafael Nunes, dev, Pix Cobranças" | RF-27, RF-30 |
+| 3 | Claude Code | Plugin mostra **harness-hacka** · Vicente Magalhães, PM, Itaú House · Hackathon, com o link **harness de Vicente**. Rafael clica e vê a página. Opções: usar, adaptar, ignorar | `buscar_ativos` (RF-05, RF-06) |
+| 4 | Claude Code | Rafael: `usar, pelo código aberto`. Plugin registra o uso e mostra os dois comandos de instalação | `registrar_decisao` (RF-07, RF-10) |
+| 5 | Plataforma | Post do Vicente: instalações 0 → **1** | RF-27, RF-30 |
 
 **Narração:**
-- "O Rafael é dev da squad Pix e precisa de uma skill nova. O Itaú House percebe e pergunta se pode buscar."
-- "Ele acha uma skill feita pela Marina, PM de outra squad, e entende por que serve."
-- "Adapta em vez de começar do zero. E a Marina ganha o crédito."
+- "O Rafael é dev da squad Pix e quer que o agente pare de esquecer o projeto. O Itaú House percebe e pergunta se pode buscar."
+- "Ele acha o harness que o Vicente, PM de outra squad, já publicou, e entende por que serve."
+- "Usa em vez de começar do zero. Só adaptar esse harness levou 3 horas para o nosso time."
 
 ## Cena 2: cria, é barrado, corrige, é aprovado (0:50–1:40)
 

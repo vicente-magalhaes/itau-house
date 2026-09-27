@@ -40,7 +40,7 @@ insert into usuarios (id, nome, iniciais, papel, cargo, squad_id, perfil, foto_u
   ('u-gustavo', 'Gustavo Ferraz', 'GF', 'coordenacao', 'Coordenador', 's-dados-qualidade', 'cord_mais', null),
   ('u-lucas', 'Lucas Almeida', 'LA', 'risco', 'Analista de risco', 's-invest-renda-fixa', 'cord_menos', null),
   ('u-denise', 'Denise Rocha', 'DR', 'coordenacao', 'Coordenadora', 's-invest-renda-fixa', 'cord_mais', null),
-  ('u-vicente', 'Vicente Magalhães', 'VM', 'dev', 'Dev, equipe do hackathon', 's-itau-house', 'cord_mais', null)
+  ('u-vicente', 'Vicente Magalhães', 'VM', 'produto', 'PM', 's-itau-house', 'cord_mais', null)
 on conflict (id) do update set nome = excluded.nome, iniciais = excluded.iniciais, papel = excluded.papel, cargo = excluded.cargo, squad_id = excluded.squad_id, perfil = excluded.perfil, foto_url = excluded.foto_url;
 
 insert into ativos (id, nome, tipo, resumo, readme, arquivos, manual_instalacao, autor_id, squad_id, visibilidade, status, derivado_de, aprovado_por, tags, ferramentas, versao, acessos, curtidas_base, instalacoes_base, derivacoes_base, squads_reuso_base, enviado_em, publicado_em, atualizado_em) values

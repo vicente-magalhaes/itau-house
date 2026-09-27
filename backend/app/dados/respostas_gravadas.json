@@ -2,8 +2,35 @@
   "$comment": "Respostas gravadas das cenas da demo (RNF-04, T-14). Usadas quando o Claude falha, demora mais de 10 s ou não há chave. A tela e o plugin avisam que é resposta gravada. Mesmo gravada, a sugestão passa pelo filtro de visibilidade.",
   "cenas": [
     {
+      "cena": "cena 1: memória de projeto (harness do Vicente)",
+      "palavras": [
+        "lembrar",
+        "esquec",
+        "memória",
+        "memoria",
+        "contexto do projeto",
+        "decisões do projeto",
+        "decisoes do projeto",
+        "entre uma sessão",
+        "de uma sessão",
+        "harness"
+      ],
+      "sugestoes": [
+        {
+          "id": "a-harness-hacka",
+          "motivo": "Guarda as decisões, as notas e o diário no próprio repositório, e o agente recebe um resumo no início de cada sessão. Faz o que você pediu.",
+          "limite": "É um plugin completo: além das skills, instala hooks no Claude Code."
+        }
+      ]
+    },
+    {
       "cena": "cena 1: critérios de aceitação",
-      "palavras": ["critério", "criterio", "aceitação", "aceitacao"],
+      "palavras": [
+        "critério",
+        "criterio",
+        "aceitação",
+        "aceitacao"
+      ],
       "sugestoes": [
         {
           "id": "a-criterios-aceitacao",
@@ -14,7 +41,12 @@
     },
     {
       "cena": "cena 2: massa de dados para testes de Pix",
-      "palavras": ["massa de dados", "massa de teste", "dados fictícios", "dados ficticios"],
+      "palavras": [
+        "massa de dados",
+        "massa de teste",
+        "dados fictícios",
+        "dados ficticios"
+      ],
       "sugestoes": []
     }
   ]
