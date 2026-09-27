@@ -83,6 +83,19 @@ def test_modo_configuravel(api_falsa, monkeypatch):
     )
 
 
+def test_sugestao_vem_com_link_do_site(monkeypatch):
+    monkeypatch.setenv("ITAU_HOUSE_SITE", "https://site.exemplo/")
+    ativo = {"id": "a-criterios-aceitacao", "tipo": "skill", "autor": {"nome": "Marina Alves"}}
+    corpo = json.loads(servidor._com_links(json.dumps({"sugestoes": [{"ativo": ativo}]})))
+    url = "https://site.exemplo/#/ativo/a-criterios-aceitacao"
+    assert corpo["sugestoes"][0]["url"] == url
+    assert corpo["sugestoes"][0]["link"] == f"[skill de Marina]({url})"
+    assert "comoMostrarLink" in corpo
+    # Sem sugestões ou sem JSON, a resposta passa intacta.
+    assert servidor._com_links('{"encontrou": false, "sugestoes": []}') == '{"encontrou": false, "sugestoes": []}'
+    assert servidor._com_links("<html>") == "<html>"
+
+
 def test_leitura_de_pasta_e_arquivo(api_falsa, tmp_path):
     (tmp_path / "scripts").mkdir()
     (tmp_path / "scripts" / "gerar.py").write_text(

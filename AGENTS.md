@@ -13,7 +13,7 @@ A fonte das regras é o [CLAUDE.md](CLAUDE.md). Este arquivo resume o que todo a
 ## O projeto
 
 Itaú House: protótipo do Hackathon Itaú 2026, Case C. Fórum interno em que squads publicam e reaproveitam agentes, skills e esqueletos de código, com aprovação do coordenador do squad.
-Não é produto oficial do Itaú. Todos os dados são fictícios.
+Não é produto oficial do Itaú. Todos os dados são fictícios, menos um ativo real: o `harness-hacka` (decisão 0036).
 
 | Pasta | O que tem | Comandos |
 |---|---|---|
@@ -29,7 +29,7 @@ O que vale para qualquer rota do back:
 - Ativo que a pessoa não pode ver responde 404, nunca 403.
 - Quem chama se identifica pelo cabeçalho `X-Usuario-Id` (login simulado, RF-23). Sem ele, 401.
 - Erro no formato `{ "erro": "codigo_curto", "mensagem": "Texto em pt-BR." }`. Campos do JSON em camelCase.
-- O catálogo fictício está em `backend/app/dados/seed.json`.
+- O catálogo fictício está em `backend/app/dados/seed.json`. A exceção é o ativo `a-harness-hacka`, real. Os arquivos dele saem do `supabase/empacotar_harness.py`.
 
 ## Regras que não mudam
 
@@ -47,7 +47,7 @@ O que vale para qualquer rota do back:
 - Não rode `docker compose config` sem `--quiet` nem `docker compose exec <serviço> env`: os dois imprimem segredos.
 
 ### Dados e conteúdo interno
-- Só dados fictícios. Nome de pessoa real não entra em seed, tela, teste ou exemplo.
+- Só dados fictícios. Nome de pessoa real não entra em seed, tela, teste ou exemplo. Exceção única: o Vicente, autor do ativo real `harness-hacka`, com consentimento (decisão 0036). Não crie outra exceção.
 - `memoria/`, os documentos numerados de `docs/` (como `docs/03-evidencias-pesquisa.md`) e `itau-design-system/` são internos: citam pessoas e conversas do Itaú. Não copie nada deles para código, seed, tela, commit ou relatório.
 - Não invente dados, resultados, números ou depoimentos.
 - Nenhuma conexão com sistema real do Itaú. O que dependeria do banco fica simulado e aparece como **[SIMULADO]** na tela.
