@@ -219,7 +219,7 @@ function UsarEm({ ativo }) {
 export function Ativo({ id }) {
   const { pessoa, usuarioId, usados, usar, reusosDe, avisar, ehCoordenador } = useSessao();
   // A API responde 404 para o que a persona não vê (RF-05). Nos dados fictícios, o filtro de alcance é daqui.
-  const { dados: ativo, origem, erro, carregando } = useDaApi(
+  const { dados: ativo, erro, carregando } = useDaApi(
     `ativo:${usuarioId}:${id}`,
     () => detalharAtivo(usuarioId, id).then(ativoDetalheDaApi),
     () => {
@@ -457,8 +457,7 @@ export function Ativo({ id }) {
                 </span>
               </div>
             ))}
-            {/* A área de dados ainda lê só os fictícios: com um ativo da API, o link cairia em "não encontrado". */}
-            {ehCoordenador && origem === 'ficticio' && (
+            {ehCoordenador && (
               <Link para={'/coord/dados/' + ativo.id} className="btn btn-sec" style={{ alignSelf: 'flex-start' }}>
                 <Icon name="chart-column" size={18} />
                 Ver dados deste ativo

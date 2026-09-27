@@ -4,13 +4,20 @@ import { SeloSimulado, Vazio } from '../components/comuns.jsx';
 import { irPara } from '../router.jsx';
 import { useSessao } from '../sessao.jsx';
 import { ativos, acharAtivo, visivelPara, iconeTipo, formatarDataCurta, PAPEIS } from '../data/catalogo.js';
+import { ativoDaApi, ativoDetalheDaApi } from '../data/daApi.js';
+import { detalharAtivo, listarAtivos, useDaApi } from '../api.js';
 
 // Área só da coordenação: os números por ativo e por frente (RF-30, RF-22).
+// Lê da API com as mesmas chaves do início e da página do ativo, então os ids e os números são os mesmos.
+// O contrato não traz o reuso por papel: da API, o alcance conta as squads que reaproveitaram.
 
-const papeisAlcancados = (ativo) => ativo.papeis.filter((n) => n > 0).length;
+const alcancados = (ativo) => (ativo.papeis ? ativo.papeis.filter((n) => n > 0).length : (ativo.squadsQueReusaram || []).length);
+const rotuloAlcance = (ativo) => (ativo.papeis ? 'Papéis alcançados' : 'Squads alcançadas');
+const dataCurta = (iso) => (iso ? formatarDataCurta(iso.slice(0, 10)) : '');
 
-// Trilha montada com o que o catálogo guarda: validador, aprovação e versão.
+// Trilha (RF-22): da API vem o histórico de eventos; nos fictícios, o que o catálogo declara.
 function historico(ativo) {
+  if (ativo.trilha) return ativo.trilha.map((h) => ({ data: h.em, evento: h.evento, quem: h.quem }));
   return [
     { data: ativo.atualizadoEm, evento: 'Passou nas checagens do validador', quem: 'Validador' },
     { data: ativo.atualizadoEm, evento: `Versão ${ativo.versao} aprovada`, quem: ativo.aprovou },
@@ -78,6 +85,7 @@ function BarrasPorFrente({ linhas }) {
 }
 
 function Detalhe({ ativo, curtidas, reusos }) {
+  const squads = ativo.squadsQueReusaram || [];
   return (
     <div className="stack stack-5" style={{ maxWidth: 960 }}>
       <div className="row row-3">
@@ -91,17 +99,25 @@ function Detalhe({ ativo, curtidas, reusos }) {
         <Kpi rotulo="Curtidas" valor={curtidas} />
         <Kpi rotulo="Reaproveitamentos" valor={reusos} />
         <Kpi rotulo="Adaptações" valor={ativo.adapt} />
-        <Kpi rotulo="Papéis alcançados" valor={papeisAlcancados(ativo)} />
+        <Kpi rotulo={rotuloAlcance(ativo)} valor={alcancados(ativo)} />
       </div>
 
       <section className="stack stack-3">
-        <h2 className="small strong">Reaproveitamentos por papel</h2>
+        <h2 className="small strong">{ativo.papeis ? 'Reaproveitamentos por papel' : 'Squads que reaproveitaram'}</h2>
         <div className="row row-2 wrap">
-          {PAPEIS.map((papel, i) => (
-            <Tag key={papel} style={{ height: 28 }}>
-              {papel} · {ativo.papeis[i]}
-            </Tag>
-          ))}
+          {ativo.papeis
+            ? PAPEIS.map((papel, i) => (
+                <Tag key={papel} style={{ height: 28 }}>
+                  {papel} · {ativo.papeis[i]}
+                </Tag>
+              ))
+            : squads.length === 0
+              ? <span className="small muted">Nenhuma squad reaproveitou ainda.</span>
+              : squads.map((s) => (
+                  <Tag key={s} style={{ height: 28 }}>
+                    {s}
+                  </Tag>
+                ))}
         </div>
       </section>
 
@@ -118,7 +134,7 @@ function Detalhe({ ativo, curtidas, reusos }) {
           <tbody>
             {historico(ativo).map((h, i) => (
               <tr key={i}>
-                <td style={{ whiteSpace: 'nowrap' }}>{formatarDataCurta(h.data)}</td>
+                <td style={{ whiteSpace: 'nowrap' }}>{dataCurta(h.data)}</td>
                 <td>{h.evento}</td>
                 <td className="muted">{h.quem}</td>
               </tr>
@@ -130,16 +146,41 @@ function Detalhe({ ativo, curtidas, reusos }) {
   );
 }
 
+// Mesma chave da página do ativo: quem vem de lá já tem a leitura. A API responde 404 para o que a persona não vê (RF-05).
+function DadosDoAtivo({ id }) {
+  const { pessoa, usuarioId, curtidasDe, reusosDe } = useSessao();
+  const { dados: ativo, erro, carregando } = useDaApi(
+    `ativo:${usuarioId}:${id}`,
+    () => detalharAtivo(usuarioId, id).then(ativoDetalheDaApi),
+    () => {
+      const a = acharAtivo(id);
+      return a && visivelPara(a, pessoa) ? a : null;
+    },
+  );
+
+  if (carregando) return <Vazio icone="loader" titulo="Carregando os dados do ativo" />;
+  if (!ativo) return <Vazio titulo={erro && erro.status !== 404 ? erro.message : 'Ativo não encontrado'} />;
+  return <Detalhe ativo={ativo} curtidas={curtidasDe(ativo)} reusos={reusosDe(ativo)} />;
+}
+
 export function Dados({ id }) {
-  const { pessoa, curtidasDe, reusosDe } = useSessao();
-  const visiveis = ativos.filter((a) => visivelPara(a, pessoa));
+  if (id) return <DadosDoAtivo id={id} />;
+  return <Painel />;
+}
 
-  if (id) {
-    const ativo = acharAtivo(id);
-    if (!ativo) return <Vazio titulo="Ativo não encontrado" />;
-    return <Detalhe ativo={ativo} curtidas={curtidasDe(ativo)} reusos={reusosDe(ativo)} />;
-  }
+// Mesma chave do início: os ativos que a persona vê, na mesma leitura.
+function Painel() {
+  const { pessoa, usuarioId, curtidasDe, reusosDe } = useSessao();
+  const { dados, erro, carregando } = useDaApi(
+    'ativos:' + usuarioId,
+    () => listarAtivos(usuarioId).then((lista) => lista.map(ativoDaApi)),
+    () => ativos.filter((a) => visivelPara(a, pessoa)),
+  );
 
+  if (carregando) return <Vazio icone="loader" titulo="Carregando os dados" />;
+  if (erro) return <Vazio icone="circle-alert" titulo={erro.message} />;
+
+  const visiveis = dados || [];
   const soma = (f) => visiveis.reduce((t, a) => t + f(a), 0);
   const porFrente = Object.values(
     visiveis.reduce((acc, a) => {
@@ -151,6 +192,7 @@ export function Dados({ id }) {
     }, {}),
   ).sort((a, b) => b.valor - a.valor);
   const linhas = visiveis.slice().sort((a, b) => curtidasDe(b) + reusosDe(b) - (curtidasDe(a) + reusosDe(a)));
+  const porPapel = visiveis.some((a) => a.papeis);
 
   return (
     <div className="stack stack-6" style={{ maxWidth: 960 }}>
@@ -182,7 +224,7 @@ export function Dados({ id }) {
                 <th className="num">Curtidas</th>
                 <th className="num">Reaproveitamentos</th>
                 <th className="num">Adaptações</th>
-                <th className="num">Papéis</th>
+                <th className="num">{porPapel ? 'Papéis' : 'Squads'}</th>
                 <th>Atualizado</th>
               </tr>
             </thead>
@@ -199,8 +241,8 @@ export function Dados({ id }) {
                   <td className="num">{curtidasDe(a)}</td>
                   <td className="num">{reusosDe(a)}</td>
                   <td className="num">{a.adapt}</td>
-                  <td className="num">{papeisAlcancados(a)}</td>
-                  <td className="muted" style={{ whiteSpace: 'nowrap' }}>{formatarDataCurta(a.atualizadoEm)}</td>
+                  <td className="num">{alcancados(a)}</td>
+                  <td className="muted" style={{ whiteSpace: 'nowrap' }}>{dataCurta(a.atualizadoEm)}</td>
                 </tr>
               ))}
             </tbody>

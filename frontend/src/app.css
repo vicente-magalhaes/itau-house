@@ -115,6 +115,9 @@ input::placeholder { color: var(--gray-500); }
 .topo-nav { display: flex; gap: var(--space-1); margin-left: var(--space-2); }
 .topo-espaco { flex: 1; }
 .topo-foto { width: 44px; height: 44px; padding: 0; border: 0; border-radius: var(--radius-pill); display: grid; place-items: center; cursor: pointer; background: transparent; }
+/* O selo completo só cabe no topo com a navegação da coordenação a partir desta largura. */
+.so-no-largo { display: none; }
+@media (min-width: 1360px) { .so-no-largo { display: inline; } }
 @media (max-width: 1080px) {
   .topo { gap: var(--space-2); padding: 0 var(--space-4); }
   .some-no-estreito { display: none; }
@@ -123,6 +126,8 @@ input::placeholder { color: var(--gray-500); }
 /* ---------- Página ---------- */
 .pagina { max-width: 1320px; margin: 0 auto; padding: var(--space-6) var(--space-6) var(--space-7); }
 @media (max-width: 720px) { .pagina { padding: var(--space-5) var(--space-4) var(--space-7); } }
+.rodape { max-width: 1320px; margin: 0 auto; padding: var(--space-4) var(--space-6) var(--space-6); border-top: 1px solid var(--ih-line); }
+@media (max-width: 720px) { .rodape { padding: var(--space-4); } }
 .colunas { display: flex; flex-wrap: wrap; gap: var(--space-6); align-items: flex-start; }
 .coluna-principal { flex: 1 1 600px; min-width: 0; display: flex; flex-direction: column; gap: var(--space-5); }
 .coluna-principal-ativo { flex-basis: 520px; gap: var(--space-6); }

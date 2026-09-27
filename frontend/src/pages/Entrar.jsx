@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Input, Logo } from '../ds.js';
-import { Foto } from '../components/comuns.jsx';
+import { Foto, SeloSimulado } from '../components/comuns.jsx';
 import { irPara } from '../router.jsx';
 import { useSessao } from '../sessao.jsx';
 import { entrarComGoogle } from '../google.js';
@@ -35,6 +35,8 @@ function FormularioEntrar() {
       <div className="row row-3">
         <span className="divider grow" />
         <span className="caption" style={{ whiteSpace: 'nowrap' }}>Ou use seu login</span>
+        {/* RF-23: o marcador literal, como pede a PRD. */}
+        <SeloSimulado ajuda="Login e senha não são conferidos. Você entra como uma das pessoas fictícias da demo.">[SIMULADO]</SeloSimulado>
         <span className="divider grow" />
       </div>
       <Input label="E-mail ou funcional" placeholder="voce@itau-unibanco.com.br" icon="user" value={login} onChange={(e) => {
