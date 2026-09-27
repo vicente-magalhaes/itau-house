@@ -58,7 +58,7 @@ Um brief só roda com os itens dele marcados. Quem abre a sessão confere.
 **DV-2 (rotas do back)**
 - [x] M1: [docs/api.md](api.md) revisado pelo Vicente e pelo Alexandre (T-03), em 27/09. O contrato não muda durante a sessão.
 - [x] T-05 aplicada no Supabase, com aprovação de uma pessoa. Conferido pelo Vicente em 27/09: `db push` diz que o banco está em dia, e as tabelas têm dados. A migração já está escrita pelo Bruno em `supabase/migrations/20260926230000_schema_inicial.sql`, com ids em `text` e RLS ligado.
-- [ ] DV-5 (T-39) juntada na `main`. É o molde que o Devin copia: repositório com versão Supabase e versão memória, usuário por `usuario_atual`, erro por `ErroApi` e `GET /api/usuarios` de ponta a ponta (decisão 0035).
+- [x] DV-5 (T-39) juntada na `main` em 27/09. É o molde que o Devin copia: repositório com versão Supabase e versão memória, usuário por `usuario_atual`, erro por `ErroApi` e `GET /api/usuarios` de ponta a ponta (decisão 0035).
 - [ ] Combinado com o Bruno: o T-10 também mexe em `backend/app/`. Cada um fica nos próprios arquivos.
 
 **DV-3 (seed e reset)**
@@ -344,6 +344,8 @@ Quem abriu a sessão preenche ao juntar. Vira base para a declaração de uso de
 | 27/09 | Ambiente (blueprint) | Vicente | Ambiente pronto. Relatou 3 falhas da `main` sem corrigir: erro 401 dentro de `detail`, 422 padrão do FastAPI em inglês e contadores desencontrados no front | a preencher | Nada: a sessão não mexe em arquivo |
 | 27/09 | DV-1 (T-38) | Vicente | `feat/deploy` com `render.yaml`, `vercel.json` e seção "Deploy" no README. No ar em https://itau-house.vercel.app | a preencher | Nada no código. Revisão do Claude conferiu o "Pronto quando" e que as pastas internas dão 404 no site. O segredo do Render se chama `RENDER_API_TOKEN`, e o docs foi corrigido |
 | 27/09 | DV-3 (T-25) | Vicente | `feat/reset-da-demo` com `supabase/reset_demo.sh` e o aviso na seção "Banco" do README. Testado pelo Devin numa base local | a preencher | Nada. Revisão do Claude leu o script (transação única, sem `cascade`, confirmação fora da base local), conferiu que o `seed.sql` não abre transação própria e que o CI passou. Não rodou o script |
+| 27/09 | DV-5 (T-39) | Vicente | `feat/base-do-back`: repositório com as versões memória e Supabase, `usuario_atual`, `ErroApi` com tratadores globais e `GET /api/usuarios`. Testado pelo Devin também numa base Supabase local | a preencher | Nada no código. Revisão do Claude rodou os testes no Windows e uma fumaça com o back em memória (usuários, 401, 422 e 404 no formato do contrato). Conferiu que o cliente `supabase` 2.31 aceita a chave `sb_secret_` sem exigir JWT. A leitura no Supabase do time só se confirma depois do deploy |
+| 27/09 | DV-6 (T-12) | Vicente | `feat/mcp`: servidor stdio com as seis ferramentas. Busca e validação passaram na fumaça contra o back local. As outras quatro dependem da DV-2 | a preencher | Claude corrigiu: resposta sem JSON (502 em HTML, 500 em texto) levantava exceção, e agora sai como `resposta_invalida`. Dois testes quebravam no Windows (atalho sem permissão e quebra de linha `\r\n`) |
 
 ## Fontes
 
