@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Roteador mínimo por hash. Evita dependência nova num esboço.
-// Rotas: #/ , #/entrar , #/ativo/:id , #/publicar , #/aprovacoes , #/sugestao
+// Rotas: #/ , #/entrar , #/ativo/:id , #/pedidos , #/perfil[/:id] , #/publicar , #/coord/fila , #/coord/dados[/:id]
 
 function lerHash() {
   const bruto = window.location.hash.replace(/^#/, '') || '/';

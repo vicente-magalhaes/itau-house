@@ -1,12 +1,12 @@
 import React from 'react';
 import { Button, Icon, Tag, Input, Select, Toast } from '../ds.js';
-import { SeloSimulado, Aviso } from '../components/comuns.jsx';
+import { BotaoSec, SeloSimulado, Aviso } from '../components/comuns.jsx';
 import { PostCard } from '../components/Post.jsx';
 import { TextArea } from '../components/TextArea.jsx';
 import { irPara } from '../router.jsx';
 import { useSessao } from '../sessao.jsx';
 import { CRITERIOS, VEREDITOS, rascunhoAna, verificacaoReprovada, verificacaoAprovada } from '../data/governanca.js';
-import { VISIBILIDADES, rotuloTipo, iconeTipo } from '../data/catalogo.js';
+import { VISIBILIDADES, iconeEstante } from '../data/catalogo.js';
 
 // Publicação (RF-13 a RF-19): o hook detecta, o validador confere por código (sem IA, D-26), a pessoa corrige e a coordenação decide.
 
@@ -170,17 +170,15 @@ export function Publicar() {
     setErros({});
   }
 
+  // Prévia no formato do card do início. Sem data: ainda não foi publicado.
   const previa = {
     ...rascunhoAna,
     id: 'previa',
-    nome: nome || 'Sem nome ainda',
+    titulo: nome || 'Sem nome ainda',
     resumo: resumo || 'Sem resumo ainda',
-    visibilidade,
-    tags,
     curtidas: 0,
     reusos: 0,
-    comentarios: [],
-    publicadoEm: null,
+    adapt: 0,
   };
 
   return (
@@ -202,8 +200,8 @@ export function Publicar() {
             </div>
             <div className="row row-2">
               <span className="pastilha">
-                <Icon name={iconeTipo(rascunhoAna.tipo)} size={14} />
-                {rotuloTipo(rascunhoAna.tipo)}
+                <Icon name={iconeEstante(rascunhoAna.estante)} size={14} />
+                {rascunhoAna.tipo}
               </span>
               <span className="strong">{rascunhoAna.nome}</span>
             </div>
@@ -212,12 +210,10 @@ export function Publicar() {
           </div>
 
           <div className="row row-3">
-            <Button variant="primary" iconRight="arrow-right" onClick={() => verificar(1)}>
+            <Button variant="primary" size="sm" iconRight="arrow-right" onClick={() => verificar(1)}>
               Verificar
             </Button>
-            <Button variant="ghost" onClick={() => setAdiado(true)}>
-              Agora não
-            </Button>
+            <BotaoSec onClick={() => setAdiado(true)}>Agora não</BotaoSec>
             {adiado && <span className="caption">O aviso volta no fim da tarefa.</span>}
           </div>
         </section>
@@ -266,17 +262,15 @@ export function Publicar() {
           {!verificando && (
             <div className="row row-3">
               {aprovado ? (
-                <Button variant="primary" iconRight="arrow-right" onClick={() => setPasso(3)}>
+                <Button variant="primary" size="sm" iconRight="arrow-right" onClick={() => setPasso(3)}>
                   Montar o post
                 </Button>
               ) : (
-                <Button variant="primary" iconLeft="rotate-ccw" onClick={() => verificar(2)}>
+                <Button variant="primary" size="sm" iconLeft="rotate-ccw" onClick={() => verificar(2)}>
                   Corrigi, verificar de novo
                 </Button>
               )}
-              <Button variant="ghost" onClick={() => setPasso(1)}>
-                Voltar
-              </Button>
+              <BotaoSec onClick={() => setPasso(1)}>Voltar</BotaoSec>
             </div>
           )}
         </section>
@@ -326,20 +320,16 @@ export function Publicar() {
               </div>
             </div>
             <div className="row row-3">
-              <Button variant="primary" iconRight="send" onClick={enviar}>
+              <Button variant="primary" size="sm" iconRight="send" onClick={enviar}>
                 Enviar para aprovação
               </Button>
-              <Button variant="ghost" onClick={() => setToast('Rascunho salvo. Só você vê.')}>
-                Salvar rascunho
-              </Button>
+              <BotaoSec onClick={() => setToast('Rascunho salvo. Só você vê.')}>Salvar rascunho</BotaoSec>
             </div>
           </div>
 
           <div className="stack stack-2 sticky">
             <span className="caption">Prévia no feed</span>
-            <div className="caixa">
-              <PostCard ativo={previa} preview />
-            </div>
+            <PostCard ativo={previa} preview />
           </div>
         </section>
       )}
@@ -367,13 +357,13 @@ export function Publicar() {
           </div>
           <div className="row row-3">
             {ehCoordenador && (
-              <Button variant="outline" iconRight="arrow-right" onClick={() => irPara('/coord/fila')}>
+              <BotaoSec icone="arrow-right" onClick={() => irPara('/coord/fila')}>
                 Ver a fila
-              </Button>
+              </BotaoSec>
             )}
-            <Button variant="ghost" iconLeft="rotate-ccw" onClick={recomecar}>
+            <BotaoSec icone="rotate-ccw" onClick={recomecar}>
               Publicar outro
-            </Button>
+            </BotaoSec>
           </div>
         </section>
       )}

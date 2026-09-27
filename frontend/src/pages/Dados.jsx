@@ -3,9 +3,19 @@ import { Icon, IconButton, Tag } from '../ds.js';
 import { SeloSimulado, Vazio } from '../components/comuns.jsx';
 import { irPara } from '../router.jsx';
 import { useSessao } from '../sessao.jsx';
-import { ativos, acharAtivo, visivelPara, rotuloTipo, iconeTipo, formatarDataCurta } from '../data/catalogo.js';
+import { ativos, acharAtivo, visivelPara, iconeEstante, formatarDataCurta, PAPEIS } from '../data/catalogo.js';
 
-// Área só da coordenação: os números que saíram do feed e do post (RF-30, RF-22).
+// Área só da coordenação: os números por ativo e por frente (RF-30, RF-22).
+
+const papeisAlcancados = (ativo) => ativo.papeis.filter((n) => n > 0).length;
+
+// Trilha montada com o que o catálogo guarda: validador, aprovação e versão.
+function historico(ativo) {
+  return [
+    { data: ativo.atualizadoEm, evento: 'Passou nas checagens do validador', quem: 'Validador' },
+    { data: ativo.atualizadoEm, evento: `Versão ${ativo.versao} aprovada`, quem: ativo.aprovou },
+  ];
+}
 
 function Kpi({ rotulo, valor }) {
   return (
@@ -23,7 +33,7 @@ function BarrasPorFrente({ linhas }) {
   return (
     <ul className="stack stack-2" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
       {linhas.map((l) => {
-        const detalhe = `${l.frente}: ${l.valor} instalações em ${l.ativos} ${l.ativos === 1 ? 'ativo' : 'ativos'}`;
+        const detalhe = `${l.frente}: ${l.valor} reaproveitamentos em ${l.ativos} ${l.ativos === 1 ? 'ativo' : 'ativos'}`;
         return (
           <li
             key={l.frente}
@@ -67,34 +77,32 @@ function BarrasPorFrente({ linhas }) {
   );
 }
 
-function Detalhe({ ativo, curtidas, instalacoes }) {
+function Detalhe({ ativo, curtidas, reusos }) {
   return (
     <div className="stack stack-5" style={{ maxWidth: 960 }}>
       <div className="row row-3">
         <IconButton icon="arrow-left" label="Voltar aos dados" size={36} variant="subtle" onClick={() => irPara('/coord/dados')} />
-        <h1 className="titulo-pagina grow">{ativo.nome}</h1>
+        <h1 className="titulo-pagina grow">{ativo.titulo}</h1>
         <SeloSimulado ajuda="Todos os números desta área são fictícios, criados para a demonstração.">Números fictícios</SeloSimulado>
         <IconButton icon="external-link" label="Abrir o post" size={36} variant="subtle" onClick={() => irPara('/ativo/' + ativo.id)} />
       </div>
 
       <div className="kpis">
         <Kpi rotulo="Curtidas" valor={curtidas} />
-        <Kpi rotulo="Instalações" valor={instalacoes} />
-        <Kpi rotulo="Derivações" valor={ativo.derivacoes} />
-        <Kpi rotulo="Squads que usaram" valor={ativo.squadsQueReusaram.length} />
+        <Kpi rotulo="Reaproveitamentos" valor={reusos} />
+        <Kpi rotulo="Adaptações" valor={ativo.adapt} />
+        <Kpi rotulo="Papéis alcançados" valor={papeisAlcancados(ativo)} />
       </div>
 
       <section className="stack stack-3">
-        <h2 className="small strong">Squads que usaram</h2>
-        {ativo.squadsQueReusaram.length ? (
-          <div className="row row-2 wrap">
-            {ativo.squadsQueReusaram.map((s) => (
-              <Tag key={s} style={{ height: 28 }}>{s}</Tag>
-            ))}
-          </div>
-        ) : (
-          <span className="caption">Nenhuma ainda</span>
-        )}
+        <h2 className="small strong">Reaproveitamentos por papel</h2>
+        <div className="row row-2 wrap">
+          {PAPEIS.map((papel, i) => (
+            <Tag key={papel} style={{ height: 28 }}>
+              {papel} · {ativo.papeis[i]}
+            </Tag>
+          ))}
+        </div>
       </section>
 
       <section className="stack stack-3">
@@ -108,7 +116,7 @@ function Detalhe({ ativo, curtidas, instalacoes }) {
             </tr>
           </thead>
           <tbody>
-            {ativo.historico.map((h, i) => (
+            {historico(ativo).map((h, i) => (
               <tr key={i}>
                 <td style={{ whiteSpace: 'nowrap' }}>{formatarDataCurta(h.data)}</td>
                 <td>{h.evento}</td>
@@ -123,26 +131,26 @@ function Detalhe({ ativo, curtidas, instalacoes }) {
 }
 
 export function Dados({ id }) {
-  const { pessoa, curtidasDe, instalacoesDe } = useSessao();
+  const { pessoa, curtidasDe, reusosDe } = useSessao();
   const visiveis = ativos.filter((a) => visivelPara(a, pessoa));
 
   if (id) {
     const ativo = acharAtivo(id);
     if (!ativo) return <Vazio titulo="Ativo não encontrado" />;
-    return <Detalhe ativo={ativo} curtidas={curtidasDe(ativo)} instalacoes={instalacoesDe(ativo)} />;
+    return <Detalhe ativo={ativo} curtidas={curtidasDe(ativo)} reusos={reusosDe(ativo)} />;
   }
 
   const soma = (f) => visiveis.reduce((t, a) => t + f(a), 0);
   const porFrente = Object.values(
     visiveis.reduce((acc, a) => {
       const l = acc[a.frente] || { frente: a.frente, valor: 0, ativos: 0 };
-      l.valor += instalacoesDe(a);
+      l.valor += reusosDe(a);
       l.ativos += 1;
       acc[a.frente] = l;
       return acc;
     }, {}),
   ).sort((a, b) => b.valor - a.valor);
-  const linhas = visiveis.slice().sort((a, b) => curtidasDe(b) + instalacoesDe(b) - (curtidasDe(a) + instalacoesDe(a)));
+  const linhas = visiveis.slice().sort((a, b) => curtidasDe(b) + reusosDe(b) - (curtidasDe(a) + reusosDe(a)));
 
   return (
     <div className="stack stack-6" style={{ maxWidth: 960 }}>
@@ -154,12 +162,12 @@ export function Dados({ id }) {
       <div className="kpis">
         <Kpi rotulo="Ativos publicados" valor={visiveis.length} />
         <Kpi rotulo="Curtidas" valor={soma(curtidasDe)} />
-        <Kpi rotulo="Instalações" valor={soma(instalacoesDe)} />
-        <Kpi rotulo="Derivações" valor={soma((a) => a.derivacoes)} />
+        <Kpi rotulo="Reaproveitamentos" valor={soma(reusosDe)} />
+        <Kpi rotulo="Adaptações" valor={soma((a) => a.adapt)} />
       </div>
 
       <section className="stack stack-4">
-        <h2 className="small strong">Instalações por frente</h2>
+        <h2 className="small strong">Reaproveitamentos por frente</h2>
         <BarrasPorFrente linhas={porFrente} />
       </section>
 
@@ -172,9 +180,9 @@ export function Dados({ id }) {
                 <th>Ativo</th>
                 <th>Squad</th>
                 <th className="num">Curtidas</th>
-                <th className="num">Instalações</th>
-                <th className="num">Derivações</th>
-                <th className="num">Squads</th>
+                <th className="num">Reaproveitamentos</th>
+                <th className="num">Adaptações</th>
+                <th className="num">Papéis</th>
                 <th>Atualizado</th>
               </tr>
             </thead>
@@ -183,15 +191,15 @@ export function Dados({ id }) {
                 <tr key={a.id} onClick={() => irPara('/coord/dados/' + a.id)} style={{ cursor: 'pointer' }}>
                   <td>
                     <a href={'#/coord/dados/' + a.id} className="link-reset row row-2 strong" onClick={(e) => e.stopPropagation()}>
-                      <Icon name={iconeTipo(a.tipo)} size={16} label={rotuloTipo(a.tipo)} />
-                      {a.nome}
+                      <Icon name={iconeEstante(a.estante)} size={16} label={a.tipo} />
+                      {a.titulo}
                     </a>
                   </td>
                   <td className="muted">{a.squad}</td>
                   <td className="num">{curtidasDe(a)}</td>
-                  <td className="num">{instalacoesDe(a)}</td>
-                  <td className="num">{a.derivacoes}</td>
-                  <td className="num">{a.squadsQueReusaram.length}</td>
+                  <td className="num">{reusosDe(a)}</td>
+                  <td className="num">{a.adapt}</td>
+                  <td className="num">{papeisAlcancados(a)}</td>
                   <td className="muted" style={{ whiteSpace: 'nowrap' }}>{formatarDataCurta(a.atualizadoEm)}</td>
                 </tr>
               ))}

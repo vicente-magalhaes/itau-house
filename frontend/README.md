@@ -30,7 +30,7 @@ npm run lint     # oxlint
 | UI | React 19 | Telas em JSX, como os componentes de `design-system/components/`. |
 | Tipos | TypeScript com `allowJs` | O `tsc -b` aceita as telas `.jsx` sem checá-las. Código novo pode ser `.tsx`; o design system tem `.d.ts` para cada componente. |
 | Rotas | roteador por hash, em `src/router.jsx` | Sem dependência nova. Funciona em qualquer hospedagem estática e no nginx do build de produção. |
-| Estado | `useState` e um contexto de sessão | Os dados ainda não vêm da API. |
+| Estado | `useState` e um contexto de sessão | Os dados ainda não vêm da API. A sessão guarda perfil, tema, curtidas, filtros e o recado da tela. |
 | Dados | arquivos em `src/data/` | Fictícios, até as rotas do T-06 e do T-07 existirem. |
 
 ## Design system
@@ -39,28 +39,31 @@ O front **não** tem cores, fontes ou espaçamentos próprios. Tudo vem do `desi
 
 - `src/main.tsx` importa `../../design-system/styles.css` (tokens, fontes Mulish, base).
 - `src/ds.js` é a ponte única para os componentes. Importe sempre de lá.
-- `src/app.css` só tem classes de layout (`stack-N`, `row-N`, `topo`, `lateral`, `post`, `pill`…), escritas apenas com tokens.
+- `src/app.css` tem os tokens do tema (`--ih-*`, claro e escuro) e as classes de layout (`stack-N`, `row-N`, `topo`, `card-ativo`, `painel`, `btn`…), escritas apenas com tokens.
+- O tema escuro vale com `data-theme="escuro"` no `<html>`. Ele também troca os tokens semânticos do design system, e os componentes do DS usados aqui seguem esses tokens.
 - O logo é servido de `public/assets/logo/`, usado pelo componente `Logo` com `basePath="/"`.
 
 Regras que valem para qualquer tela nova: só token para cor, fonte, raio, sombra e espaçamento; nunca vermelho, roxo ou gradiente; erro em `var(--status-error)` (azul-marinho) com ícone; um botão primário por tela; texto em pt-BR falando com "você".
 
+Botões têm 36px. O primário é o `Button` do DS (`variant="primary" size="sm"`). O secundário é o `BotaoSec` de `components/comuns.jsx`: o `outline` e o `ghost` do DS fixam texto preto e somem no modo escuro.
+
 ## Telas
 
-Layout no estilo do Reddit: topo com busca, lateral com navegação e filtros, feed de posts no centro.
+Redesign feito no Claude Design (`Itau House.dc.html`): topo com navegação, sem lateral. O catálogo atende PM, design, engenharia, dados e negócio, não só dev. Tema claro e escuro no topo.
 
 | Rota | Tela | O que mostra no fluxo do case |
 |---|---|---|
-| `#/entrar` | Entrada | SSO **simulado** (RF-23). O perfil (Dev / Coordenação) troca o que a interface mostra (RF-24). |
-| `#/` | Início | Feed por popularidade (RF-25): "Em alta" soma curtidas e instalações; também "Mais curtidos" e "Novos". Botão "Gostei" em cada post (RF-28). |
-| `#/t/:tipo`, `#/f/:frente` | Feed filtrado | O mesmo feed, filtrado por tipo ou por frente pela lateral (RF-26). |
-| `#/ativo/:id` | Post | README, o que o ativo acessa, instalar, adaptar, compartilhar, comentários (RF-27, RF-29). |
-| `#/publicar` | Publicar | Hook detecta → validador barra com o que, onde e como corrigir → correção → passa → post com prévia do feed → fila. |
-| `#/sugestao` | No seu editor | O aviso chega enquanto o dev trabalha; ele vê o porquê e decide. |
+| `#/entrar` | Entrada | SSO **simulado** (RF-23). O perfil (Membro do squad / Coordenação) troca o que a interface mostra (RF-24). |
+| `#/` | Início | Busca em linguagem natural, filtros por estante, papel e ordem (RF-26), cards por popularidade (RF-25) com curtir (RF-28). Lateral com pedidos abertos e quem mais foi reaproveitado. |
+| `#/ativo/:id` | Ativo | Capa, usar, adaptar, curtir. "Usar em" com os passos de cada ferramenta, o que tem dentro, árvore de adaptações, reaproveitamento por papel (RF-30) e governança (RF-22) (RF-27). |
+| `#/pedidos` | Pedidos | O que alguém procurou e não achou. "Também quero" e "Eu crio". |
+| `#/perfil`, `#/perfil/:id` | Perfil | O que a pessoa publicou, reaproveitamentos, papéis alcançados, adaptações e quem adaptou. "Sair" fica no próprio perfil. |
+| `#/publicar` | Publicar | Hook detecta → validador barra com o que, onde e como corrigir → correção → passa → post com prévia do card → fila. |
 | `#/coord/fila` | Fila de aprovação | Só Coordenação (RF-32): resultado das checagens, aprovar (RF-19), devolver ou recusar com motivo (RF-21). Quem julga é o coordenador (D-26). |
-| `#/coord/dados` | Dados | Só Coordenação: curtidas, instalações, derivações, instalações por frente, tabela por ativo e histórico de cada um (RF-30, RF-22). |
+| `#/coord/dados` | Dados | Só Coordenação: curtidas, reaproveitamentos, adaptações, por frente, tabela por ativo e trilha de cada um (RF-30, RF-22). |
 
-O alcance vale no feed (RF-05): ativo de squad só aparece para a própria squad; ativo de frente, só para a mesma frente.
-Curtidas ficam no `localStorage`, uma por perfil por ativo.
+O alcance vale no início, no perfil e na página do ativo (RF-05): ativo de squad só aparece para a própria squad; ativo de frente, só para a mesma frente. Na demo, todo ativo tem alcance "Banco inteiro".
+Curtidas e tema ficam no `localStorage`; as curtidas, uma por perfil por ativo.
 
 ## O que é real e o que é simulado
 
@@ -69,11 +72,12 @@ Tudo o que está simulado aparece marcado em tela com o selo **Simulado** (compo
 | Item | Estado |
 |---|---|
 | Navegação, filtros, busca, estados das telas | Real, roda no navegador |
-| Catálogo de ativos, pessoas, squads, números de reuso | **Fictício** (`src/data/catalogo.js`) |
+| Catálogo de ativos, pessoas, squads, pedidos, números de reuso | **Fictício** (`src/data/catalogo.js`) |
+| Fotos das pessoas | Retratos do randomuser.me, carregados da internet. Sem rede, a `Foto` mostra as iniciais |
+| Usar, adaptar, "Usar em", fazer pedido, "Eu crio" | **Simulados**: só mudam contadores e mostram um recado |
 | Resultado do validador | **Simulado**: roteiro fixo em `src/data/governanca.js`. O validador real faz só checagens fixas por código, sem IA (RF-14, D-26) |
 | Detecção por hook na ferramenta de código | **Simulado** em tela |
 | Login por SSO | **Simulado**: seletor de perfil |
-| Comentários, comando de instalação | **Simulados** |
 | Dados vindos da API e do banco, integração com Copilot ou Claude Code | Ainda não ligados: as telas usam `src/data/` |
 
 ## Estrutura
@@ -88,11 +92,11 @@ frontend/
    ├─ main.tsx             importa o design system e monta o app
    ├─ App.jsx              rotas
    ├─ router.jsx           roteador por hash e o componente Link
-   ├─ sessao.jsx           perfil, login simulado, curtidas, instalados, busca
+   ├─ sessao.jsx           perfil, login simulado, tema, curtidas, usados, pedidos, busca e filtros
    ├─ ds.js                ponte para os componentes do design system
    ├─ app.css              utilitários de layout, só com tokens
-   ├─ components/          AppShell (topo e lateral), Post (card do feed e Gostei), peças comuns
-   ├─ data/                catálogo e roteiro de governança, fictícios
+   ├─ components/          AppShell (topo), Post (card de ativo e Gostei), peças comuns (Foto, BotaoSec, Recado)
+   ├─ data/                catálogo, pedidos e roteiro de governança, fictícios
    └─ pages/               uma tela por arquivo
 ```
 
@@ -100,5 +104,6 @@ frontend/
 
 Local, layout e área de dados estão em D-28. Continuam em aberto:
 
-- **Telas além do mínimo do D-12.** O D-12 pede página do post e fila de aprovação. Feed, publicar e "No seu editor" existem como apoio da demo; confirmar quais entram no vídeo.
-- **Trilha e contadores fora do post.** A PRD pede a trilha (RF-22) e os contadores (RF-30) na página do post; o D-28 levou os dois para `#/coord/dados`. Confirmar com o time.
+- **Telas além do mínimo do D-12.** O D-12 pede página do post e fila de aprovação. Início, pedidos, perfil e publicar existem como apoio da demo; confirmar quais entram no vídeo. A tela "No seu editor" saiu no redesign: o "Usar em" da página do ativo ocupa o lugar dela.
+- **Trilha e contadores no post.** O redesign trouxe de volta à página do ativo a governança (RF-22) e o reaproveitamento por papel (RF-30). `#/coord/dados` continua com a visão completa. Confirmar com o time se fica assim.
+- **Elenco da demo.** O roteiro (`docs/roteiro-demo.md`) usa Rafael Nunes, Marina Alves e Juliana Prado em outros papéis e squads. O catálogo do redesign tem Ana Ribeiro (PM, autora da skill de critérios) e Rafael Costa (coordenação). Alinhar antes de gravar.

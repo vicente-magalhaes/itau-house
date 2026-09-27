@@ -9,7 +9,7 @@ export function Select({ label, options = [], value, defaultValue, onChange, pla
       {label && <label htmlFor={id} style={{ font: 'var(--fw-bold) 14px/1.2 var(--font-text)' }}>{label}</label>}
       <div style={{ position: 'relative' }}>
         <select id={id} value={value} defaultValue={defaultValue ?? (placeholder ? '' : undefined)} onChange={onChange} disabled={disabled} onFocus={() => setF(true)} onBlur={() => setF(false)}
-          style={{ width: '100%', height: h, padding: '0 44px 0 14px', appearance: 'none', WebkitAppearance: 'none', border: 0, outline: 0, borderRadius: 'var(--radius-md)', background: disabled ? 'var(--gray-50)' : 'var(--itau-branco)', boxShadow: 'inset 0 0 0 ' + (f ? 2 : 1) + 'px ' + (f ? 'var(--itau-preto)' : 'var(--border-default)'), font: 'var(--fw-regular) 16px/1 var(--font-text)', color: disabled ? 'var(--text-disabled)' : 'var(--text-primary)', cursor: disabled ? 'not-allowed' : 'pointer' }}>
+          style={{ width: '100%', height: h, padding: '0 44px 0 14px', appearance: 'none', WebkitAppearance: 'none', border: 0, outline: 0, borderRadius: 'var(--radius-md)', background: disabled ? 'var(--surface-subtle)' : 'var(--surface-card)', boxShadow: 'inset 0 0 0 ' + (f ? 2 : 1) + 'px ' + (f ? 'var(--border-focus)' : 'var(--border-default)'), font: 'var(--fw-regular) 16px/1 var(--font-text)', color: disabled ? 'var(--text-disabled)' : 'var(--text-primary)', cursor: disabled ? 'not-allowed' : 'pointer' }}>
           {placeholder && <option value="" disabled>{placeholder}</option>}
           {options.map(o => { const v = typeof o === 'string' ? o : o.value; const l = typeof o === 'string' ? o : o.label; return <option key={v} value={v}>{l}</option>; })}
         </select>

@@ -1,6 +1,8 @@
 // Dados do fluxo de governança. [SIMULADO] — roteiro fixo da demo, nada é calculado de verdade.
 // Validador sem IA no MVP (D-26): só as checagens fixas do RF-14. Quem julga é o coordenador (RF-19).
 
+import { pessoas } from './catalogo.js';
+
 export const CRITERIOS = [
   { id: 'c1', nome: 'Segredos e chaves', checagem: 'Por código' },
   { id: 'c2', nome: 'Dados pessoais (CPF, e-mail, telefone)', checagem: 'Por código' },
@@ -18,9 +20,11 @@ export const VEREDITOS = {
 export const rascunhoAna = {
   id: 'rascunho-ana',
   nome: 'Critérios de aceitação a partir da história',
-  tipo: 'skill',
+  tipo: 'Skill',
+  estante: 'ia',
+  formato: 'Skill para qualquer agente',
   resumo: 'Lê a história do Jira e devolve critérios de aceitação no padrão dado/então, já com o caso incompleto.',
-  autor: { nome: 'Ana Ribeiro', iniciais: 'AR', papel: 'Dev sênior', squad: 'Cartões · Emissão' },
+  autor: pessoas.ana,
   frente: 'Cartões',
   squad: 'Cartões · Emissão',
   visibilidade: 'banco',
@@ -76,7 +80,8 @@ export const filaAprovacao = [
   {
     id: 'fila-001',
     nome: 'Critérios de aceitação a partir da história',
-    tipo: 'skill',
+    tipo: 'Skill',
+    estante: 'ia',
     autor: { nome: 'Ana Ribeiro', iniciais: 'AR', squad: 'Cartões · Emissão' },
     esperandoHa: '12 min',
     visibilidade: 'banco',
@@ -86,7 +91,8 @@ export const filaAprovacao = [
   {
     id: 'fila-002',
     nome: 'Agente de disparo de e-mail para a base de clientes',
-    tipo: 'agente',
+    tipo: 'Agente',
+    estante: 'ia',
     autor: { nome: 'Igor Fontes', iniciais: 'IF', squad: 'Cartões · Retenção' },
     esperandoHa: '21 h',
     visibilidade: 'banco',
@@ -100,7 +106,8 @@ export const filaAprovacao = [
   {
     id: 'fila-003',
     nome: 'Esqueleto de job de carga noturna',
-    tipo: 'esqueleto',
+    tipo: 'Esqueleto de código',
+    estante: 'codigo',
     autor: { nome: 'Vitor Salles', iniciais: 'VS', squad: 'Cartões · Faturamento' },
     esperandoHa: '1 d',
     visibilidade: 'frente',
@@ -109,38 +116,8 @@ export const filaAprovacao = [
   },
 ];
 
-// Ato 2 da demo: o aviso proativo no fluxo do dev (Thiago, squad de Pix).
-export const cenarioSugestao = {
-  dev: { nome: 'Thiago Nunes', iniciais: 'TN', squad: 'Pix · Recebimentos' },
-  gatilho: 'Você pediu para criar uma skill que gere critérios de aceitação a partir das histórias do Jira.',
-  transcricao: [
-    { de: 'dev', texto: 'cria uma skill que lê a história do Jira e escreve os critérios de aceitação' },
-    { de: 'hook', texto: 'Antes de começar: quer que eu procure no Itaú House algo que já resolva isso?' },
-    { de: 'dev', texto: 'quero' },
-    { de: 'agente', texto: 'Encontramos 1 ativo com boa aderência e 2 parecidos. Veja abaixo antes de decidir.' },
-  ],
-  achado: {
-    ativoId: 'ativo-001',
-    aderencia: 91,
-    porques: [
-      'Faz a mesma tarefa: história do Jira entra, critérios no padrão dado/então saem.',
-      'Já foi reaproveitada por 3 squads, uma delas também de pagamentos.',
-      'Atualizada há 4 dias e revalidada na versão 1.2.0.',
-    ],
-    limite: 'O padrão de card dela é o de Cartões. O seu time usa outro template: dá para adaptar na instalação.',
-  },
-  parecidos: [
-    { ativoId: 'ativo-012', aderencia: 64, porque: 'Também gera teste a partir de texto de negócio, mas parte da regra, não da história.' },
-    { ativoId: 'ativo-002', aderencia: 41, porque: 'Cobre qualidade, mas na revisão do PR, não no refinamento.' },
-  ],
-  decisoes: [
-    { valor: 'reaproveitar', rotulo: 'Quero reaproveitar', descricao: 'Instala a skill como está, na versão 1.2.0.' },
-    { valor: 'adaptar', rotulo: 'Quero adaptar', descricao: 'Clona no seu projeto para ajustar o template do card.' },
-    { valor: 'criar', rotulo: 'Prefiro criar do zero', descricao: 'Seguimos sem reuso. A publicação fica agendada para o fim da tarefa.' },
-  ],
-};
-
+// Login simulado (RF-23, RF-24). Quem cria é qualquer membro do squad (D-18); na demo, a PM Ana.
 export const PERFIS = [
-  { value: 'dev', rotulo: 'Dev', descricao: 'Publica, busca e reaproveita ativos.', pessoa: { nome: 'Ana Ribeiro', iniciais: 'AR', papel: 'Dev sênior', squad: 'Cartões · Emissão' } },
-  { value: 'coordenador', rotulo: 'Coordenação', descricao: 'Tudo o que o dev vê, mais a fila de aprovação da squad.', pessoa: { nome: 'Rafael Costa', iniciais: 'RC', papel: 'Coordenador', squad: 'Cartões · Faturamento' } },
+  { value: 'dev', rotulo: 'Membro do squad', descricao: 'Publica, busca e reaproveita ativos.', pessoa: pessoas.ana },
+  { value: 'coordenador', rotulo: 'Coordenação', descricao: 'Tudo o que o squad vê, mais a fila de aprovação.', pessoa: pessoas.rafael },
 ];

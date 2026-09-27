@@ -1,218 +1,210 @@
 import React from 'react';
-import { Button, IconButton, Icon, Tag, Dialog, Toast, Checkbox } from '../ds.js';
-import { Avatar, SeloSimulado, Vazio, Aviso } from '../components/comuns.jsx';
-import { BotaoCurtir, Instalacoes } from '../components/Post.jsx';
-import { TextArea } from '../components/TextArea.jsx';
+import { Button, Icon } from '../ds.js';
+import { Foto, BotaoSec, SeloSimulado, Vazio } from '../components/comuns.jsx';
+import { BotaoCurtir } from '../components/Post.jsx';
 import { Link, irPara } from '../router.jsx';
 import { useSessao } from '../sessao.jsx';
-import { acharAtivo, visivelPara, rotuloTipo, iconeTipo, rotuloVisibilidade, iconeVisibilidade, tempoRelativo } from '../data/catalogo.js';
+import { acharAtivo, visivelPara, ESTANTES, PAPEIS, iconeEstante, rotuloVisibilidade, tempoRelativo, passosDeUso } from '../data/catalogo.js';
 
-// Markdown mínimo do readme: "## " vira subtítulo, o resto vira parágrafo.
-function Leitura({ texto }) {
+function voltar() {
+  if (window.history.length > 1) window.history.back();
+  else irPara('/');
+}
+
+// Pessoa com foto, nome e uma linha de detalhe. Abre o perfil.
+function LinhaPessoa({ pessoa, detalhe, texto }) {
   return (
-    <div className="leitura stack stack-2">
-      {String(texto || '')
-        .split('\n')
-        .map((l) => l.trim())
-        .filter(Boolean)
-        .map((linha, i) => (linha.startsWith('## ') ? <h2 key={i}>{linha.slice(3)}</h2> : <p key={i}>{linha}</p>))}
-    </div>
+    <button type="button" className="linha-pessoa" onClick={() => irPara('/perfil/' + pessoa.id)}>
+      <Foto pessoa={pessoa} tamanho={40} />
+      <span className="stack stack-1" style={{ minWidth: 0 }}>
+        <span className="nome">
+          {pessoa.nome} <span className="meta">· {detalhe}</span>
+        </span>
+        <span className="texto">{texto}</span>
+      </span>
+    </button>
   );
 }
 
-function ListaAcessos({ acessos }) {
+// "Usar em": uma aba por ferramenta, com os passos daquela ferramenta.
+function UsarEm({ ativo }) {
+  const [ferramenta, setFerramenta] = React.useState(ativo.ferr[0]);
   return (
-    <ul className="stack stack-3" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
-      {acessos.map((a) => (
-        <li key={a.titulo} className="row row-3 small">
-          <Icon name={a.icone} size={18} color="var(--text-secondary)" />
-          {a.titulo}
-        </li>
-      ))}
-    </ul>
+    <section className="stack stack-4">
+      <div className="row row-3 wrap">
+        <h2 className="titulo-secao">Usar em</h2>
+        <SeloSimulado ajuda="Conector, extensão e plugin são simulados. Nada é instalado nem copiado de verdade.">Uso simulado</SeloSimulado>
+      </div>
+      <div className="row wrap row-2" role="group" aria-label="Ferramenta">
+        {ativo.ferr.map((f) => (
+          <button key={f} type="button" className="btn btn-sec btn-aba" aria-pressed={f === ferramenta} onClick={() => setFerramenta(f)}>
+            {f}
+          </button>
+        ))}
+      </div>
+      <ol className="passos">
+        {passosDeUso(ferramenta, ativo).map((texto, i) => (
+          <li key={i} className="passo">
+            <span className="passo-n">{i + 1}</span>
+            <span className="texto" style={{ color: 'var(--ih-ink)' }}>
+              {texto}
+            </span>
+          </li>
+        ))}
+      </ol>
+    </section>
   );
 }
 
-function Campo({ rotulo, children }) {
-  return (
-    <div className="stack stack-1">
-      <span className="caption">{rotulo}</span>
-      <div className="small strong">{children}</div>
-    </div>
-  );
-}
-
-// Página do post (RF-27): conteúdo, ações e comentários. Os números ficam na área da coordenação.
+// Página do ativo (RF-27): capa, ações, como usar, conteúdo, derivações, reuso por papel e trilha (RF-22, RF-30).
 export function Ativo({ id }) {
   const ativo = acharAtivo(id);
-  const { pessoa, instalados, instalar, ehCoordenador } = useSessao();
-  const [instalando, setInstalando] = React.useState(false);
-  const [ciente, setCiente] = React.useState(false);
-  const [aviso, setAviso] = React.useState(null);
+  const { pessoa, usados, usar, reusosDe, avisar, ehCoordenador } = useSessao();
 
   if (!ativo || !visivelPara(ativo, pessoa)) {
-    return <Vazio icone="search-x" titulo="Este ativo não está disponível para você" acao={<Button onClick={() => irPara('/')}>Voltar ao início</Button>} />;
+    return <Vazio icone="search-x" titulo="Este ativo não está disponível para você" acao={<Button size="sm" onClick={() => irPara('/')}>Voltar ao início</Button>} />;
   }
 
-  const instalado = instalados.includes(ativo.id);
-  const comando = `itau-house instalar ${ativo.id}@${ativo.versao}`;
-
-  const fechar = () => {
-    setInstalando(false);
-    setCiente(false);
-  };
-
-  const confirmar = () => {
-    instalar(ativo.id);
-    fechar();
-    setAviso(`Instalado na versão ${ativo.versao}.`);
-  };
-
-  const copiar = (texto, mensagem) => {
-    if (navigator.clipboard) navigator.clipboard.writeText(texto).catch(() => {});
-    setAviso(mensagem);
-  };
+  const autor = ativo.autor;
+  const usado = usados.includes(ativo.id);
+  const maior = Math.max(...ativo.papeis, 1);
+  const deFora = ativo.papeis.reduce((t, n, i) => t + (PAPEIS[i] !== autor.papel ? n : 0), 0);
+  const trilha = [
+    { icone: 'shield-check', titulo: 'Passou no validador', detalhe: 'Sem segredo, sem dado pessoal e com descrição' },
+    { icone: 'user-check', titulo: 'Aprovado por ' + ativo.aprovou, detalhe: 'Coordenação da squad de quem publicou' },
+    { icone: 'globe', titulo: 'Alcance: ' + rotuloVisibilidade(ativo.visibilidade), detalhe: 'Qualquer pessoa do banco encontra' },
+    { icone: 'tag', titulo: 'Versão ' + ativo.versao, detalhe: 'Atualizado ' + tempoRelativo(ativo.atualizadoEm) },
+  ];
 
   return (
-    <div className="cols-post">
-      <article className="stack stack-4">
-        <div className="post-meta">
-          <IconButton icon="arrow-left" label="Voltar" size={36} variant="subtle" onClick={() => window.history.back()} />
-          <Avatar iniciais={ativo.autor.iniciais} tamanho={24} tone="neutro" />
-          <span className="strong">{ativo.autor.nome}</span>
-          <span aria-hidden="true">·</span>
-          <span>{ativo.squad}</span>
-          <span aria-hidden="true">·</span>
-          <span>{tempoRelativo(ativo.publicadoEm)}</span>
-          <span className="pastilha">
-            <Icon name={iconeTipo(ativo.tipo)} size={14} />
-            {rotuloTipo(ativo.tipo)}
+    <div className="stack stack-5">
+      <BotaoSec icone="arrow-left" onClick={voltar} style={{ alignSelf: 'flex-start', paddingLeft: 'var(--space-3)' }}>
+        Voltar
+      </BotaoSec>
+
+      <section className="capa capa-ativo">
+        <div className="row row-2 wrap">
+          <Icon name={iconeEstante(ativo.estante)} size={24} />
+          <span className="etiqueta">
+            {ESTANTES[ativo.estante].nome} · {ativo.tipo}
           </span>
+          <span style={{ font: 'var(--fw-regular) var(--fs-caption)/1.3 var(--font-text)' }}>{ativo.formato}</span>
         </div>
-
-        <h1 className="titulo-pagina">{ativo.nome}</h1>
-
-        <Leitura texto={ativo.readme} />
-
-        <div className="post-acoes">
-          <BotaoCurtir ativo={ativo} />
-          <span className="pill pill-fixa" aria-label={`${ativo.comentarios.length} comentários`}>
-            <Icon name="message-circle" size={16} />
-            {ativo.comentarios.length}
-          </span>
-          <Instalacoes ativo={ativo} />
-          <button type="button" className="pill" aria-pressed={instalado} onClick={() => (instalado ? setAviso(`Você já instalou a versão ${ativo.versao}.`) : setInstalando(true))}>
-            <Icon name={instalado ? 'check' : 'download'} size={16} />
-            {instalado ? 'Instalado' : 'Instalar'}
-          </button>
-          <button type="button" className="pill" onClick={() => setAviso('Cópia simulada. O ativo novo guarda o "derivado de".')}>
-            <Icon name="git-fork" size={16} />
-            Adaptar
-          </button>
-          <button type="button" className="pill" onClick={() => copiar(window.location.href, 'Link copiado.')}>
-            <Icon name="share-2" size={16} />
-            Compartilhar
-          </button>
-        </div>
-
-        <hr className="divider" />
-
-        <section className="stack stack-4" aria-labelledby="titulo-comentarios">
-          <h2 id="titulo-comentarios" className="small strong">
-            {ativo.comentarios.length} {ativo.comentarios.length === 1 ? 'comentário' : 'comentários'}
-          </h2>
-          <TextArea id="novo-comentario" label="Comentário" value="" disabled placeholder="Conte o que funcionou e o que você adaptou" rows={2} />
-          {ativo.comentarios.map((c, i) => (
-            <div key={`${c.autor}-${i}`} className="row row-3" style={{ alignItems: 'flex-start' }}>
-              <Avatar iniciais={c.iniciais} tamanho={32} tone="neutro" />
-              <div className="stack stack-1 grow">
-                <span className="post-meta">
-                  <span className="strong">{c.autor}</span>
-                  <span aria-hidden="true">·</span>
-                  <span>{c.squad}</span>
-                  <span aria-hidden="true">·</span>
-                  <span>{tempoRelativo(c.data)}</span>
-                </span>
-                <p className="small">{c.texto}</p>
-              </div>
-            </div>
-          ))}
-          {ativo.comentarios.length > 0 && (
-            <div>
-              <SeloSimulado ajuda="Os comentários foram escritos para a demonstração. Nenhuma pessoa real comentou aqui.">Comentários fictícios</SeloSimulado>
-            </div>
-          )}
-        </section>
-      </article>
-
-      <aside className="stack stack-4 sticky">
-        <div className="caixa stack stack-4">
-          <span className="small strong">O que ele acessa</span>
-          <ListaAcessos acessos={ativo.acessos} />
-        </div>
-
-        <div className="caixa stack stack-4">
-          <Campo rotulo="Versão">{ativo.versao}</Campo>
-          <Campo rotulo="Alcance">
-            <span className="row row-2">
-              <Icon name={iconeVisibilidade(ativo.visibilidade)} size={16} />
-              {rotuloVisibilidade(ativo.visibilidade)}
+        <h1 className="titulo-pagina">{ativo.titulo}</h1>
+        <p>{ativo.resumo}</p>
+        <button type="button" className="linha-pessoa" onClick={() => irPara('/perfil/' + autor.id)}>
+          <Foto pessoa={autor} tamanho={40} />
+          <span className="stack stack-1">
+            <span className="nome">{autor.nome}</span>
+            <span className="meta">
+              {autor.cargo} · {autor.squad} · {tempoRelativo(ativo.atualizadoEm)}
             </span>
-          </Campo>
-          <Campo rotulo="Funciona com">{ativo.ferramentas.join(', ')}</Campo>
-          <div className="row row-2 wrap">
-            {ativo.tags.map((t) => (
-              <Tag key={t} style={{ height: 28 }}>{t}</Tag>
+          </span>
+        </button>
+      </section>
+
+      <div className="row wrap" style={{ gap: 'var(--space-2) var(--space-4)' }}>
+        <Button
+          variant="primary"
+          size="sm"
+          iconLeft={usado ? 'check' : 'download'}
+          onClick={() => {
+            if (usado) return;
+            usar(ativo.id);
+            avisar(`Pronto! Uma cópia foi pro seu ${ativo.ferr[0]}. O crédito fica com ${autor.primeiro}.`);
+          }}
+        >
+          {usado ? 'Em uso' : 'Usar'}
+        </Button>
+        <BotaoSec icone="git-fork" onClick={() => avisar(`Criamos sua versão. Ela entra na árvore como derivada do trabalho de ${autor.primeiro}.`)}>
+          Adaptar pra mim
+        </BotaoSec>
+        <BotaoCurtir ativo={ativo} />
+        <span className="texto">
+          {reusosDe(ativo)} reaproveitamentos · {ativo.adapt} adaptações
+        </span>
+      </div>
+
+      <div className="colunas">
+        <div className="coluna-principal coluna-principal-ativo">
+          <UsarEm key={ativo.id} ativo={ativo} />
+
+          <section className="stack stack-2">
+            <h2 className="titulo-secao">O que tem dentro</h2>
+            {ativo.dentro.map((d) => (
+              <div key={d.nome} className="item-dentro">
+                <Icon name="file-text" size={20} color="var(--brand)" />
+                <span className="nome" style={{ flex: 'none' }}>
+                  {d.nome}
+                </span>
+                <span className="texto">{d.detalhe}</span>
+              </div>
+            ))}
+          </section>
+
+          <section className="stack stack-4">
+            <div className="stack stack-2">
+              <h2 className="titulo-secao">Árvore de adaptações</h2>
+              <p className="texto">Cada versão guarda de onde veio. O crédito volta pra quem criou o original.</p>
+            </div>
+            <div className="row row-3">
+              <Foto pessoa={autor} tamanho={40} anel />
+              <span className="stack stack-1">
+                <span className="nome">Original · {autor.nome}</span>
+                <span className="meta">
+                  {autor.papel} · {autor.squad}
+                </span>
+              </span>
+            </div>
+            <div className="arvore-ramos">
+              {ativo.deriv.map((d) => (
+                <LinhaPessoa key={d.pessoa.id} pessoa={d.pessoa} detalhe={d.pessoa.papel} texto={d.texto} />
+              ))}
+            </div>
+          </section>
+        </div>
+
+        <aside className="coluna-lateral">
+          <div className="painel">
+            <h2 className="titulo-card">Quem reaproveitou</h2>
+            <p className="texto">
+              {deFora} dos {ativo.reusos} reaproveitamentos vieram de fora de {autor.papel}.
+            </p>
+            {PAPEIS.map((papel, i) => (
+              <div key={papel} className="stack stack-2">
+                <div className="row spread nome" style={{ lineHeight: 1 }}>
+                  <span>{papel}</span>
+                  <span style={{ color: 'var(--ih-ink2)' }}>{ativo.papeis[i]}</span>
+                </div>
+                <div className="barra-papel">
+                  <span style={{ width: Math.round((ativo.papeis[i] / maior) * 100) + '%' }} />
+                </div>
+              </div>
             ))}
           </div>
-        </div>
 
-        {ehCoordenador && (
-          <Link para={'/coord/dados/' + ativo.id} className="nav-item" style={{ boxShadow: 'inset 0 0 0 1px var(--border-subtle)', borderRadius: 'var(--radius-md)' }}>
-            <Icon name="chart-column" size={18} />
-            Ver dados deste ativo
-            <Icon name="chevron-right" size={16} style={{ marginLeft: 'auto' }} />
-          </Link>
-        )}
-      </aside>
-
-      {instalando && (
-        <Dialog
-          title={`Instalar a versão ${ativo.versao}`}
-          onClose={fechar}
-          width={520}
-          actions={
-            <>
-              <Button variant="ghost" onClick={fechar}>
-                Agora não
-              </Button>
-              <Button variant="secondary" disabled={!ciente} onClick={confirmar}>
-                Instalar
-              </Button>
-            </>
-          }
-        >
-          <div className="stack stack-4">
-            <ListaAcessos acessos={ativo.acessos} />
-            <div className="row row-2" style={{ padding: 'var(--space-2) var(--space-3)', borderRadius: 'var(--radius-sm)', background: 'var(--surface-inverse)', color: 'var(--text-inverse)' }}>
-              <code className="mono grow" style={{ wordBreak: 'break-all' }}>{comando}</code>
-              <IconButton icon="copy" label="Copiar comando" variant="inverse" size={32} onClick={() => copiar(comando, 'Comando copiado.')} />
-            </div>
-            <Checkbox checked={ciente} onChange={setCiente} label="Entendi o que este ativo acessa" />
-            <div>
-              <SeloSimulado ajuda="A instalação é simulada. Nada é escrito no seu ambiente; só o contador de instalações muda.">Instalação simulada</SeloSimulado>
-            </div>
+          <div className="painel">
+            <h2 className="titulo-card">Governança</h2>
+            {trilha.map((t) => (
+              <div key={t.titulo} className="row row-3">
+                <span className="icone-quadrado">
+                  <Icon name={t.icone} size={20} />
+                </span>
+                <span className="stack stack-1">
+                  <span className="nome">{t.titulo}</span>
+                  <span className="meta">{t.detalhe}</span>
+                </span>
+              </div>
+            ))}
+            {ehCoordenador && (
+              <Link para={'/coord/dados/' + ativo.id} className="btn btn-sec" style={{ alignSelf: 'flex-start' }}>
+                <Icon name="chart-column" size={18} />
+                Ver dados deste ativo
+              </Link>
+            )}
           </div>
-        </Dialog>
-      )}
-
-      {aviso && (
-        <Aviso>
-          <Toast tone="neutral" onClose={() => setAviso(null)}>
-            {aviso}
-          </Toast>
-        </Aviso>
-      )}
+        </aside>
+      </div>
     </div>
   );
 }

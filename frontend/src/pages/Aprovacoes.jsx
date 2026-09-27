@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button, IconButton, Icon, Badge, Tabs, Dialog, Toast, Input } from '../ds.js';
-import { Avatar, SeloSimulado, Vazio, Aviso } from '../components/comuns.jsx';
+import { Avatar, BotaoSec, SeloSimulado, Vazio, Aviso } from '../components/comuns.jsx';
 import { useSessao } from '../sessao.jsx';
 import { filaAprovacao } from '../data/governanca.js';
-import { iconeTipo, rotuloTipo } from '../data/catalogo.js';
+import { iconeEstante } from '../data/catalogo.js';
 
 // Fila do Cord+ (RF-32): aprovar (RF-19) ou devolver com motivo (RF-21).
 // O validador só faz checagens fixas por código; quem julga é o coordenador (D-13, D-26).
@@ -48,7 +48,7 @@ function ItemFila({ item, aberto, aoAlternar, aoAprovar, aoDevolver, aoRecusar }
   return (
     <div className="caixa stack stack-4">
       <div className="row row-3">
-        <Icon name={iconeTipo(item.tipo)} size={20} label={rotuloTipo(item.tipo)} />
+        <Icon name={iconeEstante(item.estante)} size={20} label={item.tipo} />
         <div className="stack stack-1 grow">
           <span className="strong">{item.nome}</span>
           <span className="post-meta">
@@ -86,12 +86,12 @@ function ItemFila({ item, aberto, aoAlternar, aoAprovar, aoDevolver, aoRecusar }
             <Button variant="primary" size="sm" iconLeft="check" onClick={aoAprovar}>
               Aprovar
             </Button>
-            <Button variant="outline" size="sm" iconLeft="undo-2" onClick={aoDevolver}>
+            <BotaoSec icone="undo-2" onClick={aoDevolver}>
               Devolver
-            </Button>
-            <Button variant="ghost" size="sm" iconLeft="x" onClick={aoRecusar}>
+            </BotaoSec>
+            <BotaoSec icone="x" onClick={aoRecusar}>
               Recusar
-            </Button>
+            </BotaoSec>
           </div>
         </div>
       )}
@@ -104,7 +104,7 @@ function ItemDecidido({ registro }) {
   return (
     <div className="caixa stack stack-2">
       <div className="row row-3">
-        <Icon name={iconeTipo(registro.item.tipo)} size={18} color="var(--text-tertiary)" />
+        <Icon name={iconeEstante(registro.item.estante)} size={18} color="var(--text-tertiary)" />
         <span className="strong grow">{registro.item.nome}</span>
         <Badge tone={d.tone}>{d.rotulo}</Badge>
       </div>
@@ -213,10 +213,8 @@ export function Aprovacoes() {
           onClose={fecharDialogo}
           actions={
             <>
-              <Button variant="ghost" onClick={fecharDialogo}>
-                Voltar
-              </Button>
-              <Button variant="secondary" iconLeft="send" onClick={enviarDialogo}>
+              <BotaoSec onClick={fecharDialogo}>Voltar</BotaoSec>
+              <Button variant="secondary" size="sm" iconLeft="send" onClick={enviarDialogo}>
                 {dialogo.decisao === 'ajuste' ? 'Devolver' : 'Recusar'}
               </Button>
             </>

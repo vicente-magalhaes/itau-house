@@ -10,7 +10,7 @@ export function TextArea({ id, label, value, onChange, placeholder, helper, erro
   const [foco, setFoco] = React.useState(false);
   // Sem onChange o campo é só leitura da demonstração: entra como não controlado.
   const controle = onChange ? { value, onChange } : { defaultValue: value };
-  const borda = error ? 'var(--status-error)' : foco ? 'var(--itau-preto)' : 'var(--border-default)';
+  const borda = error ? 'var(--status-error)' : foco ? 'var(--border-focus)' : 'var(--border-default)';
   return (
     <div className="stack stack-2" style={style}>
       {label && (
@@ -40,7 +40,7 @@ export function TextArea({ id, label, value, onChange, placeholder, helper, erro
           outline: 0,
           padding: 'var(--space-3) var(--space-4)',
           borderRadius: 'var(--radius-md)',
-          background: disabled ? 'var(--surface-subtle)' : 'var(--itau-branco)',
+          background: disabled ? 'var(--surface-subtle)' : 'var(--surface-card)',
           boxShadow: 'inset 0 0 0 ' + (foco || error ? 2 : 1) + 'px ' + borda,
           color: disabled ? 'var(--text-tertiary)' : 'var(--text-primary)',
           font: mono ? undefined : 'var(--fw-regular) var(--fs-body)/var(--lh-body) var(--font-text)',

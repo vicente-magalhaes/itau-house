@@ -1,19 +1,19 @@
 import React from 'react';
 import { Icon } from '../ds.js';
-import { Avatar } from './comuns.jsx';
-import { Link, irPara } from '../router.jsx';
+import { Foto } from './comuns.jsx';
+import { irPara } from '../router.jsx';
 import { useSessao } from '../sessao.jsx';
-import { iconeTipo, rotuloTipo, tempoRelativo, iconeVisibilidade, rotuloVisibilidade } from '../data/catalogo.js';
+import { iconeEstante, tempoRelativo } from '../data/catalogo.js';
 
 // Um "gostei" por pessoa por ativo. Clicar de novo desfaz (RF-28).
-export function BotaoCurtir({ ativo, desativado }) {
+export function BotaoCurtir({ ativo, noCard, desativado }) {
   const { curtidos, curtir, curtidasDe } = useSessao();
   const curtido = curtidos.includes(ativo.id);
   const total = curtidasDe(ativo);
   return (
     <button
       type="button"
-      className="pill"
+      className={'btn btn-curtir' + (noCard ? ' btn-curtir-card' : '')}
       aria-pressed={curtido}
       aria-label={`Gostei. ${total} curtidas`}
       disabled={desativado}
@@ -22,75 +22,58 @@ export function BotaoCurtir({ ativo, desativado }) {
         if (!desativado) curtir(ativo.id);
       }}
     >
-      <Icon name="arrow-big-up" size={18} />
+      <Icon name="arrow-big-up" size={noCard ? 16 : 18} />
       {total}
     </button>
   );
 }
 
-export function Instalacoes({ ativo }) {
-  const { instalacoesDe } = useSessao();
-  const total = instalacoesDe(ativo);
-  return (
-    <span className="pill pill-fixa" aria-label={`${total} instalações`}>
-      <Icon name="download" size={16} />
-      {total}
-    </span>
-  );
-}
-
-// Linha do feed. O artigo inteiro abre o post com o mouse; o título é o link do teclado.
+// Card de ativo do início e do perfil (RF-25). O card inteiro abre a página; o título é o link do teclado.
 export function PostCard({ ativo, preview }) {
+  const { reusosDe } = useSessao();
   const abrir = preview ? undefined : () => irPara('/ativo/' + ativo.id);
-  const restrito = ativo.visibilidade !== 'banco';
+  const verAutor = (e) => {
+    e.stopPropagation();
+    if (!preview) irPara('/perfil/' + ativo.autor.id);
+  };
   return (
-    <article className="post" onClick={abrir} style={preview ? { cursor: 'default', margin: 0 } : undefined}>
-      <div className="post-meta">
-        <Avatar iniciais={ativo.autor.iniciais} tamanho={20} tone="neutro" />
-        <span className="strong">{ativo.autor.nome}</span>
-        <span aria-hidden="true">·</span>
-        <span>{ativo.squad}</span>
-        <span aria-hidden="true">·</span>
-        <span>{tempoRelativo(ativo.publicadoEm || '2026-09-25')}</span>
-        <span className="grow" />
-        {restrito && (
-          <Icon name={iconeVisibilidade(ativo.visibilidade)} size={14} color="var(--text-tertiary)" label={'Alcance: ' + rotuloVisibilidade(ativo.visibilidade)} />
-        )}
-        <span className="pastilha">
-          <Icon name={iconeTipo(ativo.tipo)} size={14} />
-          {rotuloTipo(ativo.tipo)}
-        </span>
+    <article className="card-ativo" onClick={abrir} style={preview ? { cursor: 'default' } : undefined}>
+      <div className="capa card-capa">
+        <Icon name={iconeEstante(ativo.estante)} size={24} />
+        <span className="card-capa-tipo">{ativo.tipo}</span>
+        <span className="card-capa-formato">{ativo.formato}</span>
       </div>
 
-      <h2 style={{ margin: 0 }}>
-        {preview ? (
-          <span className="post-titulo">{ativo.nome}</span>
-        ) : (
-          <Link para={'/ativo/' + ativo.id} className="post-titulo" onClick={(e) => e.stopPropagation()}>
-            {ativo.nome}
-          </Link>
-        )}
-      </h2>
-      <p className="post-resumo">{ativo.resumo}</p>
-
-      <div className="post-acoes">
-        <BotaoCurtir ativo={ativo} desativado={preview} />
-        {preview ? (
-          <span className="pill pill-fixa">
-            <Icon name="message-circle" size={16} />0
+      <div className="card-corpo">
+        <h3 className="titulo-card">
+          {preview ? (
+            ativo.titulo
+          ) : (
+            <a href={'#/ativo/' + ativo.id} className="link-reset" onClick={(e) => e.stopPropagation()}>
+              {ativo.titulo}
+            </a>
+          )}
+        </h3>
+        <p className="texto resumo-2">{ativo.resumo}</p>
+        <button type="button" className="linha-pessoa card-autor" onClick={verAutor}>
+          <Foto pessoa={ativo.autor} tamanho={24} />
+          <span className="meta">
+            <strong>{ativo.autor.nome}</strong> · {ativo.autor.cargo}
           </span>
-        ) : (
-          <Link
-            para={'/ativo/' + ativo.id}
-            className="pill"
-            aria-label={`${ativo.comentarios.length} comentários`}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <Icon name="message-circle" size={16} />
-            {ativo.comentarios.length}
-          </Link>
-        )}
-        <Instalacoes ativo={ativo} />
+        </button>
+      </div>
+
+      <div className="card-rodape">
+        <BotaoCurtir ativo={ativo} noCard desativado={preview} />
+        <span className="contagem" title="Reaproveitamentos">
+          <Icon name="repeat" size={16} label="Reaproveitamentos" />
+          {reusosDe(ativo)}
+        </span>
+        <span className="contagem" title="Adaptações">
+          <Icon name="git-fork" size={16} label="Adaptações" />
+          {ativo.adapt}
+        </span>
+        <span className="meta card-quando">{ativo.atualizadoEm ? tempoRelativo(ativo.atualizadoEm) : 'agora'}</span>
       </div>
     </article>
   );
