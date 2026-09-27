@@ -38,7 +38,10 @@ export function SessaoProvider({ children }) {
   const [criando, setCriando] = React.useState([]);
   const [busca, setBusca] = React.useState('');
   const [filtros, setFiltros] = React.useState(FILTROS_INICIAIS);
-  const [recado, setRecado] = React.useState(null);
+  // Quem acabou de voltar do Google já nasce com o recado de boas-vindas.
+  const [recado, setRecado] = React.useState(() =>
+    voltouDoGoogle ? `Você entrou com o Google como ${voltouDoGoogle.email}. Na demo, você opera como coordenação.` : null,
+  );
   const [contaGoogle, setContaGoogle] = React.useState(contaGuardada);
 
   // Recado curto no rodapé da tela. Some sozinho.
@@ -69,8 +72,10 @@ export function SessaoProvider({ children }) {
   }, []);
 
   React.useEffect(() => {
-    if (voltouDoGoogle) avisar(`Você entrou com o Google como ${voltouDoGoogle.email}. Na demo, você opera como coordenação.`);
-  }, [avisar]);
+    if (!voltouDoGoogle) return undefined;
+    const t = setTimeout(() => setRecado(null), 3200);
+    return () => clearTimeout(t);
+  }, []);
 
   const usar = React.useCallback((id) => {
     setUsados((atual) => (atual.includes(id) ? atual : [...atual, id]));
