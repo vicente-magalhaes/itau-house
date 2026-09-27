@@ -146,6 +146,28 @@ export function acharAtivo(id) {
   return ativos.find((a) => a.id === id);
 }
 
+// Horas que quem publicou levou pra criar o ativo (decisão 0025). [SIMULADO]: números fictícios, como os de reuso.
+// Cobre os ids dos fictícios (a1…) e os do seed da API (a-…), porque o contrato ainda não traz o campo.
+// Quando trouxer (`horasParaCriar`), o valor da API vale primeiro.
+const HORAS_PARA_CRIAR = {
+  a1: 6, a2: 16, a3: 40, a4: 4, a5: 3, a6: 2, a7: 12, a8: 4, a9: 10, a10: 6, a11: 3, a12: 16, a13: 2, a14: 20,
+  'a-criterios-aceitacao': 4, 'a-criterios-fatura': 3, 'a-revisor-pr': 12, 'a-revisor-pr-pix': 4,
+  'a-esqueleto-fastapi': 10, 'a-feature-flag': 16, 'a-mcp-catalogo-apis': 16, 'a-resumo-incidente': 3,
+  'a-conciliacao-extrato': 20, 'a-insights-pesquisa': 6, 'a-roteiro-usabilidade': 4, 'a-ata-notebook': 3,
+  'a-kb-alucinacao': 12, 'a-grau-mudanca': 5, 'a-botao-contratacao': 6, 'a-tela-consulta': 8,
+  'a-migracao-testes': 14, 'a-job-carga-fatura': 10,
+};
+
+// null quando ninguém informou: o ativo publicado agora na demo, por exemplo.
+export function horasParaCriar(ativo) {
+  return ativo.horasParaCriar ?? HORAS_PARA_CRIAR[ativo.id] ?? null;
+}
+
+// 6 -> "6 h"; 1.5 -> "1,5 h"; 1240 -> "1.240 h".
+export function formatarHoras(horas) {
+  return horas.toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + ' h';
+}
+
 // Pedidos: o que alguém procurou e não achou. criador = quem já assumiu fazer.
 export const pedidos = [
   { id: 'p1', titulo: 'Agente que explica uma query SQL em português', tipo: 'Agente', estante: 'agente', autor: 'joao', querem: 15, criador: 'aline' },

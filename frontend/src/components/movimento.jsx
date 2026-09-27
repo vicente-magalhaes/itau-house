@@ -4,8 +4,8 @@ import React from 'react';
 // e segurar um elemento na tela enquanto ele sai. As animações em si ficam no app.css (seção Movimento).
 
 // Número que troca deslizando: entra por baixo quando aumenta e por cima quando diminui.
-// Na primeira pintura não anima; só quando o valor muda.
-export function NumeroVivo({ valor }) {
+// Na primeira pintura não anima; só quando o valor muda. `formatar` muda só o texto, não a comparação.
+export function NumeroVivo({ valor, formatar = String }) {
   const [antes, setAntes] = React.useState(valor);
   const [direcao, setDirecao] = React.useState(null);
   if (valor !== antes) {
@@ -15,7 +15,7 @@ export function NumeroVivo({ valor }) {
   // A chave nova remonta o span e a animação roda de novo a cada troca.
   return (
     <span key={valor} className={'numero-vivo' + (direcao ? ' numero-' + direcao : '')}>
-      {valor}
+      {formatar(valor)}
     </span>
   );
 }
