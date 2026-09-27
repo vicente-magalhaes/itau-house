@@ -26,6 +26,7 @@ Sempre ativas. Baseadas no regulamento do hackathon e em [docs/01-hackathon-regr
 
 - `memoria/`, os documentos numerados de `docs/` e `itau-design-system/` são internos. Citam pessoas e conversas do Itaú e contêm a marca do banco.
 - Não publicar, não colar em serviço externo e não copiar esse conteúdo para o código da aplicação.
+- Exceção: o Devin, dado pela organização, lê o repositório inteiro (decisão 0033). A proibição de copiar vale para ele também.
 - O repositório é privado. Antes da banca, será limpo para ficar só o código (decisão D-09).
 
 ## Git
