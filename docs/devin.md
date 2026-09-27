@@ -59,7 +59,7 @@ Um brief só roda com os itens dele marcados. Quem abre a sessão confere.
 - [x] M1: [docs/api.md](api.md) revisado pelo Vicente e pelo Alexandre (T-03), em 27/09. O contrato não muda durante a sessão.
 - [x] T-05 aplicada no Supabase, com aprovação de uma pessoa. Conferido pelo Vicente em 27/09: `db push` diz que o banco está em dia, e as tabelas têm dados. A migração já está escrita pelo Bruno em `supabase/migrations/20260926230000_schema_inicial.sql`, com ids em `text` e RLS ligado.
 - [x] DV-5 (T-39) juntada na `main` em 27/09. É o molde que o Devin copia: repositório com versão Supabase e versão memória, usuário por `usuario_atual`, erro por `ErroApi` e `GET /api/usuarios` de ponta a ponta (decisão 0035).
-- [ ] Combinado com o Bruno: o T-10 também mexe em `backend/app/`. Cada um fica nos próprios arquivos.
+- [x] Combinado com o Bruno: o T-10 também mexe em `backend/app/`. Cada um fica nos próprios arquivos. Confirmado em 27/09: o Bruno não está mexendo lá durante a DV-2.
 
 **DV-3 (seed e reset)**
 - [x] Migração do T-05 no repositório. O Devin testa numa base descartável, então não precisa dela aplicada no Supabase do time. O reset precisa funcionar com qualquer `seed.sql` que saia do gerador, porque o `seed.json` ainda muda (T-04). Liberada em 27/09.
