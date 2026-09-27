@@ -167,7 +167,7 @@ Front na Vercel e back no Render (decisão 0031). A configuração é código: `
 
 - **Front.** Build do Vite em `frontend/`, com a raiz do repo como pasta do projeto, para o build enxergar `design-system/`. O `vercel.json` repassa `/api/*` para o Render e põe os mesmos headers de segurança do nginx.
 - **Back.** Web Service Docker a partir do `backend/Dockerfile`, estágio `production`. Health check em `/api/health`. `SUPABASE_URL` e `SUPABASE_SECRET_KEY` vêm do Environment Group `itau-house-supabase`, criado no painel do Render.
-- **Publicação.** Cada merge na `main` publica os dois pela integração Git. O Render só publica com o CI verde (`autoDeployTrigger: checksPass`) e só quando muda algo em `backend/`.
+- **Publicação.** Cada merge na `main` publica os dois pela integração Git. O Render só publica com o CI verde (`autoDeployTrigger: checksPass`), a cada push na `main`. Se o back não atualizar, use "Manual Deploy" no painel.
 - **Primeiro acesso lento.** No plano Free, o back dorme depois de 15 min sem acesso e leva até 1 min para acordar. O ping do n8n (T-40) chama `https://itau-house.vercel.app/api/health`.
 
 ### Banco (Supabase)
