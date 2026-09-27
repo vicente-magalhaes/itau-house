@@ -7,7 +7,7 @@ review_by: 2026-09-27
 # Solução: Itaú House (tese atual do time)
 
 Status: tese em construção, 26/09/2026. Nome provisório.
-Decisões fechadas e pendentes ficam em [05-decisoes-e-pendencias.md](05-decisoes-e-pendencias.md).
+Decisões ficam em [decisions/](decisions/README.md). Pendências e riscos, em [05-pendencias-e-riscos.md](05-pendencias-e-riscos.md).
 
 ## Em uma frase
 
@@ -81,7 +81,7 @@ Motivo da ordem: a dor do dev parece mais latente e tem o maior retorno de tempo
 - Por que isso é diferente de um repositório no GitHub?
 - Por que é diferente do catálogo de skills e agentes homologados que já existe no Itaú (F1)?
 - Como o dev entra primeiro e depois produto, design e os demais?
-Candidatas a resposta, ainda não decididas, em [05-decisoes-e-pendencias.md](05-decisoes-e-pendencias.md).
+Candidatas a resposta, ainda não decididas, em [05-pendencias-e-riscos.md](05-pendencias-e-riscos.md).
 
 ## Teses descartadas (não retomar sem decisão do time)
 

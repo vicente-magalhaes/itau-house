@@ -58,7 +58,7 @@ Pitch, 3 min:
 
 Vídeo, 2 min: a demo narrada. Não repete o pitch. Mostra a revisão humana e o que é simulado.
 
-Perguntas, 2 min: ter respostas curtas prontas para os riscos e perguntas prováveis (tabela R-01 a R-08 em [05-decisoes-e-pendencias.md](../memoria/05-decisoes-e-pendencias.md)). Combinar antes quem responde cada tema.
+Perguntas, 2 min: ter respostas curtas prontas para os riscos e perguntas prováveis (tabela R-01 a R-08 em [05-pendencias-e-riscos.md](../memoria/05-pendencias-e-riscos.md)). Combinar antes quem responde cada tema.
 
 Preparação:
 - Referência principal das perguntas de preparação: o [guia dos mentores](10-guia-dicas-mentores.md) (D-27). Não muda entregas nem critérios.
@@ -135,7 +135,7 @@ Desempate, nesta ordem: resolução de problemas, centralidade no cliente, uso c
 
 ## Restrições que podem desclassificar
 
-- **Inovação (1.3):** a solução precisa ser inexistente, sem uso anterior pelo Itaú ou pelo mercado. Ver risco em [05-decisoes-e-pendencias.md](../memoria/05-decisoes-e-pendencias.md).
+- **Inovação (1.3):** a solução precisa ser inexistente, sem uso anterior pelo Itaú ou pelo mercado. Ver risco em [05-pendencias-e-riscos.md](../memoria/05-pendencias-e-riscos.md).
 - **Dados (3.8):** só dados públicos, fictícios ou simulados. Nada de dados reais de clientes ou informação confidencial.
 - **IA externa (3.7.2):** não colar em ferramenta de IA externa informação confidencial, dado pessoal ou material interno do Itaú não autorizado.
 - **Uso de IA (3.7):** permitido e incentivado. A equipe precisa dizer à banca quais ferramentas usou e para quê.

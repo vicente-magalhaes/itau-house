@@ -73,13 +73,13 @@ Leitura nossa, não faz parte do guia.
 |---|---|
 | 1. Problema em uma frase | Frase de recorte em [02](02-case-c-enunciado.md). Persona em [04](../memoria/04-solucao-itau-house.md) (D-18). |
 | 2. Conexão com o case | Enunciado e personas em [02](02-case-c-enunciado.md). Evidências e limites em [03](03-evidencias-pesquisa.md). |
-| 3. Entrega que cabe no tempo | Recorte do MVP (D-12) e risco R-08 em [05](../memoria/05-decisoes-e-pendencias.md). |
-| 4. O que já existe | A-05 e R-01 em [05](../memoria/05-decisoes-e-pendencias.md). Ver a nota abaixo sobre o regulamento. |
-| 5. Valor para usuário e negócio | Retorno de tempo (D-25) em [05](../memoria/05-decisoes-e-pendencias.md). |
-| 6. Como medir | Métrica de impacto (D-25) em [05](../memoria/05-decisoes-e-pendencias.md) e PRD, seção 11. |
-| 7. Uso de IA | Governança em três tempos (D-26) em [05](../memoria/05-decisoes-e-pendencias.md). Checagem fixa ou por IA no RF-14 da PRD. Custo na PRD, seção 9. |
+| 3. Entrega que cabe no tempo | Recorte do MVP (decisão [0012](../memoria/decisions/0012-mvp-descoberta-e-publicacao.md)) e risco R-08 em [05](../memoria/05-pendencias-e-riscos.md). |
+| 4. O que já existe | A-05 e R-01 em [05](../memoria/05-pendencias-e-riscos.md). Ver a nota abaixo sobre o regulamento. |
+| 5. Valor para usuário e negócio | Retorno de tempo (decisão [0025](../memoria/decisions/0025-metrica-retorno-de-tempo.md)). |
+| 6. Como medir | Métrica de impacto (decisão [0025](../memoria/decisions/0025-metrica-retorno-de-tempo.md)), sugestões em aberto em [05](../memoria/05-pendencias-e-riscos.md) e PRD, seção 11. |
+| 7. Uso de IA | Governança em três tempos (decisão [0026](../memoria/decisions/0026-governanca-em-tres-tempos.md)). Checagem fixa ou por IA no RF-14 da PRD. Custo na PRD, seção 9. |
 | 8. Experiência e dados | Real ou simulado na PRD, seção 9. Quem pode ver no RF-05. |
-| 9. Dividir e decidir | Papéis (D-21) e [KANBAN.md](../KANBAN.md). Decisões em [05](../memoria/05-decisoes-e-pendencias.md). |
-| 10. História clara | [Roteiro da demo](roteiro-demo.md). Riscos e perguntas em [05](../memoria/05-decisoes-e-pendencias.md). |
+| 9. Dividir e decidir | Papéis (decisão [0021](../memoria/decisions/0021-papeis-do-time.md)) e [KANBAN.md](../KANBAN.md). Decisões em [decisions/](../memoria/decisions/README.md). |
+| 10. História clara | [Roteiro da demo](roteiro-demo.md). Riscos e perguntas em [05](../memoria/05-pendencias-e-riscos.md). |
 
 Dica 4 e regulamento: o guia diz que não é preciso ser inédito no mundo. Mas ele também avisa que não muda os critérios, e o regulamento (1.3) pede solução sem uso anterior pelo Itaú ou pelo mercado. O risco R-01 continua valendo. Na dúvida, confirmar com a organização.

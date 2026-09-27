@@ -65,7 +65,7 @@ Interpretação nossa: F2 e F3 chegam à mesma dor por caminhos diferentes. Falt
   - "homologados": um time específico cria e disponibiliza para o banco inteiro.
 - Os times consomem skills e agentes de outros times.
 
-Interpretação nossa: há compartilhamento, mas F2 diz que não se sabe o que cada um usa. Hipótese: o que existe não resolve descoberta nem reuso no momento do trabalho. **Não validado.** Ver risco R-01 em [05-decisoes-e-pendencias.md](../memoria/05-decisoes-e-pendencias.md).
+Interpretação nossa: há compartilhamento, mas F2 diz que não se sabe o que cada um usa. Hipótese: o que existe não resolve descoberta nem reuso no momento do trabalho. **Não validado.** Ver risco R-01 em [05-pendencias-e-riscos.md](../memoria/05-pendencias-e-riscos.md).
 
 ### IA no Itaú
 
@@ -111,7 +111,7 @@ Já existe e funciona (não reinventar): OKRs em árvore, SVM, usabilidade, árv
 ## F5: mentores de produto (externos ao Itaú)
 
 - Pergunta: qual é a métrica de impacto de vocês? Como mostrar que o MVP, aplicado a uma squad específica, trouxe retorno e eficiência? (paráfrase)
-- Resposta do time: retorno de tempo, convertido em reais (D-25 em [05](../memoria/05-decisoes-e-pendencias.md)).
+- Resposta do time: retorno de tempo, convertido em reais (decisão [0025](../memoria/decisions/0025-metrica-retorno-de-tempo.md)).
 - A pergunta bate com as dicas 5 e 6 do [guia dos mentores](10-guia-dicas-mentores.md).
 
 ## Mapa do fluxo ponta a ponta (base para o entregável do Case C)
