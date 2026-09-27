@@ -29,7 +29,7 @@ O gargalo é revisar e juntar sem conflito. Por isso: poucas sessões, bem delim
 | [DV-5](#dv-5-base-do-back) | Base do back: repositório, usuário pelo cabeçalho, erro no formato do contrato e rota de molde | T-39 | Agora, em paralelo com a DV-3 | Bruno |
 | [DV-6](#dv-6-servidor-mcp) | Servidor MCP com as seis ferramentas do contrato | T-12 | Agora, em paralelo com a DV-5 | Bruno |
 | [DV-7](#dv-7-back-rápido-no-supabase) | Back rápido no Supabase: feed, detalhe e fila sem consulta repetida | T-42 | Agora, em paralelo com a DV-8 | Alexandre |
-| [DV-8](#dv-8-elenco-do-roteiro-no-front) | Elenco do roteiro no front: a pessoa da tela é a da API, e o perfil lê da API | T-43 | Agora, com o OK do Alexandre | Bruno |
+| [DV-8](#dv-8-pessoas-da-api-no-front) | Pessoas da API no front: a pessoa da tela é a que a API vê, e o perfil lê da API | T-43 | Agora, com o OK do Alexandre | Bruno |
 
 Ordem: DV-1 e DV-3 feitas em 27/09. DV-5 e DV-6 juntas, porque ficam em pastas diferentes (`backend/` e `mcp/`). DV-2 feita em 27/09, depois da DV-5 juntada. DV-7 e DV-8 juntas, pelo mesmo motivo (`backend/` e `frontend/`). DV-4 por último, depois do T-15 e da DV-8, para conferir o site como a banca e um gestor vão ver.
 
@@ -37,7 +37,7 @@ Ordem: DV-1 e DV-3 feitas em 27/09. DV-5 e DV-6 juntas, porque ficam em pastas d
 
 - **Migração (T-05).** Aplicar no Supabase precisa de uma pessoa. A base do back (T-39) saiu desta lista em 27/09: o Vicente aprovou o plano, as escolhas estão na [decisão 0035](../memoria/decisions/0035-back-fala-com-o-supabase-pelo-cliente-python.md), e o Devin executa como DV-5.
 - **Busca com o Claude (T-10) e validador (T-11).** São do Bruno: prompt e regra de produto.
-- Plugin (T-13), telas (T-16 a T-20), conteúdo do seed (T-04), roteiro, pitch, ficha, slides e vídeo. Exceção de 27/09: a troca do elenco no front (DV-8), com o OK do Alexandre, que está na ficha.
+- Plugin (T-13), telas (T-16 a T-20), conteúdo do seed (T-04), roteiro, pitch, ficha, slides e vídeo. Exceção de 27/09: as pessoas da API no front (DV-8), com o OK do Alexandre, que está na ficha.
 - Qualquer decisão de produto que não está na PRD.
 
 ## Fechar antes de soltar o Devin
@@ -80,9 +80,9 @@ Um brief só roda com os itens dele marcados. Quem abre a sessão confere.
 - [x] DV-2 juntada na `main` em 27/09. Medida em produção feita pelo Claude no mesmo dia: os números estão no brief.
 - [ ] Combinado com o Bruno: ele não mexe em `backend/app/` durante a sessão. A DV-7 não toca nos arquivos da busca.
 
-**DV-8 (elenco no front)**
+**DV-8 (pessoas da API no front)**
 - [x] DV-2 juntada na `main` em 27/09: `GET /api/usuarios` e `GET /api/ativos` respondem com o seed.
-- [ ] Alexandre de acordo: o Devin pega a troca do elenco (parte do T-16), e ele não mexe em `frontend/src/` durante a sessão. Quem valida é o Bruno, que grava o vídeo com essas telas.
+- [ ] Alexandre de acordo: o Devin pega esta parte do T-16, e ele não mexe em `frontend/src/` durante a sessão. Ele juntou mudanças no front às 4h30 de 27/09: combinar antes. Quem valida é o Bruno, que grava os vídeos.
 
 ### Manter o Render acordado
 
@@ -241,7 +241,7 @@ Este brief supõe a base da DV-5 (decisão 0035) na `main`. Leia o `backend/app/
 - O login simulado aparece como **[SIMULADO]** (RF-23).
 - Nenhum nome de pessoa real, chave ou dado pessoal na tela.
 - Feed em ordem de popularidade (RF-25). Entrando como Rafael, os ativos de squad de outra squad não aparecem (RF-05).
-- A pessoa no topo é a que a API vê: Rafael Nunes em "Membro do squad" e Juliana Prado em "Coordenação".
+- A pessoa no topo é a que a API vê para o perfil escolhido. Hoje, Rafael Nunes em "Membro do squad" e Juliana Prado em "Coordenação".
 - Nenhum clique a partir do feed, da página do ativo e do perfil leva a "não encontrado".
 - Nenhum vermelho, roxo ou gradiente.
 
@@ -379,21 +379,21 @@ Este brief supõe a base da DV-5 (decisão 0035) na `main`. Leia o `backend/app/
 
 **Relatório.** O que mudou em cada arquivo, as contagens antes e depois, e como a lista de usuários se renova.
 
-### DV-8: Elenco do roteiro no front
+### DV-8: Pessoas da API no front
 
-**Kanban:** T-43, parte do T-16. **Branch:** `feat/elenco-no-front`. **Requisitos:** RF-23, RF-24, RF-30 e RNF-06.
+**Kanban:** T-43, parte do T-16. **Branch:** `feat/pessoas-da-api`. **Requisitos:** RF-23, RF-24, RF-30 e RNF-06.
 
 **Objetivo.** Fazer a pessoa da tela ser a mesma que a API enxerga, e o perfil ler da API. Hoje:
 - "Membro do squad" manda `X-Usuario-Id: u-rafael`, mas a tela mostra Ana Ribeiro. "Coordenação" manda `u-juliana` e mostra Rafael Costa. São pessoas dos dados fictícios de `src/data/`;
 - a página de perfil lê só os dados fictícios. Clicar no autor de um card do feed abre `/perfil/u-marina` e dá "Não encontramos esta pessoa". Os cards do próprio perfil abrem ativos que a API não tem, e a página do ativo dá "não encontrado";
 - os contadores do perfil não batem com os dos cards (122 contra 123).
 
-Isso aparece no vídeo (cena 2, passo 6: "Login simulado como Juliana") e trava quem abrir o link para testar. O [docs/api.md](api.md) já pede a troca em "O que muda", Front: as pessoas e os ativos do mock mudam para o elenco do roteiro.
+Isso aparece em qualquer vídeo que mostre a plataforma e trava quem abrir o link para testar. O [docs/api.md](api.md) já pede a troca em "O que muda", Front. O roteiro do vídeo está sendo refeito (27/09): não se guie pelo `docs/roteiro-demo.md`.
 
-**Ler antes.** `AGENTS.md`. No `CLAUDE.md`, "Design system". O `design-system/readme.md`. No [docs/api.md](api.md), "Regras gerais", "Tipos", "Sessão" e "Catálogo". No [docs/roteiro-demo.md](roteiro-demo.md), "Elenco" e as cenas 1 e 2. Todo o `frontend/src/`, principalmente `api.js`, `data/daApi.js`, `sessao.jsx`, `data/governanca.js` (`PERFIS`), `pages/Entrar.jsx`, `pages/Perfil.jsx`, `components/AppShell.jsx` e `components/Post.jsx`.
+**Ler antes.** `AGENTS.md`. No `CLAUDE.md`, "Design system". O `design-system/readme.md`. No [docs/api.md](api.md), "Regras gerais", "Tipos", "Sessão" e "Catálogo". Todo o `frontend/src/`, principalmente `api.js`, `data/daApi.js`, `sessao.jsx`, `data/governanca.js` (`PERFIS`), `pages/Entrar.jsx`, `pages/Perfil.jsx`, `components/AppShell.jsx` e `components/Post.jsx`.
 
 **Já decidido.**
-- Os dois perfis de entrada continuam. "Membro do squad" é o `u-rafael` (Rafael Nunes, Dev pleno, Pix · Cobranças). "Coordenação" é a `u-juliana` (Juliana Prado, Pix · Cobranças). Quem entra com Google continua como Coordenação (T-41).
+- Os dois perfis de entrada continuam. A pessoa de cada um é a do `usuarioId` em `PERFIS` (`data/governanca.js`): hoje `u-rafael` em "Membro do squad" e `u-juliana` em "Coordenação". O roteiro do vídeo está mudando: trocar a pessoa de um perfil tem de ser só trocar o `usuarioId`. Nenhum nome de pessoa fica escrito no código da tela. Quem entra com Google continua como Coordenação (T-41).
 - Nome, cargo, squad, papel e foto da pessoa vêm de `GET /api/usuarios` (o `listarUsuarios` já existe no `api.js`), convertidos por `pessoaDaApi`. Valem na entrada, no topo e no perfil.
 - O perfil lê da API:
   - a pessoa pelo id do contrato (`u-marina`), de `GET /api/usuarios`;
@@ -414,13 +414,13 @@ Isso aparece no vídeo (cena 2, passo 6: "Login simulado como Juliana") e trava 
 **Pronto quando.**
 - Em `frontend/`, `npm run lint` e `npm run build` passam.
 - Com o back local em memória, o relatório traz prints de:
-  - a tela de entrada com Rafael Nunes e Juliana Prado;
+  - a tela de entrada com a pessoa da API em cada perfil (hoje Rafael Nunes e Juliana Prado);
   - o topo com a pessoa certa em cada perfil;
   - o perfil da Marina, aberto pelo autor de um card, com os ativos e os números da API;
   - o perfil do Rafael e a fila da Juliana.
 - Nenhum clique a partir do feed, da página do ativo, da fila e do perfil leva a "não encontrado". O relatório lista os caminhos testados.
-- Cena 2 pela tela: crie o rascunho e envie pela API local, com `curl`, como o Rafael. Depois, entre como Juliana, aprove na fila e confira "Aprovado por Juliana Prado" e o ativo no feed.
-- A `feat/elenco-no-front` tem push, sem PR.
+- Aprovação pela tela: crie um rascunho e envie pela API local, com `curl`, como a pessoa de "Membro do squad". Depois, entre como "Coordenação", aprove na fila e confira o nome de quem aprovou e o ativo no feed.
+- A `feat/pessoas-da-api` tem push, sem PR.
 
 **Relatório.** Arquivos mudados, os prints, o que ficou nos dados fictícios e por quê.
 
