@@ -30,8 +30,9 @@ O gargalo é revisar e juntar sem conflito. Por isso: poucas sessões, bem delim
 | [DV-6](#dv-6-servidor-mcp) | Servidor MCP com as seis ferramentas do contrato | T-12 | Agora, em paralelo com a DV-5 | Bruno |
 | [DV-7](#dv-7-back-rápido-no-supabase) | Back rápido no Supabase: feed, detalhe e fila sem consulta repetida | T-42 | Agora, em paralelo com a DV-8 | Alexandre |
 | [DV-8](#dv-8-pessoas-da-api-no-front) | Pessoas da API no front: a pessoa da tela é a que a API vê, e o perfil lê da API | T-43 | Agora, com o OK do Alexandre | Bruno |
+| [DV-9](#dv-9-harness-no-itaú-house) | Harness no Itaú House: o primeiro ativo real do catálogo, instalável a partir de lá | T-44 | Agora, em paralelo com a DV-7 e a DV-8 | Alexandre |
 
-Ordem: DV-1 e DV-3 feitas em 27/09. DV-5 e DV-6 juntas, porque ficam em pastas diferentes (`backend/` e `mcp/`). DV-2 feita em 27/09, depois da DV-5 juntada. DV-7 e DV-8 juntas, pelo mesmo motivo (`backend/` e `frontend/`). DV-4 por último, depois do T-15 e da DV-8, para conferir o site como a banca e um gestor vão ver.
+Ordem: DV-1 e DV-3 feitas em 27/09. DV-5 e DV-6 juntas, porque ficam em pastas diferentes (`backend/` e `mcp/`). DV-2 feita em 27/09, depois da DV-5 juntada. DV-7 e DV-8 juntas, pelo mesmo motivo (`backend/` e `frontend/`). A DV-9 roda junto: fica no `seed.json`, em `supabase/` e num teste novo. DV-4 por último, depois do T-15 e da DV-8, para conferir o site como a banca e um gestor vão ver.
 
 ## O que não vai para o Devin
 
@@ -82,7 +83,12 @@ Um brief só roda com os itens dele marcados. Quem abre a sessão confere.
 
 **DV-8 (pessoas da API no front)**
 - [x] DV-2 juntada na `main` em 27/09: `GET /api/usuarios` e `GET /api/ativos` respondem com o seed.
-- [ ] Alexandre de acordo: o Devin pega esta parte do T-16, e ele não mexe em `frontend/src/` durante a sessão. Ele juntou mudanças no front às 4h30 de 27/09: combinar antes. Quem valida é o Bruno, que grava os vídeos.
+- [x] Alexandre de acordo: o Devin pega esta parte do T-16, e ele não mexe em `frontend/src/` durante a sessão. Liberado pelo Vicente em 27/09: o Alexandre está dormindo, e o último commit dele no front (4h34) já está na `main`, sem branch pendente. Quem valida é o Bruno, que grava os vídeos.
+
+**DV-9 (harness no Itaú House)**
+- [x] O validador aprova os arquivos do plugin. Conferido pelo Claude em 27/09: 40 arquivos, 140 KB, `aprovado`.
+- [ ] Vicente autoriza o nome dele nos arquivos do plugin (`plugin.json`, `marketplace.json`, `LICENSE`, `pyproject.toml` e as URLs do `README.md`). É exceção à regra de nomes fictícios: ele é o autor, o repositório já é público, e a licença MIT pede o aviso de copyright nas cópias. Sem a exceção, os arquivos saem sem o nome e deixam de ser idênticos ao commit.
+- [ ] O `seed.json` é do Bruno (T-04). Liberado pelo Bruno ou pelo Vicente, e o Bruno não mexe no seed durante a sessão.
 
 ### Manter o Render acordado
 
@@ -423,6 +429,55 @@ Isso aparece em qualquer vídeo que mostre a plataforma e trava quem abrir o lin
 - A `feat/pessoas-da-api` tem push, sem PR.
 
 **Relatório.** Arquivos mudados, os prints, o que ficou nos dados fictícios e por quê.
+
+### DV-9: Harness no Itaú House
+
+**Kanban:** T-44. **Branch:** `feat/harness-no-catalogo`. **Requisitos:** RF-17, RF-27, RF-29, RNF-03 e RNF-05. **Decisão:** [0020](../memoria/decisions/0020-harness-do-time.md).
+
+**Objetivo.** Pôr o `harness-hacka` no catálogo como o primeiro ativo real do Itaú House, e provar que ele funciona instalado a partir de lá. Hoje todos os ativos são fictícios. O harness é o plugin que o time usa para construir o próprio Itaú House, e a decisão 0020 já diz que ele "é também um exemplo de ativo que iria para o Itaú House". É público, com licença MIT, em `https://github.com/vicente-magalhaes/harness-hacka`.
+
+**Ler antes.** `AGENTS.md`. A decisão 0020. No [docs/api.md](api.md), "Tipos" e "Publicação". `backend/app/dados/seed.json`, `supabase/gerar_seed_sql.py`, `backend/app/validador.py` e `backend/tests/`. No harness: `README.md`, `.claude-plugin/`, `hooks/hooks.json`, `bin/` e `src/harness_hacka/`. No plugin do Itaú House, a seção "Descoberta" do `plugin/skills/itau-house/SKILL.md`: quando a pessoa escolhe **usar**, o agente segue o `manualInstalacao` do ativo.
+
+**Já decidido.**
+- Fonte: o commit `6f35354792308ec00e4d066d52599fe8c618a6e3` do repositório público. Clone sem credencial.
+- O ativo entra no seed (`backend/app/dados/seed.json`) com o id `a-harness-hacka`, e o `supabase/seed.sql` sai de novo do gerador, sem mudar o gerador. Assim ele sobrevive ao reset da demo e aparece para a busca, que ainda lê o seed.
+- Os arquivos são os que o plugin precisa para rodar, idênticos aos do commit: `.claude-plugin/`, `hooks/`, `bin/`, `skills/`, `agents/`, `src/harness_hacka/` (com `templates/` e `profiles/`), `README.md`, `LICENSE` e `pyproject.toml`. Ficam fora `.git/`, `.github/`, `memory/` (a memória do repositório do harness), `tests/`, `.claude/`, `CLAUDE.md`, `uv.lock`, `.gitignore` e `.gitattributes`. São cerca de 40 arquivos, 140 KB.
+- Um script refaz a entrada a partir de um clone: `supabase/empacotar_harness.py <pasta do clone>`. Ele troca só a entrada `a-harness-hacka` do `seed.json`, e rodar duas vezes dá o mesmo resultado.
+- Quem publica no catálogo é uma persona fictícia: a Camila Duarte (`u-camila`), Dev sênior da Plataforma · Core, que já publica as ferramentas de plataforma do seed. O post diz que o plugin é de código aberto (MIT) e que a squad dela o publicou no Itaú House. Nenhum nome real no texto do post.
+- `tipo: harness`, `visibilidade: banco`, `ferramentas: ["Claude Code"]` e `versao` igual à do `pyproject.toml`. Status `publicado`, com o mesmo `aprovadoPorId` dos outros ativos da Camila no seed.
+- Números reais, não inventados: `curtidas`, `instalacoes` e `derivacoes` em 0, `usos` e `squadsQueReusaram` vazios. Datas de 27/09/2026.
+- O `readme` (texto do post) e o `manualInstalacao` saem do README do harness, em pt-BR, falando com "você". Os `acessos` são conferidos no código: que pastas lê e escreve, que hooks roda e quando, se lê o git, se usa rede. Nada que o código não faça.
+- O `manualInstalacao` instala a partir dos arquivos do Itaú House, sem depender do GitHub:
+  1. salvar os arquivos do ativo numa pasta, mantendo os caminhos. Quando a pessoa escolhe **usar**, o agente faz isso com `detalhar_ativo`;
+  2. adicionar a pasta como marketplace local e instalar o plugin: `/plugin marketplace add <pasta>` e `/plugin install harness-hacka@harness-hacka`, ou os comandos equivalentes de `claude plugin`;
+  3. reiniciar o Claude Code e rodar `/harness-hacka:init` no projeto.
+
+  Requisito: Python 3.10 ou mais novo no PATH. O plugin não tem dependência. Se o Claude Code instalar na sua máquina (`npm i -g @anthropic-ai/claude-code`), confira a sintaxe com `claude plugin --help` e rode `claude plugin validate` na pasta. Sem login e sem chave.
+
+**Não faça.**
+- Não mude o harness nem abra PR no repositório dele. Se algo nele impedir a publicação, pare e explique.
+- Não mexa no validador, na busca (`busca.py`, `api_busca.py`, `respostas_gravadas.json`), no front, no MCP, no plugin, nas migrações, no deploy nem no CI.
+- Não mude as outras entradas do seed.
+- Não rode nada contra o Supabase do time nem publique no site de produção. O reset em produção é de uma pessoa, depois do merge.
+- Não use chave da Anthropic nem faça login no Claude Code.
+
+**Pronto quando.**
+- Um teste em `backend/tests/` roda o `validador.validar` sobre os `arquivos` do `a-harness-hacka` e espera `aprovado`.
+- Com o back local em memória, o feed do Rafael traz o harness, e `GET /api/ativos/a-harness-hacka` traz os arquivos, o `readme`, o `manualInstalacao` e os `acessos`.
+- Instalado a partir do Itaú House, ele funciona. Um teste, sem rede, grava numa pasta temporária os arquivos que `GET /api/ativos/a-harness-hacka` devolve e confere que:
+  - `python <pasta>/bin/harness-hacka.py init`, num projeto vazio, cria a config e a pasta de memória;
+  - o hook de início de sessão (`python <pasta>/bin/harness-hacka.py hook session-start`) roda nesse projeto e devolve o resumo da memória.
+- Os arquivos gravados são iguais aos do commit. Confira uma vez contra o clone e ponha o resultado no relatório.
+- Rodar o `supabase/empacotar_harness.py` duas vezes não muda o `seed.json`, e o `seed.sql` saiu do gerador.
+- Numa base Supabase local (`supabase start`, `supabase db reset` e `supabase/reset_demo.sh`), o seed novo sobe sem erro e o harness aparece no feed.
+- Em `backend/`, `uv run pytest`, `uv run ruff check .` e `uv run ruff format --check .` passam. Se um teste contava os ativos do seed, atualize o número e explique no relatório.
+- A `feat/harness-no-catalogo` tem push, sem PR.
+
+**Relatório.**
+- Os arquivos publicados e os que ficaram fora, com o motivo.
+- O texto do post, do manual e dos acessos, para o Vicente revisar.
+- O resultado da comparação com o commit.
+- O que uma pessoa faz depois do merge, com os comandos: o reset em produção e o teste de ponta a ponta no Claude Code.
 
 ## Registro das sessões
 
