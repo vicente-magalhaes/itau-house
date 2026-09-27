@@ -38,6 +38,7 @@ citadas como D-01 a D-28. O número é o mesmo: D-12 é a 0012. A migração est
 | [0027](0027-guia-dos-mentores-como-referencia.md) | Guia dos mentores como referência principal | accepted |
 | [0028](0028-front-da-demo-em-frontend.md) | Front da demo em frontend/, no estilo do Reddit | accepted |
 | [0029](0029-decisoes-em-arquivos.md) | Decisões em arquivos, uma por decisão | accepted |
+| [0030](0030-agente-da-pessoa-adapta-e-monta-o-post.md) | O agente da pessoa adapta o ativo e escreve o post | proposed |
 <!-- /harness-hacka:decisions -->
 
 | Status | Quer dizer |

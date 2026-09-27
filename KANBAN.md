@@ -27,8 +27,8 @@ O Claude rascunha textos (ficha, Q&A, pesquisa, catálogo) quando pedido. Sempre
 
 ## Ordem de cada um
 
-- **Bruno:** T-02 → T-03 → T-04 → T-10 → T-11 → T-13 → T-14 → T-24 → T-30 (vídeo completo)
-- **Vicente:** T-05 → T-06 → T-07 → T-12 → T-15 → T-25 → T-34 → T-35
+- **Bruno:** T-02 → T-03 → T-04 → T-05 (assumida do Vicente) → T-10 → T-11 → T-13 → T-14 → T-24 → T-30 (vídeo completo) → T-37 (secundária)
+- **Vicente:** T-06 → T-07 → T-12 → T-15 → T-25 → T-34 → T-35
 - **Alexandre:** T-16 → T-17 → T-18 → T-19 → T-20 → T-24
 - **JP:** T-01 → T-22 → T-23 → T-26 → T-27 → T-28 → T-29 → T-31 → T-32 → T-33 → T-36 → T-35
 
@@ -50,7 +50,7 @@ O Claude rascunha textos (ficha, Q&A, pesquisa, catálogo) quando pedido. Sempre
 | T-02 | Roteiro da demo: cena 1 (acha skill da PM e adapta) e cena 2 (cria, validador barra, corrige, coordenadora aprova) | Passo a passo com falas, telas e dados de cada clique em `docs/roteiro-demo.md` | Bruno | JP | — | todos P0 | Fazendo |
 | T-03 | Contrato da API: rotas, entradas e saídas em JSON | `docs/api.md` revisado por Vicente e Alexandre | Bruno | Vicente, Alexandre | T-02 | RF-05 a RF-32 | Fazendo |
 | T-04 | Catálogo fictício: squads, usuários (papéis, Cord+/−), 15 a 20 ativos inspirados em retrabalho real. Inclui a skill da PM da cena 1 e um ativo de alcance "squad" de outra squad (teste do RF-05) | Arquivo de seed no formato do T-03 | Bruno | JP (história), Vicente (formato) | T-03 | RNF-03, RNF-04 | Fazendo |
-| T-05 | Banco no Supabase: schema do modelo de dados da PRD (seção 10) | Tabelas criadas, `.env.example` com os nomes das variáveis | Vicente | Bruno | — | PRD §10 | A fazer |
+| T-05 | Banco no Supabase: schema do modelo de dados da PRD (seção 10) | Tabelas criadas, `.env.example` com os nomes das variáveis | Bruno | Vicente | — | PRD §10 | Fazendo |
 | T-16 | Base do front: design system ligado, layout, aviso de protótipo, login simulado com troca de usuário | Tela de login escolhe usuário fictício e mostra perfil | Alexandre | Bruno | — | RF-23, RF-24, RNF-06 | Fazendo |
 | T-22 | Entrevista com um dev do Itaú no evento | Registro em `docs/03` com papel, data, alcance e limite. Frase de recorte revisada | JP | Bruno | — | A-13 | A fazer |
 
@@ -80,6 +80,7 @@ O Claude rascunha textos (ficha, Q&A, pesquisa, catálogo) quando pedido. Sempre
 | T-24 | Ensaio da demo ponta a ponta no build de produção, seguindo o roteiro | Duas execuções seguidas sem erro, cronometradas | Bruno | JP | T-13, T-15 | todos P0 | A fazer |
 | T-25 | Limpeza de dados de teste e reset rápido do estado da demo | Um comando volta o banco ao estado inicial do roteiro | Vicente | Bruno | T-15 | RNF-04 | A fazer |
 | T-27 | Teste com pessoa de fora do time: tenta completar o fluxo | Registro: quem (papel), onde travou, o que entendeu, o que mudamos depois | JP | Bruno | M2 | A-10 | A fazer |
+| T-37 | Secundária. Identidade do catálogo: temas das skills, nomes das pessoas, fotos. Detalhe que surpreende a banca | Seed revisado em `backend/app/dados/seed.json`, `seed.sql` gerado de novo, fotos fictícias ou geradas, sem pessoa real | Bruno | JP | T-04 | RNF-03, RNF-06 | A fazer |
 
 ## Fase 3: apresentação e envio (amanhã, até a submissão)
 
