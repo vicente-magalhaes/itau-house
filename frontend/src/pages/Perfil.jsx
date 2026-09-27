@@ -29,7 +29,7 @@ export function Perfil({ id }) {
   return (
     <div className="stack stack-6">
       <section className="perfil-topo">
-        <Foto pessoa={pessoa} tamanho={96} anel />
+        <Foto pessoa={pessoa} tamanho={96} />
         <div className="stack stack-2" style={{ flex: '1 1 280px', alignItems: 'flex-start' }}>
           <span className="selo" style={{ background: 'var(--ih-bg)', color: 'var(--ih-ink)', cursor: 'default' }}>
             {pessoa.papel}

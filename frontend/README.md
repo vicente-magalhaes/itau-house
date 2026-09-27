@@ -30,7 +30,7 @@ npm run lint     # oxlint
 | UI | React 19 | Telas em JSX, como os componentes de `design-system/components/`. |
 | Tipos | TypeScript com `allowJs` | O `tsc -b` aceita as telas `.jsx` sem checá-las. Código novo pode ser `.tsx`; o design system tem `.d.ts` para cada componente. |
 | Rotas | roteador por hash, em `src/router.jsx` | Sem dependência nova. Funciona em qualquer hospedagem estática e no nginx do build de produção. |
-| Estado | `useState` e um contexto de sessão | Os dados ainda não vêm da API. A sessão guarda perfil, tema, curtidas, filtros e o recado da tela. |
+| Estado | `useState` e um contexto de sessão | Os dados ainda não vêm da API. A sessão guarda perfil, curtidas, filtros e o recado da tela. |
 | Dados | arquivos em `src/data/` | Fictícios, até as rotas do T-06 e do T-07 existirem. |
 
 ## Design system
@@ -39,23 +39,24 @@ O front **não** tem cores, fontes ou espaçamentos próprios. Tudo vem do `desi
 
 - `src/main.tsx` importa `../../design-system/styles.css` (tokens, fontes Mulish, base).
 - `src/ds.js` é a ponte única para os componentes. Importe sempre de lá.
-- `src/app.css` tem os tokens do tema (`--ih-*`, claro e escuro) e as classes de layout (`stack-N`, `row-N`, `topo`, `card-ativo`, `painel`, `btn`…), escritas apenas com tokens.
-- O tema escuro vale com `data-theme="escuro"` no `<html>`. Ele também troca os tokens semânticos do design system, e os componentes do DS usados aqui seguem esses tokens.
+- `src/app.css` tem as cores do redesign (`--ih-*`, apontando para tokens do DS) e as classes de layout (`stack-N`, `row-N`, `topo`, `card-ativo`, `painel`, `btn`…), escritas apenas com tokens. Só tema claro: a marca pede fundo branco dominante.
 - O logo é servido de `public/assets/logo/`, usado pelo componente `Logo` com `basePath="/"`.
 
 Regras que valem para qualquer tela nova: só token para cor, fonte, raio, sombra e espaçamento; nunca vermelho, roxo ou gradiente; erro em `var(--status-error)` (azul-marinho) com ícone; um botão primário por tela; texto em pt-BR falando com "você".
 
-Botões têm 36px. O primário é o `Button` do DS (`variant="primary" size="sm"`). O secundário é o `BotaoSec` de `components/comuns.jsx`: o `outline` e o `ghost` do DS fixam texto preto e somem no modo escuro.
+Botões têm 36px. O primário é o `Button` do DS (`variant="primary" size="sm"`), **um por tela**: é a ação principal da página e o único laranja além do logo. O "Publicar" do topo é secundário por isso. O secundário é o `BotaoSec` de `components/comuns.jsx`, com borda fina.
+
+Onde o laranja aparece: logo, botão primário, ícone do tipo do ativo (sobre branco, porque sobre cinza fica abaixo de 3:1), uma palavra do título do início e estados (curtido, "também quero", hover). Ícones de apoio, passos e barras ficam em preto ou cinza. Cards são brancos com borda fina, sem capa colorida.
 
 ## Telas
 
-Redesign feito no Claude Design (`Itau House.dc.html`): topo com navegação, sem lateral. O catálogo atende PM, design, engenharia, dados e negócio, não só dev. Tema claro e escuro no topo.
+Redesign feito no Claude Design (`Itau House.dc.html`): topo com navegação, sem lateral. O catálogo atende PM, design, engenharia, dados e negócio, não só dev, mas só com os tipos que o hook reconhece (RF-03): skill, prompt, agente, MCP, framework, componente e esqueleto de código.
 
 | Rota | Tela | O que mostra no fluxo do case |
 |---|---|---|
 | `#/entrar` | Entrada | SSO **simulado** (RF-23). O perfil (Membro do squad / Coordenação) troca o que a interface mostra (RF-24). |
-| `#/` | Início | Busca em linguagem natural, filtros por estante, papel e ordem (RF-26), cards por popularidade (RF-25) com curtir (RF-28). Lateral com pedidos abertos e quem mais foi reaproveitado. |
-| `#/ativo/:id` | Ativo | Capa, usar, adaptar, curtir. "Usar em" com os passos de cada ferramenta, o que tem dentro, árvore de adaptações, reaproveitamento por papel (RF-30) e governança (RF-22) (RF-27). |
+| `#/` | Início | Busca em linguagem natural, filtros por estante, papel e ordem (RF-26): Em alta, Mais curtidos, Mais reaproveitados, Mais adaptados e Novos. Cards por popularidade (RF-25) com curtir (RF-28). Lateral com pedidos abertos e os ativos mais reaproveitados, com a foto de quem criou. |
+| `#/ativo/:id` | Ativo | Capa, usar, adaptar, curtir. **O que ele acessa**, como as permissões de um aplicativo, e a confirmação "Entendi o que este ativo acessa" antes de usar (RF-29). "Usar em" com os passos de cada ferramenta, o que tem dentro, árvore de adaptações, reaproveitamento por papel (RF-30) e governança (RF-22) (RF-27). |
 | `#/pedidos` | Pedidos | O que alguém procurou e não achou. "Também quero" e "Eu crio". |
 | `#/perfil`, `#/perfil/:id` | Perfil | O que a pessoa publicou, reaproveitamentos, papéis alcançados, adaptações e quem adaptou. "Sair" fica no próprio perfil. |
 | `#/publicar` | Publicar | Hook detecta → validador barra com o que, onde e como corrigir → correção → passa → post com prévia do card → fila. |
@@ -63,7 +64,7 @@ Redesign feito no Claude Design (`Itau House.dc.html`): topo com navegação, se
 | `#/coord/dados` | Dados | Só Coordenação: curtidas, reaproveitamentos, adaptações, por frente, tabela por ativo e trilha de cada um (RF-30, RF-22). |
 
 O alcance vale no início, no perfil e na página do ativo (RF-05): ativo de squad só aparece para a própria squad; ativo de frente, só para a mesma frente. Na demo, todo ativo tem alcance "Banco inteiro".
-Curtidas e tema ficam no `localStorage`; as curtidas, uma por perfil por ativo.
+Curtidas ficam no `localStorage`, uma por perfil por ativo.
 
 ## O que é real e o que é simulado
 
@@ -74,6 +75,7 @@ Tudo o que está simulado aparece marcado em tela com o selo **Simulado** (compo
 | Navegação, filtros, busca, estados das telas | Real, roda no navegador |
 | Catálogo de ativos, pessoas, squads, pedidos, números de reuso | **Fictício** (`src/data/catalogo.js`) |
 | Fotos das pessoas | Retratos do randomuser.me, carregados da internet. Sem rede, a `Foto` mostra as iniciais |
+| O que cada ativo acessa | **Fictício**, declarado no catálogo. O uso que ele confirma é simulado |
 | Usar, adaptar, "Usar em", fazer pedido, "Eu crio" | **Simulados**: só mudam contadores e mostram um recado |
 | Resultado do validador | **Simulado**: roteiro fixo em `src/data/governanca.js`. O validador real faz só checagens fixas por código, sem IA (RF-14, D-26) |
 | Detecção por hook na ferramenta de código | **Simulado** em tela |
@@ -92,10 +94,10 @@ frontend/
    ├─ main.tsx             importa o design system e monta o app
    ├─ App.jsx              rotas
    ├─ router.jsx           roteador por hash e o componente Link
-   ├─ sessao.jsx           perfil, login simulado, tema, curtidas, usados, pedidos, busca e filtros
+   ├─ sessao.jsx           perfil, login simulado, curtidas, usados, pedidos, busca e filtros
    ├─ ds.js                ponte para os componentes do design system
    ├─ app.css              utilitários de layout, só com tokens
-   ├─ components/          AppShell (topo), Post (card de ativo e Gostei), peças comuns (Foto, BotaoSec, Recado)
+   ├─ components/          AppShell (topo), Post (card de ativo e Gostei), Filtro (lista no padrão dos botões), peças comuns (Foto, BotaoSec, Recado)
    ├─ data/                catálogo, pedidos e roteiro de governança, fictícios
    └─ pages/               uma tela por arquivo
 ```

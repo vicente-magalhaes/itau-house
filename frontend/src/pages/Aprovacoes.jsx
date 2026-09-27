@@ -3,7 +3,7 @@ import { Button, IconButton, Icon, Badge, Tabs, Dialog, Toast, Input } from '../
 import { Avatar, BotaoSec, SeloSimulado, Vazio, Aviso } from '../components/comuns.jsx';
 import { useSessao } from '../sessao.jsx';
 import { filaAprovacao } from '../data/governanca.js';
-import { iconeEstante } from '../data/catalogo.js';
+import { iconeTipo } from '../data/catalogo.js';
 
 // Fila do Cord+ (RF-32): aprovar (RF-19) ou devolver com motivo (RF-21).
 // O validador só faz checagens fixas por código; quem julga é o coordenador (D-13, D-26).
@@ -48,7 +48,7 @@ function ItemFila({ item, aberto, aoAlternar, aoAprovar, aoDevolver, aoRecusar }
   return (
     <div className="caixa stack stack-4">
       <div className="row row-3">
-        <Icon name={iconeEstante(item.estante)} size={20} label={item.tipo} />
+        <Icon name={iconeTipo(item.tipo)} size={20} label={item.tipo} />
         <div className="stack stack-1 grow">
           <span className="strong">{item.nome}</span>
           <span className="post-meta">
@@ -104,7 +104,7 @@ function ItemDecidido({ registro }) {
   return (
     <div className="caixa stack stack-2">
       <div className="row row-3">
-        <Icon name={iconeEstante(registro.item.estante)} size={18} color="var(--text-tertiary)" />
+        <Icon name={iconeTipo(registro.item.tipo)} size={18} color="var(--text-tertiary)" />
         <span className="strong grow">{registro.item.nome}</span>
         <Badge tone={d.tone}>{d.rotulo}</Badge>
       </div>

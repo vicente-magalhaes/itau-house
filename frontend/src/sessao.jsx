@@ -23,7 +23,6 @@ const FILTROS_INICIAIS = { estante: 'tudo', papel: 'todos', ordem: 'alta' };
 export function SessaoProvider({ children }) {
   const [perfil, setPerfil] = React.useState(() => localStorage.getItem('ih.perfil') || 'dev');
   const [entrou, setEntrou] = React.useState(() => localStorage.getItem('ih.entrou') === 'sim');
-  const [tema, setTema] = React.useState(() => (localStorage.getItem('ih.tema') === 'escuro' ? 'escuro' : 'claro'));
   const [usados, setUsados] = React.useState([]);
   const [curtidos, setCurtidos] = React.useState(() => lerCurtidos(localStorage.getItem('ih.perfil') || 'dev'));
   const [querem, setQuerem] = React.useState([]);
@@ -31,14 +30,6 @@ export function SessaoProvider({ children }) {
   const [busca, setBusca] = React.useState('');
   const [filtros, setFiltros] = React.useState(FILTROS_INICIAIS);
   const [recado, setRecado] = React.useState(null);
-
-  // O tema vale para a página inteira: os tokens do design system mudam no <html>.
-  React.useLayoutEffect(() => {
-    document.documentElement.dataset.theme = tema;
-    localStorage.setItem('ih.tema', tema);
-  }, [tema]);
-
-  const trocarTema = React.useCallback(() => setTema((t) => (t === 'escuro' ? 'claro' : 'escuro')), []);
 
   // Recado curto no rodapé da tela. Some sozinho.
   const temporizador = React.useRef(null);
@@ -96,8 +87,6 @@ export function SessaoProvider({ children }) {
       rotuloPerfil: def.rotulo,
       ehCoordenador: perfil === 'coordenador',
       entrou,
-      tema,
-      trocarTema,
       usados,
       curtidos,
       querem,
@@ -119,7 +108,7 @@ export function SessaoProvider({ children }) {
       curtidasDe,
       reusosDe,
     };
-  }, [perfil, entrou, tema, trocarTema, usados, curtidos, querem, criando, busca, filtros, limparFiltros, recado, avisar, trocarPerfil, entrar, sair, usar, curtir, querer, criar, curtidasDe, reusosDe]);
+  }, [perfil, entrou, usados, curtidos, querem, criando, busca, filtros, limparFiltros, recado, avisar, trocarPerfil, entrar, sair, usar, curtir, querer, criar, curtidasDe, reusosDe]);
 
   return <SessaoContext.Provider value={valor}>{children}</SessaoContext.Provider>;
 }

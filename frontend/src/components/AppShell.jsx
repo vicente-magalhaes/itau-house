@@ -1,5 +1,5 @@
 import React from 'react';
-import { Logo, Icon, Button } from '../ds.js';
+import { Logo, Icon } from '../ds.js';
 import { Foto, BotaoSec, Recado } from './comuns.jsx';
 import { useSessao } from '../sessao.jsx';
 import { Link, irPara } from '../router.jsx';
@@ -28,10 +28,8 @@ function ItemNav({ para, rotulo, icone, contador, ativo }) {
 }
 
 export function AppShell({ rota, children }) {
-  const { pessoa, ehCoordenador, tema, trocarTema, limparFiltros, recado } = useSessao();
+  const { pessoa, ehCoordenador, limparFiltros, recado } = useSessao();
   const itens = ehCoordenador ? [...NAV, ...NAV_COORDENACAO] : NAV;
-  const escuro = tema === 'escuro';
-  const rotuloTema = escuro ? 'Ativar modo claro' : 'Ativar modo escuro';
 
   return (
     <div>
@@ -62,12 +60,10 @@ export function AppShell({ rota, children }) {
 
         <span className="topo-espaco" />
 
-        <BotaoSec icone={escuro ? 'sun' : 'moon'} onClick={trocarTema} aria-label={rotuloTema} title={rotuloTema}>
-          <span className="some-no-estreito">{escuro ? 'Claro' : 'Escuro'}</span>
-        </BotaoSec>
-        <Button variant="primary" size="sm" iconLeft="plus" onClick={() => irPara('/publicar')}>
+        {/* Secundário de propósito: o único laranja da tela é a ação principal da página. */}
+        <BotaoSec icone="plus" onClick={() => irPara('/publicar')}>
           Publicar
-        </Button>
+        </BotaoSec>
         <button type="button" className="topo-foto" title={pessoa.nome} aria-label={`Seu perfil, ${pessoa.nome}`} onClick={() => irPara('/perfil')}>
           <Foto pessoa={pessoa} tamanho={36} />
         </button>

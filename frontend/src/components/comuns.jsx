@@ -41,7 +41,7 @@ export function Foto({ pessoa, tamanho = 40, anel, className = '', style }) {
   return <img src={pessoa.foto} alt="" width={tamanho} height={tamanho} className={classes} style={{ width: tamanho, height: tamanho, ...style }} onError={() => setFalhou(true)} />;
 }
 
-// Botão secundário do redesign. O outline do DS fixa texto preto e some no modo escuro.
+// Botão secundário do redesign: 36px e borda fina, como o primário do DS em tamanho sm.
 export function BotaoSec({ icone, children, onClick, type = 'button', className = '', ...resto }) {
   return (
     <button type={type} className={('btn btn-sec ' + className).trim()} onClick={onClick} {...resto}>

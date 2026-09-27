@@ -1,41 +1,21 @@
 import React from 'react';
 import { Button, Icon } from '../ds.js';
 import { Foto } from '../components/comuns.jsx';
+import { Filtro } from '../components/Filtro.jsx';
 import { PostCard } from '../components/Post.jsx';
 import { irPara } from '../router.jsx';
 import { useSessao } from '../sessao.jsx';
-import { ativos, pessoas, pedidos, ESTANTES, PAPEIS, ORDENS, ordenar, buscar, visivelPara } from '../data/catalogo.js';
+import { ativos, pedidos, ESTANTES, PAPEIS, ORDENS, ordenar, buscar, visivelPara } from '../data/catalogo.js';
 
 const OPCOES_ESTANTE = [{ value: 'tudo', label: 'Todas as estantes' }, ...Object.entries(ESTANTES).map(([value, e]) => ({ value, label: e.nome }))];
 const OPCOES_PAPEL = [{ value: 'todos', label: 'Todos os papéis' }, ...PAPEIS.map((p) => ({ value: p, label: p }))];
-const PUBLICARAM = ['carla', 'bruno', 'juliana', 'pedro', 'marcos', 'leticia'].map((id) => pessoas[id]);
 
-function Filtro({ rotulo, valor, opcoes, onChange }) {
-  return (
-    <label className="filtro">
-      <select aria-label={rotulo} value={valor} onChange={(e) => onChange(e.target.value)}>
-        {opcoes.map((o) => (
-          <option key={o.value} value={o.value}>
-            {o.label}
-          </option>
-        ))}
-      </select>
-      <span className="filtro-seta">
-        <Icon name="chevron-down" size={16} />
-      </span>
-    </label>
-  );
-}
-
-// Pedidos abertos e quem mais foi reaproveitado. Fica fixa ao rolar.
+// Pedidos abertos e os ativos mais reaproveitados. Fica fixa ao rolar.
 function Lateral({ visiveis }) {
-  const { querem } = useSessao();
-  const totais = {};
-  visiveis.forEach((a) => {
-    totais[a.autor.id] = (totais[a.autor.id] || 0) + a.reusos;
-  });
-  const top = Object.keys(totais)
-    .sort((x, y) => totais[y] - totais[x])
+  const { querem, reusosDe } = useSessao();
+  const top = visiveis
+    .slice()
+    .sort((a, b) => reusosDe(b) - reusosDe(a))
     .slice(0, 5);
 
   return (
@@ -61,20 +41,21 @@ function Lateral({ visiveis }) {
       </div>
 
       <div className="painel">
-        <h2 className="titulo-card">Mais reaproveitados do mês</h2>
-        {top.map((id) => {
-          const p = pessoas[id];
-          return (
-            <button key={id} type="button" className="linha-pessoa" onClick={() => irPara('/perfil/' + id)}>
-              <Foto pessoa={p} tamanho={40} />
-              <span className="stack stack-1 grow">
-                <span className="nome">{p.nome}</span>
-                <span className="meta">{p.cargo}</span>
+        <h2 className="titulo-card">Mais reaproveitados</h2>
+        {top.map((a) => (
+          <button key={a.id} type="button" className="linha-pessoa" onClick={() => irPara('/ativo/' + a.id)}>
+            <Foto pessoa={a.autor} tamanho={40} />
+            <span className="stack stack-1 grow">
+              <span className="nome">{a.titulo}</span>
+              <span className="meta">
+                {a.autor.primeiro} · {a.autor.papel}
               </span>
-              <span className="nome">{totais[id]}</span>
-            </button>
-          );
-        })}
+            </span>
+            <span className="nome" title="Reaproveitamentos">
+              {reusosDe(a)}
+            </span>
+          </button>
+        ))}
       </div>
     </aside>
   );
@@ -99,28 +80,22 @@ export function Feed() {
     ? `${lista.length} ${lista.length === 1 ? 'resultado' : 'resultados'} pra "${termo}"`
     : filtros.estante !== 'tudo'
       ? ESTANTES[filtros.estante].nome
-      : 'Em alta no banco';
+      : filtros.ordem === 'alta'
+        ? 'Em alta no banco'
+        : ORDENS.find((o) => o.value === filtros.ordem).label;
 
   return (
     <div className="colunas">
       <div className="coluna-principal">
         <section className="stack stack-4">
-          <div className="row wrap" style={{ gap: 'var(--space-2) var(--space-4)' }}>
-            <span className="nome" style={{ color: 'var(--ih-ink2)' }}>Oi, {pessoa.primeiro}</span>
-            <span className="row row-2">
-              <span className="pilha-fotos">
-                {PUBLICARAM.map((p) => (
-                  <Foto key={p.id} pessoa={p} tamanho={24} />
-                ))}
-              </span>
-              <span className="meta">38 pessoas publicaram esta semana</span>
-            </span>
-          </div>
+          <span className="nome" style={{ color: 'var(--ih-ink2)' }}>
+            Oi, {pessoa.primeiro}
+          </span>
           <h1 className="titulo-pagina">
             O que você vai <span className="destaque">criar hoje?</span>
           </h1>
           <label className="busca">
-            <Icon name="search" size={20} color="var(--brand)" />
+            <Icon name="search" size={20} color="var(--ih-ink3)" />
             <span className="sr-only">Buscar no Itaú House</span>
             <input value={busca} onChange={(e) => setBusca(e.target.value)} placeholder="Descreva o que você precisa, do jeito que você falaria" />
             {termo && (
@@ -144,7 +119,7 @@ export function Feed() {
 
         {lista.length === 0 ? (
           <div className="painel" style={{ alignItems: 'flex-start', padding: 'var(--space-6)' }}>
-            <span className="icone-quadrado capa">
+            <span className="icone-quadrado">
               <Icon name="hand" size={20} />
             </span>
             <h2 className="titulo-secao">Ninguém publicou isso ainda</h2>

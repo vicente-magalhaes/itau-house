@@ -92,7 +92,7 @@ export const filaAprovacao = [
     id: 'fila-002',
     nome: 'Agente de disparo de e-mail para a base de clientes',
     tipo: 'Agente',
-    estante: 'ia',
+    estante: 'agente',
     autor: { nome: 'Igor Fontes', iniciais: 'IF', squad: 'Cartões · Retenção' },
     esperandoHa: '21 h',
     visibilidade: 'banco',

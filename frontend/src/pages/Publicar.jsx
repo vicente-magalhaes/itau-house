@@ -6,7 +6,7 @@ import { TextArea } from '../components/TextArea.jsx';
 import { irPara } from '../router.jsx';
 import { useSessao } from '../sessao.jsx';
 import { CRITERIOS, VEREDITOS, rascunhoAna, verificacaoReprovada, verificacaoAprovada } from '../data/governanca.js';
-import { VISIBILIDADES, iconeEstante } from '../data/catalogo.js';
+import { VISIBILIDADES, iconeTipo } from '../data/catalogo.js';
 
 // Publicação (RF-13 a RF-19): o hook detecta, o validador confere por código (sem IA, D-26), a pessoa corrige e a coordenação decide.
 
@@ -200,7 +200,7 @@ export function Publicar() {
             </div>
             <div className="row row-2">
               <span className="pastilha">
-                <Icon name={iconeEstante(rascunhoAna.estante)} size={14} />
+                <Icon name={iconeTipo(rascunhoAna.tipo)} size={14} />
                 {rascunhoAna.tipo}
               </span>
               <span className="strong">{rascunhoAna.nome}</span>

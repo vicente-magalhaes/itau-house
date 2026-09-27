@@ -1,10 +1,10 @@
 import React from 'react';
-import { Button, Icon } from '../ds.js';
+import { Button, Icon, Dialog, Checkbox } from '../ds.js';
 import { Foto, BotaoSec, SeloSimulado, Vazio } from '../components/comuns.jsx';
 import { BotaoCurtir } from '../components/Post.jsx';
 import { Link, irPara } from '../router.jsx';
 import { useSessao } from '../sessao.jsx';
-import { acharAtivo, visivelPara, ESTANTES, PAPEIS, iconeEstante, rotuloVisibilidade, tempoRelativo, passosDeUso } from '../data/catalogo.js';
+import { acharAtivo, visivelPara, PAPEIS, iconeTipo, rotuloVisibilidade, tempoRelativo, passosDeUso } from '../data/catalogo.js';
 
 function voltar() {
   if (window.history.length > 1) window.history.back();
@@ -23,6 +23,22 @@ function LinhaPessoa({ pessoa, detalhe, texto }) {
         <span className="texto">{texto}</span>
       </span>
     </button>
+  );
+}
+
+// O que o ativo acessa, como as permissões de um aplicativo. Aparece na página e antes de usar (RF-29).
+function ListaAcessos({ acessos }) {
+  return (
+    <ul className="stack stack-3" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+      {acessos.map((a) => (
+        <li key={a.titulo} className="row row-3">
+          <Icon name={a.icone} size={20} color="var(--ih-ink2)" />
+          <span className="texto" style={{ color: 'var(--ih-ink)' }}>
+            {a.titulo}
+          </span>
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -56,10 +72,12 @@ function UsarEm({ ativo }) {
   );
 }
 
-// Página do ativo (RF-27): capa, ações, como usar, conteúdo, derivações, reuso por papel e trilha (RF-22, RF-30).
+// Página do ativo (RF-27): capa, ações, o que ele acessa, como usar, conteúdo, derivações, reuso por papel e trilha (RF-22, RF-30).
 export function Ativo({ id }) {
   const ativo = acharAtivo(id);
   const { pessoa, usados, usar, reusosDe, avisar, ehCoordenador } = useSessao();
+  const [confirmando, setConfirmando] = React.useState(false);
+  const [ciente, setCiente] = React.useState(false);
 
   if (!ativo || !visivelPara(ativo, pessoa)) {
     return <Vazio icone="search-x" titulo="Este ativo não está disponível para você" acao={<Button size="sm" onClick={() => irPara('/')}>Voltar ao início</Button>} />;
@@ -76,21 +94,29 @@ export function Ativo({ id }) {
     { icone: 'tag', titulo: 'Versão ' + ativo.versao, detalhe: 'Atualizado ' + tempoRelativo(ativo.atualizadoEm) },
   ];
 
+  const fechar = () => {
+    setConfirmando(false);
+    setCiente(false);
+  };
+  const confirmar = () => {
+    usar(ativo.id);
+    fechar();
+    avisar(`Pronto! Uma cópia foi pro seu ${ativo.ferr[0]}. O crédito fica com ${autor.primeiro}.`);
+  };
+
   return (
     <div className="stack stack-5">
       <BotaoSec icone="arrow-left" onClick={voltar} style={{ alignSelf: 'flex-start', paddingLeft: 'var(--space-3)' }}>
         Voltar
       </BotaoSec>
 
-      <section className="capa capa-ativo">
-        <div className="row row-2 wrap">
-          <Icon name={iconeEstante(ativo.estante)} size={24} />
-          <span className="etiqueta">
-            {ESTANTES[ativo.estante].nome} · {ativo.tipo}
-          </span>
-        </div>
+      <section className="capa-ativo">
+        <span className="tipo-ativo">
+          <Icon name={iconeTipo(ativo.tipo)} size={20} color="var(--brand)" />
+          {ativo.tipo}
+        </span>
         <h1 className="titulo-pagina">{ativo.titulo}</h1>
-        <p>{ativo.resumo}</p>
+        <p className="texto">{ativo.resumo}</p>
         <button type="button" className="linha-pessoa" onClick={() => irPara('/perfil/' + autor.id)}>
           <Foto pessoa={autor} tamanho={40} />
           <span className="stack stack-1">
@@ -108,9 +134,7 @@ export function Ativo({ id }) {
           size="sm"
           iconLeft={usado ? 'check' : 'download'}
           onClick={() => {
-            if (usado) return;
-            usar(ativo.id);
-            avisar(`Pronto! Uma cópia foi pro seu ${ativo.ferr[0]}. O crédito fica com ${autor.primeiro}.`);
+            if (!usado) setConfirmando(true);
           }}
         >
           {usado ? 'Em uso' : 'Usar'}
@@ -132,7 +156,7 @@ export function Ativo({ id }) {
             <h2 className="titulo-secao">O que tem dentro</h2>
             {ativo.dentro.map((d) => (
               <div key={d.nome} className="item-dentro">
-                <Icon name="file-text" size={20} color="var(--brand)" />
+                <Icon name="file-text" size={20} color="var(--ih-ink3)" />
                 <span className="nome" style={{ flex: 'none' }}>
                   {d.nome}
                 </span>
@@ -164,6 +188,14 @@ export function Ativo({ id }) {
         </div>
 
         <aside className="coluna-lateral">
+          <div className="painel">
+            <div className="stack stack-2">
+              <h2 className="titulo-card">O que ele acessa</h2>
+              <p className="meta">Declarado por quem publicou. Você confirma antes de usar.</p>
+            </div>
+            <ListaAcessos acessos={ativo.acessos} />
+          </div>
+
           <div className="painel">
             <h2 className="titulo-card">Quem reaproveitou</h2>
             <p className="texto">
@@ -204,6 +236,31 @@ export function Ativo({ id }) {
           </div>
         </aside>
       </div>
+
+      {confirmando && (
+        <Dialog
+          title={`Usar a versão ${ativo.versao}`}
+          onClose={fechar}
+          width={520}
+          actions={
+            <>
+              <BotaoSec onClick={fechar}>Agora não</BotaoSec>
+              <Button variant="secondary" size="sm" disabled={!ciente} onClick={confirmar}>
+                Usar
+              </Button>
+            </>
+          }
+        >
+          <div className="stack stack-4">
+            <p className="texto">Antes de usar, veja o que este ativo acessa no seu ambiente.</p>
+            <ListaAcessos acessos={ativo.acessos} />
+            <Checkbox checked={ciente} onChange={setCiente} label="Entendi o que este ativo acessa" />
+            <div>
+              <SeloSimulado ajuda="O uso é simulado. Nada é instalado nem copiado; só o contador de reaproveitamentos muda.">Uso simulado</SeloSimulado>
+            </div>
+          </div>
+        </Dialog>
+      )}
     </div>
   );
 }

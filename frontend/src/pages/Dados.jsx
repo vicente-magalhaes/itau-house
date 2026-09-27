@@ -3,7 +3,7 @@ import { Icon, IconButton, Tag } from '../ds.js';
 import { SeloSimulado, Vazio } from '../components/comuns.jsx';
 import { irPara } from '../router.jsx';
 import { useSessao } from '../sessao.jsx';
-import { ativos, acharAtivo, visivelPara, iconeEstante, formatarDataCurta, PAPEIS } from '../data/catalogo.js';
+import { ativos, acharAtivo, visivelPara, iconeTipo, formatarDataCurta, PAPEIS } from '../data/catalogo.js';
 
 // Área só da coordenação: os números por ativo e por frente (RF-30, RF-22).
 
@@ -191,7 +191,7 @@ export function Dados({ id }) {
                 <tr key={a.id} onClick={() => irPara('/coord/dados/' + a.id)} style={{ cursor: 'pointer' }}>
                   <td>
                     <a href={'#/coord/dados/' + a.id} className="link-reset row row-2 strong" onClick={(e) => e.stopPropagation()}>
-                      <Icon name={iconeEstante(a.estante)} size={16} label={a.tipo} />
+                      <Icon name={iconeTipo(a.tipo)} size={16} label={a.tipo} />
                       {a.titulo}
                     </a>
                   </td>

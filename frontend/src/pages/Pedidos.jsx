@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Icon } from '../ds.js';
 import { Foto } from '../components/comuns.jsx';
 import { useSessao } from '../sessao.jsx';
-import { pedidos, ESTANTES, iconeEstante } from '../data/catalogo.js';
+import { pedidos, ESTANTES, iconeTipo } from '../data/catalogo.js';
 
 // Pedidos: quem não achou pede, quem sabe fazer assume. Tudo aqui é simulado.
 export function Pedidos() {
@@ -29,8 +29,8 @@ export function Pedidos() {
           const criador = euCrio ? pessoa : p.criador;
           return (
             <article key={p.id} className="painel row wrap row-4" style={{ flexDirection: 'row' }}>
-              <span className="icone-quadrado capa">
-                <Icon name={iconeEstante(p.estante)} size={20} />
+              <span className="icone-quadrado icone-tipo">
+                <Icon name={iconeTipo(p.tipo)} size={20} label={p.tipo} />
               </span>
               <div className="stack stack-2" style={{ flex: '1 1 320px', minWidth: 0 }}>
                 <h2 className="titulo-card">{p.titulo}</h2>
@@ -55,7 +55,7 @@ export function Pedidos() {
                 {!criador && (
                   <button
                     type="button"
-                    className="btn btn-forte"
+                    className="btn btn-sec"
                     onClick={() => {
                       criar(p.id);
                       avisar(`Pronto! Avisamos ${p.autor.primeiro} que você vai criar.`);

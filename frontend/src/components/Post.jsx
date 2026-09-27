@@ -3,7 +3,7 @@ import { Icon } from '../ds.js';
 import { Foto } from './comuns.jsx';
 import { irPara } from '../router.jsx';
 import { useSessao } from '../sessao.jsx';
-import { iconeEstante, tempoRelativo } from '../data/catalogo.js';
+import { iconeTipo, tempoRelativo } from '../data/catalogo.js';
 
 // Um "gostei" por pessoa por ativo. Clicar de novo desfaz (RF-28).
 export function BotaoCurtir({ ativo, noCard, desativado }) {
@@ -38,12 +38,11 @@ export function PostCard({ ativo, preview }) {
   };
   return (
     <article className="card-ativo" onClick={abrir} style={preview ? { cursor: 'default' } : undefined}>
-      <div className="capa card-capa">
-        <Icon name={iconeEstante(ativo.estante)} size={24} />
-        <span className="card-capa-tipo">{ativo.tipo}</span>
-      </div>
-
       <div className="card-corpo">
+        <span className="tipo-ativo">
+          <Icon name={iconeTipo(ativo.tipo)} size={20} color="var(--brand)" />
+          {ativo.tipo}
+        </span>
         <h3 className="titulo-card">
           {preview ? (
             ativo.titulo
