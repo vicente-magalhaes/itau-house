@@ -22,15 +22,18 @@ Requisitos em [PRD.md](PRD.md). Fluxos em [docs/fluxos.html](docs/fluxos.html). 
 | **Vicente** | Back-end, MCP, banco, deploy (com Devin) | Camada de IA |
 | **Alexandre** | Front-end | Plugin (olhar de quem não construiu) |
 | **JP** | Apresentação e evidência: prazo, entrevista, slides, ficha, pitch | Tudo que a banca vê |
+| **Devin** (agente, sessões do Vicente) | Tasks isoladas que rodam sozinhas: deploy, rotas do back, reset da demo, conferência do link. Briefs e o que fechar antes em [docs/devin.md](docs/devin.md) | Nada: toda entrega dele passa por uma pessoa |
 
 O Claude rascunha textos (ficha, Q&A, pesquisa, catálogo) quando pedido. Sempre com um humano validando.
+O Devin só pega uma task depois que o "Fechar antes" dela, no [docs/devin.md](docs/devin.md), estiver marcado. Nas tasks dele, o dono continua sendo uma pessoa: `Vicente (Devin)`.
 
 ## Ordem de cada um
 
 - **Bruno:** T-02 → T-03 → T-04 → T-05 (assumida do Vicente) → T-10 → T-11 → T-13 → T-14 → T-24 → T-30 (vídeo completo) → T-37 (secundária)
-- **Vicente:** T-06 → T-07 → T-12 → T-15 → T-25 → T-34 → T-35
-- **Alexandre:** T-16 → T-17 → T-18 → T-19 → T-20 → T-24
+- **Vicente:** T-39 → T-12 → T-15 → T-34 → T-35. Em paralelo, abre, revisa e junta o que o Devin faz (T-38, T-25, T-06, T-07)
+- **Alexandre:** T-16 → T-17 → T-18 → T-19 → T-20 → T-24. A T-40 entra assim que o T-38 tiver o link
 - **JP:** T-01 → T-22 → T-23 → T-26 → T-27 → T-28 → T-29 → T-31 → T-32 → T-33 → T-36 → T-35
+- **Devin:** T-38 (agora) → T-25 (depois do T-05) → T-06 e T-07 (depois do T-39 e do M1) → conferência do link do T-15
 
 ## Marcos
 
@@ -58,8 +61,8 @@ O Claude rascunha textos (ficha, Q&A, pesquisa, catálogo) quando pedido. Sempre
 
 | ID | Task | Pronto quando | Dono | Valida | Depende | Req | Status |
 |---|---|---|---|---|---|---|---|
-| T-06 | API do catálogo: visibilidade, feed por popularidade, detalhe do post, contadores | Rotas do T-03 respondendo com o seed. Ativo de alcance "squad" de outra squad nunca aparece | Vicente | Alexandre | T-03, T-04, T-05 | RF-05, RF-25, RF-27, RF-30, RNF-07 | A fazer |
-| T-07 | API de publicação: rascunho, envio, fila, aprovar, devolver, eventos | Ativo sai de rascunho e chega a publicado só com aprovação do Cord+ do squad | Vicente | Bruno | T-03, T-05 | RF-17 a RF-22, RF-32, RNF-01, RNF-02 | A fazer |
+| T-06 | API do catálogo: visibilidade, feed por popularidade, detalhe do post, contadores. Pelo Devin ([DV-2](docs/devin.md#dv-2-rotas-do-back)) | Rotas do T-03 respondendo com o seed. Ativo de alcance "squad" de outra squad nunca aparece. Testes no CI | Vicente (Devin) | Alexandre | T-03, T-04, T-05, T-39 | RF-05, RF-25, RF-27, RF-30, RNF-07 | A fazer |
+| T-07 | API de publicação: rascunho, envio, fila, aprovar, devolver, eventos. Pelo Devin ([DV-2](docs/devin.md#dv-2-rotas-do-back)) | Ativo sai de rascunho e chega a publicado só com aprovação do Cord+ do squad. Testes no CI | Vicente (Devin) | Bruno | T-03, T-05, T-39 | RF-17 a RF-22, RF-32, RNF-01, RNF-02 | A fazer |
 | T-10 | Busca com justificativa: filtro de visibilidade + Claude ranqueia (esforço baixo, saída por schema) | Pedido da cena 1 retorna a skill da PM com motivo. Pedido da cena 2 retorna "não encontrei" | Bruno | Vicente | T-04, T-06 | RF-05, RF-06 | Fazendo |
 | T-11 | Validador: checagens fixas por código (chave, CPF, e-mail, README, autor), sem IA (D-26) | Skill da cena 2 com chave de API é barrada com arquivo, linha e sugestão. Corrigida, passa | Bruno | Vicente | T-03 | RF-14, RF-15 | Fazendo |
 | T-12 | Servidor MCP: `buscar_ativos`, `detalhar_ativo`, `registrar_decisao`, `validar_ativo`, `montar_post`, `enviar_para_aprovacao` | Claude Code chama cada ferramenta e recebe resposta real da API | Vicente | Bruno | T-06, T-07 | RF-10, RF-17, RNF-05 | A fazer |
@@ -69,18 +72,21 @@ O Claude rascunha textos (ficha, Q&A, pesquisa, catálogo) quando pedido. Sempre
 | T-19 | Fila de aprovação do Cord+: ver resultado do validador, aprovar, devolver com comentário | Coordenadora aprova o ativo da cena 2 e ele aparece no feed | Alexandre | Vicente | T-07 | RF-32, RF-19, RF-21 | Fazendo |
 | T-23 | Evidências: registrar a fonte do "bench do centão" ou descartar. Buscar dados públicos sobre retrabalho e reuso, com fonte (pedir ao Claude) | `docs/03` atualizado. Nada sem fonte vai para o slide | JP | Bruno | — | critério "Dados" | A fazer |
 | T-26 | Diferenciação: comparar com Backstage, catálogos de agentes e as skills homologadas do Itaú | Uma frase clara de por que é diferente, em `memoria/05` (A-05) | JP | Bruno | — | A-05, R-01 | A fazer |
+| T-38 | Pipeline de deploy com o que já está na `main`: front na Vercel, back no Render, `/api` repassado pela Vercel. Pelo Devin ([DV-1](docs/devin.md#dv-1-pipeline-de-deploy)) | Domínio de produção abre numa janela anônima e `/api/health` responde por ele. Cada merge na `main` publica sozinho | Vicente (Devin) | JP | A-17 | RNF-03, entrega 1 | A fazer |
+| T-39 | Base do back: como as rotas falam com o banco, usuário pelo cabeçalho numa dependência só, uma rota de molde com teste. É o que o Devin copia no DV-2 | Rota de molde responde, com teste, e os testes rodam sem tocar no Supabase do time | Vicente | Bruno | T-05 | RF-05, RF-23, RNF-07 | A fazer |
 
 ## Fase 2: integrar e testar (amanhã cedo)
 
 | ID | Task | Pronto quando | Dono | Valida | Depende | Req | Status |
 |---|---|---|---|---|---|---|---|
 | T-14 | Respostas gravadas para as cenas da demo, se o Claude cair ou demorar | Demo roda completa com a internet do LLM desligada, e a tela indica que é resposta gravada | Bruno | Vicente | T-10, T-11 | RNF-04 | Fazendo |
-| T-15 | Deploy da demo: build de produção, seed carregado, link ou instruções de execução | Link abre sem login (ou instrução roda do zero) com os dados da demo | Vicente | JP | T-06, T-07, T-17 a T-19 | RNF-04 | A fazer |
+| T-15 | Deploy da demo: build de produção, seed carregado, link ou instruções de execução. O pipeline é o T-38. O Devin confere o link ([DV-4](docs/devin.md#dv-4-conferência-do-site-publicado)) | Link abre sem login (ou instrução roda do zero) com os dados da demo | Vicente | JP | T-06, T-07, T-17 a T-19, T-25, T-38 | RNF-04 | A fazer |
 | T-20 | P1 do front, só se M2 estiver pronto: curtir, instalar com manual, editar post, filtros | Cada item funciona sem quebrar o fluxo P0 | Alexandre | Bruno | M2 | RF-26, RF-28, RF-29, RF-31 | A fazer |
 | T-24 | Ensaio da demo ponta a ponta no build de produção, seguindo o roteiro | Duas execuções seguidas sem erro, cronometradas | Bruno | JP | T-13, T-15 | todos P0 | A fazer |
-| T-25 | Limpeza de dados de teste e reset rápido do estado da demo | Um comando volta o banco ao estado inicial do roteiro | Vicente | Bruno | T-15 | RNF-04 | A fazer |
+| T-25 | Reset rápido do estado da demo: apaga os dados e reaplica o `supabase/seed.sql`. Pelo Devin ([DV-3](docs/devin.md#dv-3-reset-da-demo)). Contra o Supabase do time, quem roda é uma pessoa | Um comando volta o banco ao estado inicial do roteiro | Vicente (Devin) | Bruno | T-04, T-05 | RNF-04 | A fazer |
 | T-27 | Teste com pessoa de fora do time: tenta completar o fluxo | Registro: quem (papel), onde travou, o que entendeu, o que mudamos depois | JP | Bruno | M2 | A-10 | A fazer |
 | T-37 | Secundária. Identidade do catálogo: temas das skills, nomes das pessoas, fotos. Detalhe que surpreende a banca | Seed revisado em `backend/app/dados/seed.json`, `seed.sql` gerado de novo, fotos fictícias ou geradas, sem pessoa real | Bruno | JP | T-04 | RNF-03, RNF-06 | A fazer |
+| T-40 | Manter o back acordado: fluxo no n8n que chama `https://<domínio-da-vercel>/api/health` a cada 8 min, num n8n ligado 24 h (não num notebook que dorme). Como montar em [docs/devin.md](docs/devin.md#manter-o-render-acordado) | Histórico do n8n com uma execução a cada 8 min. Depois de 1 h sem ninguém usar, `/api/health` responde em menos de 2 s | Alexandre | Vicente | T-38 | entrega 1, RNF-04 | A fazer |
 
 ## Fase 3: apresentação e envio (amanhã, até a submissão)
 
@@ -92,6 +98,6 @@ O Claude rascunha textos (ficha, Q&A, pesquisa, catálogo) quando pedido. Sempre
 | T-31 | Slides (até 10): 6 blocos + mapa ponta a ponta + organograma do squad com agentes (usar `docs/fluxos.html`) | PDF ou Canva liberado, mesmo exemplo do vídeo e da ficha | JP | Bruno, Vicente | T-27, T-28 | entrega 2 | A fazer |
 | T-32 | Pitch de 3 min: roteiro nos 4 blocos de tempo, quem fala, ensaio com cronômetro | Dois ensaios dentro de 3 min | JP | Todos | T-31 | banca | A fazer |
 | T-33 | Perguntas prováveis (R-01 a R-08) com respostas curtas e quem responde cada tema | Documento curto, cada um sabe o seu tema | JP | Todos | T-26 | banca | A fazer |
-| T-34 | Declaração de uso de IA (Claude Code, Devin, Claude Design, para quê) e do que é pré-existente (harness do Vicente) | Texto pronto para slide e ficha | Vicente | JP | — | regulamento 3.7, 7.1.1 | A fazer |
+| T-34 | Declaração de uso de IA (Claude Code, Devin, Claude Design, para quê) e do que é pré-existente (harness do Vicente). Base para o Devin: o registro das sessões em [docs/devin.md](docs/devin.md#registro-das-sessões) | Texto pronto para slide e ficha | Vicente | JP | — | regulamento 3.7, 7.1.1 | A fazer |
 | T-35 | Submissão: repo limpo (D-09), links testados sem login, arquivos enviados, confirmação de recebimento | Confirmação da organização guardada | Vicente (repo), JP (envio) | Bruno | todas | checklist 01 | A fazer |
 | T-36 | Nome final do produto: JP propõe, o time decide | Registrado em `memoria/05` (A-08) | JP | Todos | — | A-08 | A fazer |

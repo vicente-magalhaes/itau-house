@@ -8,14 +8,14 @@
 | **Status** | Em desenvolvimento |
 | **Data** | 26/09/2026 |
 
-Protótipo do Hackathon Itaú 2026, Case C. Não é produto oficial do Itaú. Todos os dados são fictícios.
+MVP do Hackathon Itaú 2026, Case C. Não é produto oficial do Itaú. Todos os dados são fictícios.
 Fluxos visuais: [docs/fluxos.html](docs/fluxos.html). Decisões: [memoria/decisions/](memoria/decisions/README.md). Pendências e riscos: [memoria/05-pendencias-e-riscos.md](memoria/05-pendencias-e-riscos.md).
 
 **Glossário**
 
 | Termo | Significado |
 |---|---|
-| **Squad** | Time multidisciplinar (produto, design, tecnologia) com um objetivo de produto. |
+| **Squad** | Time multidisciplinar (produto, design, tecnologia, dados) com um objetivo de produto. |
 | **Ativo** | Algo criado com IA que outra pessoa pode reaproveitar: skill, agente, framework, design system, harness, MCP ou esqueleto de código. |
 | **Skill** | Instrução reutilizável que ensina um agente de IA a fazer uma tarefa. |
 | **Agente de IA** | Assistente que recebe um objetivo e executa tarefas com ferramentas. Ex.: Claude Code, GitHub Copilot. |
@@ -23,7 +23,7 @@ Fluxos visuais: [docs/fluxos.html](docs/fluxos.html). Decisões: [memoria/decisi
 | **Hook** | Gatilho que roda um script quando algo acontece no agente (ex.: a pessoa envia um pedido, um arquivo é criado). |
 | **Plugin Itaú House** | Pacote instalado no agente da pessoa: hooks, instruções e a conexão com o MCP do Itaú House. |
 | **Validador** | Checagem automática, por código e sem IA, que confere se um ativo pode seguir para o coordenador (D-26). |
-| **Cord+ / Cord−** | Perfis de acesso. Cord+ é o coordenador do squad e aprova publicações. Cord− é qualquer outro membro. |
+| **Cord+ / Cord−** | Perfis de acesso. Cord+ é o coordenador (ou acima) do squad e aprova publicações. Cord− é qualquer outro membro. |
 | **Alcance** | Quem pode ver um ativo: só o squad, a frente ou o banco inteiro. |
 | **Derivação** | Ativo novo criado a partir de outro. Guarda o "derivado de" e dá crédito ao autor original. |
 | **Modo do plugin** | Quanto o plugin interrompe: perguntar antes (padrão), proativo ou sob demanda. |
