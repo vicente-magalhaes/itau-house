@@ -26,12 +26,13 @@ O gargalo é revisar e juntar sem conflito. Por isso: poucas sessões, bem delim
 | [DV-2](#dv-2-rotas-do-back) | Rotas do back: catálogo, decisões, publicação e coordenação | T-06, T-07 | Depois da base do back (T-39) e do M1 | Alexandre (T-06), Bruno (T-07) |
 | [DV-3](#dv-3-reset-da-demo) | Reset da demo: um comando volta o banco ao seed | T-25 | Depois da migração aplicada (T-05) | Bruno |
 | [DV-4](#dv-4-conferência-do-site-publicado) | Conferência do site publicado contra o checklist de entrega | T-15 | Depois do deploy com dados (T-15) | Vicente |
+| [DV-5](#dv-5-base-do-back) | Base do back: repositório, usuário pelo cabeçalho, erro no formato do contrato e rota de molde | T-39 | Agora, em paralelo com a DV-3 | Bruno |
 
-Ordem: DV-1 logo que a decisão 0031 for aceita. DV-3 assim que a migração estiver aplicada. DV-2 depois da base, de preferência antes de dormir, para rodar à noite. DV-4 no dia 27, depois do T-15.
+Ordem: DV-1 feita em 27/09. DV-3 e DV-5 juntas, porque ficam em pastas diferentes (`supabase/` e `backend/`). DV-2 depois da DV-5 juntada. DV-4 depois do T-15.
 
 ## O que não vai para o Devin
 
-- **Migração e base do back (T-05, T-39).** São decisões que as rotas vão copiar: nome de coluna, tipo de chave, como o back fala com o banco. E aplicar no Supabase precisa de uma pessoa.
+- **Migração (T-05).** Aplicar no Supabase precisa de uma pessoa. A base do back (T-39) saiu desta lista em 27/09: o Vicente aprovou o plano, as escolhas estão na [decisão 0035](../memoria/decisions/0035-back-fala-com-o-supabase-pelo-cliente-python.md), e o Devin executa como DV-5.
 - **Busca com o Claude (T-10) e validador (T-11).** São do Bruno: prompt e regra de produto.
 - **Servidor MCP (T-12).** É fino e depende das rotas. A descrição das ferramentas muda como o Claude Code se comporta na demo. Rende mais com o Vicente iterando junto com o plugin do Bruno.
 - Plugin (T-13), telas (T-16 a T-20), conteúdo do seed (T-04), roteiro, pitch, ficha, slides e vídeo.
@@ -55,19 +56,19 @@ Um brief só roda com os itens dele marcados. Quem abre a sessão confere.
 - [x] Como manter o Render acordado: fluxo no n8n (T-40, ver abaixo). O Devin não configura ping.
 
 **DV-2 (rotas do back)**
-- [ ] M1: [docs/api.md](api.md) revisado pelo Vicente e pelo Alexandre (T-03). O contrato não muda durante a sessão.
-- [ ] T-05 aplicada no Supabase, com aprovação de uma pessoa. A migração já está escrita pelo Bruno em `supabase/migrations/20260926230000_schema_inicial.sql`, com ids em `text` e RLS ligado.
-- [ ] T-39: base do back na `main`. É o molde que o Devin copia:
-  - acesso ao banco atrás de uma dependência do FastAPI, com duas versões: Supabase e memória, carregada do `seed.json`. Assim os testes nunca tocam o Supabase do time **(sugestão Claude)**;
-  - usuário atual por uma dependência só, lendo `X-Usuario-Id` (401 sem ele);
-  - uma rota pronta de ponta a ponta, com teste. `GET /api/usuarios` serve **(sugestão Claude)**.
+- [x] M1: [docs/api.md](api.md) revisado pelo Vicente e pelo Alexandre (T-03), em 27/09. O contrato não muda durante a sessão.
+- [x] T-05 aplicada no Supabase, com aprovação de uma pessoa. Conferido pelo Vicente em 27/09: `db push` diz que o banco está em dia, e as tabelas têm dados. A migração já está escrita pelo Bruno em `supabase/migrations/20260926230000_schema_inicial.sql`, com ids em `text` e RLS ligado.
+- [ ] DV-5 (T-39) juntada na `main`. É o molde que o Devin copia: repositório com versão Supabase e versão memória, usuário por `usuario_atual`, erro por `ErroApi` e `GET /api/usuarios` de ponta a ponta (decisão 0035).
 - [ ] Combinado com o Bruno: o T-10 também mexe em `backend/app/`. Cada um fica nos próprios arquivos.
 
 **DV-3 (seed e reset)**
-- [ ] T-05 aplicada. `seed.json` estável (T-04).
+- [x] Migração do T-05 no repositório. O Devin testa numa base descartável, então não precisa dela aplicada no Supabase do time. O reset precisa funcionar com qualquer `seed.sql` que saia do gerador, porque o `seed.json` ainda muda (T-04). Liberada em 27/09.
 
 **DV-4 (conferência)**
 - [ ] T-15 feito: link de produção com os dados da demo.
+
+**DV-5 (base do back)**
+- [x] Plano aprovado pelo Vicente em 27/09. Escolhas na [decisão 0035](../memoria/decisions/0035-back-fala-com-o-supabase-pelo-cliente-python.md).
 
 ### Manter o Render acordado
 
@@ -137,7 +138,7 @@ Cada brief é autossuficiente. O Devin lê o `AGENTS.md` e o brief da tarefa del
 
 **Kanban:** T-06 e T-07. **Branch:** `feat/rotas-do-back`. **Requisitos:** RF-05, RF-07, RF-10, RF-17 a RF-19, RF-21, RF-22, RF-24, RF-25, RF-27, RF-30, RF-32, RNF-01, RNF-02 e RNF-07.
 
-Este brief supõe a base do T-39 como descrita em "Fechar antes". Se o Vicente montar a base de outro jeito, ele ajusta o brief antes de abrir a sessão.
+Este brief supõe a base da DV-5 (decisão 0035) na `main`. Leia o `backend/app/repositorio.py`, o `sessao.py` e o `erros.py` antes de começar.
 
 **Objetivo.** Implementar as rotas do contrato para catálogo, decisões, publicação e coordenação, sobre a base do T-39, com testes que rodam no CI.
 
@@ -230,6 +231,53 @@ Este brief supõe a base do T-39 como descrita em "Fechar antes". Se o Vicente m
 
 **Pronto quando.** Relatório com cada item marcado como ok ou falhou, e print do que falhou.
 
+### DV-5: Base do back
+
+**Kanban:** T-39. **Branch:** `feat/base-do-back`. **Requisitos:** RF-05, RF-23, RF-24 e RNF-07. **Decisão:** [0035](../memoria/decisions/0035-back-fala-com-o-supabase-pelo-cliente-python.md).
+
+**Objetivo.** Fazer o molde que a DV-2 copia em todas as rotas: como o back fala com o banco, como sabe quem chama e como responde com erro. E uma rota de ponta a ponta, com teste.
+
+**Ler antes.** `AGENTS.md`. A decisão 0035. No [docs/api.md](api.md), "Regras gerais", "Tipos" (Pessoa) e "Sessão". Todo o `backend/app/` e o `backend/tests/`. A migração `supabase/migrations/20260926230000_schema_inicial.sql`.
+
+**Já decidido.**
+- **Repositório** em `backend/app/repositorio.py`: a interface `Repositorio` (Protocol), `RepositorioMemoria`, `RepositorioSupabase` e `obter_repositorio()`, que é uma dependência do FastAPI com uma instância por processo. Por enquanto, só `usuarios()` e `usuario(id)`.
+  - As duas versões devolvem dicionários no formato do `seed.json`, em camelCase. Para `Pessoa`: `id, nome, iniciais, papel, cargo, squadId, squad, frente, perfil`.
+  - A memória faz uma cópia profunda do `catalogo.seed()`.
+  - O Supabase usa o cliente `supabase` do Python (`uv add supabase`). Busca `usuarios` com `squads(nome, frente)` e converte snake_case para esse formato.
+  - A escolha é automática: com `SUPABASE_URL` e `SUPABASE_SECRET_KEY` no ambiente, usa o Supabase; sem elas, a memória.
+- **Usuário** em `backend/app/sessao.py`: a dependência `usuario_atual`, que lê `X-Usuario-Id` pelo repositório. Sem cabeçalho → 401 `sem_usuario`. Id desconhecido → 401 `usuario_desconhecido`.
+- **Erro** em `backend/app/erros.py`, com os tratadores registrados no `main.py`:
+  - `ErroApi(status, erro, mensagem, **extra)` sai como `{erro, mensagem, ...extra}`. O `extra` serve para o 422 `barrado`, que leva `validacao`;
+  - `HTTPException` com um dicionário de `erro` sai com esse dicionário na raiz, sem `detail`;
+  - outras `HTTPException`, como rota inexistente, saem com um código genérico por status;
+  - `RequestValidationError` sai como 422 `entrada_invalida`, com mensagem em pt-BR que cita os campos.
+- **Rota de molde:** `GET /api/usuarios`, em `backend/app/api_usuarios.py`. Não pede cabeçalho. Responde `{ "usuarios": [Pessoa] }`, ordenada por `nome` em Python, na rota.
+- **Testes nunca tocam o Supabase do time.** O `backend/tests/conftest.py` troca `obter_repositorio` por uma `RepositorioMemoria` nova em todo teste e apaga `SUPABASE_URL` e `SUPABASE_SECRET_KEY` do ambiente.
+  - A versão Supabase tem um teste próprio, `test_repositorio_supabase.py`, com o marcador `supabase`. Ele lê `ITAU_HOUSE_TESTE_SUPABASE_URL` e `ITAU_HOUSE_TESTE_SUPABASE_KEY` e pula quando elas não existem.
+  - Se a URL não for `localhost` ou `127.0.0.1`, o teste **falha**, não pula.
+
+**Não faça.**
+- Não mexa em `api_busca.py`, `busca.py` e `validador.py` (T-10 e T-11, do Bruno), nem no `api_validacoes.py` (o `TODO(T-07)` é da DV-2). O tratador global já corrige o formato de erro deles.
+- Não mexa no `catalogo.py`: ele continua sendo a regra de visibilidade. Não mexa em `frontend/`, `supabase/`, no README, nos Dockerfiles nem no CI.
+- A DV-3 está mexendo em `supabase/` ao mesmo tempo. Se precisar de algo lá, pare e explique.
+- Não rode nada contra o Supabase do time. Para o teste da versão Supabase, use só uma base local: `supabase start` e `supabase db reset`, **sem** `--linked`. As chaves locais saem de `supabase status`.
+
+**Testes que precisam existir** (`backend/tests/test_base.py`):
+- `GET /api/usuarios` sem cabeçalho → 200, com as 20 pessoas do seed, só com as chaves de `Pessoa` e em ordem de `nome`.
+- `usuario_atual`, numa rota criada só no teste: sem cabeçalho → 401 `{erro: "sem_usuario", mensagem}` na raiz; id inventado → 401 `usuario_desconhecido`; `u-rafael` → a pessoa do seed.
+- `POST /api/busca` sem cabeçalho → 401 com `erro` na raiz, sem `detail`. Com `{}` → 422 `entrada_invalida`, em pt-BR, citando `pedido`.
+- Rota inexistente → 404 `{erro, mensagem}`.
+- A memória é isolada: mudar um usuário num teste não aparece no seguinte.
+- Na base local, as duas versões devolvem as mesmas pessoas, comparadas por `id`.
+
+**Pronto quando.**
+- Em `backend/`, `uv run pytest` e `uv run ruff check .` passam.
+- O teste da versão Supabase passou numa base local. Se não passou, o relatório explica o motivo.
+- `docker compose build` passa.
+- A `feat/base-do-back` tem push, sem PR.
+
+**Relatório.** Arquivos criados, como rodar o teste da versão Supabase na base local, e o que a DV-2 precisa saber para acrescentar métodos ao repositório.
+
 ## Registro das sessões
 
 Quem abriu a sessão preenche ao juntar. Vira base para a declaração de uso de IA (T-34) e para a pergunta da ficha "Se usaram IA na construção, como verificaram as saídas?".
@@ -238,6 +286,7 @@ Quem abriu a sessão preenche ao juntar. Vira base para a declaração de uso de
 |---|---|---|---|---|---|
 | 27/09 | Ambiente (blueprint) | Vicente | Ambiente pronto. Relatou 3 falhas da `main` sem corrigir: erro 401 dentro de `detail`, 422 padrão do FastAPI em inglês e contadores desencontrados no front | a preencher | Nada: a sessão não mexe em arquivo |
 | 27/09 | DV-1 (T-38) | Vicente | `feat/deploy` com `render.yaml`, `vercel.json` e seção "Deploy" no README. No ar em https://itau-house.vercel.app | a preencher | Nada no código. Revisão do Claude conferiu o "Pronto quando" e que as pastas internas dão 404 no site. O segredo do Render se chama `RENDER_API_TOKEN`, e o docs foi corrigido |
+| 27/09 | DV-3 (T-25) | Vicente | `feat/reset-da-demo` com `supabase/reset_demo.sh` e o aviso na seção "Banco" do README. Testado pelo Devin numa base local | a preencher | Nada. Revisão do Claude leu o script (transação única, sem `cascade`, confirmação fora da base local), conferiu que o `seed.sql` não abre transação própria e que o CI passou. Não rodou o script |
 
 ## Fontes
 
