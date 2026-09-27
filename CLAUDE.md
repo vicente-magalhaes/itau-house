@@ -6,9 +6,9 @@ Solução: **Itaú House** (nome provisório). Fórum interno em que squads publ
 
 ## Memória do projeto
 
-Ler antes de qualquer tarefa. Os documentos brutos originais foram descartados; `memoria/` e `docs/` são a fonte (D-24).
-- `memoria/`: o que muda e envelhece. Tese, decisões, pendências, ideias em aberto e o diário das sessões. O harness-hacka revisa.
-- `docs/`: referência estável, com fonte. Regulamento, dicas dos mentores, enunciado, pesquisa, formato da PRD, marca, equipe, fluxos e roteiro.
+Ler antes de qualquer tarefa. `memoria/` e `docs/` são a fonte (D-24).
+- `memoria/`: o que muda e envelhece. Decisões e o diário das sessões. O harness-hacka revisa.
+- `docs/`: referência estável. Contrato da API, fluxos e roteiro da demo.
 
 A tabela abaixo é gerada pelo harness-hacka a partir do frontmatter de cada nota (`summary`, `read_when`, `review_by`). Não editar à mão: nota nova ganha frontmatter e depois `harness-hacka index --update`.
 
@@ -26,20 +26,10 @@ Tabela mantida à mão. Documento novo em `docs/` entra aqui.
 
 | Arquivo | Conteúdo | Ler quando |
 |---|---|---|
-| [docs/01-hackathon-regras-e-entregas.md](docs/01-hackathon-regras-e-entregas.md) | Entregas, limites, formato da banca, critérios, restrições do regulamento | Qualquer entrega: slides, vídeo, ficha, protótipo |
-| [docs/02-case-c-enunciado.md](docs/02-case-c-enunciado.md) | O que a organização pede no Case C, personas de exemplo | Desenho da solução e do fluxo |
-| [docs/03-evidencias-pesquisa.md](docs/03-evidencias-pesquisa.md) | O que ouvimos de pessoas do Itaú, com limites; fluxo as-is | Argumentos, slide de evidências, mapa ponta a ponta |
-| [docs/06-prd-e-stack.md](docs/06-prd-e-stack.md) | Formato da PRD, restrições do evento e resumo da stack (a fonte é a PRD, seção 9) | Mexer na PRD |
-| [docs/07-identidade-visual.md](docs/07-identidade-visual.md) | Qual fonte de marca vale para quê, regras de front-end, cores, fontes, logo | Front-end, slides, vídeo |
-| [docs/08-equipe.md](docs/08-equipe.md) | Integrantes, papéis, contatos | Slide 6, ficha, divisão de tarefas |
-| [docs/10-guia-dicas-mentores.md](docs/10-guia-dicas-mentores.md) | Dicas dos mentores para a entrega final. Referência principal das perguntas de preparação (D-27) | Slides, pitch, vídeo, ficha, respostas à banca |
 | [plugin/README.md](plugin/README.md) | Plugin do Claude Code: hooks, skill, comando, MCP, como instalar e como rodar na demo | Plugin, MCP, instalação, ensaio |
 | [docs/api.md](docs/api.md) | Contrato da API: rotas sob /api, JSON de entrada e saída, ferramentas do MCP | Back, front, MCP, plugin |
 | [docs/roteiro-demo.md](docs/roteiro-demo.md) | Roteiro da demo: narração, o que o dev digita, o que o plugin responde | Ensaio, vídeo, contrato da API |
 | [docs/fluxos.html](docs/fluxos.html) | Fonte de verdade dos fluxos (ciclo, descoberta, publicação, plataforma). Abrir no navegador; para mudar, editar `FLOWS` no arquivo | Desenho de fluxo, front-end |
-| [docs/devin.md](docs/devin.md) | Plano do Devin: para quê, quando, o que fechar antes e o brief de cada tarefa | Abrir, revisar ou planejar uma sessão do Devin |
-
-Tasks, donos e ordem de execução: [KANBAN.md](KANBAN.md). Antes de começar uma task, marcar `Fazendo` lá; ao terminar, `Feito`.
 
 ## Design system
 
@@ -49,7 +39,6 @@ Ponto de entrada: [design-system/readme.md](design-system/readme.md). Skill: `it
 - Cor, fonte, raio, sombra e espaçamento só por token CSS. Nada de hex ou px de marca solto no código.
 - Nunca vermelho, roxo ou gradiente. Erro usa `--status-error` (azul-marinho) com ícone.
 - Texto de interface em pt-BR, falando com "você", CTA sem urgência.
-- Detalhes e interpretações provisórias em [docs/07-identidade-visual.md](docs/07-identidade-visual.md).
 
 ## Ambiente (Docker)
 
@@ -68,14 +57,14 @@ Comandos completos no [README](README.md#como-rodar).
 - Não inventar dados, resultados, depoimentos, aprovações ou números. O regulamento e a banca punem isso.
 - Separar sempre fato, hipótese e simulação. Evidência vem com fonte e limite.
 - Não tratar item "em aberto" ou "(sugestão Claude)" como decisão. Perguntar ao time.
-- Não retomar teses descartadas (lista em 04) sem decisão do time.
+- Não retomar teses descartadas sem decisão do time.
 - Só dados fictícios. Nada de dado real, segredo, chave ou material interno do Itaú em código, tela ou vídeo.
 - Não conectar a sistemas reais do banco. Integração simulada é marcada como simulada.
 - Uma persona, uma tarefa, um fluxo funcionando. Resistir a adicionar funcionalidades.
 - Código segue a PRD (`PRD.md`, quando existir). Cada mudança cita o requisito (RF/RN/RNF) que atende.
 - Git: trabalhar numa branch `feat/` ou `fix/` criada a partir da `main`. Antes de juntar, trazer a `main` para a branch e conferir que o fluxo principal roda. Juntar com merge direto na `main`. Sem `dev` e sem Pull Request. Nunca commitar direto na `main`.
 - Ao fechar uma decisão, registrar com `/harness-hacka:decide` (0029). Ela vira um arquivo em `memoria/decisions/`, como `proposed`, e só uma pessoa aceita, com `accept NNNN`. Nos textos antigos, D-12 é a decisão 0012.
-- O repositório é privado durante o desenvolvimento. Antes da banca, será limpo para ficar só o código. `memoria/`, os documentos numerados de `docs/` e `itau-design-system/` são internos: citam pessoas e conversas do Itaú e contêm a marca do banco. `design-system/` fica, porque o front-end depende dele.
+- O conteúdo interno do hackathon (pesquisa com pessoas do Itaú, regulamento, guia de marca oficial, notas de estratégia) saiu da `main` antes de o repositório ficar público (0009). Não trazer de volta nem citar pessoa ou conversa do Itaú. `design-system/` fica, porque o front-end depende dele.
 - Escrever em português do Brasil, frases curtas.
 - `AGENTS.md` resume estas regras para agentes que não leem este arquivo, como o Devin. Mudou uma regra aqui, atualize lá.
 

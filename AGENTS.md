@@ -6,9 +6,8 @@ A fonte das regras é o [CLAUDE.md](CLAUDE.md). Este arquivo resume o que todo a
 ## Antes de qualquer tarefa
 
 1. Leia o [CLAUDE.md](CLAUDE.md) e as [regras de segurança](.claude/rules/security.md).
-2. Se você é o Devin, a sua tarefa está em [docs/devin.md](docs/devin.md). Siga o brief dela e faça só o que ele pede.
-3. Requisitos em [PRD.md](PRD.md). Contrato da API em [docs/api.md](docs/api.md). Onde a PRD (seção 10) e o contrato divergem, vale o contrato: o JSON dele é o que front, MCP e plugin esperam.
-4. Tasks, donos e status em [KANBAN.md](KANBAN.md). Decisões em [memoria/decisions/](memoria/decisions/README.md).
+2. Requisitos em [PRD.md](PRD.md). Contrato da API em [docs/api.md](docs/api.md). Onde a PRD (seção 10) e o contrato divergem, vale o contrato: o JSON dele é o que front, MCP e plugin esperam.
+3. Decisões em [memoria/decisions/](memoria/decisions/README.md).
 
 ## O projeto
 
@@ -39,7 +38,7 @@ O que vale para qualquer rota do back:
 - Faça push só da sua branch. Não abra Pull Request. Não faça merge nem push na `main`. Quem junta é uma pessoa do time (decisão 0008).
 - Nunca force push. Nunca reescreva histórico.
 - Commits em Conventional Commits, citando o requisito que atendem: `feat: feed por popularidade (RF-25)`.
-- Não edite o `KANBAN.md`, a pasta `memoria/` nem os briefs de `docs/devin.md`. Quem mexe neles é uma pessoa.
+- Não edite a pasta `memoria/`. Quem mexe nela é uma pessoa.
 
 ### Segredos
 - Nenhuma chave, token ou senha em código, commit, log, teste ou relatório.
@@ -49,7 +48,7 @@ O que vale para qualquer rota do back:
 
 ### Dados e conteúdo interno
 - Só dados fictícios. Nome de pessoa real não entra em seed, tela, teste ou exemplo. Exceção única: o Vicente, autor do ativo real `harness-hacka`, com consentimento (decisão 0036). Não crie outra exceção.
-- `memoria/`, os documentos numerados de `docs/` (como `docs/03-evidencias-pesquisa.md`) e `itau-design-system/` são internos: citam pessoas e conversas do Itaú. Não copie nada deles para código, seed, tela, commit ou relatório.
+- O conteúdo interno do hackathon (pesquisa com pessoas do Itaú, regulamento, guia de marca oficial) não está neste repositório. Não traga de volta nem cite pessoa, conversa ou informação interna do Itaú.
 - Não invente dados, resultados, números ou depoimentos.
 - Nenhuma conexão com sistema real do Itaú. O que dependeria do banco fica simulado e aparece como **[SIMULADO]** na tela.
 

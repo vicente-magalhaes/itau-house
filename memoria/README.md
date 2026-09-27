@@ -1,8 +1,8 @@
 # Memória do projeto
 
 O que o projeto sabe e que muda com o tempo, escrito para pessoas e para agentes de código.
-Mantida com o harness-hacka. Referência estável, que não vence (regulamento, enunciado,
-pesquisa, formato da PRD, marca, equipe), fica em [`docs/`](../docs/) (D-24).
+Mantida com o harness-hacka. Referência estável, que não vence (contrato da API, fluxos,
+roteiro da demo), fica em [`docs/`](../docs/) (D-24).
 
 | Onde | O que guarda | Quem escreve |
 |---|---|---|
