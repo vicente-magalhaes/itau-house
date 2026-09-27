@@ -22,10 +22,10 @@ O gargalo é revisar e juntar sem conflito. Por isso: poucas sessões, bem delim
 
 | ID | Tarefa | Kanban | Quando | Valida |
 |---|---|---|---|---|
-| [DV-1](#dv-1-pipeline-de-deploy) | Pipeline de deploy: front na Vercel, back no Render | T-38 | Agora | JP |
+| [DV-1](#dv-1-pipeline-de-deploy) | Pipeline de deploy: front na Vercel, back no Render | T-38 | Agora | Vicente |
 | [DV-2](#dv-2-rotas-do-back) | Rotas do back: catálogo, decisões, publicação e coordenação | T-06, T-07 | Depois da base do back (T-39) e do M1 | Alexandre (T-06), Bruno (T-07) |
 | [DV-3](#dv-3-reset-da-demo) | Reset da demo: um comando volta o banco ao seed | T-25 | Depois da migração aplicada (T-05) | Bruno |
-| [DV-4](#dv-4-conferência-do-site-publicado) | Conferência do site publicado contra o checklist de entrega | T-15 | Depois do deploy com dados (T-15) | JP |
+| [DV-4](#dv-4-conferência-do-site-publicado) | Conferência do site publicado contra o checklist de entrega | T-15 | Depois do deploy com dados (T-15) | Vicente |
 
 Ordem: DV-1 logo que a decisão 0031 for aceita. DV-3 assim que a migração estiver aplicada. DV-2 depois da base, de preferência antes de dormir, para rodar à noite. DV-4 no dia 27, depois do T-15.
 
@@ -42,12 +42,12 @@ Ordem: DV-1 logo que a decisão 0031 for aceita. DV-3 assim que a migração est
 Um brief só roda com os itens dele marcados. Quem abre a sessão confere.
 
 **Antes da primeira sessão**
-- [ ] `AGENTS.md` na `main`.
+- [x] `AGENTS.md` na `main`.
 - [ ] Decidir e registrar que o Devin pode ler o repositório inteiro. Ao conectar, ele indexa tudo, inclusive `memoria/`, os documentos numerados de `docs/` e `itau-design-system/`. Contra: a regra de segurança diz "não colar em serviço externo", e o regulamento tem a 3.7.2. A favor: a ferramenta veio da organização, e o Claude Code já lê o mesmo conteúdo.
 - [ ] Devin ligado ao GitHub só neste repositório, com o ambiente montado (ver "Como começar").
 
 **DV-1 (deploy)**
-- [ ] A-17 decidida: [decisão 0031](../memoria/decisions/0031-hospedagem-front-na-vercel-back-no-render.md), front na Vercel e back no Render. Falta o `accept 0031`.
+- [x] A-17 decidida e aceita: [decisão 0031](../memoria/decisions/0031-hospedagem-front-na-vercel-back-no-render.md), front na Vercel e back no Render.
 - [ ] Contas na Vercel e no Render criadas pelo Vicente, entrando com o GitHub dele. O repositório está na conta pessoal dele, e a documentação da Vercel só restringe o plano grátis em repositório de organização. Então a Vercel deve publicar commits de todo o time. Conferir no primeiro merge de outra pessoa.
 - [ ] Tokens da Vercel e do Render guardados nos Secrets do Devin. Nunca no texto da sessão, nunca no repositório.
 - [ ] `SUPABASE_URL` e `SUPABASE_SECRET_KEY` à mão para uma pessoa colar no painel do Render. O back ainda não usa, mas vai usar. O Devin não recebe essas chaves.
