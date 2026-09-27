@@ -1,0 +1,22 @@
+# Back-end no Render (decisão 0031). O Render lê este arquivo pelo Blueprint ligado ao repositório.
+# Web Service Docker a partir do backend/Dockerfile. O último estágio (production) já lê $PORT.
+# SUPABASE_URL e SUPABASE_SECRET_KEY vêm do Environment Group itau-house-supabase, criado no painel.
+
+services:
+  - type: web
+    name: itau-house-api
+    runtime: docker
+    plan: free
+    # Mais perto do Supabase, que está em us-east-1.
+    region: virginia
+    branch: main
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /api/health
+    # Só publica quando o CI do commit fica verde.
+    autoDeployTrigger: checksPass
+    buildFilter:
+      paths:
+        - backend/**
+    envVars:
+      - fromGroup: itau-house-supabase
