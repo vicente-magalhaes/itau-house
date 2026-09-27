@@ -88,7 +88,6 @@ export function Ativo({ id }) {
           <span className="etiqueta">
             {ESTANTES[ativo.estante].nome} · {ativo.tipo}
           </span>
-          <span style={{ font: 'var(--fw-regular) var(--fs-caption)/1.3 var(--font-text)' }}>{ativo.formato}</span>
         </div>
         <h1 className="titulo-pagina">{ativo.titulo}</h1>
         <p>{ativo.resumo}</p>

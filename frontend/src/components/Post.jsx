@@ -41,7 +41,6 @@ export function PostCard({ ativo, preview }) {
       <div className="capa card-capa">
         <Icon name={iconeEstante(ativo.estante)} size={24} />
         <span className="card-capa-tipo">{ativo.tipo}</span>
-        <span className="card-capa-formato">{ativo.formato}</span>
       </div>
 
       <div className="card-corpo">
