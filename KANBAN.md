@@ -25,15 +25,15 @@ Requisitos em [PRD.md](PRD.md). Fluxos em [docs/fluxos.html](docs/fluxos.html). 
 | **Devin** (agente, sessões do Vicente) | Tasks isoladas que rodam sozinhas: deploy, rotas do back, reset da demo, conferência do link. Briefs e o que fechar antes em [docs/devin.md](docs/devin.md) | Nada: toda entrega dele passa por uma pessoa |
 
 O Claude rascunha textos (ficha, Q&A, pesquisa, catálogo) quando pedido. Sempre com um humano validando.
-O Devin só pega uma task depois que o "Fechar antes" dela, no [docs/devin.md](docs/devin.md), estiver marcado. Nas tasks dele, o dono continua sendo uma pessoa: `Vicente (Devin)`.
+O Devin só pega uma task depois que o "Fechar antes" dela, no [docs/devin.md](docs/devin.md), estiver marcado. Toda sessão dele é aberta pelo Vicente. Na T-38 e na T-15, o dono é o Devin e o Vicente valida. Nas outras, o dono é `Vicente (Devin)` e outra pessoa valida.
 
 ## Ordem de cada um
 
 - **Bruno:** T-02 → T-03 → T-04 → T-05 (assumida do Vicente) → T-10 → T-11 → T-13 → T-14 → T-24 → T-30 (vídeo completo) → T-37 (secundária)
-- **Vicente:** T-39 → T-12 → T-15 → T-34 → T-35. Em paralelo, abre, revisa e junta o que o Devin faz (T-38, T-25, T-06, T-07)
+- **Vicente:** T-39 → T-12 → T-34 → T-35. Em paralelo, abre, revisa e junta o que o Devin faz (T-38, T-25, T-06, T-07, T-15), e valida a T-38 e a T-15
 - **Alexandre:** T-16 → T-17 → T-18 → T-19 → T-20 → T-24. A T-40 entra assim que o T-38 tiver o link
 - **JP:** T-01 → T-22 → T-23 → T-26 → T-27 → T-28 → T-29 → T-31 → T-32 → T-33 → T-36 → T-35
-- **Devin:** T-38 (agora) → T-25 (depois do T-05) → T-06 e T-07 (depois do T-39 e do M1) → conferência do link do T-15
+- **Devin:** T-38 (agora) → T-25 (depois do T-05) → T-06 e T-07 (depois do T-39 e do M1) → T-15, com a conferência do link
 
 ## Marcos
 
@@ -72,7 +72,7 @@ O Devin só pega uma task depois que o "Fechar antes" dela, no [docs/devin.md](d
 | T-19 | Fila de aprovação do Cord+: ver resultado do validador, aprovar, devolver com comentário | Coordenadora aprova o ativo da cena 2 e ele aparece no feed | Alexandre | Vicente | T-07 | RF-32, RF-19, RF-21 | Fazendo |
 | T-23 | Evidências: registrar a fonte do "bench do centão" ou descartar. Buscar dados públicos sobre retrabalho e reuso, com fonte (pedir ao Claude) | `docs/03` atualizado. Nada sem fonte vai para o slide | JP | Bruno | — | critério "Dados" | A fazer |
 | T-26 | Diferenciação: comparar com Backstage, catálogos de agentes e as skills homologadas do Itaú | Uma frase clara de por que é diferente, em `memoria/05` (A-05) | JP | Bruno | — | A-05, R-01 | A fazer |
-| T-38 | Pipeline de deploy com o que já está na `main`: front na Vercel, back no Render, `/api` repassado pela Vercel. Pelo Devin ([DV-1](docs/devin.md#dv-1-pipeline-de-deploy)) | Domínio de produção abre numa janela anônima e `/api/health` responde por ele. Cada merge na `main` publica sozinho | Vicente (Devin) | JP | A-17 | RNF-03, entrega 1 | A fazer |
+| T-38 | Pipeline de deploy com o que já está na `main`: front na Vercel, back no Render, `/api` repassado pela Vercel. Pelo Devin ([DV-1](docs/devin.md#dv-1-pipeline-de-deploy)) | Domínio de produção abre numa janela anônima e `/api/health` responde por ele. Cada merge na `main` publica sozinho | Devin (sessão do Vicente) | Vicente | A-17 | RNF-03, entrega 1 | A fazer |
 | T-39 | Base do back: como as rotas falam com o banco, usuário pelo cabeçalho numa dependência só, uma rota de molde com teste. É o que o Devin copia no DV-2 | Rota de molde responde, com teste, e os testes rodam sem tocar no Supabase do time | Vicente | Bruno | T-05 | RF-05, RF-23, RNF-07 | A fazer |
 
 ## Fase 2: integrar e testar (amanhã cedo)
@@ -80,7 +80,7 @@ O Devin só pega uma task depois que o "Fechar antes" dela, no [docs/devin.md](d
 | ID | Task | Pronto quando | Dono | Valida | Depende | Req | Status |
 |---|---|---|---|---|---|---|---|
 | T-14 | Respostas gravadas para as cenas da demo, se o Claude cair ou demorar | Demo roda completa com a internet do LLM desligada, e a tela indica que é resposta gravada | Bruno | Vicente | T-10, T-11 | RNF-04 | Fazendo |
-| T-15 | Deploy da demo: build de produção, seed carregado, link ou instruções de execução. O pipeline é o T-38. O Devin confere o link ([DV-4](docs/devin.md#dv-4-conferência-do-site-publicado)) | Link abre sem login (ou instrução roda do zero) com os dados da demo | Vicente | JP | T-06, T-07, T-17 a T-19, T-25, T-38 | RNF-04 | A fazer |
+| T-15 | Deploy da demo: build de produção, seed carregado, link ou instruções de execução. O pipeline é o T-38. O Devin confere o link ([DV-4](docs/devin.md#dv-4-conferência-do-site-publicado)). Rodar o seed no Supabase do time fica com uma pessoa (AGENTS.md) | Link abre sem login (ou instrução roda do zero) com os dados da demo | Devin (sessão do Vicente) | Vicente | T-06, T-07, T-17 a T-19, T-25, T-38 | RNF-04 | A fazer |
 | T-20 | P1 do front, só se M2 estiver pronto: curtir, instalar com manual, editar post, filtros | Cada item funciona sem quebrar o fluxo P0 | Alexandre | Bruno | M2 | RF-26, RF-28, RF-29, RF-31 | A fazer |
 | T-24 | Ensaio da demo ponta a ponta no build de produção, seguindo o roteiro | Duas execuções seguidas sem erro, cronometradas | Bruno | JP | T-13, T-15 | todos P0 | A fazer |
 | T-25 | Reset rápido do estado da demo: apaga os dados e reaplica o `supabase/seed.sql`. Pelo Devin ([DV-3](docs/devin.md#dv-3-reset-da-demo)). Contra o Supabase do time, quem roda é uma pessoa | Um comando volta o banco ao estado inicial do roteiro | Vicente (Devin) | Bruno | T-04, T-05 | RNF-04 | A fazer |
