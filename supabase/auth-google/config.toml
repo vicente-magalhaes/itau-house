@@ -5,10 +5,10 @@
 project_id = "itau-house"
 
 [auth]
-site_url = "http://localhost:5173"
-# Quando o front estiver na Vercel (0031), acrescente a URL exata dele. Nada de curinga
-# *.vercel.app: qualquer site da Vercel poderia receber o token do login.
-additional_redirect_urls = ["http://localhost:5173/**", "http://localhost:8080/**"]
+site_url = "https://itau-house.vercel.app"
+# URL exata da produção na Vercel (0031). Nada de curinga *.vercel.app: qualquer site da
+# Vercel poderia receber o token do login. Sem ela na lista, o Supabase cai no site_url.
+additional_redirect_urls = ["https://itau-house.vercel.app/**", "http://localhost:5173/**", "http://localhost:8080/**"]
 
 [auth.external.google]
 enabled = true
