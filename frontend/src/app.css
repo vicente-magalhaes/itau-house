@@ -167,18 +167,30 @@ input::placeholder { color: var(--gray-500); }
 
 .grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--space-4); }
 
-/* Card de ativo: branco com borda fina, tipo no topo do corpo, rodapé com números. Sombra só no hover. */
+/* Card de ativo: branco com borda fina, tipo no topo do corpo, rodapé com números. O card fica parado;
+   quem reage ao hover são os micro cards do rodapé. */
 .card-ativo {
   display: flex; flex-direction: column; overflow: hidden; cursor: pointer;
   border: 1px solid var(--ih-line); border-radius: var(--radius-lg); background: var(--ih-card);
-  transition: transform var(--dur-base) var(--ease-standard), box-shadow var(--dur-base) var(--ease-standard);
 }
-.card-ativo:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); }
 .card-corpo { flex: 1; display: flex; flex-direction: column; gap: var(--space-2); padding: var(--ih-pad); }
 .card-autor { gap: var(--space-2); margin-top: var(--space-2); }
-.card-rodape { display: flex; align-items: center; gap: var(--space-4); padding: var(--space-3) var(--ih-pad); border-top: 1px solid var(--ih-line); }
+.card-rodape { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--ih-pad); border-top: 1px solid var(--ih-line); }
 .contagem { display: inline-flex; align-items: center; gap: var(--ih-gap-contagem); font: var(--fw-bold) var(--fs-body-sm)/1 var(--font-text); color: var(--ih-ink2); }
 .card-quando { margin-left: auto; }
+
+/* Micro cards do rodapé (gostei, reaproveitamentos, adaptações): pílula que sobe e ganha sombra no hover. */
+.card-rodape .contagem { height: 32px; padding: 0 var(--space-3); border-radius: var(--radius-pill); cursor: default; }
+.card-rodape :is(.contagem, .btn-curtir-card) {
+  transition: background var(--dur-fast) var(--ease-standard), color var(--dur-fast) var(--ease-standard),
+    transform var(--dur-base) var(--ease-standard), box-shadow var(--dur-base) var(--ease-standard);
+}
+.card-rodape :is(.contagem, .btn-curtir-card:not(:disabled)):hover { transform: translateY(-2px); box-shadow: var(--shadow-1); }
+.card-rodape .contagem:hover { background: var(--ih-surface); color: var(--ih-ink); }
+.btn-curtir-card:not(:disabled):not([aria-pressed="true"]):hover { background: var(--surface-muted); }
+.btn-curtir-card[aria-pressed="true"]:not(:disabled):hover { background: var(--brand-hover); }
+/* Ao clicar, desce e afunda: o aperto vence o hover. */
+.card-rodape .btn-curtir-card:not(:disabled):active { transform: scale(var(--ih-aperto)); box-shadow: none; }
 
 /* Quadrado de ícone: neutro (governança) ou do tipo do ativo, laranja sobre branco (o laranja não passa de 3:1 sobre cinza). */
 .icone-quadrado { width: 40px; height: 40px; flex: none; display: grid; place-items: center; border-radius: var(--radius-md); background: var(--ih-surface); color: var(--ih-ink); }
@@ -273,7 +285,6 @@ input::placeholder { color: var(--gray-500); }
 .linha-pessoa, .topo-marca, .topo-foto, .busca-limpar, .btn-texto { transition: transform var(--dur-fast) var(--ease-standard); }
 .linha-pessoa .nome { transition: color var(--dur-fast) var(--ease-standard); }
 :is(button, a):is(.btn, .linha-pessoa, .topo-marca, .topo-foto, .busca-limpar, .btn-texto):not(:disabled):active { transform: scale(var(--ih-aperto)); }
-.card-ativo:active { transform: translateY(0) scale(.99); }
 .foto { transition: box-shadow var(--dur-base) var(--ease-standard); }
 .busca-limpar { animation: ih-surgir var(--dur-fast) var(--ease-standard) backwards; }
 .tags > * { animation: ih-surgir var(--dur-base) var(--ease-standard) backwards; }
