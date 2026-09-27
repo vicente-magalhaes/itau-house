@@ -55,7 +55,7 @@ Um brief só roda com os itens dele marcados. Quem abre a sessão confere.
 - [x] Como manter o Render acordado: fluxo no n8n (T-40, ver abaixo). O Devin não configura ping.
 
 **DV-2 (rotas do back)**
-- [ ] M1: [docs/api.md](api.md) revisado pelo Vicente e pelo Alexandre (T-03). O contrato não muda durante a sessão.
+- [x] M1: [docs/api.md](api.md) revisado pelo Vicente e pelo Alexandre (T-03), em 27/09. O contrato não muda durante a sessão.
 - [ ] T-05 aplicada no Supabase, com aprovação de uma pessoa. A migração já está escrita pelo Bruno em `supabase/migrations/20260926230000_schema_inicial.sql`, com ids em `text` e RLS ligado.
 - [ ] T-39: base do back na `main`. É o molde que o Devin copia:
   - acesso ao banco atrás de uma dependência do FastAPI, com duas versões: Supabase e memória, carregada do `seed.json`. Assim os testes nunca tocam o Supabase do time **(sugestão Claude)**;
@@ -64,7 +64,7 @@ Um brief só roda com os itens dele marcados. Quem abre a sessão confere.
 - [ ] Combinado com o Bruno: o T-10 também mexe em `backend/app/`. Cada um fica nos próprios arquivos.
 
 **DV-3 (seed e reset)**
-- [ ] T-05 aplicada. `seed.json` estável (T-04).
+- [x] Migração do T-05 no repositório. O Devin testa numa base descartável, então não precisa dela aplicada no Supabase do time. O reset precisa funcionar com qualquer `seed.sql` que saia do gerador, porque o `seed.json` ainda muda (T-04). Liberada em 27/09.
 
 **DV-4 (conferência)**
 - [ ] T-15 feito: link de produção com os dados da demo.

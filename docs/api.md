@@ -14,7 +14,7 @@ Requisitos em [PRD.md](../PRD.md). Cenas em [roteiro-demo.md](roteiro-demo.md). 
   - Exceção: o autor sempre vê os próprios ativos, em qualquer status. O Cord+ vê os ativos do seu squad que estão na fila.
   - Um ativo que a pessoa não vê responde **404**, nunca 403. Assim a API não revela que ele existe.
 - **Login com Google (proposta 0034):** o front entra pelo Supabase Auth (`signInWithOAuth` com `provider: "google"`, usando `VITE_SUPABASE_URL` e a chave publicável) e depois a pessoa escolhe a persona. O front manda `Authorization: Bearer <token do Supabase>` junto com `X-Usuario-Id`. No MVP, o back **não exige** o token: quem manda na autorização continua sendo a persona. O plugin e o MCP mandam só `X-Usuario-Id`.
-- IDs são strings opacas (uuid no banco). Datas em ISO 8601 com fuso (`2026-09-27T10:15:00-03:00`).
+- IDs são strings legíveis, como `u-rafael` (`text` no banco, T-05). Datas em ISO 8601 com fuso (`2026-09-27T10:15:00-03:00`).
 - Erro: `{ "erro": "codigo_curto", "mensagem": "Texto para a pessoa, em pt-BR." }`
   - 401 sem usuário · 403 perfil sem permissão · 404 não existe ou não é visível · 409 status não permite a ação · 422 entrada inválida ou barrada pelo validador.
 
@@ -284,7 +284,7 @@ Na leitura da pasta, ignore `.git/`, `__pycache__/`, `node_modules/`, binários 
 
 ## O que muda em relação ao que já existe
 
-**Banco (T-05, Vicente)**
+**Banco (T-05, Bruno)**
 - A PRD §10 chama os campos de `titulo`, `descricao` e `alcance`. O contrato usa `nome`, `resumo` e `visibilidade`, que são os nomes do front. O nome da coluna no banco fica a critério do Vicente. O que vale é o JSON.
 - `conteudo text` vira `arquivos jsonb` (lista de `{caminho, conteudo}`). O validador aponta arquivo e linha.
 - `validacoes.ativo_id` precisa aceitar `null`: a validação roda antes de o rascunho existir.
