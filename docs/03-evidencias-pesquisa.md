@@ -6,7 +6,7 @@ review_by: 2026-10-01
 
 # Evidências e pesquisa
 
-O que ouvimos de pessoas do Itaú. Cada fonte tem limites; respeitá-los no pitch (critério "Dados").
+O que ouvimos de pessoas do Itaú e o que achamos em fonte pública. Cada fonte tem limites; respeitá-los no pitch (critério "Dados").
 Regra: fato dito pela fonte ≠ interpretação nossa. Interpretações estão marcadas.
 
 Regras de evidência do guia:
@@ -23,6 +23,8 @@ Regras de evidência do guia:
 | F3 | Product Analyst (PA), atua em uma squad | 26/09/2026, no evento | Jornada de produtização e dor do dev | n = 1. Relato sobre o time de dev, não do próprio dev. |
 | F4 | Mentores do hackathon | 26/09/2026 | Orientação de recorte | Não registrado em detalhe. |
 | F5 | 2 mentores de produto, externos ao Itaú | 26/09/2026, no evento | Pergunta sobre a métrica de impacto | n = 2. Não são do Itaú. É orientação sobre a entrega, não evidência da dor. |
+| F6 | Cognition, fornecedora do Devin: página do crédito Devin do hackathon e blog | Blog de 22/09/2026; página vista em 26/09/2026 | Adoção do Devin no Itaú e números de resultado | Marketing do fornecedor, sem método publicado. Números não auditados. |
+| F7 | Documentação pública do Devin | Conferida em 26/09/2026 | Como o Devin compartilha skills e plugins (análogo, dica 4 do guia) | Doc pública. Não mostra como o Itaú configurou. Não é evidência da dor. |
 
 Ainda não conversamos com um dev. É a persona escolhida. Lacuna principal. Em andamento: o time está buscando um dev no evento (A-13).
 
@@ -114,6 +116,41 @@ Já existe e funciona (não reinventar): OKRs em árvore, SVM, usabilidade, árv
 - Resposta do time: retorno de tempo, convertido em reais (decisão [0025](../memoria/decisions/0025-metrica-retorno-de-tempo.md)).
 - A pergunta bate com as dicas 5 e 6 do [guia dos mentores](10-guia-dicas-mentores.md).
 
+## F6: Cognition, sobre o Devin no Itaú
+
+Dois textos do fornecedor.
+- **Página do crédito Devin do hackathon** (vista em 26/09/2026). Diz que o Itaú disponibilizou o Devin para mais de 10.000 engenheiros. Cita:
+  - migração .NET → Java 6x mais rápida e de SQL Server 5x mais rápida;
+  - 70% das vulnerabilidades de segurança corrigidas automaticamente;
+  - cobertura de testes de ~50% para 90%+;
+  - nos squads, 20–30% mais throughput e ciclos de entrega 10–15% mais curtos.
+- **[Blog da Cognition](https://cognition.com/blog/devin-comes-to-sao-paulo)** (22/09/2026). "More than 75% of Itaú's technology teams use Devin", "documenting 300,000+ repositories". Repete os números de migração, vulnerabilidades e throughput. Não fala em 10 mil engenheiros.
+
+O que sustenta: o Devin é ferramenta de engenharia adotada em escala no Itaú.
+O que não sustenta: os números como fato. No pitch, "segundo a Cognition".
+
+Interpretação nossa: com F1 (Copilot oficial, Claude em homologação, GPT Enterprise, Figma Make), o Itaú convive com várias ferramentas de IA. F6 fala só de engenharia. Não diz nada sobre produto, design ou Finanças.
+
+## F7: documentação pública do Devin (análogo)
+
+Conferida em 26/09/2026, nas páginas [Knowledge](https://docs.devin.ai/product-guides/knowledge) e [Plugins](https://docs.devin.ai/product-guides/plugins). Serve à dica 4 do guia: pesquisem o que já existe.
+
+O que o Devin já tem:
+- **Plugins:** juntam skills, regras, hooks, servidores MCP e subagentes. Instalado, cada skill vira `/<plugin>:<skill>`.
+- **Três escopos:** pessoal, organização e empresa inteira.
+- **Marketplace:** o oficial da Cognition junto com os plugins que a organização ou a empresa adicionou. O admin pode esconder o oficial.
+- **Knowledge** está sendo migrado para skills em plugins: "Knowledge is deprecated and will be removed in a future update".
+- **Formato:** skill em markdown com frontmatter, parecido com o do Claude Code. O manifesto do plugin é outro. Leitura nossa da doc, não testada.
+
+O que a doc não mostra:
+- aprovação antes de compartilhar. A responsabilidade fica com quem instala: "only proceed if you trust the plugin and have verified its source";
+- curtidas, contagem de uso ou crédito por derivação;
+- aviso de "já existe algo parecido" no momento de criar.
+
+Limite: não aparecer na doc pública não quer dizer que não existe. A versão enterprise do Itaú pode ter mais.
+
+Interpretação nossa: o Devin resolve a distribuição de skills dentro da própria ferramenta. Análise e respostas para a banca em [05](../memoria/05-pendencias-e-riscos.md), seção "Devin: concorrente ou argumento".
+
 ## Mapa do fluxo ponta a ponta (base para o entregável do Case C)
 
 Junção de F1 e F3. Onde a dor aparece:
@@ -133,5 +170,6 @@ Junção de F1 e F3. Onde a dor aparece:
 - Frequência e custo do retrabalho: sem número medido. Já sabemos como calcular (retorno de tempo, D-25), mas o exemplo usa premissas do time. O número real só sai de um piloto.
 - Como o dev procura hoje algo que já existe (GitHub interno? pergunta no chat? não procura?).
 - Como funciona o catálogo de skills e agentes homologados: onde fica, quem homologa, quem usa.
+- Como o Itaú usa os plugins e skills do Devin: se as squads compartilham entre si, quem aprova, se produto e design têm acesso (F7). Perguntar ao dev da A-13.
 - Tempo por etapa do fluxo.
 - Quais decisões as pessoas querem manter humanas (F1 não chegou a responder). O time tem uma proposta (D-26), mas ninguém do Itaú foi ouvido sobre ela.
