@@ -30,10 +30,10 @@ O Devin só pega uma task depois que o "Fechar antes" dela, no [docs/devin.md](d
 ## Ordem de cada um
 
 - **Bruno:** T-02 → T-03 → T-04 → T-05 (assumida do Vicente) → T-10 → T-11 → T-13 → T-14 → T-24 → T-30 (vídeo completo) → T-37 (secundária)
-- **Vicente:** T-40 → T-34 → T-35. Em paralelo, abre, revisa e junta o que o Devin faz (T-38, T-25, T-39, T-12, T-06, T-07, T-42, T-43, T-15), e valida a T-38 e a T-15
+- **Vicente:** T-40 → T-34 → T-35. Em paralelo, abre, revisa e junta o que o Devin faz (T-38, T-25, T-39, T-12, T-06, T-07, T-42, T-43, T-44, T-15), e valida a T-38 e a T-15
 - **Alexandre:** T-16 → T-17 → T-18 → T-19 → T-20 → T-24
 - **JP:** T-01 → T-22 → T-23 → T-26 → T-27 → T-28 → T-29 → T-31 → T-32 → T-33 → T-36 → T-35
-- **Devin:** T-38, T-25, T-39, T-12, T-06 e T-07 entregues → T-42 e T-43 (agora, em paralelo) → T-15, com a conferência do link (DV-4)
+- **Devin:** T-38, T-25, T-39, T-12, T-06 e T-07 entregues → T-42, T-43 e T-44 (agora, em paralelo) → T-15, com a conferência do link (DV-4)
 
 ## Marcos
 
@@ -90,6 +90,7 @@ O Devin só pega uma task depois que o "Fechar antes" dela, no [docs/devin.md](d
 | T-40 | Manter o back acordado: fluxo no n8n que chama `https://itau-house.vercel.app/api/health` a cada 8 min, num n8n ligado 24 h (não num notebook que dorme). Como montar em [docs/devin.md](docs/devin.md#manter-o-render-acordado) | Histórico do n8n com uma execução a cada 8 min. Depois de 1 h sem ninguém usar, `/api/health` responde em menos de 2 s | Vicente | Alexandre | T-38 | entrega 1, RNF-04 | A fazer |
 | T-42 | Back rápido no Supabase: feed, detalhe e fila sem consulta repetida. Em 27/09, o feed levava 2,2 a 2,5 s em produção. Pelo Devin ([DV-7](docs/devin.md#dv-7-back-rápido-no-supabase)) | Em produção, com o back acordado, o feed responde em menos de 1 s. Mesmas respostas, testes nas duas versões | Vicente (Devin) | Alexandre | T-06, T-07 | RNF-04, RF-25 | A fazer |
 | T-43 | Pessoas da API no front: a pessoa da tela é a que a API vê para cada perfil (hoje Rafael Nunes e Juliana Prado), e o perfil lê da API. É a parte do T-16 que o `docs/api.md` pede. Pelo Devin ([DV-8](docs/devin.md#dv-8-pessoas-da-api-no-front)), com o OK do Alexandre | Entrada, topo e perfil mostram a pessoa da API. Nenhum clique do feed, do post, da fila ou do perfil leva a "não encontrado" | Vicente (Devin) | Bruno | T-06, T-16 | RF-23, RF-24, RF-30, RNF-06 | A fazer |
+| T-44 | Harness no Itaú House: o `harness-hacka` entra no catálogo como o primeiro ativo real, com os arquivos do plugin, e instala a partir de lá (0020). Pelo Devin ([DV-9](docs/devin.md#dv-9-harness-no-itaú-house)) | O harness aparece no feed e na página do ativo, passa no validador e funciona instalado a partir dos arquivos do Itaú House | Vicente (Devin) | Alexandre | T-06, T-25 | RF-17, RF-27, RF-29, RNF-05 | A fazer |
 
 ## Fase 3: apresentação e envio (amanhã, até a submissão)
 
