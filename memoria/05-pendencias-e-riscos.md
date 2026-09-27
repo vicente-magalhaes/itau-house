@@ -1,7 +1,7 @@
 ---
 summary: "Em aberto, riscos e perguntas da banca, sugestões para o time avaliar"
 read_when: "Antes de tratar algo como decidido; ao preparar respostas à banca"
-review_by: 2026-09-27
+review_by: 2026-09-28
 ---
 
 # Pendências e riscos
@@ -19,9 +19,9 @@ Nos textos antigos, D-12 é a decisão 0012.
 | A-06 | Como produto, design e risco entram depois do dev? | Em grande parte coberto pela decisão 0018: qualquer papel do squad usa o fluxo. Falta só a resposta curta para a banca (T-33). |
 | A-08 | Nome final do produto. | "Itaú House" é provisório. |
 | A-10 | Quem de fora do time testa o fluxo, e quando? | Obrigatório registrar pelo menos um teste com conclusão. |
-| A-13 | Conversar com um dev do Itaú no evento. | Em andamento: o time está buscando um dev. Lacuna principal de evidência. |
+| A-13 | Conversar com um dev do Itaú no evento. | Não aconteceu: nenhum dev do Itaú foi ouvido (Vicente, 27/09). Vira limitação declarada no pitch (R-06). |
 | A-18 | O harness conta como elemento pré-existente (regulamento 7.1.1)? | Confirmar com a organização. Pendência que estava na decisão 0020. Ver [01](../docs/01-hackathon-regras-e-entregas.md), propriedade intelectual. |
-| A-19 | A trilha (RF-22) e os contadores (RF-30) ficam na página do post ou na área do Cord+? | A decisão 0028 levou os dois para `#/coord/dados`; a PRD pede na página do post. Confirmar com o time (Alexandre, 26/09). |
+| A-19 | A trilha (RF-22) e os contadores (RF-30) ficam na página do post ou na área do Cord+? | Resposta proposta na [0038](decisions/0038-trilha-e-contadores-ficam-no-post-a-area-do.md): no post, para todos; a área do Cord+ soma. Sai daqui quando a 0038 for aceita. |
 | A-20 | Ligar o Devin no MCP do Itaú House, para mostrar o mesmo catálogo em duas ferramentas? | **(sugestão Claude)** Plugins do Devin aceitam servidor MCP (F7). O nosso roda por stdio e chama a API por HTTP (T-12), então daria para apontar para o back publicado (0031). Não testado. Só depois de o fluxo principal rodar (R-08). Tornaria verdadeira a frase "agnóstico de ferramenta" (R-13). |
 
 ## Checklist de desenho do MVP (exigências do Case C)
@@ -51,7 +51,7 @@ Análise de 26/09/2026 (Vicente, com Claude). Fontes em [03](../docs/03-evidenci
 - **Sobreposição real (F7):** o Devin já distribui skills e plugins na empresa inteira, com marketplace privado. Um "lugar para compartilhar skills" já existe. É o análogo mais próximo do R-01, mais que o catálogo homologado do F1.
 - **O que sobra para nós:** descoberta no momento do trabalho (0017) e governança de entrada (0013, 0026). A doc pública do Devin não mostra nenhum dos dois. A diferenciação tem que ficar aí.
 - **Argumento a favor (Vicente):** o Itaú já escalou quem cria com IA (F6). Como circulam as skills, os agentes e os plugins que esses engenheiros criam, entre squads e com produto, design e Finanças? É o "por que agora". Vários Devins em paralelo, sem saber um do outro, repetem trabalho em velocidade de máquina.
-- **A demo já mostra isso:** na cena 1, o dev reaproveita a skill de uma PM de outra squad. Se ela não usa Devin, o marketplace do Devin não mostraria essa skill a ele.
+- **A demo já mostra isso:** na cena 1, o dev acha e usa o harness-hacka, plugin do Claude Code que o Vicente (PM na demo) publicou em outra squad (0036). Se quem cria não usa Devin, o marketplace do Devin não mostraria esse ativo.
 
 Cuidados **(sugestão Claude)**:
 - **Tom:** complemento, nunca crítica ao Devin. Pode haver na banca quem defendeu esse investimento. Frase candidata: "O Devin acelera quem cria. O Itaú House faz o que foi criado circular, com governança."
@@ -95,10 +95,10 @@ Referência principal para preparar as respostas: o [guia dos mentores](../docs/
 | R-04 | O agente erra: aponta algo que não é parecido, ou não vê o que é. | O agente só sugere, com justificativa rastreável. O dev decide. Medir a precisão. |
 | R-05 | Ninguém publica (catálogo vazio). F1: soluções que dependem de disciplina manual repetem o problema. | Publicar precisa ser efeito colateral do trabalho, não tarefa extra. |
 | R-06 | Evidência fraca: poucas conversas, nenhum dev. | Apresentar como hipótese. Mostrar o plano de validação. |
-| R-07 | A ferramenta oficial é o Copilot; Claude está em homologação. Na engenharia, o Devin está em escala (F6). | Solução agnóstica de ferramenta. |
+| R-07 | A ferramenta oficial é o Copilot; Claude está em homologação. Na engenharia, o Devin está em escala (F6). | Pensada para qualquer agente com MCP (0018). Só testada no Claude Code (A-20). |
 | R-08 | Escopo grande demais para ~10 h. | Uma persona, uma tarefa, um fluxo funcionando. O resto simulado ou como próximo passo. |
 | R-09 | "No futuro, então, a IA aprova sozinha?" Tensiona com o tema do Case C, a decisão humana (decisão 0026). | **(sugestão Claude)** A autonomia vem com número. O agente de julgamento roda ao lado do coordenador e só passa a aprovar sozinho quando concorda com ele numa taxa alta e medida. Mesmo assim, só nos casos de baixo risco (alcance squad, checagens fixas limpas). O resto continua com uma pessoa, que audita por amostragem. |
-| R-10 | "De onde vêm as 2 horas e os R$ 3.600?" (decisão 0025) | Premissas do time, ditas como premissas. O custo-hora de estagiário é conservador. Num piloto, o tempo vem do autor e de quem reusa (ver a decisão 0025). |
+| R-10 | "De onde vêm as 2 horas e os R$ 3.600?" (decisão 0025) | Premissas do time, ditas como premissas. O custo-hora de estagiário é conservador. Num piloto, o tempo vem do autor e de quem reusa (ver a decisão 0025). Dado real, com limite: o autor do harness-hacka, ativo real (0036), declara 2 a 3 h para adaptá-lo no hackathon (Vicente, 27/09). É uma pessoa e um ativo. |
 | R-11 | "O Devin já tem marketplace de skills na empresa inteira." (F7) | **(sugestão Claude)** O Devin distribui, mas a doc pública não mostra aprovação antes de compartilhar nem aviso de "já existe" no momento de criar. Esse é o nosso núcleo (0013, 0017, 0026). E ele só chega a quem usa Devin. Ver "Devin: concorrente ou argumento". |
 | R-12 | "Com agente autônomo, criar do zero ficou barato. Reuso importa menos." Ataca a conta da 0025. | **(sugestão Claude)** Gerar ficou barato; revisar, aprovar e passar pelos gates, não. O próprio Devin entrega "PR pronto para revisão" (F6). Reusar um ativo aprovado aproveita a aprovação que ele já teve. Somar as horas de revisão evitadas (ver "Limites da conta"). |
 | R-13 | "A Cognition vai fazer isso." Ou: "padronizem tudo no Devin." | **(sugestão Claude)** Fornecedor otimiza para a própria ferramenta. O Itaú usa várias (F1, F6), e a camada que atravessa todas e guarda as decisões do coordenador é do banco. O Devin é de engenharia: produto, design e Finanças não estão nele. Limite: "agnóstico" ainda não foi testado (A-20). |
