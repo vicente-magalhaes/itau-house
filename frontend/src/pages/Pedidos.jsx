@@ -12,12 +12,7 @@ export function Pedidos() {
   return (
     <div className="stack stack-5">
       <div className="row wrap spread row-4" style={{ alignItems: 'flex-end' }}>
-        <div className="stack stack-2">
-          <h1 className="titulo-pagina">Não achou? Peça pra quem sabe fazer</h1>
-          <p className="texto" style={{ maxWidth: '62ch' }}>
-            Quem atende um pedido publica o ativo com crédito. Cada pessoa que também quer aumenta a prioridade.
-          </p>
-        </div>
+        <h1 className="titulo-pagina">Não achou? Peça pra quem sabe fazer</h1>
         <Button variant="primary" size="sm" iconLeft="plus" onClick={() => avisar('Pedido simulado. No produto, ele vai pro feed de quem trabalha com o mesmo tema.')}>
           Fazer um pedido
         </Button>
