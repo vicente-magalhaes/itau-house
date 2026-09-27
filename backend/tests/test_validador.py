@@ -125,3 +125,25 @@ def test_chave_pix_de_email_ficticio_passa() -> None:
     r = _validar([{"caminho": "SKILL.md", "conteudo": conteudo}])
 
     assert r.json()["resultado"] == "aprovado"
+
+
+def test_agente_do_claude_code_com_o_script_que_usa() -> None:
+    # Agente é .claude/agents/<nome>.md; o script que ele chama vai junto no post (extras do MCP).
+    agente = "---\nname: massa-pix\ndescription: Gera massa de dados fictícios para testes de Pix.\n---\nRode scripts/gerar_massa.py.\n"
+    r = _validar(
+        [
+            {"caminho": "massa-pix.md", "conteudo": agente},
+            {"caminho": "scripts/gerar_massa.py", "conteudo": SCRIPT_COM_CHAVE},
+        ]
+    )
+    corpo = r.json()
+    assert corpo["resultado"] == "barrado"
+    assert [i["criterio"] for i in corpo["itens"] if i["resultado"] == "falhou"] == ["segredo"]
+
+    r = _validar(
+        [
+            {"caminho": "massa-pix.md", "conteudo": agente},
+            {"caminho": "scripts/gerar_massa.py", "conteudo": SCRIPT_CORRIGIDO},
+        ]
+    )
+    assert r.json()["resultado"] == "aprovado"

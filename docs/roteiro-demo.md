@@ -39,12 +39,12 @@ Ativo real do time: o harness-hacka, que o Vicente (PM na demo) publicou. Adapta
 - "Ele acha o harness que o Vicente, PM de outra squad, já publicou, e entende por que serve."
 - "Usa em vez de começar do zero. Só adaptar esse harness levou 3 horas para o nosso time."
 
-## Cena 2: cria, é barrado, corrige, é aprovado (0:50–1:40)
+## Cena 2: cria um agente, é barrado, corrige, é aprovado (0:50–1:40)
 
 | # | Tela | O que acontece | Sistema |
 |---|---|---|---|
-| 1 | Claude Code | Rafael: `cria uma skill que gera massa de dados fictícios para testes de Pix, usando meu script scripts/gerar_massa.py`. Aceita a busca | RF-03, RF-04 |
-| 2 | Claude Code | Plugin: "Não encontrei nada parecido. Quando terminar, posso ajudar a publicar." Claude cria a skill | `buscar_ativos` (RF-11) |
+| 1 | Claude Code | Rafael: `cria um agente que gera massa de dados fictícios para testes de Pix, usando meu script scripts/gerar_massa.py`. Aceita a busca. É um agente, não uma skill: o vídeo mostra que o Itaú House serve a qualquer ativo | RF-03, RF-04 |
+| 2 | Claude Code | Plugin: "Não encontrei nada parecido. Quando terminar, posso ajudar a publicar." Claude cria o agente em `.claude/agents/`. O script que ele usa entra no post junto (`extras`) | `buscar_ativos` (RF-11) |
 | 3 | Claude Code | Plugin: "**Barrado.** Chave de API em `scripts/gerar_massa.py`, linha 12. Leia de uma variável de ambiente. Nada foi enviado." | `validar_ativo`, só código, sem IA (RF-14, RF-15, D-26) |
 | 4 | Claude Code | Rafael: `corrige`. Validação de novo: **passou**. Plugin: "Quer publicar? Eu monto o post, você revisa, a Juliana aprova." Rafael: `sim` | RF-16 |
 | 5 | Claude Code | Plugin mostra o post (título, descrição, autor, alcance sugerido: squad). Rafael: `muda o alcance para frente e envia` | `montar_post`, `enviar_para_aprovacao` (RF-17, RF-18) |
@@ -52,7 +52,7 @@ Ativo real do time: o harness-hacka, que o Vicente (PM na demo) publicou. Adapta
 | 7 | Plataforma | Post publicado: "Enviado por Rafael · Aprovado por Juliana". Aparece no feed | RF-22, RF-25 |
 
 **Narração:**
-- "Na segunda skill, não existe nada parecido. O plugin já prepara a publicação."
+- "Agora ele cria um agente, e não existe nada parecido. O plugin já prepara a publicação."
 - "Uma checagem automática pega uma chave de API no código e diz onde corrigir."
 - "Ele revisa o post, escolhe quem pode ver e envia."
 - "Quem decide o que entra é uma pessoa: a coordenadora. Cada decisão dela fica registrada."

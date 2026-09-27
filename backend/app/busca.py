@@ -18,10 +18,11 @@ from app import catalogo
 
 MODELO = "claude-opus-5"  # D-19
 # Segundo provedor, se o Claude falhar (0032). Sai antes das respostas gravadas.
-MODELO_GEMINI = "gemini-3.8-flash"  # o 2.5 não aceita chave nova
-_GEMINI_URL = (
-    f"https://generativelanguage.googleapis.com/v1beta/models/{MODELO_GEMINI}:generateContent"
-)
+MODELO_GEMINI = os.environ.get("GEMINI_MODELO", "gemini-flash-lite-latest")  # o 2.5 não aceita chave nova; o 3.8 estourou a cota diária gratuita em 27/09
+# Se o primeiro der 503 (demanda alta) ou 429 (cota gratuita é por modelo), tenta o seguinte.
+MODELOS_GEMINI = [MODELO_GEMINI, "gemini-3.1-flash-lite", "gemini-3.5-flash"]
+_GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/{}:generateContent"
+_gemini_usado = MODELO_GEMINI  # o que respondeu por último, para o campo modelo da resposta
 TIMEOUT_S = 10.0  # RNF-04: passou disso, usa a resposta gravada
 MAX_SUGESTOES = 3  # RF-06
 _ACEITAS = {"alta", "media"}  # limiar de semelhança (RF-06): "baixa" vira "não encontrei"
@@ -149,13 +150,25 @@ def ranquear_com_gemini(
             },  # ranquear 18 ativos não pede raciocínio longo
         },
     }
-    try:
-        r = httpx.post(_GEMINI_URL, json=corpo, headers={"x-goog-api-key": chave}, timeout=timeout)
-        r.raise_for_status()
-        texto = r.json()["candidates"][0]["content"]["parts"][0]["text"]
-        return json.loads(texto)["sugestoes"]
-    except (httpx.HTTPError, KeyError, IndexError, json.JSONDecodeError) as e:
-        raise Indisponivel(f"gemini: {type(e).__name__}") from e
+    global _gemini_usado
+    limite = time.monotonic() + timeout
+    erro: Exception | None = None
+    for modelo in MODELOS_GEMINI:
+        restante = limite - time.monotonic()
+        if restante < 1:
+            break
+        try:
+            r = httpx.post(
+                _GEMINI_URL.format(modelo), json=corpo, headers={"x-goog-api-key": chave}, timeout=restante
+            )
+            r.raise_for_status()
+            texto = r.json()["candidates"][0]["content"]["parts"][0]["text"]
+            sugestoes = json.loads(texto)["sugestoes"]
+            _gemini_usado = modelo
+            return sugestoes
+        except (httpx.HTTPError, KeyError, IndexError, json.JSONDecodeError) as e:
+            erro = e
+    raise Indisponivel(f"gemini: {type(erro).__name__ if erro else 'sem tempo'}") from erro
 
 
 def _ranquear(pedido: str, tipo: str | None, candidatos: list[dict]) -> tuple[list[dict], str]:
@@ -167,7 +180,8 @@ def _ranquear(pedido: str, tipo: str | None, candidatos: list[dict]) -> tuple[li
         restante = TIMEOUT_S - (time.monotonic() - inicio)
         if restante < 2:
             raise
-        return ranquear_com_gemini(pedido, tipo, candidatos, timeout=restante), MODELO_GEMINI
+        sugestoes = ranquear_com_gemini(pedido, tipo, candidatos, timeout=restante)
+        return sugestoes, _gemini_usado
 
 
 def _gravada(pedido: str) -> list[dict] | None:

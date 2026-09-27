@@ -141,9 +141,11 @@ def _tem_descricao(arquivos: list[Arquivo]) -> bool:
         nome = a.caminho.rsplit("/", 1)[-1].lower()
         if nome.startswith("readme") and a.conteudo.strip():
             return True
-        if nome in _ARQUIVOS_DESCRICAO and re.search(
-            r"(?m)^description:\s*\S", a.conteudo.split("\n---", 1)[0]
-        ):
+        # Agente do Claude Code é .claude/agents/<nome>.md: vale qualquer .md que abre com frontmatter.
+        frontmatter = nome in _ARQUIVOS_DESCRICAO or (
+            nome.endswith(".md") and a.conteudo.lstrip().startswith("---")
+        )
+        if frontmatter and re.search(r"(?m)^description:\s*\S", a.conteudo.split("\n---", 1)[0]):
             return True
     return False
 
