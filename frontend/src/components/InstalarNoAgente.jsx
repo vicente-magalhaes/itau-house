@@ -92,10 +92,11 @@ export function InstalarNoAgente({ pessoa, usuarioId, onClose }) {
       title="Instale o Itaú House no seu agente"
       onClose={onClose}
       // O Dialog centraliza numa grade que cresce com a largura fixa; pela tela, cabe no celular.
-      style={{ width: 'min(640px, calc(100vw - 2 * var(--space-5)))', maxHeight: 'calc(100vh - 2 * var(--space-5))', overflowY: 'auto' }}
+      // Quem rola é só o conteúdo (.dialogo-rolagem): título e "Fechar" ficam parados.
+      style={{ width: 'min(640px, calc(100vw - 2 * var(--space-5)))', maxHeight: 'calc(100dvh - 2 * var(--space-5))', overflow: 'hidden' }}
       actions={<BotaoSec onClick={onClose}>Fechar</BotaoSec>}
     >
-      <div className="stack stack-5">
+      <div className="dialogo-rolagem stack stack-5">
         <p className="texto">
           Com o Itaú House, o seu agente avisa quando alguém já criou o que você vai criar e ajuda você a publicar o que fez. Você não
           precisa programar: o próprio agente faz a instalação.

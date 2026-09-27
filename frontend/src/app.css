@@ -238,7 +238,15 @@ input::placeholder { color: var(--gray-500); }
 /* A descrição do modo alinha com o rótulo do Radio: círculo de 22px mais 10px de espaço. */
 .modo-instalar { display: flex; flex-direction: column; gap: var(--space-1); }
 .modo-instalar .texto { padding-left: var(--space-6); }
-.texto-instalar { max-height: 176px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--ih-ink); }
+.texto-instalar { max-height: 176px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--ih-ink); scrollbar-width: thin; scrollbar-color: var(--gray-200) transparent; }
+/* Diálogo longo: só o conteúdo rola. A barra fica fina, clara e dentro do painel, na folga da margem,
+   longe da borda arredondada. O div do meio é o que o Dialog do DS põe em volta dos filhos. */
+[role="dialog"] > div:has(> .dialogo-rolagem) { display: flex; flex-direction: column; min-height: 0; }
+.dialogo-rolagem {
+  min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+  margin-right: calc(-1 * var(--space-4)); padding-right: var(--space-4);
+  scrollbar-width: thin; scrollbar-color: var(--gray-200) transparent;
+}
 
 /* ---------- Recado (toast) ---------- */
 .recado {
