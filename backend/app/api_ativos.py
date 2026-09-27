@@ -82,8 +82,12 @@ def _pessoa_curta(pessoa: dict | None) -> dict | None:
     return {campo: pessoa[campo] for campo in ("nome", "cargo", "squad")}
 
 
-def _detalhe(banco: Repositorio, ativo: dict, pessoa: dict) -> dict:
+def _detalhe(
+    banco: Repositorio, ativo: dict, pessoa: dict, validacoes: list[dict] | None = None
+) -> dict:
     eventos = banco.eventos(ativo["id"])
+    if validacoes is None:
+        validacoes = banco.validacoes(ativo["id"])
     origem = banco.ativo(ativo["derivadoDe"]) if ativo.get("derivadoDe") else None
     if origem and not catalogo.visivel(origem, pessoa):
         origem = None
@@ -131,13 +135,15 @@ def _detalhe(banco: Repositorio, ativo: dict, pessoa: dict) -> dict:
         if evento["tipo"] in {"instalacao", "derivacao"}:
             usos.append({"tipo": evento["tipo"], "pessoa": _pessoa_curta(ator), "em": evento["em"]})
     com_evento = {e["dados"].get("validacaoId") for e in eventos if e["tipo"] == "validacao"}
-    for validacao in banco.validacoes(ativo["id"]):
+    for validacao in validacoes:
         if validacao["id"] not in com_evento:
             autor = banco.usuario(validacao["atorId"])
             historico.append(
                 {"em": validacao["em"], "evento": "Validação realizada", "quem": autor["nome"]}
             )
     origem_autor = banco.usuario(origem["autorId"]) if origem else None
+    enviado_por = banco.usuario(ativo["autorId"]) if ativo.get("enviadoEm") else None
+    aprovado_por = banco.usuario(ativo["aprovadoPorId"]) if ativo.get("aprovadoPorId") else None
     return catalogo.resumo(ativo, pessoa) | {
         "curtidoPorMim": banco.curtido(ativo["id"], pessoa["id"]),
         "readme": ativo["readme"],
@@ -151,22 +157,12 @@ def _detalhe(banco: Repositorio, ativo: dict, pessoa: dict) -> dict:
         ),
         "usos": sorted(usos, key=lambda uso: uso["em"], reverse=True),
         "historico": sorted(historico, key=lambda item: item["em"]),
-        "enviadoPor": (
-            {
-                "nome": banco.usuario(ativo["autorId"])["nome"],
-                "cargo": banco.usuario(ativo["autorId"])["cargo"],
-            }
-            if ativo.get("enviadoEm")
-            else None
-        ),
-        "aprovadoPor": (
-            {
-                "nome": banco.usuario(ativo["aprovadoPorId"])["nome"],
-                "cargo": banco.usuario(ativo["aprovadoPorId"])["cargo"],
-            }
-            if ativo.get("aprovadoPorId")
-            else None
-        ),
+        "enviadoPor": {"nome": enviado_por["nome"], "cargo": enviado_por["cargo"]}
+        if enviado_por
+        else None,
+        "aprovadoPor": {"nome": aprovado_por["nome"], "cargo": aprovado_por["cargo"]}
+        if aprovado_por
+        else None,
         "comentarioCoordenador": ativo.get("comentarioCoordenador"),
     }
 
@@ -186,10 +182,10 @@ def feed(
         ativos.sort(
             key=lambda a: (a["curtidas"] + a["instalacoes"], a["publicadoEm"] or ""), reverse=True
         )
+    curtidos = banco.curtidos(pessoa["id"]) if ativos else set()
     return {
         "ativos": [
-            catalogo.resumo(a, pessoa) | {"curtidoPorMim": banco.curtido(a["id"], pessoa["id"])}
-            for a in ativos
+            catalogo.resumo(a, pessoa) | {"curtidoPorMim": a["id"] in curtidos} for a in ativos
         ]
     }
 
