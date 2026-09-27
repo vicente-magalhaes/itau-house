@@ -8,6 +8,7 @@ import { useSessao } from '../sessao.jsx';
 import { ativos, pedidos, ESTANTES, PAPEIS, ORDENS, ordenar, buscar, visivelPara } from '../data/catalogo.js';
 import { ativoDaApi } from '../data/daApi.js';
 import { listarAtivos, useDaApi } from '../api.js';
+import { useEstreito } from '../tela.js';
 
 const OPCOES_ESTANTE = [{ value: 'tudo', label: 'Todas as estantes' }, ...Object.entries(ESTANTES).map(([value, e]) => ({ value, label: e.nome }))];
 
@@ -77,6 +78,7 @@ function Lateral({ visiveis }) {
 // Início: busca em linguagem natural, filtros e cards por popularidade (RF-25, RF-26, RF-28).
 export function Feed() {
   const { pessoa, usuarioId, busca, setBusca, filtros, setFiltros, curtidasDe, reusosDe } = useSessao();
+  const estreito = useEstreito();
   const mudar = (campo) => (valor) => setFiltros((f) => ({ ...f, [campo]: valor }));
 
   // A API já devolve só o que a persona pode ver (RF-05). Nos dados fictícios, o filtro de alcance é daqui.
@@ -110,6 +112,80 @@ export function Feed() {
         : filtros.ordem === 'alta'
         ? 'Em alta no banco'
           : ORDENS.find((o) => o.value === filtros.ordem).label;
+
+  const conteudo =
+    carregando ? (
+      <Vazio icone="loader" titulo="Carregando o catálogo" />
+    ) : erro ? (
+      <Vazio icone="circle-alert" titulo={erro.message} />
+    ) : lista.length === 0 ? (
+      <div className="painel anima-entrar" style={{ alignItems: 'flex-start', padding: 'var(--space-6)' }}>
+        <span className="icone-quadrado">
+          <Icon name="hand" size={20} />
+        </span>
+        <h2 className="titulo-secao">Ninguém publicou isso ainda</h2>
+        <p className="texto" style={{ maxWidth: '52ch' }}>
+          Que tal fazer um pedido? A gente avisa quando alguém criar. Se você mesmo criar, publique e o crédito fica com você.
+        </p>
+        <Button variant="primary" size="sm" iconLeft="hand" onClick={() => irPara('/pedidos')}>
+          Fazer um pedido
+        </Button>
+      </div>
+    ) : (
+      // Filtro novo remonta a grade e os cards entram de novo, um a um.
+      <div key={filtros.estante + filtros.papel + filtros.frente + filtros.ordem} className="grade anima-escalonada">
+        {lista.map((a) => (
+          <PostCard key={a.id} ativo={a} />
+        ))}
+      </div>
+    );
+
+  if (estreito) {
+    return (
+      <div className="feed-movel">
+        {/* As ordens viram abas fixas, como o "Para você" do X. */}
+        <div className="abas-ordem" role="tablist" aria-label="Ordenar">
+          {ORDENS.map((o) => (
+            <button
+              key={o.value}
+              type="button"
+              role="tab"
+              className="aba-ordem"
+              aria-selected={filtros.ordem === o.value}
+              onClick={() => mudar('ordem')(o.value)}
+            >
+              <span>{o.label}</span>
+            </button>
+          ))}
+        </div>
+
+        <label className="compositor">
+          <Foto pessoa={pessoa} tamanho={40} />
+          <span className="sr-only">Buscar no Itaú House</span>
+          <input value={busca} onChange={(e) => setBusca(e.target.value)} placeholder="O que você vai criar hoje?" enterKeyHint="search" />
+          {termo && (
+            <button type="button" className="busca-limpar" aria-label="Limpar busca" onClick={() => setBusca('')}>
+              <Icon name="x" size={16} />
+            </button>
+          )}
+        </label>
+
+        <div className="filtros-movel">
+          <Filtro rotulo="Estante" valor={filtros.estante} opcoes={OPCOES_ESTANTE} onChange={mudar('estante')} />
+          <Filtro rotulo="Publicado por" valor={filtros.papel} opcoes={papeis} onChange={mudar('papel')} />
+          <Filtro rotulo="Frente" valor={filtros.frente} opcoes={frentes} onChange={mudar('frente')} />
+        </div>
+
+        {(termo || filtros.estante !== 'tudo' || filtros.frente !== 'todas') && (
+          <p className="meta feed-movel-titulo" aria-live="polite">
+            {titulo}
+          </p>
+        )}
+
+        {conteudo}
+      </div>
+    );
+  }
 
   return (
     <div className="colunas">
@@ -145,31 +221,7 @@ export function Feed() {
           </div>
         </div>
 
-        {carregando ? (
-          <Vazio icone="loader" titulo="Carregando o catálogo" />
-        ) : erro ? (
-          <Vazio icone="circle-alert" titulo={erro.message} />
-        ) : lista.length === 0 ? (
-          <div className="painel anima-entrar" style={{ alignItems: 'flex-start', padding: 'var(--space-6)' }}>
-            <span className="icone-quadrado">
-              <Icon name="hand" size={20} />
-            </span>
-            <h2 className="titulo-secao">Ninguém publicou isso ainda</h2>
-            <p className="texto" style={{ maxWidth: '52ch' }}>
-              Que tal fazer um pedido? A gente avisa quando alguém criar. Se você mesmo criar, publique e o crédito fica com você.
-            </p>
-            <Button variant="primary" size="sm" iconLeft="hand" onClick={() => irPara('/pedidos')}>
-              Fazer um pedido
-            </Button>
-          </div>
-        ) : (
-          // Filtro novo remonta a grade e os cards entram de novo, um a um.
-          <div key={filtros.estante + filtros.papel + filtros.frente + filtros.ordem} className="grade anima-escalonada">
-            {lista.map((a) => (
-              <PostCard key={a.id} ativo={a} />
-            ))}
-          </div>
-        )}
+        {conteudo}
       </div>
 
       <Lateral visiveis={visiveis} />

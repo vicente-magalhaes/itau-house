@@ -4,6 +4,7 @@ import { Foto } from '../components/comuns.jsx';
 import { irPara } from '../router.jsx';
 import { useSessao } from '../sessao.jsx';
 import { entrarComGoogle } from '../google.js';
+import { useEstreito } from '../tela.js';
 
 // Tela de entrada (RF-23), do design "Entrar 1c Mãos juntas". Roda fora do AppShell.
 // Google é login real (T-41, 0034). A persona é [SIMULADO]: quem entra escolhe com qual pessoa fictícia opera (RF-24).
@@ -49,13 +50,15 @@ function FormularioEntrar() {
 }
 
 export function Entrar() {
+  // No celular a ilustração vira uma faixa e o botão de entrar cabe na primeira tela.
+  const estreito = useEstreito();
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', minHeight: '100vh', background: 'var(--surface-page)' }}>
       {/* A cor de fundo só aparece enquanto a ilustração carrega. */}
       <div
         role="img"
         aria-label="Ilustração: várias mãos segurando a mesma peça"
-        style={{ flex: '1 1 560px', minHeight: 420, background: "var(--ilu-amarelo-300) url('/assets/ilustracoes/hero-maos-pedra.png') center / cover no-repeat" }}
+        style={{ flex: '1 1 560px', minHeight: estreito ? 160 : 420, background: "var(--ilu-amarelo-300) url('/assets/ilustracoes/hero-maos-pedra.png') center / cover no-repeat" }}
       />
 
       <div
@@ -65,17 +68,19 @@ export function Entrar() {
           minWidth: 0,
           boxSizing: 'border-box',
           justifyContent: 'space-between',
-          gap: 'var(--space-7)',
-          padding: 'var(--space-7) var(--space-8) var(--space-7) clamp(var(--space-6), 8vw, var(--space-9))',
+          gap: estreito ? 'var(--space-5)' : 'var(--space-7)',
+          padding: estreito
+            ? 'var(--space-5) var(--space-4) calc(var(--space-5) + env(safe-area-inset-bottom, 0px))'
+            : 'var(--space-7) var(--space-8) var(--space-7) clamp(var(--space-6), 8vw, var(--space-9))',
         }}
       >
         <div className="row" style={{ justifyContent: 'flex-end' }}>
-          <Logo basePath="/" size={48} />
+          <Logo basePath="/" size={estreito ? 36 : 48} />
         </div>
 
-        <div className="stack stack-6 anima-escalonada" style={{ width: '100%', maxWidth: 420 }}>
-          <div className="stack stack-4">
-            <h1 style={{ margin: 0, font: 'var(--fw-heavy) var(--fs-display-l)/var(--lh-tight) var(--font-display)', letterSpacing: 'var(--ls-display)', color: 'var(--brand)' }}>
+        <div className={'stack anima-escalonada ' + (estreito ? 'stack-5' : 'stack-6')} style={{ width: '100%', maxWidth: 420 }}>
+          <div className={'stack ' + (estreito ? 'stack-2' : 'stack-4')}>
+            <h1 style={{ margin: 0, font: `var(--fw-heavy) ${estreito ? 'var(--fs-display-m)' : 'var(--fs-display-l)'}/var(--lh-tight) var(--font-display)`, letterSpacing: 'var(--ls-display)', color: 'var(--brand)' }}>
               Itaú House
             </h1>
             <p style={{ margin: 0, font: 'var(--fw-regular) var(--fs-h3)/var(--lh-body) var(--font-display)', color: 'var(--text-primary)', textWrap: 'pretty' }}>

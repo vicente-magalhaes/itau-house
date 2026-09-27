@@ -7,6 +7,7 @@ import { useSessao } from '../sessao.jsx';
 import { Link, irPara } from '../router.jsx';
 import { useFila } from '../fila.js';
 import { pedidos } from '../data/catalogo.js';
+import { useEstreito } from '../tela.js';
 
 const NAV = [
   { para: '/', rotulo: 'Início', icone: 'house' },
@@ -37,6 +38,93 @@ function ItemNav({ para, rotulo, icone, contador, ativo }) {
   );
 }
 
+// Telas de dentro no celular: a barra de cima troca a foto por voltar e mostra o nome da tela.
+function tituloInterno(rota) {
+  if (rota.startsWith('/ativo/')) return 'Ativo';
+  if (rota.startsWith('/perfil/')) return 'Perfil';
+  if (rota === '/publicar') return 'Publicar';
+  if (rota.startsWith('/coord/dados/')) return 'Dados do ativo';
+  return null;
+}
+
+function voltar() {
+  if (window.history.length > 1) window.history.back();
+  else irPara('/');
+}
+
+// Celular, no desenho do X: foto e logo em cima, abas só com ícone embaixo e Publicar flutuando.
+// O laranja fica no logo, no botão de publicar e no ponto da aba atual.
+function AppShellMovel({ rota, itens, children, recadoMostrado, recadoSaindo, aoInstalar, instalar }) {
+  const { pessoa, limparFiltros } = useSessao();
+  const titulo = tituloInterno(rota);
+  const abas = [...itens, { para: '/perfil', rotulo: 'Perfil', icone: 'user-round' }];
+  const inicio = () => {
+    limparFiltros();
+    irPara('/');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  return (
+    <div className="app-movel">
+      <header className="topo-movel">
+        {titulo ? (
+          <button type="button" className="topo-movel-botao" aria-label="Voltar" onClick={voltar}>
+            <Icon name="arrow-left" size={22} />
+          </button>
+        ) : (
+          <button type="button" className="topo-movel-botao" aria-label={`Seu perfil, ${pessoa.nome}`} onClick={() => irPara('/perfil')}>
+            <Foto pessoa={pessoa} tamanho={32} />
+          </button>
+        )}
+        {titulo ? (
+          <span className="topo-movel-titulo">{titulo}</span>
+        ) : (
+          <button type="button" className="topo-movel-marca" aria-label="Itaú House, ir para o início" onClick={inicio}>
+            <Logo size={32} basePath="/" />
+          </button>
+        )}
+        {/* RF-01: instalar no agente, de qualquer tela. No celular, só a tomada laranja. */}
+        <button type="button" className="topo-movel-botao" aria-label="Instale no seu agente" onClick={aoInstalar}>
+          <Icon name="plug" size={22} color="var(--brand)" />
+        </button>
+      </header>
+
+      <main key={rota} className="pagina anima-entrar">
+        {children}
+      </main>
+
+      <footer className="rodape caption">Protótipo do Hackathon Itaú 2026. Não é um produto oficial do Itaú.</footer>
+
+      {/* Como no X: o botão flutuante fica no início e no perfil. Nas outras telas a ação principal é da página. */}
+      {(rota === '/' || rota === '/perfil') && (
+        <button type="button" className="fab" aria-label="Publicar" onClick={() => irPara('/publicar')}>
+          <Icon name="plus" size={26} />
+        </button>
+      )}
+
+      <nav className="abas-movel" aria-label="Navegação">
+        {abas.map((i) => {
+          const ativo = i.para === '/' ? rota === '/' : rota === i.para || rota.startsWith(i.para + '/');
+          return (
+            <Link key={i.para} para={i.para} className="aba-movel" aria-current={ativo ? 'page' : undefined} aria-label={i.rotulo}>
+              <Icon name={i.icone} size={24} />
+              {i.contador > 0 && <span className="contador aba-movel-contador">{i.contador}</span>}
+            </Link>
+          );
+        })}
+      </nav>
+
+      {instalar}
+
+      {recadoMostrado && (
+        <Recado key={recadoMostrado} saindo={recadoSaindo}>
+          {recadoMostrado}
+        </Recado>
+      )}
+    </div>
+  );
+}
+
 export function AppShell({ rota, children }) {
   const { pessoa, usuarioId, ehCoordenador, limparFiltros, recado } = useSessao();
   const [instalando, setInstalando] = React.useState(false);
@@ -44,6 +132,22 @@ export function AppShell({ rota, children }) {
   const fila = useFila();
   const itens = ehCoordenador ? [...NAV, ...navCoordenacao(fila.dados ? fila.dados.length : 0)] : NAV;
   const [recadoMostrado, recadoSaindo] = useSaida(recado);
+  const estreito = useEstreito();
+
+  if (estreito) {
+    return (
+      <AppShellMovel
+        rota={rota}
+        itens={itens}
+        recadoMostrado={recadoMostrado}
+        recadoSaindo={recadoSaindo}
+        aoInstalar={() => setInstalando(true)}
+        instalar={instalando && <InstalarNoAgente pessoa={pessoa} usuarioId={usuarioId} onClose={fecharInstalar} />}
+      >
+        {children}
+      </AppShellMovel>
+    );
+  }
 
   return (
     <div>
