@@ -3,7 +3,7 @@ import { contaGuardada } from './google.js';
 
 // Acesso à API do Itaú House, no formato de docs/api.md. Só as rotas da plataforma: as do plugin vão pelo MCP.
 // Caminho relativo, sempre: quem repassa /api é o proxy do Vite, o nginx do build ou a Vercel.
-// Enquanto a rota não existe (T-06, T-07), a tela cai nos dados fictícios de src/data/.
+// Enquanto a rota não existe (T-06, T-07), a tela cai nos dados fictícios de src/data/. Vale rota a rota.
 
 // O back do plano grátis dorme e leva até 1 min para acordar. Passado isto, a tela usa os dados fictícios.
 const TEMPO_MAXIMO = 15000;
@@ -20,7 +20,38 @@ export class ErroApi extends Error {
 // Sem resposta do contrato: rota que ainda não existe, back fora do ar ou demorando. Só esta cai nos dados fictícios.
 export class SemApi extends Error {}
 
+// Rotas que o back já tem, lidas do openapi.json do FastAPI uma vez por carga da página.
+// O back responde { erro, mensagem } até para rota que não existe (backend/app/erros.py), então o 404 não diz
+// se falta a rota ou o ativo. A lista diz: rota fora dela ainda não foi feita e a tela usa os fictícios.
+let rotasConhecidas = null;
+
+function lerRotas() {
+  if (!rotasConhecidas) {
+    rotasConhecidas = fetch('/api/openapi.json', { headers: { Accept: 'application/json' }, signal: AbortSignal.timeout(TEMPO_MAXIMO) })
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error('respondeu ' + r.status))))
+      .then((doc) =>
+        Object.entries(doc.paths || {}).map(([caminho, operacoes]) => ({
+          // /api/ativos/{id} -> ^/api/ativos/[^/]+$
+          padrao: new RegExp('^' + caminho.replace(/[.*+?^$()|[\]\\]/g, '\\$&').replace(/\{[^/]+\}/g, '[^/]+') + '$'),
+          metodos: Object.keys(operacoes).map((m) => m.toUpperCase()),
+        })),
+      )
+      .catch((e) => {
+        // Sem a lista, tenta de novo na próxima leitura: o back pode estar acordando.
+        rotasConhecidas = null;
+        throw new SemApi('Sem a lista de rotas da API: ' + e.message);
+      });
+  }
+  return rotasConhecidas;
+}
+
 async function pedir(caminho, usuarioId, { metodo = 'GET', corpo } = {}) {
+  const rotas = await lerRotas();
+  const semConsulta = '/api' + caminho.split('?')[0];
+  if (!rotas.some((r) => r.metodos.includes(metodo) && r.padrao.test(semConsulta))) {
+    throw new SemApi(`A API ainda não tem ${metodo} ${semConsulta}`);
+  }
+
   const cabecalhos = { Accept: 'application/json' };
   // Login simulado (RF-23): a persona escolhida na entrada.
   if (usuarioId) cabecalhos['X-Usuario-Id'] = usuarioId;

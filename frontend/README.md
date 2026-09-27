@@ -31,7 +31,7 @@ npm run lint     # oxlint
 | Tipos | TypeScript com `allowJs` | O `tsc -b` aceita as telas `.jsx` sem checá-las. Código novo pode ser `.tsx`; o design system tem `.d.ts` para cada componente. |
 | Rotas | roteador por hash, em `src/router.jsx` | Sem dependência nova. Funciona em qualquer hospedagem estática e no nginx do build de produção. |
 | Estado | `useState` e um contexto de sessão | A sessão guarda perfil, curtidas, filtros e o recado da tela. |
-| Dados | `src/api.js`, com `src/data/` de reserva | A tela pede à API (`docs/api.md`). Se a rota ainda não existe ou o back não responde, usa os fictícios de `src/data/`. `src/data/daApi.js` converte o JSON do contrato no formato das telas. |
+| Dados | `src/api.js`, com `src/data/` de reserva | A tela pede à API (`docs/api.md`). Se a rota ainda não existe (a lista vem do `/api/openapi.json`) ou o back não responde, usa os fictícios de `src/data/`. Rota nova só aparece depois de recarregar a página. `src/data/daApi.js` converte o JSON do contrato no formato das telas. |
 
 ## Design system
 
