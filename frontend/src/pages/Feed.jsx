@@ -29,7 +29,7 @@ function Lateral({ visiveis }) {
         </div>
         {pedidos.slice(0, 3).map((p) => (
           <button key={p.id} type="button" className="linha-pessoa" style={{ alignItems: 'flex-start' }} onClick={() => irPara('/pedidos')}>
-            <Foto pessoa={p.autor} tamanho={40} />
+            <Foto pessoa={p.autor} tamanho={48} />
             <span className="stack stack-1" style={{ minWidth: 0 }}>
               <span className="nome">{p.titulo}</span>
               <span className="meta">
@@ -44,7 +44,7 @@ function Lateral({ visiveis }) {
         <h2 className="titulo-card">Mais reaproveitados</h2>
         {top.map((a) => (
           <button key={a.id} type="button" className="linha-pessoa" onClick={() => irPara('/ativo/' + a.id)}>
-            <Foto pessoa={a.autor} tamanho={40} />
+            <Foto pessoa={a.autor} tamanho={48} />
             <span className="stack stack-1 grow">
               <span className="nome">{a.titulo}</span>
               <span className="meta">

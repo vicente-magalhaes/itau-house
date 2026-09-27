@@ -16,7 +16,7 @@ function voltar() {
 function LinhaPessoa({ pessoa, detalhe, texto }) {
   return (
     <button type="button" className="linha-pessoa" onClick={() => irPara('/perfil/' + pessoa.id)}>
-      <Foto pessoa={pessoa} tamanho={40} />
+      <Foto pessoa={pessoa} tamanho={48} />
       <span className="stack stack-1" style={{ minWidth: 0 }}>
         <span className="nome">
           {pessoa.nome} <span className="meta">· {detalhe}</span>
@@ -120,7 +120,7 @@ export function Ativo({ id }) {
         <h1 className="titulo-pagina">{ativo.titulo}</h1>
         <p className="texto">{ativo.resumo}</p>
         <button type="button" className="linha-pessoa" onClick={() => irPara('/perfil/' + autor.id)}>
-          <Foto pessoa={autor} tamanho={40} />
+          <Foto pessoa={autor} tamanho={48} />
           <span className="stack stack-1">
             <span className="nome">{autor.nome}</span>
             <span className="meta">
@@ -175,7 +175,7 @@ export function Ativo({ id }) {
               <p className="texto">Cada versão guarda de onde veio. O crédito volta pra quem criou o original.</p>
             </div>
             <div className="row row-3">
-              <Foto pessoa={autor} tamanho={40} anel />
+              <Foto pessoa={autor} tamanho={48} anel />
               <span className="stack stack-1">
                 <span className="nome">Original · {autor.nome}</span>
                 <span className="meta">

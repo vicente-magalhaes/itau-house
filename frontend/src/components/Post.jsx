@@ -57,7 +57,7 @@ export function PostCard({ ativo, preview }) {
         </h3>
         <p className="texto resumo-2">{ativo.resumo}</p>
         <button type="button" className="linha-pessoa card-autor" onClick={verAutor}>
-          <Foto pessoa={ativo.autor} tamanho={24} />
+          <Foto pessoa={ativo.autor} tamanho={32} />
           <span className="meta">
             <strong>{ativo.autor.nome}</strong> · {ativo.autor.cargo}
           </span>

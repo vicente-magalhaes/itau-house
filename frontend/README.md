@@ -74,7 +74,7 @@ Tudo o que está simulado aparece marcado em tela com o selo **Simulado** (compo
 |---|---|
 | Navegação, filtros, busca, estados das telas | Real, roda no navegador |
 | Catálogo de ativos, pessoas, squads, pedidos, números de reuso | **Fictício** (`src/data/catalogo.js`) |
-| Fotos das pessoas | Retratos do randomuser.me, carregados da internet. Sem rede, a `Foto` mostra as iniciais |
+| Fotos das pessoas | Retratos gerados por IA (não são pessoas reais), em `public/assets/pessoas/`. Se a imagem falhar, a `Foto` mostra as iniciais |
 | O que cada ativo acessa | **Fictício**, declarado no catálogo. O uso que ele confirma é simulado |
 | Usar, adaptar, "Usar em", fazer pedido, "Eu crio" | **Simulados**: só mudam contadores e mostram um recado |
 | Resultado do validador | **Simulado**: roteiro fixo em `src/data/governanca.js`. O validador real faz só checagens fixas por código, sem IA (RF-14, D-26) |

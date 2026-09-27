@@ -28,7 +28,7 @@ function OpcaoPerfil({ opcao, escolhido, onEscolher }) {
       }}
       label={
         <span className="row row-3 grow">
-          <Foto pessoa={opcao.pessoa} tamanho={40} anel={selecionado} />
+          <Foto pessoa={opcao.pessoa} tamanho={48} anel={selecionado} />
           <span className="stack">
             <span className="strong">{opcao.pessoa.nome}</span>
             <span className="caption">

@@ -1,29 +1,29 @@
 // Catálogo fictício do Itaú House. [SIMULADO] — nenhum dado real do Itaú.
 // Pessoas, squads, números de reuso e conteúdo são inventados para a demo.
-// Fotos: retratos do randomuser.me, banco de imagens para protótipos. Sem internet, a Foto cai nas iniciais.
+// Fotos: retratos gerados por IA (não são pessoas reais), em public/assets/pessoas. Se a imagem falhar, a Foto cai nas iniciais.
 
-const retrato = (g, n) => `https://randomuser.me/api/portraits/${g}/${n}.jpg`;
+const retrato = (id) => `/assets/pessoas/${id}.jpg`;
 
 export const PAPEIS = ['Produto', 'Design', 'Engenharia', 'Dados', 'Negócio'];
 
 export const pessoas = {
-  ana: { nome: 'Ana Ribeiro', papel: 'Produto', cargo: 'PM', squad: 'Cartões · Emissão', foto: retrato('women', 44) },
-  marina: { nome: 'Marina Alves', papel: 'Produto', cargo: 'PM', squad: 'Seguros · Vida', foto: retrato('women', 26) },
-  leticia: { nome: 'Letícia Moraes', papel: 'Produto', cargo: 'Coordenadora de produto', squad: 'Canais digitais · App', foto: retrato('women', 12) },
-  rafaela: { nome: 'Rafaela Nunes', papel: 'Design', cargo: 'Product designer', squad: 'Canais digitais · Web', foto: retrato('women', 65) },
-  carla: { nome: 'Carla Menezes', papel: 'Design', cargo: 'UX researcher', squad: 'Investimentos · Renda fixa', foto: retrato('women', 90) },
-  luiza: { nome: 'Luiza Campos', papel: 'Design', cargo: 'Designer de pesquisa', squad: 'Cartões · Faturamento', foto: retrato('women', 57) },
-  pedro: { nome: 'Pedro Yamada', papel: 'Design', cargo: 'Designer de sistemas', squad: 'Canais digitais · Web', foto: retrato('men', 22) },
-  bruno: { nome: 'Bruno Tanaka', papel: 'Engenharia', cargo: 'Tech lead', squad: 'Canais digitais · App', foto: retrato('men', 32) },
-  camila: { nome: 'Camila Duarte', papel: 'Engenharia', cargo: 'Dev sênior', squad: 'Plataforma · Core', foto: retrato('women', 68) },
-  thiago: { nome: 'Thiago Nunes', papel: 'Engenharia', cargo: 'Dev sênior', squad: 'Pix · Recebimentos', foto: retrato('men', 75) },
-  rodrigo: { nome: 'Rodrigo Pinto', papel: 'Engenharia', cargo: 'Arquiteto', squad: 'Plataforma · Integrações', foto: retrato('men', 85) },
-  juliana: { nome: 'Juliana Prado', papel: 'Dados', cargo: 'Engenheira de dados', squad: 'Dados · Qualidade', foto: retrato('women', 33) },
-  aline: { nome: 'Aline Souza', papel: 'Dados', cargo: 'Cientista de dados', squad: 'Dados · Modelos', foto: retrato('women', 79) },
-  marcos: { nome: 'Marcos Leal', papel: 'Negócio', cargo: 'Analista de finanças', squad: 'Finanças · Planejamento', foto: retrato('men', 46) },
-  joao: { nome: 'João Batista', papel: 'Negócio', cargo: 'Agilista', squad: 'Seguros · Vida', foto: retrato('men', 61) },
+  ana: { nome: 'Ana Ribeiro', papel: 'Produto', cargo: 'PM', squad: 'Cartões · Emissão', foto: retrato('ana') },
+  marina: { nome: 'Marina Alves', papel: 'Produto', cargo: 'PM', squad: 'Seguros · Vida', foto: retrato('marina') },
+  leticia: { nome: 'Letícia Moraes', papel: 'Produto', cargo: 'Coord. de produtos', squad: 'Canais digitais · App', foto: retrato('leticia') },
+  rafaela: { nome: 'Rafaela Nunes', papel: 'Design', cargo: 'Product designer', squad: 'Canais digitais · Web', foto: retrato('rafaela') },
+  carla: { nome: 'Carla Menezes', papel: 'Design', cargo: 'UX researcher', squad: 'Investimentos · Renda fixa', foto: retrato('carla') },
+  luiza: { nome: 'Luiza Campos', papel: 'Design', cargo: 'Designer', squad: 'Cartões · Faturamento', foto: retrato('luiza') },
+  pedro: { nome: 'Pedro Yamada', papel: 'Design', cargo: 'Designer de sistemas', squad: 'Canais digitais · Web', foto: retrato('pedro') },
+  bruno: { nome: 'Bruno Tanaka', papel: 'Engenharia', cargo: 'Tech lead', squad: 'Canais digitais · App', foto: retrato('bruno') },
+  camila: { nome: 'Camila Duarte', papel: 'Engenharia', cargo: 'Dev sênior', squad: 'Plataforma · Core', foto: retrato('camila') },
+  thiago: { nome: 'Thiago Nunes', papel: 'Engenharia', cargo: 'Dev sênior', squad: 'Pix · Recebimentos', foto: retrato('thiago') },
+  rodrigo: { nome: 'Rodrigo Pinto', papel: 'Engenharia', cargo: 'Arquiteto', squad: 'Plataforma · Integrações', foto: retrato('rodrigo') },
+  juliana: { nome: 'Juliana Prado', papel: 'Dados', cargo: 'Engenheira de dados', squad: 'Dados · Qualidade', foto: retrato('juliana') },
+  aline: { nome: 'Aline Souza', papel: 'Dados', cargo: 'Cientista de dados', squad: 'Dados · Modelos', foto: retrato('aline') },
+  marcos: { nome: 'Marcos Leal', papel: 'Negócio', cargo: 'Analista de finanças', squad: 'Finanças · Planejamento', foto: retrato('marcos') },
+  joao: { nome: 'João Batista', papel: 'Negócio', cargo: 'Agilista', squad: 'Seguros · Vida', foto: retrato('joao') },
   // Perfil Coordenação do login simulado. Não publica ativos: só aprova.
-  rafael: { nome: 'Rafael Costa', papel: 'Coordenação', cargo: 'Coordenador', squad: 'Cartões · Faturamento', foto: retrato('men', 52) },
+  rafael: { nome: 'Rafael Costa', papel: 'Coordenação', cargo: 'Coordenador', squad: 'Cartões · Faturamento', foto: retrato('rafael') },
 };
 
 Object.entries(pessoas).forEach(([id, p]) => {

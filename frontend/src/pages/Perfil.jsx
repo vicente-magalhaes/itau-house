@@ -29,7 +29,7 @@ export function Perfil({ id }) {
   return (
     <div className="stack stack-6">
       <section className="perfil-topo">
-        <Foto pessoa={pessoa} tamanho={96} />
+        <Foto pessoa={pessoa} tamanho={128} />
         <div className="stack stack-2" style={{ flex: '1 1 280px', alignItems: 'flex-start' }}>
           <span className="selo" style={{ background: 'var(--ih-bg)', color: 'var(--ih-ink)', cursor: 'default' }}>
             {pessoa.papel}
@@ -79,7 +79,7 @@ export function Perfil({ id }) {
           {adaptaram.length === 0 && <p className="texto">Ninguém adaptou ainda.</p>}
           {adaptaram.map((d, i) => (
             <button key={i} type="button" className="linha-pessoa" onClick={() => irPara('/perfil/' + d.pessoa.id)}>
-              <Foto pessoa={d.pessoa} tamanho={40} />
+              <Foto pessoa={d.pessoa} tamanho={48} />
               <span className="stack stack-1" style={{ minWidth: 0 }}>
                 <span className="nome">
                   {d.pessoa.nome} <span className="meta">· {d.pessoa.papel}</span>

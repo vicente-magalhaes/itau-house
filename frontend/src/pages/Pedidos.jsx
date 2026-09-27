@@ -36,7 +36,7 @@ export function Pedidos() {
               <div className="stack stack-2" style={{ flex: '1 1 320px', minWidth: 0 }}>
                 <h2 className="titulo-card">{p.titulo}</h2>
                 <span className="row row-2">
-                  <Foto pessoa={p.autor} tamanho={24} />
+                  <Foto pessoa={p.autor} tamanho={32} />
                   <span className="meta">
                     <strong>{p.autor.nome}</strong> · {p.autor.cargo} · {ESTANTES[p.estante].nome}
                   </span>
@@ -45,7 +45,7 @@ export function Pedidos() {
               <div className="row wrap row-2">
                 {criador && (
                   <span className="btn anima-surgir" style={{ cursor: 'default', padding: '0 var(--space-3) 0 var(--ih-gap-contagem)', background: 'var(--ih-surface)' }}>
-                    <Foto pessoa={criador} tamanho={24} />
+                    <Foto pessoa={criador} tamanho={32} />
                     {euCrio ? 'Você está criando' : `${criador.primeiro} está criando`}
                   </span>
                 )}

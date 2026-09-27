@@ -67,7 +67,7 @@ export function AppShell({ rota, children }) {
           Publicar
         </BotaoSec>
         <button type="button" className="topo-foto" title={pessoa.nome} aria-label={`Seu perfil, ${pessoa.nome}`} onClick={() => irPara('/perfil')}>
-          <Foto pessoa={pessoa} tamanho={36} />
+          <Foto pessoa={pessoa} tamanho={40} />
         </button>
       </header>
 
