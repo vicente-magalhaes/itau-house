@@ -1,0 +1,33 @@
+/* Utilitários de layout do esboço. Só tokens do design system: nada de hex ou raio solto. */
+.container { width: 100%; max-width: 1180px; margin: 0 auto; padding-left: var(--space-5); padding-right: var(--space-5); }
+.container-narrow { width: 100%; max-width: 860px; margin: 0 auto; padding-left: var(--space-5); padding-right: var(--space-5); }
+
+.stack { display: flex; flex-direction: column; }
+.stack-1 { gap: var(--space-1); } .stack-2 { gap: var(--space-2); } .stack-3 { gap: var(--space-3); }
+.stack-4 { gap: var(--space-4); } .stack-5 { gap: var(--space-5); } .stack-6 { gap: var(--space-6); }
+
+.row { display: flex; align-items: center; }
+.row-1 { gap: var(--space-1); } .row-2 { gap: var(--space-2); } .row-3 { gap: var(--space-3); }
+.row-4 { gap: var(--space-4); } .row-5 { gap: var(--space-5); } .row-6 { gap: var(--space-6); } .row-7 { gap: var(--space-7); }
+.wrap { flex-wrap: wrap; }
+.spread { justify-content: space-between; }
+.grow { flex: 1; min-width: 0; }
+
+.eyebrow { font: var(--type-overline); letter-spacing: var(--ls-overline); text-transform: uppercase; color: var(--text-accent); }
+.muted { color: var(--text-secondary); }
+.small { font: var(--fw-regular) var(--fs-body-sm)/1.45 var(--font-text); }
+.caption { font: var(--fw-regular) var(--fs-caption)/1.4 var(--font-text); color: var(--text-secondary); }
+.mono { font-family: ui-monospace, "Cascadia Code", "Consolas", monospace; font-size: var(--fs-body-sm); line-height: 1.6; }
+
+.page { padding-top: var(--space-6); padding-bottom: var(--space-9); }
+.divider { height: 1px; background: var(--border-subtle); border: 0; margin: 0; }
+
+.cols-feed { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: var(--space-6); align-items: start; }
+.cols-detalhe { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: var(--space-6); align-items: start; }
+@media (max-width: 900px) { .cols-feed, .cols-detalhe { grid-template-columns: minmax(0, 1fr); } }
+
+.sticky { position: sticky; top: var(--space-6); }
+.link-reset { border-bottom: 0; font-weight: inherit; color: inherit; cursor: pointer; }
+
+/* Texto que só o leitor de tela lê: usado na explicação dos selos e dos ícones com tooltip. */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
