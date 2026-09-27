@@ -13,6 +13,7 @@ Requisitos em [PRD.md](../PRD.md). Cenas em [roteiro-demo.md](roteiro-demo.md). 
   - `visibilidade = squad` e o squad é o mesmo da pessoa.
   - Exceção: o autor sempre vê os próprios ativos, em qualquer status. O Cord+ vê os ativos do seu squad que estão na fila.
   - Um ativo que a pessoa não vê responde **404**, nunca 403. Assim a API não revela que ele existe.
+- **Login com Google (proposta 0033):** o front entra pelo Supabase Auth (`signInWithOAuth` com `provider: "google"`, usando `VITE_SUPABASE_URL` e a chave publicável) e depois a pessoa escolhe a persona. O front manda `Authorization: Bearer <token do Supabase>` junto com `X-Usuario-Id`. No MVP, o back **não exige** o token: quem manda na autorização continua sendo a persona. O plugin e o MCP mandam só `X-Usuario-Id`.
 - IDs são strings opacas (uuid no banco). Datas em ISO 8601 com fuso (`2026-09-27T10:15:00-03:00`).
 - Erro: `{ "erro": "codigo_curto", "mensagem": "Texto para a pessoa, em pt-BR." }`
   - 401 sem usuário · 403 perfil sem permissão · 404 não existe ou não é visível · 409 status não permite a ação · 422 entrada inválida ou barrada pelo validador.
