@@ -1,5 +1,5 @@
 import React from 'react';
-import { listarUsuarios, useDaApi } from './api.js';
+import { curtirAtivo, instalarAtivo, listarUsuarios, SemApi, useDaApi } from './api.js';
 import { pessoaDaApi } from './data/daApi.js';
 import { PERFIS } from './data/governanca.js';
 import { contaGuardada, esquecerConta, lerRetornoDoGoogle } from './google.js';
@@ -29,7 +29,12 @@ function alternar(lista, id) {
   return lista.includes(id) ? lista.filter((x) => x !== id) : [...lista, id];
 }
 
-const FILTROS_INICIAIS = { estante: 'tudo', papel: 'todos', ordem: 'alta' };
+// Ativo que veio da API traz curtidoPorMim (docs/api.md). Os fictícios não trazem: curtir e usar ficam no navegador.
+function veioDaApi(ativo) {
+  return ativo.curtidoPorMim !== undefined;
+}
+
+const FILTROS_INICIAIS = { estante: 'tudo', papel: 'todos', frente: 'todas', ordem: 'alta' };
 
 export function SessaoProvider({ children }) {
   const [perfil, setPerfil] = React.useState(() => localStorage.getItem('ih.perfil') || 'dev');
@@ -45,6 +50,10 @@ export function SessaoProvider({ children }) {
   const [entrou, setEntrou] = React.useState(() => localStorage.getItem('ih.entrou') === 'sim');
   const [usados, setUsados] = React.useState([]);
   const [curtidos, setCurtidos] = React.useState(() => lerCurtidos(localStorage.getItem('ih.perfil') || 'dev'));
+  // Última resposta da API a curtir e instalar, por pessoa e ativo. Vale por cima do que o feed e o post trouxeram.
+  const [respostas, setRespostas] = React.useState({});
+  const pendentes = React.useRef(new Set());
+  const usuarioId = (PERFIS.find((p) => p.value === perfil) || PERFIS[0]).usuarioId;
   const [querem, setQuerem] = React.useState([]);
   const [criando, setCriando] = React.useState([]);
   const [busca, setBusca] = React.useState('');
@@ -88,18 +97,60 @@ export function SessaoProvider({ children }) {
     return () => clearTimeout(t);
   }, []);
 
-  const usar = React.useCallback((id) => {
-    setUsados((atual) => (atual.includes(id) ? atual : [...atual, id]));
-  }, []);
+  const guardarResposta = React.useCallback(
+    (id, parte) => setRespostas((atual) => ({ ...atual, [usuarioId + ':' + id]: { ...atual[usuarioId + ':' + id], ...parte } })),
+    [usuarioId],
+  );
+  const falhou = React.useCallback(
+    (e) => avisar(e instanceof SemApi ? 'Não conseguimos falar com o Itaú House. Tente de novo.' : e.message),
+    [avisar],
+  );
 
-  // Clicar de novo desfaz a curtida.
-  const curtir = React.useCallback((id) => {
-    setCurtidos((atual) => {
-      const novo = alternar(atual, id);
-      localStorage.setItem('ih.curtidos.' + perfil, JSON.stringify(novo));
-      return novo;
-    });
-  }, [perfil]);
+  // Usar (RF-29): com a API, registra a instalação e soma no contador. Nos fictícios, só no navegador.
+  // Devolve true quando ficou registrado.
+  const usar = React.useCallback(
+    async (ativo) => {
+      if (veioDaApi(ativo)) {
+        try {
+          const r = await instalarAtivo(usuarioId, ativo.id);
+          guardarResposta(ativo.id, { instalacoes: r.instalacoes });
+        } catch (e) {
+          falhou(e);
+          return false;
+        }
+      }
+      setUsados((atual) => (atual.includes(ativo.id) ? atual : [...atual, ativo.id]));
+      return true;
+    },
+    [usuarioId, guardarResposta, falhou],
+  );
+
+  // Curtir (RF-28): clicar de novo desfaz. Com a API, quem diz se ficou curtido é o back.
+  const curtir = React.useCallback(
+    async (ativo) => {
+      if (!veioDaApi(ativo)) {
+        setCurtidos((atual) => {
+          const novo = alternar(atual, ativo.id);
+          localStorage.setItem('ih.curtidos.' + perfil, JSON.stringify(novo));
+          return novo;
+        });
+        return;
+      }
+      // Dois cliques antes da resposta viram uma curtida só.
+      const chave = usuarioId + ':' + ativo.id;
+      if (pendentes.current.has(chave)) return;
+      pendentes.current.add(chave);
+      try {
+        const r = await curtirAtivo(usuarioId, ativo.id);
+        guardarResposta(ativo.id, { curtido: r.curtido, curtidas: r.curtidas });
+      } catch (e) {
+        falhou(e);
+      } finally {
+        pendentes.current.delete(chave);
+      }
+    },
+    [perfil, usuarioId, guardarResposta, falhou],
+  );
 
   const querer = React.useCallback((id) => setQuerem((atual) => alternar(atual, id)), []);
   const criar = React.useCallback((id) => setCriando((atual) => alternar(atual, id)), []);
@@ -108,8 +159,19 @@ export function SessaoProvider({ children }) {
     setBusca('');
   }, []);
 
-  const curtidasDe = React.useCallback((ativo) => ativo.curtidas + (curtidos.includes(ativo.id) ? 1 : 0), [curtidos]);
-  const reusosDe = React.useCallback((ativo) => ativo.reusos + (usados.includes(ativo.id) ? 1 : 0), [usados]);
+  const respostaDe = React.useCallback((ativo) => respostas[usuarioId + ':' + ativo.id] || {}, [respostas, usuarioId]);
+  const curtidoDe = React.useCallback(
+    (ativo) => respostaDe(ativo).curtido ?? (veioDaApi(ativo) ? ativo.curtidoPorMim : curtidos.includes(ativo.id)),
+    [respostaDe, curtidos],
+  );
+  const curtidasDe = React.useCallback(
+    (ativo) => respostaDe(ativo).curtidas ?? ativo.curtidas + (!veioDaApi(ativo) && curtidos.includes(ativo.id) ? 1 : 0),
+    [respostaDe, curtidos],
+  );
+  const reusosDe = React.useCallback(
+    (ativo) => respostaDe(ativo).instalacoes ?? ativo.reusos + (!veioDaApi(ativo) && usados.includes(ativo.id) ? 1 : 0),
+    [respostaDe, usados],
+  );
 
   const valor = React.useMemo(() => {
     const def = perfisDisponiveis.find((p) => p.value === perfil) || perfisDisponiveis[0];
@@ -142,10 +204,11 @@ export function SessaoProvider({ children }) {
       curtir,
       querer,
       criar,
+      curtidoDe,
       curtidasDe,
       reusosDe,
     };
-  }, [perfil, usuarios, origemUsuarios, carregandoUsuarios, perfisDisponiveis, entrou, usados, curtidos, querem, criando, busca, filtros, limparFiltros, recado, avisar, contaGoogle, trocarPerfil, entrar, sair, usar, curtir, querer, criar, curtidasDe, reusosDe]);
+  }, [perfil, usuarios, origemUsuarios, carregandoUsuarios, perfisDisponiveis, entrou, usados, curtidos, querem, criando, busca, filtros, limparFiltros, recado, avisar, contaGoogle, trocarPerfil, entrar, sair, usar, curtir, querer, criar, curtidoDe, curtidasDe, reusosDe]);
 
   return <SessaoContext.Provider value={valor}>{children}</SessaoContext.Provider>;
 }

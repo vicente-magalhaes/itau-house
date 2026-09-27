@@ -55,7 +55,7 @@ Redesign feito no Claude Design (`Itau House.dc.html`): topo com navegação, se
 | Rota | Tela | O que mostra no fluxo do case |
 |---|---|---|
 | `#/entrar` | Entrada | SSO **simulado** (RF-23). O perfil (Membro do squad / Coordenação) troca o que a interface mostra (RF-24). |
-| `#/` | Início | Busca em linguagem natural, filtros por estante, papel e ordem (RF-26): Em alta, Mais curtidos, Mais reaproveitados, Mais adaptados e Novos. Cards por popularidade (RF-25) com curtir (RF-28). Lateral com pedidos abertos e os ativos mais reaproveitados, com a foto de quem criou. |
+| `#/` | Início | Busca em linguagem natural, filtros por estante, papel de quem publicou, frente e ordem (RF-26): Em alta, Mais curtidos, Mais reaproveitados, Mais adaptados e Novos. Cards por popularidade (RF-25) com curtir (RF-28). Lateral com pedidos abertos e os ativos mais reaproveitados, com a foto de quem criou. |
 | `#/ativo/:id` | Ativo | Capa, usar, adaptar, curtir. **O que ele acessa**, como as permissões de um aplicativo, e a confirmação "Entendi o que este ativo acessa" antes de usar (RF-29). "Usar em" com os passos de cada ferramenta, o que tem dentro, árvore de adaptações, reaproveitamento por papel (RF-30) e governança (RF-22) (RF-27). Com a API: README, arquivos, manual de instalação, "Adaptado de" com link ao original (RF-09), squads que reaproveitaram no lugar do reuso por papel e a trilha do histórico. Relê ao voltar para a janela. |
 | `#/pedidos` | Pedidos | O que alguém procurou e não achou. "Também quero" e "Eu crio". |
 | `#/perfil`, `#/perfil/:id` | Perfil | O que a pessoa publicou, reaproveitamentos, papéis alcançados, adaptações e quem adaptou. "Sair" fica no próprio perfil. |
@@ -64,7 +64,7 @@ Redesign feito no Claude Design (`Itau House.dc.html`): topo com navegação, se
 | `#/coord/dados` | Dados | Só Coordenação: curtidas, reaproveitamentos, adaptações, por frente, tabela por ativo e trilha de cada um (RF-30, RF-22). |
 
 O alcance vale no início, no perfil e na página do ativo (RF-05): ativo de squad só aparece para a própria squad; ativo de frente, só para a mesma frente. Na demo, todo ativo tem alcance "Banco inteiro".
-Curtidas ficam no `localStorage`, uma por perfil por ativo.
+Com a API, curtir (RF-28) e usar (RF-29) gravam no back, e a resposta dele vale por cima do feed e do post. Nos dados fictícios, as curtidas ficam no `localStorage`, uma por perfil por ativo.
 
 ## O que é real e o que é simulado
 
@@ -76,7 +76,8 @@ Tudo o que está simulado aparece marcado em tela com o selo **Simulado** (compo
 | Catálogo de ativos, pessoas, squads, pedidos, números de reuso | **Fictício** (`src/data/catalogo.js`) |
 | Fotos das pessoas | Retratos gerados por IA (não são pessoas reais), em `public/assets/pessoas/`. Se a imagem falhar, a `Foto` mostra as iniciais |
 | O que cada ativo acessa | **Fictício**, declarado no catálogo. O uso que ele confirma é simulado |
-| Usar, adaptar, "Usar em", fazer pedido, "Eu crio" | **Simulados**: só mudam contadores e mostram um recado |
+| Usar, adaptar, "Usar em", fazer pedido, "Eu crio" | **Simulados** nos dados fictícios: só mudam contadores e mostram um recado. Com a API, usar mostra o passo a passo de quem publicou e registra a instalação; nada é copiado sozinho. Adaptar é pelo plugin, no editor |
+| Editar e reenviar o post | Com a API, o autor edita nome, resumo, README, manual e alcance de um post em rascunho, barrado ou devolvido, e envia de novo (RF-21, RF-31). Os arquivos se corrigem no editor, pelo plugin |
 | Resultado do validador | **Simulado**: roteiro fixo em `src/data/governanca.js`. O validador real faz só checagens fixas por código, sem IA (RF-14, D-26) |
 | Detecção por hook na ferramenta de código | **Simulado** em tela |
 | Login por SSO | **Simulado**: seletor de perfil |
