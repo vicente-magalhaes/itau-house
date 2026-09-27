@@ -66,7 +66,7 @@ export function Perfil({ id }) {
           {meus.length === 0 ? (
             <p className="texto">Nada publicado ainda. O primeiro ativo aparece aqui depois da aprovação da coordenação.</p>
           ) : (
-            <div className="grade">
+            <div className="grade anima-escalonada">
               {meus.map((a) => (
                 <PostCard key={a.id} ativo={a} />
               ))}

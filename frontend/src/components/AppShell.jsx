@@ -1,6 +1,7 @@
 import React from 'react';
 import { Logo, Icon } from '../ds.js';
 import { Foto, BotaoSec, Recado } from './comuns.jsx';
+import { useSaida } from './movimento.jsx';
 import { useSessao } from '../sessao.jsx';
 import { Link, irPara } from '../router.jsx';
 import { filaAprovacao } from '../data/governanca.js';
@@ -30,6 +31,7 @@ function ItemNav({ para, rotulo, icone, contador, ativo }) {
 export function AppShell({ rota, children }) {
   const { pessoa, ehCoordenador, limparFiltros, recado } = useSessao();
   const itens = ehCoordenador ? [...NAV, ...NAV_COORDENACAO] : NAV;
+  const [recadoMostrado, recadoSaindo] = useSaida(recado);
 
   return (
     <div>
@@ -69,9 +71,16 @@ export function AppShell({ rota, children }) {
         </button>
       </header>
 
-      <main className="pagina">{children}</main>
+      {/* A chave pela rota remonta a página e a entrada anima a cada troca de tela. */}
+      <main key={rota} className="pagina anima-entrar">
+        {children}
+      </main>
 
-      {recado && <Recado>{recado}</Recado>}
+      {recadoMostrado && (
+        <Recado key={recadoMostrado} saindo={recadoSaindo}>
+          {recadoMostrado}
+        </Recado>
+      )}
     </div>
   );
 }

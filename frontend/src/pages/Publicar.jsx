@@ -3,6 +3,7 @@ import { Button, Icon, Tag, Input, Select, Toast } from '../ds.js';
 import { BotaoSec, SeloSimulado, Aviso } from '../components/comuns.jsx';
 import { PostCard } from '../components/Post.jsx';
 import { TextArea } from '../components/TextArea.jsx';
+import { Pulso } from '../components/movimento.jsx';
 import { irPara } from '../router.jsx';
 import { useSessao } from '../sessao.jsx';
 import { CRITERIOS, VEREDITOS, rascunhoAna, verificacaoReprovada, verificacaoAprovada } from '../data/governanca.js';
@@ -52,9 +53,12 @@ function Passos({ atual }) {
                   color: agora ? 'var(--on-brand)' : 'inherit',
                   boxShadow: agora || feito ? 'none' : 'inset 0 0 0 1px var(--border-default)',
                   font: 'var(--fw-bold) var(--fs-caption)/1 var(--font-text)',
+                  transition: 'background var(--dur-base) var(--ease-standard), color var(--dur-base) var(--ease-standard)',
                 }}
               >
-                {feito ? <Icon name="check" size={14} /> : n}
+                <Pulso gatilho={feito} efeito="marcar">
+                  {feito ? <Icon name="check" size={14} /> : n}
+                </Pulso>
               </span>
               {rotulo}
             </span>
@@ -189,7 +193,7 @@ export function Publicar() {
       </div>
 
       {passo === 1 && (
-        <section className="stack stack-4" style={{ maxWidth: 720 }}>
+        <section className="stack stack-4 anima-entrar" style={{ maxWidth: 720 }}>
           <div className="caixa stack stack-3">
             <div className="row spread">
               <span className="row row-2 small strong">
@@ -220,8 +224,9 @@ export function Publicar() {
       )}
 
       {passo === 2 && (
-        <section className="stack stack-4" style={{ maxWidth: 720 }}>
-          <div className="caixa stack stack-3">
+        <section className="stack stack-4 anima-entrar" style={{ maxWidth: 720 }}>
+          {/* A chave troca a caixa entre checagem e resultado, e cada troca aparece com fade. */}
+          <div key={verificando ? 'checando' : 'resultado'} className="caixa stack stack-3 anima-aparecer">
             {verificando ? (
               <>
                 <span className="row row-2 small strong">
@@ -232,8 +237,14 @@ export function Publicar() {
                   {CRITERIOS.map((c, i) => {
                     const pronto = i < revelados;
                     return (
-                      <li key={c.id} className="row row-2 small" style={{ color: pronto ? 'var(--text-primary)' : 'var(--text-tertiary)' }}>
-                        <Icon name={pronto ? 'check' : 'circle-dashed'} size={16} color={pronto ? 'var(--status-success)' : 'var(--text-tertiary)'} />
+                      <li
+                        key={c.id}
+                        className="row row-2 small"
+                        style={{ color: pronto ? 'var(--text-primary)' : 'var(--text-tertiary)', transition: 'color var(--dur-base) var(--ease-standard)' }}
+                      >
+                        <Pulso gatilho={pronto} efeito="marcar">
+                          <Icon name={pronto ? 'check' : 'circle-dashed'} size={16} color={pronto ? 'var(--status-success)' : 'var(--text-tertiary)'} />
+                        </Pulso>
                         {c.nome}
                       </li>
                     );
@@ -250,7 +261,7 @@ export function Publicar() {
                   <span className="strong grow" style={{ fontSize: 'var(--fs-body-lg)' }}>{veredito.rotulo}</span>
                   <SeloSimulado ajuda="O validador faz checagens fixas por código, sem IA. Nesta demonstração o resultado é fixo.">Validador simulado</SeloSimulado>
                 </div>
-                <ul className="stack" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+                <ul className="stack anima-escalonada" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
                   {resultado.itens.map((item) => (
                     <LinhaCriterio key={item.criterio} item={item} />
                   ))}
@@ -277,7 +288,7 @@ export function Publicar() {
       )}
 
       {passo === 3 && (
-        <section className="cols-post" style={{ gridTemplateColumns: 'minmax(0, 1fr) 380px' }}>
+        <section className="cols-post anima-entrar" style={{ gridTemplateColumns: 'minmax(0, 1fr) 380px' }}>
           <div className="stack stack-4">
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 'var(--space-4)' }}>
               <Input
@@ -311,7 +322,7 @@ export function Publicar() {
               <form onSubmit={adicionarTag}>
                 <Input label="Tags" value={novaTag} onChange={(e) => setNovaTag(e.target.value)} placeholder="Digite e aperte Enter" />
               </form>
-              <div className="row row-2 wrap">
+              <div className="row row-2 wrap tags">
                 {tags.map((t) => (
                   <Tag key={t} style={{ height: 28 }} onRemove={() => setTags(tags.filter((x) => x !== t))}>
                     {t}
@@ -335,13 +346,13 @@ export function Publicar() {
       )}
 
       {passo === 4 && (
-        <section className="stack stack-4" style={{ maxWidth: 720 }}>
+        <section className="stack stack-4 anima-entrar" style={{ maxWidth: 720 }}>
           <div className="caixa stack stack-4">
             <div className="row row-3">
               <Icon name="circle-check" size={24} color="var(--status-success)" />
               <span className="strong grow" style={{ fontSize: 'var(--fs-body-lg)' }}>Na fila da coordenação</span>
             </div>
-            <ul className="stack stack-3" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+            <ul className="stack stack-3 anima-escalonada" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
               {[
                 { icone: 'circle-check', cor: 'var(--status-success)', titulo: 'Validador', nota: `passou na 2ª rodada, ${verificacaoAprovada.rodadaEm}` },
                 { icone: 'user-round', cor: 'var(--text-primary)', titulo: 'Coordenação', nota: 'Rafael Costa decide' },
