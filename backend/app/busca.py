@@ -6,15 +6,22 @@ Nenhum ativo é inventado: id fora da lista de candidatos é descartado.
 
 import json
 import os
+import time
 import uuid
 from functools import cache
 from pathlib import Path
 
 import anthropic
+import httpx2 as httpx
 
 from app import catalogo
 
 MODELO = "claude-opus-5"  # D-19
+# Segundo provedor, se o Claude falhar (0032). Sai antes das respostas gravadas.
+MODELO_GEMINI = "gemini-3.8-flash"  # o 2.5 não aceita chave nova
+_GEMINI_URL = (
+    f"https://generativelanguage.googleapis.com/v1beta/models/{MODELO_GEMINI}:generateContent"
+)
 TIMEOUT_S = 10.0  # RNF-04: passou disso, usa a resposta gravada
 MAX_SUGESTOES = 3  # RF-06
 _ACEITAS = {"alta", "media"}  # limiar de semelhança (RF-06): "baixa" vira "não encontrei"
@@ -76,14 +83,18 @@ def _candidato(a: dict) -> dict:
     }
 
 
+def _conteudo(pedido: str, tipo: str | None, candidatos: list[dict]) -> str:
+    return json.dumps(
+        {"pedido": pedido, "tipo_pedido": tipo, "candidatos": [_candidato(a) for a in candidatos]},
+        ensure_ascii=False,
+    )
+
+
 def ranquear_com_claude(pedido: str, tipo: str | None, candidatos: list[dict]) -> list[dict]:
     """Chama o Claude e devolve as sugestões cruas do schema. Levanta Indisponivel."""
     if not os.environ.get("ANTHROPIC_API_KEY"):
         raise Indisponivel("sem chave")
-    conteudo = json.dumps(
-        {"pedido": pedido, "tipo_pedido": tipo, "candidatos": [_candidato(a) for a in candidatos]},
-        ensure_ascii=False,
-    )
+    conteudo = _conteudo(pedido, tipo, candidatos)
     try:
         resposta = _cliente().beta.messages.create(
             model=MODELO,
@@ -101,6 +112,62 @@ def ranquear_com_claude(pedido: str, tipo: str | None, candidatos: list[dict]) -
         raise Indisponivel(f"stop_reason={resposta.stop_reason}")
     texto = next(b.text for b in resposta.content if b.type == "text")
     return json.loads(texto)["sugestoes"]
+
+
+def _schema_gemini(no: dict) -> dict:
+    """O Gemini aceita um subconjunto do JSON Schema: sem additionalProperties."""
+    if not isinstance(no, dict):
+        return no
+    return {
+        k: (
+            _schema_gemini(v)
+            if k == "items"
+            else {c: _schema_gemini(x) for c, x in v.items()}
+            if k == "properties"
+            else v
+        )
+        for k, v in no.items()
+        if k != "additionalProperties"
+    }
+
+
+def ranquear_com_gemini(
+    pedido: str, tipo: str | None, candidatos: list[dict], timeout: float = TIMEOUT_S
+) -> list[dict]:
+    """Mesmo contrato do Claude, pelo Gemini. Levanta Indisponivel."""
+    chave = os.environ.get("GEMINI_API_KEY")
+    if not chave:
+        raise Indisponivel("sem chave do Gemini")
+    corpo = {
+        "systemInstruction": {"parts": [{"text": _SISTEMA}]},
+        "contents": [{"role": "user", "parts": [{"text": _conteudo(pedido, tipo, candidatos)}]}],
+        "generationConfig": {
+            "responseMimeType": "application/json",
+            "responseSchema": _schema_gemini(_SCHEMA),
+            "thinkingConfig": {
+                "thinkingLevel": "low"
+            },  # ranquear 18 ativos não pede raciocínio longo
+        },
+    }
+    try:
+        r = httpx.post(_GEMINI_URL, json=corpo, headers={"x-goog-api-key": chave}, timeout=timeout)
+        r.raise_for_status()
+        texto = r.json()["candidates"][0]["content"]["parts"][0]["text"]
+        return json.loads(texto)["sugestoes"]
+    except (httpx.HTTPError, KeyError, IndexError, json.JSONDecodeError) as e:
+        raise Indisponivel(f"gemini: {type(e).__name__}") from e
+
+
+def _ranquear(pedido: str, tipo: str | None, candidatos: list[dict]) -> tuple[list[dict], str]:
+    """Claude primeiro; se falhar, o Gemini com o tempo que sobrou dos 10 s (RNF-04)."""
+    inicio = time.monotonic()
+    try:
+        return ranquear_com_claude(pedido, tipo, candidatos), MODELO
+    except Indisponivel:
+        restante = TIMEOUT_S - (time.monotonic() - inicio)
+        if restante < 2:
+            raise
+        return ranquear_com_gemini(pedido, tipo, candidatos, timeout=restante), MODELO_GEMINI
 
 
 def _gravada(pedido: str) -> list[dict] | None:
@@ -131,10 +198,10 @@ def buscar(pedido: str, pessoa: dict, tipo: str | None = None) -> dict:
 
     gravada = False
     try:
-        cruas = ranquear_com_claude(pedido, tipo, candidatos)
+        cruas, modelo = _ranquear(pedido, tipo, candidatos)
     except Indisponivel:
         cruas = _gravada(pedido)
-        gravada = True
+        gravada, modelo = True, None
         if cruas is None:
             return {
                 "buscaId": f"b-{uuid.uuid4()}",
@@ -143,6 +210,7 @@ def buscar(pedido: str, pessoa: dict, tipo: str | None = None) -> dict:
                 "mensagem": "A busca no Itaú House está fora do ar agora. Siga a tarefa; você pode buscar de novo com /itau-house.",
                 "sugestoes": [],
                 "gravada": False,
+                "modelo": None,
             }
 
     ordem: dict[str, int] = {"alta": 0, "media": 1}
@@ -171,4 +239,5 @@ def buscar(pedido: str, pessoa: dict, tipo: str | None = None) -> dict:
         "mensagem": _mensagem(sugestoes),
         "sugestoes": sugestoes,
         "gravada": gravada,
+        "modelo": modelo,
     }

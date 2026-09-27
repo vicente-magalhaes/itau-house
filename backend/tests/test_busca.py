@@ -21,6 +21,7 @@ def _buscar(pedido, usuario="u-rafael"):
 @pytest.fixture
 def sem_claude(monkeypatch):
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    monkeypatch.delenv("GEMINI_API_KEY", raising=False)
 
 
 @pytest.fixture
@@ -107,12 +108,28 @@ def test_no_maximo_tres_sugestoes(claude_falso) -> None:
 
 
 def test_claude_fora_do_ar_cai_na_gravada(monkeypatch) -> None:
-    def cai(*_):
+    def cai(*_, **__):
         raise busca.Indisponivel("timeout")
 
     monkeypatch.setattr(busca, "ranquear_com_claude", cai)
+    monkeypatch.setattr(busca, "ranquear_com_gemini", cai)
 
     assert _buscar(CENA1).json()["gravada"] is True
+
+
+def test_claude_fora_do_ar_usa_o_gemini(monkeypatch) -> None:
+    def cai(*_, **__):
+        raise busca.Indisponivel("401")
+
+    def gemini(pedido, tipo, candidatos, timeout):
+        return [{"id": "a-criterios-aceitacao", "semelhanca": "alta", "motivo": "m", "limite": ""}]
+
+    monkeypatch.setattr(busca, "ranquear_com_claude", cai)
+    monkeypatch.setattr(busca, "ranquear_com_gemini", gemini)
+    r = _buscar(CENA1).json()
+
+    assert (r["gravada"], r["modelo"]) == (False, "gemini-3.8-flash")
+    assert r["sugestoes"][0]["ativo"]["id"] == "a-criterios-aceitacao"
 
 
 def test_sem_usuario_responde_401() -> None:
