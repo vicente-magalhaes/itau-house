@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, IconButton, Logo, Icon } from '../ds.js';
+import { Logo, Icon } from '../ds.js';
 import { Foto, BotaoSec, Recado } from './comuns.jsx';
 import { InstalarNoAgente } from './InstalarNoAgente.jsx';
 import { useSaida } from './movimento.jsx';
@@ -61,15 +61,12 @@ export function AppShell({ rota, children }) {
           <span className="some-no-estreito">Itaú House</span>
         </button>
 
-        {/* RF-01: instalar o Itaú House no agente da pessoa, de qualquer tela. No celular, só a tomada. */}
-        <span className="some-no-celular">
-          <Button size="sm" iconLeft="plug" onClick={() => setInstalando(true)}>
-            Instale no seu agente
-          </Button>
-        </span>
-        <span className="so-no-celular">
-          <IconButton icon="plug" label="Instale no seu agente" variant="filled" size={36} onClick={() => setInstalando(true)} />
-        </span>
+        {/* RF-01: instalar o Itaú House no agente da pessoa, de qualquer tela. Fundo branco e a tomada
+            laranja, como o ícone do tipo do ativo. No celular, só a tomada. */}
+        <BotaoSec className="btn-instalar" aria-label="Instale no seu agente" title="Instale no seu agente" onClick={() => setInstalando(true)}>
+          <Icon name="plug" size={18} color="var(--brand)" />
+          <span className="some-no-celular">Instale no seu agente</span>
+        </BotaoSec>
 
         <span className="topo-espaco" />
 
@@ -79,7 +76,7 @@ export function AppShell({ rota, children }) {
           ))}
         </nav>
 
-        {/* Secundário de propósito: no topo, o laranja fica só com o "Instale no seu agente". */}
+        {/* Secundário de propósito: o único laranja da tela é a ação principal da página. */}
         <BotaoSec icone="plus" onClick={() => irPara('/publicar')}>
           Publicar
         </BotaoSec>

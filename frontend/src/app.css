@@ -121,11 +121,10 @@ input::placeholder { color: var(--gray-500); }
   .some-no-estreito { display: none; }
 }
 /* "Instale no seu agente": no celular, só a tomada, do tamanho dos outros ícones do topo. */
-.so-no-celular { display: none; }
 @media (max-width: 640px) {
   .topo { gap: var(--space-1); }
   .some-no-celular { display: none; }
-  .so-no-celular { display: inline-flex; }
+  .btn-instalar { min-width: 36px; padding: 0 var(--space-2); }
 }
 
 /* ---------- Página ---------- */

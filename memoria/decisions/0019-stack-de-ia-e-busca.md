@@ -1,9 +1,9 @@
 ---
-status: accepted
+status: superseded
 date: 2026-09-26
 decided_by: time
 supersedes: []
-superseded_by: []
+superseded_by: [0039]
 ---
 
 # 0019: Stack de IA e busca

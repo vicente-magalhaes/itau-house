@@ -1,9 +1,9 @@
 ---
-status: proposed
+status: superseded
 date: 2026-09-27
 decided_by:
 supersedes: []
-superseded_by: []
+superseded_by: [0039]
 ---
 
 # 0032: Gemini como segundo provedor da busca
