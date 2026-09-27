@@ -88,10 +88,14 @@ def _arquivos(pasta: str) -> list[dict[str, str]]:
 
 def _raiz_do_projeto(pasta: str) -> Path:
     """Pasta do projeto: a que contém o .claude/ do ativo, ou a pasta do próprio ativo."""
-    origem = Path(pasta)
+    origem = Path(pasta).resolve()
     partes = origem.parts
     if ".claude" in partes:
         return Path(*partes[: partes.index(".claude")])
+    # Fora de .claude/, a raiz é a do repositório git que contém o ativo.
+    for candidata in (origem, *origem.parents):
+        if (candidata / ".git").exists():
+            return candidata
     return origem if origem.is_dir() else origem.parent
 
 
@@ -104,9 +108,11 @@ def _ler(pasta: str, extras: list[str] | None = None) -> list[dict[str, str]] | 
         arquivos = _arquivos(pasta)
         raiz = _raiz_do_projeto(pasta)
         for extra in extras or []:
-            caminho = Path(extra) if Path(extra).is_absolute() else raiz / extra
+            caminho = (Path(extra) if Path(extra).is_absolute() else raiz / extra).resolve()
+            base = caminho if caminho.is_dir() else caminho.parent
             for arquivo in _arquivos(str(caminho)):
-                relativo = caminho.resolve().parent.relative_to(raiz.resolve()) / arquivo["caminho"]
+                completo = base / arquivo["caminho"]
+                relativo = completo.relative_to(raiz) if completo.is_relative_to(raiz) else Path(completo.name)
                 arquivos.append({"caminho": relativo.as_posix(), "conteudo": arquivo["conteudo"]})
         return arquivos
     except (ValueError, OSError) as erro:
