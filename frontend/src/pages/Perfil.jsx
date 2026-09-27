@@ -7,10 +7,12 @@ import { useSessao } from '../sessao.jsx';
 import { detalharAtivo, listarAtivos, useDaApi } from '../api.js';
 import { ativoDetalheDaApi } from '../data/daApi.js';
 import { ativos, pessoas, visivelPara } from '../data/catalogo.js';
+import { useEstreito } from '../tela.js';
 
 // Perfil de impacto: o que a pessoa publicou, quanto foi reaproveitado e por quem foi adaptado.
 export function Perfil({ id }) {
   const { pessoa: eu, usuarioId, usuarios, carregandoUsuarios, sair } = useSessao();
+  const estreito = useEstreito();
   const pessoa = id ? (usuarios ? usuarios.find((p) => p.id === id) : pessoas[id]) : eu;
   const { dados: meus, origem, erro, carregando } = useDaApi(
     `perfil:${usuarioId}:${id || usuarioId}`,
@@ -39,7 +41,7 @@ export function Perfil({ id }) {
   return (
     <div className="stack stack-6">
       <section className="perfil-topo">
-        <Foto pessoa={pessoa} tamanho={128} />
+        <Foto pessoa={pessoa} tamanho={estreito ? 80 : 128} />
         <div className="stack stack-2" style={{ flex: '1 1 280px', alignItems: 'flex-start' }}>
           <span className="selo" style={{ background: 'var(--ih-bg)', color: 'var(--ih-ink)', cursor: 'default' }}>
             {pessoa.papel}

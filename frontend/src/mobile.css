@@ -1,0 +1,191 @@
+/* Celular (até 720px), no desenho do X: fundo branco, texto preto, uma coluna, linhas finas separando
+   os posts e nada de caixa. O laranja fica em pouca coisa: o logo, o botão de publicar, o traço da aba
+   de ordem, o ponto da aba atual e o ícone do que você curtiu. Só tokens, como no app.css.
+   O corte de 720px é o mesmo de src/tela.js. */
+
+:root {
+  /* Medidas do celular que o design system não tem: a barra de cima e a de abas do X, o botão flutuante. */
+  --ih-topo-movel: 53px; --ih-abas: 56px; --ih-fab: 56px; --ih-toque: 44px;
+  --ih-seguro-topo: env(safe-area-inset-top, 0px); --ih-seguro-pe: env(safe-area-inset-bottom, 0px);
+  /* O que fica fixo no pé: abas mais a área do gesto do sistema. */
+  --ih-pe-fixo: calc(var(--ih-abas) + var(--ih-seguro-pe));
+}
+
+@media (max-width: 720px) {
+  html { -webkit-text-size-adjust: 100%; }
+  :where(button, a, input, select, textarea, [role="button"]) { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+  .some-no-celular { display: none !important; }
+
+  /* O conteúdo não some atrás das abas nem do botão flutuante. */
+  .app-movel { min-height: 100dvh; padding-bottom: var(--ih-pe-fixo); }
+
+  /* ---------- Barra de cima ---------- */
+  .topo-movel {
+    position: sticky; top: 0; z-index: 20; box-sizing: content-box; height: var(--ih-topo-movel);
+    display: grid; grid-template-columns: var(--ih-toque) minmax(0, 1fr) var(--ih-toque); align-items: center;
+    padding: var(--ih-seguro-topo) var(--space-2) 0; background: var(--ih-bg); border-bottom: 1px solid var(--ih-line);
+  }
+  /* No início a linha fica embaixo das abas de ordem, que colam logo abaixo. */
+  .app-movel:has(.abas-ordem) .topo-movel { border-bottom-color: transparent; }
+  .topo-movel-botao {
+    width: var(--ih-toque); height: var(--ih-toque); display: grid; place-items: center; padding: 0; border: 0;
+    border-radius: var(--radius-pill); background: transparent; color: var(--ih-ink); cursor: pointer;
+  }
+  .topo-movel-marca { justify-self: center; display: grid; padding: 0; border: 0; background: transparent; cursor: pointer; }
+  .topo-movel-titulo {
+    padding-left: var(--space-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    font: var(--fw-bold) var(--fs-h3)/1 var(--font-display); letter-spacing: var(--ls-display); color: var(--ih-ink);
+  }
+
+  /* ---------- Página ---------- */
+  .pagina { padding: var(--space-4) var(--space-4) var(--space-6); }
+  .rodape { padding: var(--space-4) var(--space-4) var(--space-5); }
+  .titulo-pagina { font-size: var(--fs-h2); }
+  .colunas { gap: var(--space-5); }
+  .coluna-principal, .coluna-lateral { flex-basis: 100%; min-width: 0; }
+  .lateral-fixa, .sticky { position: static; max-height: none; overflow: visible; }
+
+  /* ---------- Início ---------- */
+  /* O início vai de ponta a ponta: as linhas encostam nas bordas da tela, como no X. */
+  .feed-movel { margin: calc(-1 * var(--space-4)) calc(-1 * var(--space-4)) 0; }
+
+  .abas-ordem {
+    position: sticky; top: calc(var(--ih-topo-movel) + var(--ih-seguro-topo)); z-index: 15;
+    display: flex; overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain;
+    background: var(--ih-bg); border-bottom: 1px solid var(--ih-line);
+  }
+  .abas-ordem::-webkit-scrollbar { display: none; }
+  .aba-ordem {
+    flex: 1 0 auto; height: var(--ih-topo-movel); padding: 0 var(--space-4); border: 0; background: transparent; cursor: pointer;
+    color: var(--ih-ink2); font: var(--fw-bold) var(--fs-body-sm)/1 var(--font-text); white-space: nowrap;
+    transition: background var(--dur-fast) var(--ease-standard), color var(--dur-fast) var(--ease-standard);
+  }
+  .aba-ordem > span { position: relative; display: inline-flex; align-items: center; height: 100%; }
+  .aba-ordem:active { background: var(--ih-surface); }
+  .aba-ordem[aria-selected="true"] { color: var(--ih-ink); }
+  /* O traço embaixo da aba escolhida: o azul do X vira laranja. */
+  .aba-ordem[aria-selected="true"] > span::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 4px; border-radius: var(--radius-pill); background: var(--brand);
+    animation: ih-crescer var(--dur-base) var(--ease-standard) backwards; transform-origin: center;
+  }
+
+  /* A busca fica onde o X pergunta "O que está acontecendo?": foto e texto grande, sem caixa. */
+  .compositor {
+    display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--ih-line); cursor: text; transition: border-color var(--dur-fast) var(--ease-standard);
+  }
+  .compositor:focus-within { border-bottom-color: var(--ih-ink); }
+  .compositor input {
+    flex: 1; min-width: 0; height: var(--ih-toque); padding: 0; border: 0; outline: 0; background: transparent;
+    color: var(--ih-ink); font: var(--fw-regular) var(--fs-h3)/1.2 var(--font-text);
+  }
+  .compositor input::placeholder { color: var(--ih-ink3); }
+
+  .filtros-movel { display: flex; flex-wrap: wrap; gap: var(--space-2); padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--ih-line); }
+  .filtros-movel .filtro-botao { height: 40px; border-radius: var(--radius-pill); }
+  /* A lista de qualquer filtro abre com a largura da tela, logo abaixo da linha de filtros:
+     com três botões em duas linhas, a lista presa ao botão sairia pela borda. */
+  .filtros-movel { position: relative; }
+  .filtros-movel .filtro { position: static; }
+  .filtros-movel .filtro-lista { top: calc(100% - var(--space-2)); left: var(--space-4); right: var(--space-4); min-width: 0; }
+  .filtro-opcao { height: var(--ih-toque); }
+  .feed-movel-titulo { margin: 0; padding: var(--space-3) var(--space-4) 0; }
+  .feed-movel > .painel { margin: var(--space-4); }
+
+  /* ---------- Linha do tempo ---------- */
+  /* A grade de cards vira uma coluna de posts separados por linha fina. Fora do início, sai de ponta a ponta. */
+  .grade { display: flex; flex-direction: column; gap: 0; margin-inline: calc(-1 * var(--space-4)); border-top: 1px solid var(--ih-line); }
+  .feed-movel .grade { margin-inline: 0; border-top: 0; }
+
+  .post-linha {
+    display: grid; grid-template-columns: 40px minmax(0, 1fr); column-gap: var(--space-3); row-gap: var(--space-1);
+    padding: var(--space-3) var(--space-4) var(--space-1); border-bottom: 1px solid var(--ih-line); background: var(--ih-bg); cursor: pointer;
+    transition: background var(--dur-fast) var(--ease-standard);
+  }
+  .post-linha:active { background: var(--ih-surface); }
+  .post-contexto { grid-column: 2; }
+  .post-foto {
+    grid-column: 1; align-self: start; width: 40px; height: 40px; padding: 0; border: 0; border-radius: var(--radius-pill);
+    background: transparent; cursor: pointer;
+  }
+  .post-conteudo { grid-column: 2; min-width: 0; display: flex; flex-direction: column; gap: var(--space-1); }
+  .post-cabeca { display: flex; align-items: baseline; gap: var(--space-1); min-width: 0; white-space: nowrap; }
+  .post-cabeca .nome { flex: none; max-width: 60%; overflow: hidden; text-overflow: ellipsis; }
+  .post-cabeca-resto { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  .post-linha .titulo-card { font-size: var(--fs-body); }
+  .post-linha .titulo-card a { display: block; }
+
+  /* Ações do post: ícone e número cinza, sem pílula. O alvo do toque tem 44px; a margem negativa
+     mantém o desenho enxuto. */
+  .post-acoes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 300px; margin: 0 0 0 calc(-1 * var(--space-2)); }
+  .post-acoes :is(.btn-curtir, .contagem) {
+    justify-self: start; height: var(--ih-toque); min-width: var(--ih-toque); padding: 0 var(--space-2); border-radius: var(--radius-pill);
+    background: transparent; color: var(--ih-ink2); font: var(--fw-regular) var(--fs-body-sm)/1 var(--font-text); gap: var(--ih-gap-contagem);
+  }
+  /* No toque o :hover fica preso depois do clique; aqui ele não pinta nada. */
+  .post-acoes .btn.btn-curtir-card, .post-acoes .btn.btn-curtir-card:not(:disabled):hover { background: transparent; box-shadow: none; transform: none; }
+  .post-acoes .btn.btn-curtir-card:not(:disabled):active { background: var(--ih-surface); }
+  /* Curtido: o ícone fica laranja e o número preto, que o laranja em texto pequeno não passa no contraste. */
+  .post-acoes .btn-curtir[aria-pressed="true"] { color: var(--ih-ink); font-weight: var(--fw-bold); }
+  .post-acoes .btn-curtir[aria-pressed="true"] .pulso > span { background-color: var(--brand) !important; }
+
+  /* Prévia do publicar: o post fica dentro da caixa, sem sair de ponta a ponta. */
+  .caixa .post-linha, .cols-post .post-linha { border: 1px solid var(--ih-line); border-radius: var(--radius-md); }
+
+  /* ---------- Pedidos ---------- */
+  .lista-movel { gap: 0; margin-inline: calc(-1 * var(--space-4)); border-top: 1px solid var(--ih-line); }
+  .lista-movel > .painel { align-items: flex-start; border: 0; border-bottom: 1px solid var(--ih-line); border-radius: 0; padding: var(--space-4); }
+  /* O ícone do tipo fica na coluna da esquerda, como a foto num post; texto e botões na da direita. */
+  .lista-movel .pedido-texto { flex: 1 1 0; }
+  .lista-movel > .painel > .row { margin-left: calc(40px + var(--space-4)); }
+
+  /* ---------- Perfil ---------- */
+  /* Sem a caixa cinza: foto, nome, cargo e os números em linha, como "123 Seguindo" no X. */
+  .perfil-topo { padding: 0; background: transparent; gap: var(--space-3); border-radius: 0; }
+  .perfil-topo > .row { gap: var(--space-4); }
+  .perfil-topo .numero { min-width: 0; flex-direction: row; align-items: baseline; gap: var(--space-1); padding: 0; background: transparent; }
+  .perfil-topo .numero-valor { font: var(--fw-bold) var(--fs-body)/1 var(--font-text); }
+  .perfil-topo .numero-rotulo { font-weight: var(--fw-regular); color: var(--ih-ink2); font-size: var(--fs-body-sm); }
+
+  /* ---------- Ativo, publicar e dados ---------- */
+  /* Os quatro passos numa linha só: sem o traço entre eles e com a letra menor. */
+  .passos-publicar { flex-wrap: nowrap; gap: var(--space-3); }
+  .passos-publicar li > span[aria-hidden] { display: none; }
+  .passos-publicar .small { font-size: var(--fs-caption); gap: var(--space-1); }
+  .painel { padding: var(--space-4); }
+  .tabela { display: block; overflow-x: auto; }
+  .kpi-valor, .tempo-valor { font-size: var(--fs-h2); }
+  /* Pouco laranja no celular: nos números do painel ele sai, e fica só nas barras. */
+  .kpi-valor { color: var(--ih-ink); }
+
+  /* ---------- Botão flutuante ---------- */
+  .fab {
+    position: fixed; right: var(--space-4); bottom: calc(var(--ih-pe-fixo) + var(--space-4)); z-index: 25;
+    width: var(--ih-fab); height: var(--ih-fab); display: grid; place-items: center; padding: 0; border: 0;
+    border-radius: var(--radius-pill); background: var(--brand); color: var(--on-brand); box-shadow: var(--shadow-2); cursor: pointer;
+    transition: background var(--dur-fast) var(--ease-standard), transform var(--dur-fast) var(--ease-standard);
+    animation: ih-surgir var(--dur-base) var(--ease-standard) backwards;
+  }
+  .fab:active { background: var(--brand-press); transform: scale(var(--ih-aperto)); }
+
+  /* ---------- Abas embaixo ---------- */
+  .abas-movel {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; box-sizing: content-box; height: var(--ih-abas);
+    display: flex; padding-bottom: var(--ih-seguro-pe); background: var(--ih-bg); border-top: 1px solid var(--ih-line);
+  }
+  .aba-movel { position: relative; flex: 1; display: grid; place-items: center; color: var(--ih-ink3); }
+  .aba-movel > [aria-hidden] { transition: transform var(--dur-fast) var(--ease-standard); }
+  .aba-movel:active > [aria-hidden] { transform: scale(.9); }
+  .aba-movel[aria-current="page"] { color: var(--ih-ink); }
+  .aba-movel[aria-current="page"]::after {
+    content: ""; position: absolute; bottom: var(--space-1); width: 4px; height: 4px; border-radius: var(--radius-pill); background: var(--brand);
+    animation: ih-marcar var(--dur-base) var(--ease-standard) backwards;
+  }
+  .aba-movel-contador { position: absolute; top: var(--space-2); left: calc(50% + var(--space-1)); min-width: 18px; height: 18px; font-size: var(--fs-overline); }
+
+  /* ---------- Avisos ---------- */
+  /* Recado e toast sobem acima das abas. O Aviso traz a posição no style, por isso o !important. */
+  /* Largura fixa: centrado com left 50%, o recado só teria metade da tela para crescer. */
+  .recado { bottom: calc(var(--ih-pe-fixo) + var(--space-3)); box-sizing: border-box; width: calc(100vw - 2 * var(--space-4)); max-width: none; }
+  .app-movel .aviso { right: var(--space-4) !important; left: var(--space-4); bottom: calc(var(--ih-pe-fixo) + var(--space-3)) !important; }
+}

@@ -18,7 +18,7 @@ export function Pedidos() {
         </Button>
       </div>
 
-      <div className="stack stack-4 anima-escalonada">
+      <div className="stack stack-4 anima-escalonada lista-movel">
         {pedidos.map((p) => {
           const quero = querem.includes(p.id);
           const euCrio = criando.includes(p.id);
@@ -28,7 +28,7 @@ export function Pedidos() {
               <span className="icone-quadrado icone-tipo">
                 <Icon name={iconeTipo(p.tipo)} size={20} label={p.tipo} />
               </span>
-              <div className="stack stack-2" style={{ flex: '1 1 320px', minWidth: 0 }}>
+              <div className="stack stack-2 pedido-texto">
                 <h2 className="titulo-card">{p.titulo}</h2>
                 <span className="row row-2">
                   <Foto pessoa={p.autor} tamanho={32} />

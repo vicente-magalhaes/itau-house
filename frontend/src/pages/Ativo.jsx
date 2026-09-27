@@ -424,7 +424,8 @@ export function Ativo({ id }) {
 
   return (
     <div className="stack stack-5">
-      <BotaoSec icone="arrow-left" onClick={voltar} style={{ alignSelf: 'flex-start', paddingLeft: 'var(--space-3)' }}>
+      {/* No celular quem volta é a seta da barra de cima. */}
+      <BotaoSec icone="arrow-left" className="some-no-celular" onClick={voltar} style={{ alignSelf: 'flex-start', paddingLeft: 'var(--space-3)' }}>
         Voltar
       </BotaoSec>
 

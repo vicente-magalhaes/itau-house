@@ -94,6 +94,9 @@ input::placeholder { color: var(--gray-500); }
 .foto-anel { box-shadow: 0 0 0 2px var(--brand); }
 
 /* Selo em pílula. */
+/* Texto do pedido: quebra para baixo do ícone quando a linha aperta. */
+.pedido-texto { flex: 1 1 320px; min-width: 0; }
+
 .selo {
   flex: none; padding: var(--ih-gap-contagem) 10px; border-radius: var(--radius-pill); white-space: nowrap;
   font: var(--fw-bold) var(--fs-caption)/1 var(--font-text); background: var(--ih-surface); color: var(--ih-ink2); cursor: help;
@@ -265,6 +268,7 @@ input::placeholder { color: var(--gray-500); }
   font: var(--fw-bold) var(--fs-caption)/1 var(--font-text); white-space: nowrap;
 }
 .cols-post { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: var(--space-6); align-items: start; max-width: 1100px; }
+.cols-post-largo { grid-template-columns: minmax(0, 1fr) 380px; }
 @media (max-width: 1100px) { .cols-post { grid-template-columns: minmax(0, 1fr); } }
 .caixa { border-radius: var(--radius-lg); border: 1px solid var(--ih-line); background: var(--ih-card); padding: var(--ih-pad); }
 

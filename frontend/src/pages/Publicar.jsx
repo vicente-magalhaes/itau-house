@@ -29,7 +29,7 @@ function pareceCodigo(texto) {
 
 function Passos({ atual }) {
   return (
-    <ol className="row row-2 wrap" aria-label="Passos da publicação" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+    <ol className="row row-2 wrap passos-publicar" aria-label="Passos da publicação" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
       {PASSOS.map((rotulo, i) => {
         const n = i + 1;
         const agora = n === atual;
@@ -188,7 +188,8 @@ export function Publicar() {
   return (
     <div className="stack stack-5" style={{ maxWidth: 1040 }}>
       <div className="row spread wrap row-4">
-        <h1 className="titulo-pagina">Publicar</h1>
+        {/* No celular o nome da tela já está na barra de cima. */}
+        <h1 className="titulo-pagina some-no-celular">Publicar</h1>
         <Passos atual={passo} />
       </div>
 
@@ -288,7 +289,7 @@ export function Publicar() {
       )}
 
       {passo === 3 && (
-        <section className="cols-post anima-entrar" style={{ gridTemplateColumns: 'minmax(0, 1fr) 380px' }}>
+        <section className="cols-post cols-post-largo anima-entrar">
           <div className="stack stack-4">
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 'var(--space-4)' }}>
               <Input
