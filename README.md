@@ -199,6 +199,15 @@ DB_URL='postgresql://...' supabase/reset_demo.sh     # outra base: pede para dig
 
 Apaga também o que a demo criou: rascunhos, curtidas, validações e eventos. **Contra o Supabase do time, só uma pessoa roda, e avisa o time antes.** Agente e teste nunca rodam contra ele. A URL do banco (painel do Supabase > Connect) vai por `DB_URL`, nunca num arquivo do repositório.
 
+**Sem `psql` instalado.** Roda o `reset_demo.sh` dentro de um container `postgres:16`, que já traz o `psql`. No Windows, o arquivo tem CRLF, que quebra o `bash` do container: converta para LF antes de rodar.
+
+```bash
+docker run --rm -v "$(pwd)/supabase:/supabase" -e DB_URL='postgresql://...' \
+  postgres:16 bash -c "tr -d '\r' < /supabase/reset_demo.sh > /supabase/.reset_demo_lf.sh && bash /supabase/.reset_demo_lf.sh"
+```
+
+**Seed com pessoa nova.** Publique o código antes de resetar. O back lê o autor a partir do `seed.json` embarcado na imagem publicada; resetar com o seed novo antes do deploy manda o feed com autor nulo. Ordem: `git push` (dispara o deploy) → confirmar que o back novo está no ar → só então rodar o reset.
+
 ## Como trabalhamos
 
 **Branches**
