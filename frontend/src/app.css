@@ -212,6 +212,10 @@ input::placeholder { color: var(--gray-500); }
 .arvore-ramos { margin-left: 19px; padding-left: var(--space-6); border-left: 2px solid var(--ih-line); display: flex; flex-direction: column; gap: var(--space-4); }
 .barra-papel { height: 8px; border-radius: var(--radius-pill); background: var(--ih-surface); overflow: hidden; }
 .barra-papel > span { display: block; height: 100%; border-radius: var(--radius-pill); background: var(--ih-ink2); }
+/* Tempo economizado (decisão 0025): as duas horas lado a lado. */
+.tempo-numeros { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); }
+.tempo-valor { font: var(--fw-bold) var(--fs-h2)/1.1 var(--font-display); color: var(--ih-ink); font-variant-numeric: tabular-nums; }
+.tempo-valor.destaque { color: var(--brand); }
 
 /* ---------- Perfil ---------- */
 .perfil-topo { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-5); padding: var(--space-6); border-radius: var(--radius-lg); background: var(--ih-surface); }

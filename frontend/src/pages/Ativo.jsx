@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Icon, Dialog, Checkbox, Badge } from '../ds.js';
 import { Foto, BotaoSec, SeloSimulado, Vazio } from '../components/comuns.jsx';
 import { BotaoCurtir } from '../components/Post.jsx';
-import { Pulso } from '../components/movimento.jsx';
+import { NumeroVivo, Pulso } from '../components/movimento.jsx';
 import { Link, irPara } from '../router.jsx';
 import { useSessao } from '../sessao.jsx';
 import {
@@ -16,6 +16,8 @@ import {
   tempoRelativo,
   formatarDataCurta,
   passosDeUso,
+  horasParaCriar,
+  formatarHoras,
 } from '../data/catalogo.js';
 import { ativoDetalheDaApi } from '../data/daApi.js';
 import { detalharAtivo, useDaApi } from '../api.js';
@@ -143,6 +145,45 @@ function ListaAcessos({ acessos }) {
   );
 }
 
+// Retorno de tempo (decisão 0025): quanto levou pra criar e quanto os reaproveitamentos já pouparam.
+// A economia é reaproveitamentos × horas pra criar. Usar o ativo soma um reaproveitamento na hora.
+function TempoEconomizado({ ativo, reusos }) {
+  const horas = horasParaCriar(ativo);
+  return (
+    <div className="painel">
+      <div className="row spread row-2">
+        <h2 className="titulo-card">Tempo economizado</h2>
+        <SeloSimulado ajuda="O tempo de criação e os reaproveitamentos são fictícios, criados para a demonstração. Num piloto, quem publica informa o tempo.">
+          Números fictícios
+        </SeloSimulado>
+      </div>
+      {horas === null ? (
+        <p className="texto">Quem publicou ainda não informou quanto tempo levou pra criar. Sem isso, a gente não calcula a economia.</p>
+      ) : (
+        <>
+          <div className="tempo-numeros">
+            <div className="stack stack-1">
+              <span className="meta">Levou pra criar</span>
+              <span className="tempo-valor">{formatarHoras(horas)}</span>
+            </div>
+            <div className="stack stack-1">
+              <span className="meta">Já economizou</span>
+              <span className="tempo-valor destaque">
+                <NumeroVivo valor={reusos * horas} formatar={formatarHoras} />
+              </span>
+            </div>
+          </div>
+          <p className="texto">
+            {reusos === 0
+              ? 'Ninguém reaproveitou ainda. Cada reaproveitamento poupa o tempo de criar do zero.'
+              : `${reusos} ${reusos === 1 ? 'reaproveitamento' : 'reaproveitamentos'} × ${formatarHoras(horas)}. É uma estimativa: cada um conta como o tempo de criar do zero.`}
+          </p>
+        </>
+      )}
+    </div>
+  );
+}
+
 // "Usar em": uma aba por ferramenta, com os passos daquela ferramenta.
 function UsarEm({ ativo }) {
   const [ferramenta, setFerramenta] = React.useState(ativo.ferr[0]);
@@ -174,7 +215,7 @@ function UsarEm({ ativo }) {
   );
 }
 
-// Página do ativo (RF-27): capa, ações, o que ele acessa, como usar, conteúdo, derivações, reuso por papel e trilha (RF-22, RF-30).
+// Página do ativo (RF-27): capa, ações, tempo economizado (0025), o que ele acessa, como usar, conteúdo, derivações, reuso por papel e trilha (RF-22, RF-30).
 export function Ativo({ id }) {
   const { pessoa, usuarioId, usados, usar, reusosDe, avisar, ehCoordenador } = useSessao();
   // A API responde 404 para o que a persona não vê (RF-05). Nos dados fictícios, o filtro de alcance é daqui.
@@ -350,6 +391,8 @@ export function Ativo({ id }) {
         </div>
 
         <aside className="coluna-lateral">
+          <TempoEconomizado ativo={ativo} reusos={reusosDe(ativo)} />
+
           <div className="painel">
             <div className="stack stack-2">
               <h2 className="titulo-card">O que ele acessa</h2>
