@@ -188,6 +188,17 @@ supabase db push                                # aplica na nuvem
 
 O banco é compartilhado. Antes de rodar `db push`, avise o time.
 
+**Reset da demo.** Volta o banco ao estado inicial do roteiro: apaga os dados de todas as tabelas de `public` e reaplica o `supabase/seed.sql`. Não mexe em estrutura. Roda numa transação só: se o seed falhar, nada é apagado. Precisa do `psql`.
+
+```bash
+python3 supabase/gerar_seed_sql.py                  # se o seed.json mudou, gere o seed.sql antes
+supabase start                                       # base descartável na sua máquina
+supabase/reset_demo.sh                               # reset da base local (padrão)
+DB_URL='postgresql://...' supabase/reset_demo.sh     # outra base: pede para digitar "resetar"
+```
+
+Apaga também o que a demo criou: rascunhos, curtidas, validações e eventos. **Contra o Supabase do time, só uma pessoa roda, e avisa o time antes.** Agente e teste nunca rodam contra ele. A URL do banco (painel do Supabase > Connect) vai por `DB_URL`, nunca num arquivo do repositório.
+
 ## Como trabalhamos
 
 **Branches**
