@@ -48,7 +48,7 @@ Um brief só roda com os itens dele marcados. Quem abre a sessão confere.
 
 **DV-1 (deploy)**
 - [x] A-17 decidida e aceita: [decisão 0031](../memoria/decisions/0031-hospedagem-front-na-vercel-back-no-render.md), front na Vercel e back no Render.
-- [ ] Contas na Vercel e no Render criadas pelo Vicente, entrando com o GitHub dele. O repositório está na conta pessoal dele, e a documentação da Vercel só restringe o plano grátis em repositório de organização. Então a Vercel deve publicar commits de todo o time. Conferir no primeiro merge de outra pessoa.
+- [x] Contas na Vercel e no Render criadas pelo Vicente em 27/09, entrando com o GitHub dele. Nenhum projeto criado, e o app de cada uma no GitHub só tem acesso ao `itau-house`. O repositório está na conta pessoal dele, e a documentação da Vercel só restringe o plano grátis em repositório de organização. Então a Vercel deve publicar commits de todo o time. Conferir no primeiro merge de outra pessoa.
 - [ ] Tokens da Vercel e do Render guardados nos Secrets do Devin. Nunca no texto da sessão, nunca no repositório.
 - [ ] `SUPABASE_URL` e `SUPABASE_SECRET_KEY` à mão para uma pessoa colar no painel do Render. O back ainda não usa, mas vai usar. O Devin não recebe essas chaves.
 - [ ] Região do projeto no Supabase, para pôr no texto da sessão. Não é segredo.
