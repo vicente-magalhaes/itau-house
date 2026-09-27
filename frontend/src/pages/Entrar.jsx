@@ -9,7 +9,7 @@ import { entrarComGoogle } from '../google.js';
 // Google é login real (T-41, 0034). Login e senha são [SIMULADO]: a senha não é conferida.
 
 // O login diz com qual perfil fictício entrar (RF-24). Começou pelo primeiro nome de um perfil
-// ("rafael", "rafael.costa@..."), entra nele. Qualquer outro entra como membro do squad.
+// ("juliana", "juliana.prado@..." entra na coordenação), entra nele. Qualquer outro entra como membro do squad.
 function perfilDoLogin(login) {
   const nome = login.trim().toLowerCase().split(/[@._\s-]/)[0];
   const achado = PERFIS.find((p) => p.pessoa.primeiro.toLowerCase() === nome);
