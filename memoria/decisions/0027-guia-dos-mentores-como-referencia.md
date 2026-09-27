@@ -14,7 +14,7 @@ superseded_by: []
 
 ## Decision
 
-O guia de dicas dos mentores ([docs/10](../../docs/10-guia-dicas-mentores.md)) é a referência principal das perguntas de preparação da banca. Motivo (Vicente): veio direto dos mentores. As perguntas parecidas em outros arquivos continuam; se divergirem, vale o guia.
+O guia de dicas dos mentores (`docs/10`, removido) é a referência principal das perguntas de preparação da banca. Motivo (Vicente): veio direto dos mentores. As perguntas parecidas em outros arquivos continuam; se divergirem, vale o guia.
 
 ## Origin
 

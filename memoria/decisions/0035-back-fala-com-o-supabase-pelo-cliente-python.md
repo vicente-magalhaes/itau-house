@@ -15,7 +15,7 @@ superseded_by: []
 
 ## Context
 
-O T-39 é a base que a DV-2 (T-06, T-07) copia em todas as rotas, e vai para o Devin como DV-5 ([docs/devin.md](../../docs/devin.md)). Antes dele, o back não tinha acesso ao banco: a busca e o validador liam o `seed.json`. A migração do T-05 usa ids em `text` e RLS sem política, então só a chave secreta lê e escreve. O Render já tem `SUPABASE_URL` e `SUPABASE_SECRET_KEY` no grupo `itau-house-supabase` (DV-1). A regra de visibilidade precisa continuar única (RNF-07). Vicente aprovou o plano do T-39 em 27/09.
+O T-39 é a base que a DV-2 (T-06, T-07) copia em todas as rotas, e vai para o Devin como DV-5 (`docs/devin.md`, removido). Antes dele, o back não tinha acesso ao banco: a busca e o validador liam o `seed.json`. A migração do T-05 usa ids em `text` e RLS sem política, então só a chave secreta lê e escreve. O Render já tem `SUPABASE_URL` e `SUPABASE_SECRET_KEY` no grupo `itau-house-supabase` (DV-1). A regra de visibilidade precisa continuar única (RNF-07). Vicente aprovou o plano do T-39 em 27/09.
 
 ## Options
 

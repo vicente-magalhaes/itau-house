@@ -19,4 +19,4 @@ Só dados fictícios. Integrações simuladas ficam marcadas como simuladas em t
 ## Origin
 
 Era a D-07 na tabela "Decidido" da antiga `05-decisoes-e-pendencias.md`. Texto copiado sem mudança.
-Na tabela, a data era "regra do evento" (ver [docs/01](../../docs/01-hackathon-regras-e-entregas.md)). A `date` é a do primeiro registro no repositório (commit `20fb5b4`).
+Na tabela, a data era "regra do evento" (ver `docs/01`, removido). A `date` é a do primeiro registro no repositório (commit `20fb5b4`).

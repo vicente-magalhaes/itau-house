@@ -14,9 +14,9 @@ superseded_by: []
 
 ## Context
 
-A entrega 1 pede link de acesso ou instruções para executar, e os links precisam abrir sem login ([docs/01](../../docs/01-hackathon-regras-e-entregas.md)). A [0022](0022-supabase-na-nuvem.md) já partia de que o MVP precisa estar online para os gestores acessarem. Onde hospedar era a A-17, em aberto em [05](../05-pendencias-e-riscos.md), com "provável: Vercel e/ou Render" (Vicente, 26/09).
+A entrega 1 pede link de acesso ou instruções para executar, e os links precisam abrir sem login (`docs/01`, removido). A [0022](0022-supabase-na-nuvem.md) já partia de que o MVP precisa estar online para os gestores acessarem. Onde hospedar era a A-17, em aberto em `05-pendencias-e-riscos.md` (removido), com "provável: Vercel e/ou Render" (Vicente, 26/09).
 
-O repositório já estava pronto: a imagem de produção do back lê `$PORT`, o health fica em `/api/health` e as rotas do front são por hash. O deploy vai para o Devin (T-38, DV-1 em [docs/devin.md](../../docs/devin.md)), e o brief precisava da plataforma decidida. Vicente decidiu em 27/09. Fecha a A-17.
+O repositório já estava pronto: a imagem de produção do back lê `$PORT`, o health fica em `/api/health` e as rotas do front são por hash. O deploy vai para o Devin (T-38, DV-1 em `docs/devin.md`, removido), e o brief precisava da plataforma decidida. Vicente decidiu em 27/09. Fecha a A-17.
 
 Esta decisão nasceu como 0030 e foi renumerada: a 0030 da `main` é a do Bruno, sobre o agente da pessoa adaptar o ativo.
 

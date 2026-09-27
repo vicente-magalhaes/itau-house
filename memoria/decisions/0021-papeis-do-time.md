@@ -14,7 +14,7 @@ superseded_by: []
 
 ## Decision
 
-Papéis. **Bruno:** produto e camada de IA (roteiro da demo, catálogo fictício, busca, validador, plugin). **Vicente:** back-end, MCP, banco e deploy, com Devin. **Alexandre:** front-end. **JP:** apresentação e evidência (prazo, entrevista, slides, ficha, pitch, vídeo). Cada task tem dono e validador diferentes. Tasks e ordem em [KANBAN.md](../../KANBAN.md). Fecha A-11.
+Papéis. **Bruno:** produto e camada de IA (roteiro da demo, catálogo fictício, busca, validador, plugin). **Vicente:** back-end, MCP, banco e deploy, com Devin. **Alexandre:** front-end. **JP:** apresentação e evidência (prazo, entrevista, slides, ficha, pitch, vídeo). Cada task tem dono e validador diferentes. Tasks e ordem em `KANBAN.md` (removido). Fecha A-11.
 
 ## Origin
 

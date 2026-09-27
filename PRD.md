@@ -9,7 +9,7 @@
 | **Data** | 26/09/2026 |
 
 MVP do Hackathon Itaú 2026, Case C. Não é produto oficial do Itaú. Todos os dados são fictícios.
-Fluxos visuais: [docs/fluxos.html](docs/fluxos.html). Decisões: [memoria/decisions/](memoria/decisions/README.md). Pendências e riscos: [memoria/05-pendencias-e-riscos.md](memoria/05-pendencias-e-riscos.md).
+Fluxos visuais: [docs/fluxos.html](docs/fluxos.html). Decisões: [memoria/decisions/](memoria/decisions/README.md).
 
 **Glossário**
 
@@ -41,14 +41,14 @@ Num squad orientado por IA, cada pessoa cria os próprios agentes, skills e atal
 - A pessoa do squad precisa de uma skill ou agente e cria do zero no seu agente de IA.
 - Se desconfia que alguém já fez, pergunta a colegas ou não pergunta. **[HIPÓTESE]** Ainda não entrevistamos um dev (A-13).
 - Quem já tem skills prontas compartilha de forma manual, quando compartilha (caso EDA, D-16).
-- Times montam repositórios próprios, "do time para o time", sem processo institucional (F1).
-- Pessoas que atuam em várias squads não sabem que agente cada um usa (F2).
+- Times montam repositórios próprios, do time para o time, sem processo institucional.
+- Pessoas que atuam em várias squads não sabem que agente cada um usa.
 
 **2.2 Dores**
 - **Retrabalho:** a pessoa gasta tempo recriando o que outra já fez e testou.
 - **Conhecimento preso na pessoa:** o que um cria não chega ao squad nem a outros papéis.
 - **Sem descoberta no momento certo:** um repositório exige que a pessoa saiba que deve procurar.
-- **Risco no compartilhamento informal:** ativo passado de mão em mão pode carregar segredo ou dado sensível. O Itaú já teve vazamento (F1).
+- **Risco no compartilhamento informal:** ativo passado de mão em mão pode carregar segredo ou dado sensível.
 
 **2.3 Objetivo**
 Queremos ajudar membros de um squad orientado por IA a reaproveitar agentes e skills que outras pessoas já criaram, quando começam a criar algo novo, porque hoje o compartilhamento é manual e ninguém sabe o que o outro já fez. Saberemos que ajudamos se a parcela de criações novas que reaproveitam ou adaptam um ativo existente crescer, inclusive entre papéis diferentes.
@@ -392,7 +392,7 @@ Relacionamentos:
 | **Latência** | Opus 5 na demo ao vivo pode demorar. Controle: esforço baixo nas rotas rápidas, respostas gravadas (RNF-04). Trocar de modelo é decisão do time. | Demo |
 | **A-13** | Nenhum dev entrevistado. Evidência da dor ainda indireta. | Pitch, critério "Dados" |
 | **A-10** | Teste com pessoa de fora ainda não feito. Obrigatório. | Pitch, ficha |
-| **A-05** | Diferença para o catálogo de skills homologadas do Itaú e para portais de desenvolvedor (ex.: Backstage). Risco de desclassificação por inovação. | Pitch, critério de inovação |
+| **A-05** | Diferença para catálogos internos de skills e para portais de desenvolvedor (ex.: Backstage). Risco de desclassificação por inovação. | Pitch, critério de inovação |
 | **R-04** | O agente sugere algo que não é parecido. Controle: limiar, justificativa visível, decisão humana, métrica de precisão. | Confiança |
 | **R-05** | Catálogo vazio. Controle: publicação armada como efeito colateral (RF-11). | Adoção |
 | **R-03** | Vazamento por ativo publicado. Controle: validador, alcance, aprovação humana. | Segurança |

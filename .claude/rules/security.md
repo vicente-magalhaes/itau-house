@@ -1,6 +1,6 @@
 # Regras de segurança
 
-Sempre ativas. Baseadas no regulamento do hackathon e em [docs/01-hackathon-regras-e-entregas.md](../../docs/01-hackathon-regras-e-entregas.md).
+Sempre ativas. Baseadas no regulamento do Hackathon Itaú 2026.
 
 ## Segredos
 
@@ -24,10 +24,8 @@ Sempre ativas. Baseadas no regulamento do hackathon e em [docs/01-hackathon-regr
 
 ## Conteúdo interno do time
 
-- `memoria/`, os documentos numerados de `docs/` e `itau-design-system/` são internos. Citam pessoas e conversas do Itaú e contêm a marca do banco.
-- Não publicar, não colar em serviço externo e não copiar esse conteúdo para o código da aplicação.
-- Exceção: o Devin, dado pela organização, lê o repositório inteiro (decisão 0033). A proibição de copiar vale para ele também.
-- O repositório é privado. Antes da banca, será limpo para ficar só o código (decisão D-09).
+- O repositório é público. O conteúdo interno do hackathon (pesquisa com pessoas do Itaú, regulamento, guia de marca oficial, notas de estratégia) saiu da `main` antes disso (decisão 0009).
+- Não trazer esse conteúdo de volta. Não citar pessoa, conversa ou informação interna do Itaú em código, tela, commit ou documento.
 
 ## Git
 

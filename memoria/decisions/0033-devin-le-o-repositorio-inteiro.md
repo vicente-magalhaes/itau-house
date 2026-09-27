@@ -14,7 +14,7 @@ superseded_by: []
 
 ## Context
 
-A primeira sessão do Devin, a DV-1 (T-38, ver [docs/devin.md](../../docs/devin.md)), só pode abrir quando este item do "Fechar antes" estiver resolvido. Ao conectar, o Devin clona o repositório com todo o histórico do git e indexa o conteúdo, inclusive o que é interno. A [regra de segurança](../../.claude/rules/security.md) diz para não colar esse conteúdo em serviço externo. A 3.7.2 do regulamento proíbe colar em IA externa material interno do Itaú não autorizado ([docs/01](../../docs/01-hackathon-regras-e-entregas.md)). Os créditos do Devin vieram da organização do hackathon: US$ 200 por membro. Vicente decidiu em 27/09.
+A primeira sessão do Devin, a DV-1 (T-38, ver `docs/devin.md`, removido), só pode abrir quando este item do "Fechar antes" estiver resolvido. Ao conectar, o Devin clona o repositório com todo o histórico do git e indexa o conteúdo, inclusive o que é interno. A [regra de segurança](../../.claude/rules/security.md) diz para não colar esse conteúdo em serviço externo. A 3.7.2 do regulamento proíbe colar em IA externa material interno do Itaú não autorizado (`docs/01`, removido). Os créditos do Devin vieram da organização do hackathon: US$ 200 por membro. Vicente decidiu em 27/09.
 
 Esta decisão nasceu como 0032 e foi renumerada: a 0032 da `main` é a do Gemini como segundo provedor da busca.
 

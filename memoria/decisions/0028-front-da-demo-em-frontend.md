@@ -19,4 +19,4 @@ Front da demo em `frontend/`. O esboço de `web/` migrou para lá e `web/` saiu 
 ## Origin
 
 Era a D-28 na tabela "Decidido" da antiga `05-decisoes-e-pendencias.md`. Entrou na `main` pelo commit `77d1bb1`, do Alexandre, enquanto a migração acontecia. Texto copiado sem mudança.
-O que ficou para confirmar com o time (RF-22 e RF-30) virou a A-19 em [05-pendencias-e-riscos.md](../05-pendencias-e-riscos.md).
+O que ficou para confirmar com o time (RF-22 e RF-30) virou a A-19 em `05-pendencias-e-riscos.md` (removido).
