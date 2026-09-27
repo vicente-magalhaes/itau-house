@@ -30,10 +30,10 @@ O Devin só pega uma task depois que o "Fechar antes" dela, no [docs/devin.md](d
 ## Ordem de cada um
 
 - **Bruno:** T-02 → T-03 → T-04 → T-05 (assumida do Vicente) → T-10 → T-11 → T-13 → T-14 → T-24 → T-30 (vídeo completo) → T-37 (secundária)
-- **Vicente:** T-40 → T-34 → T-35. Em paralelo, abre, revisa e junta o que o Devin faz (T-38, T-25, T-39, T-12, T-06, T-07, T-15), e valida a T-38 e a T-15
+- **Vicente:** T-40 → T-34 → T-35. Em paralelo, abre, revisa e junta o que o Devin faz (T-38, T-25, T-39, T-12, T-06, T-07, T-42, T-43, T-15), e valida a T-38 e a T-15
 - **Alexandre:** T-16 → T-17 → T-18 → T-19 → T-20 → T-24
 - **JP:** T-01 → T-22 → T-23 → T-26 → T-27 → T-28 → T-29 → T-31 → T-32 → T-33 → T-36 → T-35
-- **Devin:** T-38 e T-25 entregues → T-39 e T-12 (agora, em paralelo) → T-06 e T-07 (depois do T-39) → T-15, com a conferência do link
+- **Devin:** T-38, T-25, T-39, T-12, T-06 e T-07 entregues → T-42 e T-43 (agora, em paralelo) → T-15, com a conferência do link (DV-4)
 
 ## Marcos
 
@@ -65,7 +65,7 @@ O Devin só pega uma task depois que o "Fechar antes" dela, no [docs/devin.md](d
 | T-07 | API de publicação: rascunho, envio, fila, aprovar, devolver, eventos. Pelo Devin ([DV-2](docs/devin.md#dv-2-rotas-do-back)) | Ativo sai de rascunho e chega a publicado só com aprovação do Cord+ do squad. Testes no CI | Vicente (Devin) | Bruno | T-03, T-05, T-39 | RF-17 a RF-22, RF-32, RNF-01, RNF-02 | Fazendo |
 | T-10 | Busca com justificativa: filtro de visibilidade + Claude ranqueia (esforço baixo, saída por schema) | Pedido da cena 1 retorna a skill da PM com motivo. Pedido da cena 2 retorna "não encontrei" | Bruno | Vicente | T-04, T-06 | RF-05, RF-06 | Fazendo |
 | T-11 | Validador: checagens fixas por código (chave, CPF, e-mail, README, autor), sem IA (D-26) | Skill da cena 2 com chave de API é barrada com arquivo, linha e sugestão. Corrigida, passa | Bruno | Vicente | T-03 | RF-14, RF-15 | Fazendo |
-| T-12 | Servidor MCP: `buscar_ativos`, `detalhar_ativo`, `registrar_decisao`, `validar_ativo`, `montar_post`, `enviar_para_aprovacao`. Pelo Devin ([DV-6](docs/devin.md#dv-6-servidor-mcp)). Busca e validação já funcionam; as outras quatro ferramentas esperam as rotas da DV-2 | Claude Code chama cada ferramenta e recebe resposta real da API | Vicente (Devin) | Bruno | T-06, T-07 | RF-10, RF-17, RNF-05 | Fazendo |
+| T-12 | Servidor MCP: `buscar_ativos`, `detalhar_ativo`, `registrar_decisao`, `validar_ativo`, `montar_post`, `enviar_para_aprovacao`. Pelo Devin ([DV-6](docs/devin.md#dv-6-servidor-mcp)). As seis ferramentas passaram na fumaça contra o back em memória em 27/09, depois da DV-2. Falta rodar pelo Claude Code | Claude Code chama cada ferramenta e recebe resposta real da API | Vicente (Devin) | Bruno | T-06, T-07 | RF-10, RF-17, RNF-05 | Fazendo |
 | T-13 | Plugin do Claude Code: hook de intenção, modo perguntar antes, instruções de uso, hook de ativo novo e convite a publicar ao fim da tarefa | Cena 1 e cena 2 rodam no Claude Code seguindo o roteiro | Bruno | Alexandre | T-12 | RF-02, RF-03, RF-04, RF-07, RF-08, RF-09, RF-11, RF-13, RF-16 | Fazendo |
 | T-17 | Feed: cards com título, tipo, autor, papel, squad, curtidas, instalações | Feed lista o seed na ordem de popularidade | Alexandre | Bruno | T-06 | RF-25 | Fazendo |
 | T-18 | Página do post: detalhes, contadores, trilha de aprovação, "derivado de" com link | Post da skill da PM mostra a derivação criada na cena 1 | Alexandre | Bruno | T-06 | RF-27, RF-30, RF-22 | Fazendo |
@@ -88,6 +88,8 @@ O Devin só pega uma task depois que o "Fechar antes" dela, no [docs/devin.md](d
 | T-41 | Login com Google (0034): cliente OAuth no Google Cloud, provedor ligado no Supabase (`supabase/ligar_google.sh`), botão "Entrar com Google" antes da escolha de persona | Entrar com Google leva à escolha de persona; a tela diz "login real, hierarquia simulada" | Bruno (Google e Supabase), Alexandre (botão) | Vicente | T-16 | RF-23 | Fazendo |
 | T-37 | Secundária. Identidade do catálogo: temas das skills, nomes das pessoas, fotos. Detalhe que surpreende a banca | Seed revisado em `backend/app/dados/seed.json`, `seed.sql` gerado de novo, fotos fictícias ou geradas, sem pessoa real | Bruno | JP | T-04 | RNF-03, RNF-06 | A fazer |
 | T-40 | Manter o back acordado: fluxo no n8n que chama `https://itau-house.vercel.app/api/health` a cada 8 min, num n8n ligado 24 h (não num notebook que dorme). Como montar em [docs/devin.md](docs/devin.md#manter-o-render-acordado) | Histórico do n8n com uma execução a cada 8 min. Depois de 1 h sem ninguém usar, `/api/health` responde em menos de 2 s | Vicente | Alexandre | T-38 | entrega 1, RNF-04 | A fazer |
+| T-42 | Back rápido no Supabase: feed, detalhe e fila sem consulta repetida. Em 27/09, o feed levava 2,2 a 2,5 s em produção. Pelo Devin ([DV-7](docs/devin.md#dv-7-back-rápido-no-supabase)) | Em produção, com o back acordado, o feed responde em menos de 1 s. Mesmas respostas, testes nas duas versões | Vicente (Devin) | Alexandre | T-06, T-07 | RNF-04, RF-25 | A fazer |
+| T-43 | Front com o elenco do roteiro: a pessoa da tela é a que a API vê (Rafael Nunes, Juliana Prado), e o perfil lê da API. É a parte do T-16 que o `docs/api.md` pede. Pelo Devin ([DV-8](docs/devin.md#dv-8-elenco-do-roteiro-no-front)), com o OK do Alexandre | Entrada, topo e perfil mostram a pessoa da API. Nenhum clique do feed, do post, da fila ou do perfil leva a "não encontrado" | Vicente (Devin) | Bruno | T-06, T-16 | RF-23, RF-24, RF-30, RNF-06 | A fazer |
 
 ## Fase 3: apresentação e envio (amanhã, até a submissão)
 

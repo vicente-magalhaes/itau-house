@@ -25,17 +25,19 @@ O gargalo é revisar e juntar sem conflito. Por isso: poucas sessões, bem delim
 | [DV-1](#dv-1-pipeline-de-deploy) | Pipeline de deploy: front na Vercel, back no Render | T-38 | Agora | Vicente |
 | [DV-2](#dv-2-rotas-do-back) | Rotas do back: catálogo, decisões, publicação e coordenação | T-06, T-07 | Depois da base do back (T-39) e do M1 | Alexandre (T-06), Bruno (T-07) |
 | [DV-3](#dv-3-reset-da-demo) | Reset da demo: um comando volta o banco ao seed | T-25 | Depois da migração aplicada (T-05) | Bruno |
-| [DV-4](#dv-4-conferência-do-site-publicado) | Conferência do site publicado contra o checklist de entrega | T-15 | Depois do deploy com dados (T-15) | Vicente |
+| [DV-4](#dv-4-conferência-do-site-publicado) | Conferência do site publicado contra o checklist de entrega | T-15 | Depois do T-15 e da DV-8 juntada | Vicente |
 | [DV-5](#dv-5-base-do-back) | Base do back: repositório, usuário pelo cabeçalho, erro no formato do contrato e rota de molde | T-39 | Agora, em paralelo com a DV-3 | Bruno |
 | [DV-6](#dv-6-servidor-mcp) | Servidor MCP com as seis ferramentas do contrato | T-12 | Agora, em paralelo com a DV-5 | Bruno |
+| [DV-7](#dv-7-back-rápido-no-supabase) | Back rápido no Supabase: feed, detalhe e fila sem consulta repetida | T-42 | Agora, em paralelo com a DV-8 | Alexandre |
+| [DV-8](#dv-8-elenco-do-roteiro-no-front) | Elenco do roteiro no front: a pessoa da tela é a da API, e o perfil lê da API | T-43 | Agora, com o OK do Alexandre | Bruno |
 
-Ordem: DV-1 e DV-3 feitas em 27/09. DV-5 e DV-6 juntas, porque ficam em pastas diferentes (`backend/` e `mcp/`). DV-2 feita em 27/09, depois da DV-5 juntada. DV-4 depois do T-15.
+Ordem: DV-1 e DV-3 feitas em 27/09. DV-5 e DV-6 juntas, porque ficam em pastas diferentes (`backend/` e `mcp/`). DV-2 feita em 27/09, depois da DV-5 juntada. DV-7 e DV-8 juntas, pelo mesmo motivo (`backend/` e `frontend/`). DV-4 por último, depois do T-15 e da DV-8, para conferir o site como a banca e um gestor vão ver.
 
 ## O que não vai para o Devin
 
 - **Migração (T-05).** Aplicar no Supabase precisa de uma pessoa. A base do back (T-39) saiu desta lista em 27/09: o Vicente aprovou o plano, as escolhas estão na [decisão 0035](../memoria/decisions/0035-back-fala-com-o-supabase-pelo-cliente-python.md), e o Devin executa como DV-5.
 - **Busca com o Claude (T-10) e validador (T-11).** São do Bruno: prompt e regra de produto.
-- Plugin (T-13), telas (T-16 a T-20), conteúdo do seed (T-04), roteiro, pitch, ficha, slides e vídeo.
+- Plugin (T-13), telas (T-16 a T-20), conteúdo do seed (T-04), roteiro, pitch, ficha, slides e vídeo. Exceção de 27/09: a troca do elenco no front (DV-8), com o OK do Alexandre, que está na ficha.
 - Qualquer decisão de produto que não está na PRD.
 
 ## Fechar antes de soltar o Devin
@@ -65,13 +67,22 @@ Um brief só roda com os itens dele marcados. Quem abre a sessão confere.
 - [x] Migração do T-05 no repositório. O Devin testa numa base descartável, então não precisa dela aplicada no Supabase do time. O reset precisa funcionar com qualquer `seed.sql` que saia do gerador, porque o `seed.json` ainda muda (T-04). Liberada em 27/09.
 
 **DV-4 (conferência)**
-- [ ] T-15 feito: link de produção com os dados da demo.
+- [ ] T-15 feito: link de produção com os dados da demo. Dados conferidos pelo Claude em 27/09: a API de produção lê o Supabase e devolve o seed atual (o feed do Rafael é idêntico ao da versão em memória). Falta o Vicente abrir o link numa janela anônima e marcar o T-15.
+- [ ] DV-8 juntada, para a conferência ver as telas finais.
 
 **DV-5 (base do back)**
 - [x] Plano aprovado pelo Vicente em 27/09. Escolhas na [decisão 0035](../memoria/decisions/0035-back-fala-com-o-supabase-pelo-cliente-python.md).
 
 **DV-6 (servidor MCP)**
 - [x] Contrato do MCP fechado no [docs/api.md](api.md) (M1) e plugin na `main` (T-13). Liberada pelo Vicente em 27/09. O MCP saiu de "O que não vai para o Devin": a primeira versão das descrições sai da skill do plugin, e o Bruno, que valida a T-12, ajusta depois junto com o plugin.
+
+**DV-7 (back rápido)**
+- [x] DV-2 juntada na `main` em 27/09. Medida em produção feita pelo Claude no mesmo dia: os números estão no brief.
+- [ ] Combinado com o Bruno: ele não mexe em `backend/app/` durante a sessão. A DV-7 não toca nos arquivos da busca.
+
+**DV-8 (elenco no front)**
+- [x] DV-2 juntada na `main` em 27/09: `GET /api/usuarios` e `GET /api/ativos` respondem com o seed.
+- [ ] Alexandre de acordo: o Devin pega a troca do elenco (parte do T-16), e ele não mexe em `frontend/src/` durante a sessão. Quem valida é o Bruno, que grava o vídeo com essas telas.
 
 ### Manter o Render acordado
 
@@ -230,6 +241,8 @@ Este brief supõe a base da DV-5 (decisão 0035) na `main`. Leia o `backend/app/
 - O login simulado aparece como **[SIMULADO]** (RF-23).
 - Nenhum nome de pessoa real, chave ou dado pessoal na tela.
 - Feed em ordem de popularidade (RF-25). Entrando como Rafael, os ativos de squad de outra squad não aparecem (RF-05).
+- A pessoa no topo é a que a API vê: Rafael Nunes em "Membro do squad" e Juliana Prado em "Coordenação".
+- Nenhum clique a partir do feed, da página do ativo e do perfil leva a "não encontrado".
 - Nenhum vermelho, roxo ou gradiente.
 
 **Pronto quando.** Relatório com cada item marcado como ok ou falhou, e print do que falhou.
@@ -334,6 +347,82 @@ Este brief supõe a base da DV-5 (decisão 0035) na `main`. Leia o `backend/app/
 - Como ligar o plugin com este servidor no Claude Code, na máquina de uma pessoa.
 - Quais ferramentas só vão funcionar de ponta a ponta depois da DV-2.
 - O texto de cada descrição de ferramenta, para o Bruno revisar.
+
+### DV-7: Back rápido no Supabase
+
+**Kanban:** T-42. **Branch:** `feat/back-rapido`. **Requisitos:** RNF-04, RF-25, RF-27 e RF-32. **Decisão:** [0035](../memoria/decisions/0035-back-fala-com-o-supabase-pelo-cliente-python.md).
+
+**Objetivo.** Deixar o feed, o detalhe e a fila rápidos na versão Supabase, sem mudar nenhuma resposta. Medido em produção em 27/09, com o back acordado: `/api/health` em 0,2 s, feed em 2,2 a 2,5 s, detalhe em 1,1 a 1,4 s e fila em 1,4 s. A causa são consultas repetidas no `RepositorioSupabase`:
+- cada ativo busca o autor numa consulta própria (`_ativo` chama `usuario`), inclusive os que a pessoa não vê;
+- o feed pergunta a curtida de cada ativo, um por um (`curtido`);
+- o detalhe e a fila chamam `usuario` várias vezes por ativo (histórico, usos, enviado por, aprovado por).
+
+**Ler antes.** `AGENTS.md`. A decisão 0035. Todo o `backend/app/` e o `backend/tests/`, principalmente `repositorio.py`, `api_ativos.py`, `api_aprovacoes.py` e `sessao.py`.
+
+**Já decidido.**
+- O JSON de toda rota fica idêntico. Os testes que já existem são a régua e passam sem mudar as asserções, nas duas versões.
+- Os usuários são 20, fictícios, e só mudam pelo seed. Pode guardar a lista no `RepositorioSupabase`, desde que ela se renove sozinha em até 60 s. Assim, um reset do banco com um seed novo aparece sem reiniciar o back.
+- A curtida da pessoa sai numa consulta só por pedido. Se precisar, acrescente ao repositório uma função como `curtidos(usuario_id) -> set[str]`, nas duas versões.
+- As rotas mudam só no que for preciso para usar essas funções. A regra de visibilidade continua a do `catalogo.visivel`.
+
+**Não faça.**
+- Não mexa em `api_busca.py`, `busca.py`, `validador.py` e `catalogo.py`, nem no front, no MCP, no plugin, nas migrações, no deploy ou no CI.
+- Não mude o contrato.
+- Nenhum teste escreve no Supabase do time. Para a versão Supabase, use só uma base local: `supabase start` e `supabase db reset`, **sem** `--linked`, com `ITAU_HOUSE_TESTE_SUPABASE_URL` e `ITAU_HOUSE_TESTE_SUPABASE_KEY`, como na DV-2.
+- Não chame o site de produção. A medida em produção é do Vicente, depois do merge.
+
+**Pronto quando.**
+- Em `backend/`, `uv run pytest` passa com os casos Supabase rodando numa base local, sem pular. `uv run ruff check .` e `uv run ruff format --check .` passam.
+- O relatório traz quantas consultas ao Supabase fazem o feed, o detalhe, a fila e o `usuario_atual`, antes e depois. Por exemplo, contando as requisições HTTP do cliente num teste. Meta: feed com até 4 consultas, detalhe com até 8.
+- A `feat/back-rapido` tem push, sem PR.
+- Depois do merge, o Vicente mede em produção, com o back acordado: o feed responde em menos de 1 s.
+
+**Relatório.** O que mudou em cada arquivo, as contagens antes e depois, e como a lista de usuários se renova.
+
+### DV-8: Elenco do roteiro no front
+
+**Kanban:** T-43, parte do T-16. **Branch:** `feat/elenco-no-front`. **Requisitos:** RF-23, RF-24, RF-30 e RNF-06.
+
+**Objetivo.** Fazer a pessoa da tela ser a mesma que a API enxerga, e o perfil ler da API. Hoje:
+- "Membro do squad" manda `X-Usuario-Id: u-rafael`, mas a tela mostra Ana Ribeiro. "Coordenação" manda `u-juliana` e mostra Rafael Costa. São pessoas dos dados fictícios de `src/data/`;
+- a página de perfil lê só os dados fictícios. Clicar no autor de um card do feed abre `/perfil/u-marina` e dá "Não encontramos esta pessoa". Os cards do próprio perfil abrem ativos que a API não tem, e a página do ativo dá "não encontrado";
+- os contadores do perfil não batem com os dos cards (122 contra 123).
+
+Isso aparece no vídeo (cena 2, passo 6: "Login simulado como Juliana") e trava quem abrir o link para testar. O [docs/api.md](api.md) já pede a troca em "O que muda", Front: as pessoas e os ativos do mock mudam para o elenco do roteiro.
+
+**Ler antes.** `AGENTS.md`. No `CLAUDE.md`, "Design system". O `design-system/readme.md`. No [docs/api.md](api.md), "Regras gerais", "Tipos", "Sessão" e "Catálogo". No [docs/roteiro-demo.md](roteiro-demo.md), "Elenco" e as cenas 1 e 2. Todo o `frontend/src/`, principalmente `api.js`, `data/daApi.js`, `sessao.jsx`, `data/governanca.js` (`PERFIS`), `pages/Entrar.jsx`, `pages/Perfil.jsx`, `components/AppShell.jsx` e `components/Post.jsx`.
+
+**Já decidido.**
+- Os dois perfis de entrada continuam. "Membro do squad" é o `u-rafael` (Rafael Nunes, Dev pleno, Pix · Cobranças). "Coordenação" é a `u-juliana` (Juliana Prado, Pix · Cobranças). Quem entra com Google continua como Coordenação (T-41).
+- Nome, cargo, squad, papel e foto da pessoa vêm de `GET /api/usuarios` (o `listarUsuarios` já existe no `api.js`), convertidos por `pessoaDaApi`. Valem na entrada, no topo e no perfil.
+- O perfil lê da API:
+  - a pessoa pelo id do contrato (`u-marina`), de `GET /api/usuarios`;
+  - os ativos dela, do feed da API (`GET /api/ativos`), filtrando por `autor.id`;
+  - os números, dos contadores da API: reaproveitamentos (`instalacoes`) e adaptações (`derivacoes`);
+  - "Quem adaptou", dos `usos` do tipo `derivacao` em `GET /api/ativos/{id}` dos ativos dela. Os `usos` não trazem id: a linha só mostra e não abre perfil, como a página do ativo já faz.
+- O que o contrato não traz fica fora, nunca inventado (regra do `daApi.js`). "Papéis alcançados" não vem da API: some quando a origem é a API.
+- Sem a API, a tela continua caindo nos dados fictícios, como hoje (`useDaApi`).
+- Todo link para perfil ou ativo usa o id da API.
+- Publicar, Pedidos e Dados continuam simulados, com o selo. Não mexa na lógica da fila (`Aprovacoes.jsx`) nem na página do ativo, além dos links para o perfil.
+- Design system: só tokens e componentes de `design-system/`, texto em pt-BR falando com "você", nada de vermelho, roxo ou gradiente, nenhuma dependência nova.
+
+**Não faça.**
+- Não mexa em `backend/`, `mcp/`, `plugin/`, `supabase/`, `design-system/`, nos Dockerfiles, no deploy nem no CI.
+- Não mude o contrato. Se a tela precisar de um campo que a API não traz, pare e explique no relatório.
+- Não teste no site de produção: é o banco da demo. Use `docker compose up` na sua máquina. Sem o `backend/.env`, o back sobe na versão em memória.
+
+**Pronto quando.**
+- Em `frontend/`, `npm run lint` e `npm run build` passam.
+- Com o back local em memória, o relatório traz prints de:
+  - a tela de entrada com Rafael Nunes e Juliana Prado;
+  - o topo com a pessoa certa em cada perfil;
+  - o perfil da Marina, aberto pelo autor de um card, com os ativos e os números da API;
+  - o perfil do Rafael e a fila da Juliana.
+- Nenhum clique a partir do feed, da página do ativo, da fila e do perfil leva a "não encontrado". O relatório lista os caminhos testados.
+- Cena 2 pela tela: crie o rascunho e envie pela API local, com `curl`, como o Rafael. Depois, entre como Juliana, aprove na fila e confira "Aprovado por Juliana Prado" e o ativo no feed.
+- A `feat/elenco-no-front` tem push, sem PR.
+
+**Relatório.** Arquivos mudados, os prints, o que ficou nos dados fictícios e por quê.
 
 ## Registro das sessões
 
