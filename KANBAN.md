@@ -60,7 +60,7 @@ O Claude rascunha textos (ficha, Q&A, pesquisa, catálogo) quando pedido. Sempre
 |---|---|---|---|---|---|---|---|
 | T-06 | API do catálogo: visibilidade, feed por popularidade, detalhe do post, contadores | Rotas do T-03 respondendo com o seed. Ativo de alcance "squad" de outra squad nunca aparece | Vicente | Alexandre | T-03, T-04, T-05 | RF-05, RF-25, RF-27, RF-30, RNF-07 | A fazer |
 | T-07 | API de publicação: rascunho, envio, fila, aprovar, devolver, eventos | Ativo sai de rascunho e chega a publicado só com aprovação do Cord+ do squad | Vicente | Bruno | T-03, T-05 | RF-17 a RF-22, RF-32, RNF-01, RNF-02 | A fazer |
-| T-10 | Busca com justificativa: filtro de visibilidade + Claude ranqueia (esforço baixo, saída por schema) | Pedido da cena 1 retorna a skill da PM com motivo. Pedido da cena 2 retorna "não encontrei" | Bruno | Vicente | T-04, T-06 | RF-05, RF-06 | A fazer |
+| T-10 | Busca com justificativa: filtro de visibilidade + Claude ranqueia (esforço baixo, saída por schema) | Pedido da cena 1 retorna a skill da PM com motivo. Pedido da cena 2 retorna "não encontrei" | Bruno | Vicente | T-04, T-06 | RF-05, RF-06 | Fazendo |
 | T-11 | Validador: checagens fixas por código (chave, CPF, e-mail, README, autor), sem IA (D-26) | Skill da cena 2 com chave de API é barrada com arquivo, linha e sugestão. Corrigida, passa | Bruno | Vicente | T-03 | RF-14, RF-15 | Fazendo |
 | T-12 | Servidor MCP: `buscar_ativos`, `detalhar_ativo`, `registrar_decisao`, `validar_ativo`, `montar_post`, `enviar_para_aprovacao` | Claude Code chama cada ferramenta e recebe resposta real da API | Vicente | Bruno | T-06, T-07 | RF-10, RF-17, RNF-05 | A fazer |
 | T-13 | Plugin do Claude Code: hook de intenção, modo perguntar antes, instruções de uso, hook de ativo novo e convite a publicar ao fim da tarefa | Cena 1 e cena 2 rodam no Claude Code seguindo o roteiro | Bruno | Alexandre | T-12 | RF-02, RF-03, RF-04, RF-07, RF-08, RF-09, RF-11, RF-13, RF-16 | A fazer |
@@ -74,7 +74,7 @@ O Claude rascunha textos (ficha, Q&A, pesquisa, catálogo) quando pedido. Sempre
 
 | ID | Task | Pronto quando | Dono | Valida | Depende | Req | Status |
 |---|---|---|---|---|---|---|---|
-| T-14 | Respostas gravadas para as cenas da demo, se o Claude cair ou demorar | Demo roda completa com a internet do LLM desligada, e a tela indica que é resposta gravada | Bruno | Vicente | T-10, T-11 | RNF-04 | A fazer |
+| T-14 | Respostas gravadas para as cenas da demo, se o Claude cair ou demorar | Demo roda completa com a internet do LLM desligada, e a tela indica que é resposta gravada | Bruno | Vicente | T-10, T-11 | RNF-04 | Fazendo |
 | T-15 | Deploy da demo: build de produção, seed carregado, link ou instruções de execução | Link abre sem login (ou instrução roda do zero) com os dados da demo | Vicente | JP | T-06, T-07, T-17 a T-19 | RNF-04 | A fazer |
 | T-20 | P1 do front, só se M2 estiver pronto: curtir, instalar com manual, editar post, filtros | Cada item funciona sem quebrar o fluxo P0 | Alexandre | Bruno | M2 | RF-26, RF-28, RF-29, RF-31 | A fazer |
 | T-24 | Ensaio da demo ponta a ponta no build de produção, seguindo o roteiro | Duas execuções seguidas sem erro, cronometradas | Bruno | JP | T-13, T-15 | todos P0 | A fazer |

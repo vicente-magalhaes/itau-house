@@ -35,3 +35,36 @@ def visivel(ativo: dict, pessoa: dict) -> bool:
 
 def visiveis_para(pessoa: dict) -> list[dict]:
     return [a for a in seed()["ativos"] if visivel(a, pessoa)]
+
+
+def _autor(usuario_id: str) -> dict:
+    u = usuario(usuario_id) or {}
+    return {k: u.get(k) for k in ("id", "nome", "iniciais", "cargo", "papel", "squad")}
+
+
+def resumo(ativo: dict, pessoa: dict | None = None) -> dict:
+    """AtivoResumo do contrato (docs/api.md): o card do feed e o item da busca."""
+    campos = [
+        "id",
+        "nome",
+        "tipo",
+        "resumo",
+        "squad",
+        "frente",
+        "visibilidade",
+        "status",
+        "tags",
+        "ferramentas",
+        "versao",
+        "publicadoEm",
+        "atualizadoEm",
+        "curtidas",
+        "instalacoes",
+        "derivacoes",
+        "squadsQueReusaram",
+    ]
+    # TODO(T-06): curtidoPorMim sai da tabela curtidas quando a API ler do banco.
+    return {k: ativo.get(k) for k in campos} | {
+        "autor": _autor(ativo["autorId"]),
+        "curtidoPorMim": False,
+    }
