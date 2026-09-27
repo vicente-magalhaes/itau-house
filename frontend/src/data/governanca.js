@@ -116,9 +116,7 @@ export const filaAprovacao = [
   },
 ];
 
-// Login simulado (RF-23, RF-24). Quem cria é qualquer membro do squad (D-18); na demo, a PM Ana.
-// usuarioId é quem a API enxerga (X-Usuario-Id): o elenco do roteiro da demo, no seed do back (T-04).
-// A pessoa da tela ainda é a dos dados fictícios, até o elenco do front mudar para o do roteiro.
+// Login simulado (RF-23, RF-24). usuarioId identifica a pessoa na API; pessoa serve ao modo sem API.
 export const PERFIS = [
   { value: 'dev', rotulo: 'Membro do squad', descricao: 'Publica, busca e reaproveita ativos.', pessoa: pessoas.ana, usuarioId: 'u-rafael' },
   { value: 'coordenador', rotulo: 'Coordenação', descricao: 'Tudo o que o squad vê, mais a fila de aprovação.', pessoa: pessoas.rafael, usuarioId: 'u-juliana' },

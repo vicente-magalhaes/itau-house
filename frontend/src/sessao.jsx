@@ -1,4 +1,6 @@
 import React from 'react';
+import { listarUsuarios, useDaApi } from './api.js';
+import { pessoaDaApi } from './data/daApi.js';
 import { PERFIS } from './data/governanca.js';
 import { contaGuardada, esquecerConta, lerRetornoDoGoogle } from './google.js';
 
@@ -31,6 +33,15 @@ const FILTROS_INICIAIS = { estante: 'tudo', papel: 'todos', ordem: 'alta' };
 
 export function SessaoProvider({ children }) {
   const [perfil, setPerfil] = React.useState(() => localStorage.getItem('ih.perfil') || 'dev');
+  const { dados: usuarios, origem: origemUsuarios, carregando: carregandoUsuarios } = useDaApi(
+    'usuarios',
+    () => listarUsuarios().then((lista) => lista.map(pessoaDaApi)),
+    () => PERFIS.map((p) => p.pessoa),
+  );
+  const perfisDisponiveis = React.useMemo(() => PERFIS.map((def) => ({
+    ...def,
+    pessoa: origemUsuarios === 'api' ? usuarios.find((p) => p.id === def.usuarioId) || def.pessoa : def.pessoa,
+  })), [usuarios, origemUsuarios]);
   const [entrou, setEntrou] = React.useState(() => localStorage.getItem('ih.entrou') === 'sim');
   const [usados, setUsados] = React.useState([]);
   const [curtidos, setCurtidos] = React.useState(() => lerCurtidos(localStorage.getItem('ih.perfil') || 'dev'));
@@ -101,11 +112,14 @@ export function SessaoProvider({ children }) {
   const reusosDe = React.useCallback((ativo) => ativo.reusos + (usados.includes(ativo.id) ? 1 : 0), [usados]);
 
   const valor = React.useMemo(() => {
-    const def = PERFIS.find((p) => p.value === perfil) || PERFIS[0];
+    const def = perfisDisponiveis.find((p) => p.value === perfil) || perfisDisponiveis[0];
     return {
       perfil,
       pessoa: def.pessoa,
       usuarioId: def.usuarioId,
+      usuarios: origemUsuarios === 'api' ? usuarios : null,
+      carregandoUsuarios,
+      perfisDisponiveis,
       rotuloPerfil: def.rotulo,
       ehCoordenador: perfil === 'coordenador',
       entrou,
@@ -131,7 +145,7 @@ export function SessaoProvider({ children }) {
       curtidasDe,
       reusosDe,
     };
-  }, [perfil, entrou, usados, curtidos, querem, criando, busca, filtros, limparFiltros, recado, avisar, contaGoogle, trocarPerfil, entrar, sair, usar, curtir, querer, criar, curtidasDe, reusosDe]);
+  }, [perfil, usuarios, origemUsuarios, carregandoUsuarios, perfisDisponiveis, entrou, usados, curtidos, querem, criando, busca, filtros, limparFiltros, recado, avisar, contaGoogle, trocarPerfil, entrar, sair, usar, curtir, querer, criar, curtidasDe, reusosDe]);
 
   return <SessaoContext.Provider value={valor}>{children}</SessaoContext.Provider>;
 }
