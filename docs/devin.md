@@ -68,7 +68,7 @@ Um brief só roda com os itens dele marcados. Quem abre a sessão confere.
 - [x] Migração do T-05 no repositório. O Devin testa numa base descartável, então não precisa dela aplicada no Supabase do time. O reset precisa funcionar com qualquer `seed.sql` que saia do gerador, porque o `seed.json` ainda muda (T-04). Liberada em 27/09.
 
 **DV-4 (conferência)**
-- [x] T-15 feito: link de produção com os dados da demo. Marcado pelo Vicente em 27/09, depois do reset em produção com o seed do harness. Dados conferidos pelo Claude em 27/09: a API de produção lê o Supabase e devolve o seed atual (o feed do Rafael é idêntico ao da versão em memória). Falta o Vicente abrir o link numa janela anônima e marcar o T-15.
+- [x] T-15 feito: link de produção com os dados da demo. Marcado pelo Vicente em 27/09, depois do reset em produção com o seed do harness. Dados conferidos pelo Claude em 27/09: a API de produção lê o Supabase e devolve o seed atual (o feed do Rafael é idêntico ao da versão em memória).
 - [x] DV-8 juntada, para a conferência ver as telas finais. Juntada em 27/09.
 
 **DV-5 (base do back)**
