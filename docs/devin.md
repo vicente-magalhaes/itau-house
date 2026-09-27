@@ -29,7 +29,7 @@ O gargalo é revisar e juntar sem conflito. Por isso: poucas sessões, bem delim
 | [DV-5](#dv-5-base-do-back) | Base do back: repositório, usuário pelo cabeçalho, erro no formato do contrato e rota de molde | T-39 | Agora, em paralelo com a DV-3 | Bruno |
 | [DV-6](#dv-6-servidor-mcp) | Servidor MCP com as seis ferramentas do contrato | T-12 | Agora, em paralelo com a DV-5 | Bruno |
 
-Ordem: DV-1 e DV-3 feitas em 27/09. DV-5 e DV-6 juntas, porque ficam em pastas diferentes (`backend/` e `mcp/`). DV-2 depois da DV-5 juntada. DV-4 depois do T-15.
+Ordem: DV-1 e DV-3 feitas em 27/09. DV-5 e DV-6 juntas, porque ficam em pastas diferentes (`backend/` e `mcp/`). DV-2 feita em 27/09, depois da DV-5 juntada. DV-4 depois do T-15.
 
 ## O que não vai para o Devin
 
@@ -346,6 +346,7 @@ Quem abriu a sessão preenche ao juntar. Vira base para a declaração de uso de
 | 27/09 | DV-3 (T-25) | Vicente | `feat/reset-da-demo` com `supabase/reset_demo.sh` e o aviso na seção "Banco" do README. Testado pelo Devin numa base local | a preencher | Nada. Revisão do Claude leu o script (transação única, sem `cascade`, confirmação fora da base local), conferiu que o `seed.sql` não abre transação própria e que o CI passou. Não rodou o script |
 | 27/09 | DV-5 (T-39) | Vicente | `feat/base-do-back`: repositório com as versões memória e Supabase, `usuario_atual`, `ErroApi` com tratadores globais e `GET /api/usuarios`. Testado pelo Devin também numa base Supabase local | a preencher | Nada no código. Revisão do Claude rodou os testes no Windows e uma fumaça com o back em memória (usuários, 401, 422 e 404 no formato do contrato). Conferiu que o cliente `supabase` 2.31 aceita a chave `sb_secret_` sem exigir JWT. A leitura no Supabase do time só se confirma depois do deploy |
 | 27/09 | DV-6 (T-12) | Vicente | `feat/mcp`: servidor stdio com as seis ferramentas. Busca e validação passaram na fumaça contra o back local. As outras quatro dependem da DV-2 | a preencher | Claude corrigiu: resposta sem JSON (502 em HTML, 500 em texto) levantava exceção, e agora sai como `resposta_invalida`. Dois testes quebravam no Windows (atalho sem permissão e quebra de linha `\r\n`) |
+| 27/09 | DV-2 (T-06, T-07) | Vicente | `feat/rotas-do-back`: catálogo, decisões, publicação, fila, aprovação, curtida e instalação, nas versões memória e Supabase do repositório. A validação passa a ser gravada. `pytest` no CI. Testado pelo Devin também numa base Supabase local | a preencher | Nada no código. Revisão do Claude rodou os testes no Windows (51 passaram, 7 pulados) e uma fumaça com o back em memória: cenas 1 e 2 pelas seis ferramentas do MCP, 25 de 25. O `docs/api.md` passou a dizer que um ativo `barrado` pode ser editado e reenviado, como o Devin fez |
 
 ## Fontes
 
