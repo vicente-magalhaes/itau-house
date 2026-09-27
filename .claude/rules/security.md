@@ -14,7 +14,7 @@ Sempre ativas. Baseadas no regulamento do hackathon e em [docs/01-hackathon-regr
 - Só dados fictícios (regulamento 3.8). Nada de dado real de cliente, de colaborador ou informação interna do Itaú.
 - Seeds e exemplos de demonstração são inventados e identificados como fictícios.
 - Tudo que a aplicação manda para a API de LLM é dado de demonstração.
-- Nome de pessoa real não entra em seed, tela ou teste. Usar nomes inventados.
+- Nome de pessoa real não entra em seed, tela ou teste. Usar nomes inventados. Exceção única: o autor real de um ativo real, com consentimento. Hoje, só o Vicente como autor do `harness-hacka` (decisão 0036).
 
 ## Sistemas do banco
 

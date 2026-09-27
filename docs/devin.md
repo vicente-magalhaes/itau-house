@@ -30,9 +30,9 @@ O gargalo é revisar e juntar sem conflito. Por isso: poucas sessões, bem delim
 | [DV-6](#dv-6-servidor-mcp) | Servidor MCP com as seis ferramentas do contrato | T-12 | Agora, em paralelo com a DV-5 | Bruno |
 | [DV-7](#dv-7-back-rápido-no-supabase) | Back rápido no Supabase: feed, detalhe e fila sem consulta repetida | T-42 | Agora, em paralelo com a DV-8 | Alexandre |
 | [DV-8](#dv-8-pessoas-da-api-no-front) | Pessoas da API no front: a pessoa da tela é a que a API vê, e o perfil lê da API | T-43 | Agora, com o OK do Alexandre | Bruno |
-| [DV-9](#dv-9-harness-no-itaú-house) | Harness no Itaú House: o primeiro ativo real do catálogo, instalável a partir de lá | T-44 | Agora, em paralelo com a DV-7 e a DV-8 | Alexandre |
+| [DV-9](#dv-9-harness-no-itaú-house) | Harness no Itaú House: o primeiro ativo real do catálogo, instalável a partir de lá | T-44 | Feita pelo Claude com o Vicente em 27/09, fora do Devin | Alexandre |
 
-Ordem: DV-1 e DV-3 feitas em 27/09. DV-5 e DV-6 juntas, porque ficam em pastas diferentes (`backend/` e `mcp/`). DV-2 feita em 27/09, depois da DV-5 juntada. DV-7 e DV-8 juntas, pelo mesmo motivo (`backend/` e `frontend/`). A DV-9 roda junto: fica no `seed.json`, em `supabase/` e num teste novo. DV-4 por último, depois do T-15 e da DV-8, para conferir o site como a banca e um gestor vão ver.
+Ordem: DV-1 e DV-3 feitas em 27/09. DV-5 e DV-6 juntas, porque ficam em pastas diferentes (`backend/` e `mcp/`). DV-2 feita em 27/09, depois da DV-5 juntada. DV-7 e DV-8 juntas, pelo mesmo motivo (`backend/` e `frontend/`). A DV-9 saiu do Devin: o Claude fez com o Vicente em 27/09, enquanto o Devin fazia a DV-7 e a DV-8. DV-4 por último, depois do T-15 e da DV-8, para conferir o site como a banca e um gestor vão ver.
 
 ## O que não vai para o Devin
 
@@ -79,7 +79,7 @@ Um brief só roda com os itens dele marcados. Quem abre a sessão confere.
 
 **DV-7 (back rápido)**
 - [x] DV-2 juntada na `main` em 27/09. Medida em produção feita pelo Claude no mesmo dia: os números estão no brief.
-- [ ] Combinado com o Bruno: ele não mexe em `backend/app/` durante a sessão. A DV-7 não toca nos arquivos da busca.
+- [x] Combinado com o Bruno: ele não mexe em `backend/app/` durante a sessão. A DV-7 não toca nos arquivos da busca. Liberado pelo Vicente em 27/09: o último commit do Bruno em `backend/app/` é da 1h, sem branch pendente, e ele está nos vídeos.
 
 **DV-8 (pessoas da API no front)**
 - [x] DV-2 juntada na `main` em 27/09: `GET /api/usuarios` e `GET /api/ativos` respondem com o seed.
@@ -87,8 +87,8 @@ Um brief só roda com os itens dele marcados. Quem abre a sessão confere.
 
 **DV-9 (harness no Itaú House)**
 - [x] O validador aprova os arquivos do plugin. Conferido pelo Claude em 27/09: 40 arquivos, 140 KB, `aprovado`.
-- [ ] Vicente autoriza o nome dele nos arquivos do plugin (`plugin.json`, `marketplace.json`, `LICENSE`, `pyproject.toml` e as URLs do `README.md`). É exceção à regra de nomes fictícios: ele é o autor, o repositório já é público, e a licença MIT pede o aviso de copyright nas cópias. Sem a exceção, os arquivos saem sem o nome e deixam de ser idênticos ao commit.
-- [ ] O `seed.json` é do Bruno (T-04). Liberado pelo Bruno ou pelo Vicente, e o Bruno não mexe no seed durante a sessão.
+- [x] Vicente autoriza o nome dele nos arquivos do plugin (`plugin.json`, `marketplace.json`, `LICENSE`, `pyproject.toml` e as URLs do `README.md`). Autorizou em 27/09 e pediu para ser também o autor no catálogo, com foto, no lugar da Camila ([decisão 0036](../memoria/decisions/0036-harness-hacka-no-catalogo-como-ativo-real-com-o.md)).
+- [x] O `seed.json` é do Bruno (T-04). Liberado pelo Vicente em 27/09. A T-04 não precisa estar pronta: a DV-9 só acrescenta entradas.
 
 ### Manter o Render acordado
 
@@ -432,7 +432,9 @@ Isso aparece em qualquer vídeo que mostre a plataforma e trava quem abrir o lin
 
 ### DV-9: Harness no Itaú House
 
-**Kanban:** T-44. **Branch:** `feat/harness-no-catalogo`. **Requisitos:** RF-17, RF-27, RF-29, RNF-03 e RNF-05. **Decisão:** [0020](../memoria/decisions/0020-harness-do-time.md).
+**Kanban:** T-44. **Branch:** `feat/harness-no-catalogo`. **Requisitos:** RF-17, RF-27, RF-29, RNF-03 e RNF-05. **Decisões:** [0020](../memoria/decisions/0020-harness-do-time.md) e [0036](../memoria/decisions/0036-harness-hacka-no-catalogo-como-ativo-real-com-o.md).
+
+**Status:** feita pelo Claude com o Vicente em 27/09, fora do Devin. O brief ficou como registro do que foi feito. Mudou uma coisa: quem publica é o autor real, e não a Camila (decisão 0036).
 
 **Objetivo.** Pôr o `harness-hacka` no catálogo como o primeiro ativo real do Itaú House, e provar que ele funciona instalado a partir de lá. Hoje todos os ativos são fictícios. O harness é o plugin que o time usa para construir o próprio Itaú House, e a decisão 0020 já diz que ele "é também um exemplo de ativo que iria para o Itaú House". É público, com licença MIT, em `https://github.com/vicente-magalhaes/harness-hacka`.
 
@@ -443,8 +445,8 @@ Isso aparece em qualquer vídeo que mostre a plataforma e trava quem abrir o lin
 - O ativo entra no seed (`backend/app/dados/seed.json`) com o id `a-harness-hacka`, e o `supabase/seed.sql` sai de novo do gerador, sem mudar o gerador. Assim ele sobrevive ao reset da demo e aparece para a busca, que ainda lê o seed.
 - Os arquivos são os que o plugin precisa para rodar, idênticos aos do commit: `.claude-plugin/`, `hooks/`, `bin/`, `skills/`, `agents/`, `src/harness_hacka/` (com `templates/` e `profiles/`), `README.md`, `LICENSE` e `pyproject.toml`. Ficam fora `.git/`, `.github/`, `memory/` (a memória do repositório do harness), `tests/`, `.claude/`, `CLAUDE.md`, `uv.lock`, `.gitignore` e `.gitattributes`. São cerca de 40 arquivos, 140 KB.
 - Um script refaz a entrada a partir de um clone: `supabase/empacotar_harness.py <pasta do clone>`. Ele troca só a entrada `a-harness-hacka` do `seed.json`, e rodar duas vezes dá o mesmo resultado.
-- Quem publica no catálogo é uma persona fictícia: a Camila Duarte (`u-camila`), Dev sênior da Plataforma · Core, que já publica as ferramentas de plataforma do seed. O post diz que o plugin é de código aberto (MIT) e que a squad dela o publicou no Itaú House. Nenhum nome real no texto do post.
-- `tipo: harness`, `visibilidade: banco`, `ferramentas: ["Claude Code"]` e `versao` igual à do `pyproject.toml`. Status `publicado`, com o mesmo `aprovadoPorId` dos outros ativos da Camila no seed.
+- Quem publica é o autor real, o Vicente (`u-vicente`), Cord+ da squad nova "Itaú House · Hackathon", frente "Hackathon", com nome e foto consentidos (decisão 0036). A foto está em `frontend/public/assets/pessoas/vicente.jpg`, sem metadados. O post diz que o ativo é real e de código aberto (MIT).
+- `tipo: harness`, `visibilidade: banco`, `ferramentas: ["Claude Code"]` e `versao` igual à do `pyproject.toml`. Status `publicado`, enviado e aprovado pelo Vicente: foi ele quem decidiu publicar.
 - Números reais, não inventados: `curtidas`, `instalacoes` e `derivacoes` em 0, `usos` e `squadsQueReusaram` vazios. Datas de 27/09/2026.
 - O `readme` (texto do post) e o `manualInstalacao` saem do README do harness, em pt-BR, falando com "você". Os `acessos` são conferidos no código: que pastas lê e escreve, que hooks roda e quando, se lê o git, se usa rede. Nada que o código não faça.
 - O `manualInstalacao` instala a partir dos arquivos do Itaú House, sem depender do GitHub:
@@ -491,6 +493,7 @@ Quem abriu a sessão preenche ao juntar. Vira base para a declaração de uso de
 | 27/09 | DV-5 (T-39) | Vicente | `feat/base-do-back`: repositório com as versões memória e Supabase, `usuario_atual`, `ErroApi` com tratadores globais e `GET /api/usuarios`. Testado pelo Devin também numa base Supabase local | a preencher | Nada no código. Revisão do Claude rodou os testes no Windows e uma fumaça com o back em memória (usuários, 401, 422 e 404 no formato do contrato). Conferiu que o cliente `supabase` 2.31 aceita a chave `sb_secret_` sem exigir JWT. A leitura no Supabase do time só se confirma depois do deploy |
 | 27/09 | DV-6 (T-12) | Vicente | `feat/mcp`: servidor stdio com as seis ferramentas. Busca e validação passaram na fumaça contra o back local. As outras quatro dependem da DV-2 | a preencher | Claude corrigiu: resposta sem JSON (502 em HTML, 500 em texto) levantava exceção, e agora sai como `resposta_invalida`. Dois testes quebravam no Windows (atalho sem permissão e quebra de linha `\r\n`) |
 | 27/09 | DV-2 (T-06, T-07) | Vicente | `feat/rotas-do-back`: catálogo, decisões, publicação, fila, aprovação, curtida e instalação, nas versões memória e Supabase do repositório. A validação passa a ser gravada. `pytest` no CI. Testado pelo Devin também numa base Supabase local | a preencher | Nada no código. Revisão do Claude rodou os testes no Windows (51 passaram, 7 pulados) e uma fumaça com o back em memória: cenas 1 e 2 pelas seis ferramentas do MCP, 25 de 25. O `docs/api.md` passou a dizer que um ativo `barrado` pode ser editado e reenviado, como o Devin fez |
+| 27/09 | DV-9 (T-44), fora do Devin | Vicente | Feita pelo Claude Code: o `harness-hacka` entra no seed como ativo real, com o Vicente como autor (0036). Validador aprova os 40 arquivos; lidos pela API, voltam idênticos ao commit `6f35354`; instalados a partir deles, `init` e hook funcionam; seed e reset testados num Postgres descartável | — | O Vicente trocou a Camila por ele mesmo, para não mentir sobre a autoria. A foto original tinha GPS nos metadados: a versão do site saiu sem |
 
 ## Fontes
 

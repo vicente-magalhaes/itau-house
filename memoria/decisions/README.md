@@ -44,6 +44,7 @@ citadas como D-01 a D-28. O número é o mesmo: D-12 é a 0012. A migração est
 | [0033](0033-devin-le-o-repositorio-inteiro.md) | Devin lê o repositório inteiro | accepted |
 | [0034](0034-login-com-google-e-persona-escolhida.md) | Login com Google autentica; a persona continua escolhida | proposed |
 | [0035](0035-back-fala-com-o-supabase-pelo-cliente-python.md) | Back fala com o Supabase pelo cliente Python, atrás de um repositório | accepted |
+| [0036](0036-harness-hacka-no-catalogo-como-ativo-real-com-o.md) | Harness-hacka no catálogo como ativo real, com o autor real | proposed |
 <!-- /harness-hacka:decisions -->
 
 | Status | Quer dizer |
