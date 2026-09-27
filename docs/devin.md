@@ -5,7 +5,7 @@ Tem dois leitores. O time, que abre as sessões e revisa. E o próprio Devin, qu
 Regras para qualquer agente em [AGENTS.md](../AGENTS.md). Tasks e status em [KANBAN.md](../KANBAN.md).
 
 **Status:** plano do Vicente, escrito com o Claude em 26/09. Os itens de "Fechar antes" são decisões do time. O que está marcado **(sugestão Claude)** ainda não foi decidido.
-**Dono:** Vicente (decisão 0021: "deploy, com Devin"). Cada sessão tem um dono humano, e quem valida é outra pessoa.
+**Dono:** Vicente (decisão 0021: "deploy, com Devin"). Ele abre toda sessão. Na DV-1 e na DV-4, quem faz é o Devin e o Vicente valida. Nas outras, quem valida é outra pessoa.
 
 ## Para que serve o Devin aqui
 
