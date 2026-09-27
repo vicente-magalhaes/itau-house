@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, Icon, Dialog, Checkbox, Badge } from '../ds.js';
-import { Foto, BotaoSec, SeloSimulado, Vazio } from '../components/comuns.jsx';
+import { Button, Icon, Dialog, Checkbox, Badge, Toast } from '../ds.js';
+import { Foto, BotaoSec, SeloSimulado, Vazio, Aviso } from '../components/comuns.jsx';
 import { BotaoCurtir } from '../components/Post.jsx';
 import { NumeroVivo, Pulso } from '../components/movimento.jsx';
 import { Link, irPara } from '../router.jsx';
@@ -229,6 +229,8 @@ export function Ativo({ id }) {
   );
   const [confirmando, setConfirmando] = React.useState(false);
   const [ciente, setCiente] = React.useState(false);
+  // Quem enviou chega aqui pelo link do plugin: o aviso confirma que o post está na fila (RF-18, RF-19).
+  const [envioVisto, setEnvioVisto] = React.useState(false);
 
   if (carregando) return <Vazio icone="loader" titulo="Carregando o ativo" />;
   if (!ativo) {
@@ -238,6 +240,8 @@ export function Ativo({ id }) {
 
   const autor = ativo.autor;
   const usado = usados.includes(ativo.id);
+  const naFila = ativo.status === 'em_aprovacao' && autor.id === usuarioId;
+  const autorOriginal = ativo.derivadoDe && ativo.derivadoDe.autor ? ativo.derivadoDe.autor.nome.split(' ')[0] : null;
   // Os fictícios não têm status: estão todos publicados.
   const publicado = !ativo.status || ativo.status === 'publicado';
   const ferramenta = ativo.ferr[0] || 'editor';
@@ -487,6 +491,15 @@ export function Ativo({ id }) {
             </div>
           </div>
         </Dialog>
+      )}
+
+      {naFila && !envioVisto && (
+        <Aviso>
+          <Toast tone="success" onClose={() => setEnvioVisto(true)}>
+            {`Enviado! Seu post está na fila da coordenação da ${autor.squad}.`}
+            {autorOriginal && ` Quando for aprovado, o crédito da adaptação vai para ${autorOriginal}.`}
+          </Toast>
+        </Aviso>
       )}
     </div>
   );
