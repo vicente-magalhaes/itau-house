@@ -142,6 +142,8 @@ Saída sem resultado:
 ```
 - No máximo 3 sugestões. Só entra quem passa do limiar de semelhança. Nenhum ativo é inventado: o back descarta qualquer id que o LLM devolva e que não esteja entre os candidatos.
 - `gravada: true` quando a resposta veio do fallback (RNF-04). O plugin e a tela avisam que é resposta gravada.
+- Sem Claude e com um pedido que não é cena da demo: `encontrou: false`, `indisponivel: true` e uma mensagem dizendo que a busca está fora do ar. Nunca responde "não encontrei" sem ter buscado.
+- O tipo pedido não filtra os candidatos: quem pede uma skill pode se servir de um agente. Vai só como contexto para o Claude.
 - A rota grava os eventos `intencao`, `busca` e `sugestao` (RF-10).
 
 **`POST /api/decisoes`**: registra o que a pessoa escolheu (RF-07, RF-10).

@@ -24,6 +24,13 @@ def visivel(ativo: dict, pessoa: dict) -> bool:
     """Regra única de visibilidade. Vale para feed, detalhe, busca e MCP."""
     if ativo["autorId"] == pessoa["id"]:
         return True
+    # O Cord+ vê o que está na fila do seu squad, para abrir o post antes de aprovar (docs/api.md).
+    if (
+        ativo["status"] == "em_aprovacao"
+        and pessoa["perfil"] == "cord_mais"
+        and ativo["squadId"] == pessoa["squadId"]
+    ):
+        return True
     if ativo["status"] != "publicado":
         return False
     if ativo["visibilidade"] == "banco":
@@ -35,3 +42,36 @@ def visivel(ativo: dict, pessoa: dict) -> bool:
 
 def visiveis_para(pessoa: dict) -> list[dict]:
     return [a for a in seed()["ativos"] if visivel(a, pessoa)]
+
+
+def _autor(usuario_id: str) -> dict:
+    u = usuario(usuario_id) or {}
+    return {k: u.get(k) for k in ("id", "nome", "iniciais", "cargo", "papel", "squad")}
+
+
+def resumo(ativo: dict, pessoa: dict | None = None) -> dict:
+    """AtivoResumo do contrato (docs/api.md): o card do feed e o item da busca."""
+    campos = [
+        "id",
+        "nome",
+        "tipo",
+        "resumo",
+        "squad",
+        "frente",
+        "visibilidade",
+        "status",
+        "tags",
+        "ferramentas",
+        "versao",
+        "publicadoEm",
+        "atualizadoEm",
+        "curtidas",
+        "instalacoes",
+        "derivacoes",
+        "squadsQueReusaram",
+    ]
+    # TODO(T-06): curtidoPorMim sai da tabela curtidas quando a API ler do banco.
+    return {k: ativo.get(k) for k in campos} | {
+        "autor": _autor(ativo["autorId"]),
+        "curtidoPorMim": False,
+    }
