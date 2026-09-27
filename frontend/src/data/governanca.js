@@ -116,9 +116,9 @@ export const filaAprovacao = [
   },
 ];
 
-// Login simulado (RF-23, RF-24). Quem cria é qualquer membro do squad (D-18).
-// usuarioId é quem a API enxerga (X-Usuario-Id). A pessoa da tela é a mesma do seed do back (T-04):
-// o elenco do roteiro da demo, com o Rafael (dev) e a Juliana (coordenadora) da squad Pix · Cobranças.
+// Login simulado (RF-23, RF-24). usuarioId é quem a API enxerga (X-Usuario-Id), e a tela mostra a pessoa
+// que a API devolve para ele. pessoa é a reserva para quando a API não responde: a mesma do seed do back (T-04),
+// o Rafael (dev) e a Juliana (coordenadora) da squad Pix · Cobranças.
 const RAFAEL = { id: 'u-rafael', nome: 'Rafael Nunes', primeiro: 'Rafael', iniciais: 'RN', papel: 'Engenharia', cargo: 'Dev pleno', squad: 'Pix · Cobranças', foto: '/assets/pessoas/rafael.jpg' };
 const JULIANA = { id: 'u-juliana', nome: 'Juliana Prado', primeiro: 'Juliana', iniciais: 'JP', papel: 'Coordenação', cargo: 'Coordenadora', squad: 'Pix · Cobranças', foto: '/assets/pessoas/juliana.jpg' };
 export const PERFIS = [

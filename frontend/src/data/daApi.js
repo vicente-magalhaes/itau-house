@@ -45,9 +45,12 @@ function retrato(id) {
 
 // Pessoa do contrato -> pessoa da tela. `papel` vira o rótulo; o enum fica em `papelApi`.
 export function pessoaDaApi(p) {
-  const partes = p.nome.split(' ');
+  // Pessoa sem nome não pode derrubar a tela inteira: aconteceu em 27/09, com um autor que o back não achou.
+  const nome = p.nome || 'Pessoa sem nome';
+  const partes = nome.split(' ');
   return {
     ...p,
+    nome,
     papelApi: p.papel,
     papel: PAPEIS[p.papel] || p.papel || null,
     primeiro: partes[0],

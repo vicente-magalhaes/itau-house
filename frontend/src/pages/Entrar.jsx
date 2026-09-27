@@ -1,31 +1,30 @@
 import React from 'react';
 import { Button, Input, Logo } from '../ds.js';
+import { Foto } from '../components/comuns.jsx';
 import { irPara } from '../router.jsx';
 import { useSessao } from '../sessao.jsx';
-import { PERFIS } from '../data/governanca.js';
 import { entrarComGoogle } from '../google.js';
 
 // Tela de entrada (RF-23), do design "Entrar 1c Mãos juntas". Roda fora do AppShell.
 // Google é login real (T-41, 0034). Login e senha são [SIMULADO]: a senha não é conferida.
 
-// O login diz com qual perfil fictício entrar (RF-24). Começou pelo primeiro nome de um perfil
-// ("juliana", "juliana.prado@..." entra na coordenação), entra nele. Qualquer outro entra como membro do squad.
-function perfilDoLogin(login) {
+// O primeiro nome no login também escolhe o perfil (RF-24): "juliana" ou "juliana.prado@..." entra na coordenação.
+function perfilDoLogin(login, perfis) {
   const nome = login.trim().toLowerCase().split(/[@._\s-]/)[0];
-  const achado = PERFIS.find((p) => p.pessoa.primeiro.toLowerCase() === nome);
-  return achado ? achado.value : 'dev';
+  return perfis.find((p) => p.pessoa.primeiro.toLowerCase() === nome)?.value;
 }
 
 function FormularioEntrar() {
-  const { entrar } = useSessao();
+  const { entrar, perfisDisponiveis } = useSessao();
   const [login, setLogin] = React.useState('');
+  const [selecionado, setSelecionado] = React.useState('dev');
 
   return (
     <form
       className="stack stack-4"
       onSubmit={(e) => {
         e.preventDefault();
-        entrar(perfilDoLogin(login));
+        entrar(selecionado);
         irPara('/');
       }}
     >
@@ -38,8 +37,23 @@ function FormularioEntrar() {
         <span className="caption" style={{ whiteSpace: 'nowrap' }}>Ou use seu login</span>
         <span className="divider grow" />
       </div>
-      <Input label="E-mail ou funcional" placeholder="voce@itau-unibanco.com.br" icon="user" value={login} onChange={(e) => setLogin(e.target.value)} />
+      <Input label="E-mail ou funcional" placeholder="voce@itau-unibanco.com.br" icon="user" value={login} onChange={(e) => {
+        setLogin(e.target.value);
+        const perfil = perfilDoLogin(e.target.value, perfisDisponiveis);
+        if (perfil) setSelecionado(perfil);
+      }} />
       <Input label="Senha" type="password" placeholder="Sua senha" icon="lock" />
+      <div className="stack stack-2" role="group" aria-label="Escolha seu perfil simulado">
+        {perfisDisponiveis.map((p) => (
+          <button key={p.value} type="button" className="btn btn-sec row row-3" aria-pressed={selecionado === p.value} onClick={() => setSelecionado(p.value)} style={{ height: 'auto', justifyContent: 'flex-start', padding: 'var(--space-2) var(--space-3)', borderColor: selecionado === p.value ? 'var(--brand)' : undefined }}>
+            <Foto pessoa={p.pessoa} tamanho={40} />
+            <span className="stack stack-1" style={{ alignItems: 'flex-start', textAlign: 'left', minWidth: 0 }}>
+              <span className="strong">{p.rotulo} · {p.pessoa.nome}</span>
+              <span className="meta">{p.pessoa.cargo} · {p.pessoa.squad}</span>
+            </span>
+          </button>
+        ))}
+      </div>
       <Button type="submit" fullWidth>
         Entrar
       </Button>
