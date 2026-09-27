@@ -30,8 +30,8 @@ npm run lint     # oxlint
 | UI | React 19 | Telas em JSX, como os componentes de `design-system/components/`. |
 | Tipos | TypeScript com `allowJs` | O `tsc -b` aceita as telas `.jsx` sem checá-las. Código novo pode ser `.tsx`; o design system tem `.d.ts` para cada componente. |
 | Rotas | roteador por hash, em `src/router.jsx` | Sem dependência nova. Funciona em qualquer hospedagem estática e no nginx do build de produção. |
-| Estado | `useState` e um contexto de sessão | Os dados ainda não vêm da API. A sessão guarda perfil, curtidas, filtros e o recado da tela. |
-| Dados | arquivos em `src/data/` | Fictícios, até as rotas do T-06 e do T-07 existirem. |
+| Estado | `useState` e um contexto de sessão | A sessão guarda perfil, curtidas, filtros e o recado da tela. |
+| Dados | `src/api.js`, com `src/data/` de reserva | A tela pede à API (`docs/api.md`). Se a rota ainda não existe ou o back não responde, usa os fictícios de `src/data/`. `src/data/daApi.js` converte o JSON do contrato no formato das telas. |
 
 ## Design system
 
@@ -80,7 +80,8 @@ Tudo o que está simulado aparece marcado em tela com o selo **Simulado** (compo
 | Resultado do validador | **Simulado**: roteiro fixo em `src/data/governanca.js`. O validador real faz só checagens fixas por código, sem IA (RF-14, D-26) |
 | Detecção por hook na ferramenta de código | **Simulado** em tela |
 | Login por SSO | **Simulado**: seletor de perfil |
-| Dados vindos da API e do banco, integração com Copilot ou Claude Code | Ainda não ligados: as telas usam `src/data/` |
+| Dados vindos da API e do banco | Só o início pede à API (T-17). As outras telas usam `src/data/` |
+| Integração com Copilot ou Claude Code | Ainda não ligada |
 
 ## Estrutura
 
@@ -96,9 +97,10 @@ frontend/
    ├─ router.jsx           roteador por hash e o componente Link
    ├─ sessao.jsx           perfil, login simulado, curtidas, usados, pedidos, busca e filtros
    ├─ ds.js                ponte para os componentes do design system
+   ├─ api.js               rotas da plataforma (docs/api.md) e o useDaApi, que cai em src/data/ sem a rota
    ├─ app.css              utilitários de layout, só com tokens
    ├─ components/          AppShell (topo), Post (card de ativo e Gostei), Filtro (lista no padrão dos botões), peças comuns (Foto, BotaoSec, Recado)
-   ├─ data/                catálogo, pedidos e roteiro de governança, fictícios
+   ├─ data/                catálogo, pedidos e roteiro de governança, fictícios; daApi.js converte o JSON da API
    └─ pages/               uma tela por arquivo
 ```
 
