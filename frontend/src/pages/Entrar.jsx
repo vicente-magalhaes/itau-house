@@ -24,6 +24,7 @@ function OpcaoPerfil({ opcao, escolhido, onEscolher }) {
         padding: 'var(--space-3) var(--space-4)',
         borderRadius: 'var(--radius-md)',
         boxShadow: selecionado ? 'inset 0 0 0 2px var(--ih-ink)' : 'inset 0 0 0 1px var(--ih-line)',
+        transition: 'box-shadow var(--dur-base) var(--ease-standard)',
       }}
       label={
         <span className="row row-3 grow">
@@ -52,7 +53,7 @@ export function Entrar() {
         style={{ flex: '1 1 440px', justifyContent: 'space-between', background: 'var(--surface-brand)', padding: 'var(--space-8) var(--space-7)' }}
       >
         <Logo variant="negative" basePath="/" size={48} />
-        <div className="stack stack-4" style={{ maxWidth: 440 }}>
+        <div className="stack stack-4 anima-entrar" style={{ maxWidth: 440 }}>
           <div style={{ font: 'var(--fw-bold) var(--fs-display-m)/var(--lh-tight) var(--font-display)', letterSpacing: 'var(--ls-display)', color: 'var(--on-brand-display)' }}>
             Itaú House
           </div>
@@ -64,7 +65,7 @@ export function Entrar() {
       </div>
 
       <div style={{ flex: '1 1 440px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'var(--space-8) var(--space-5)' }}>
-        <div className="stack stack-5" style={{ width: '100%', maxWidth: 400 }}>
+        <div className="stack stack-5 anima-escalonada" style={{ width: '100%', maxWidth: 400 }}>
           <h1 className="titulo-pagina">Entrar</h1>
 
           {/* Login real pelo Google (T-41, 0034). A hierarquia continua simulada. */}

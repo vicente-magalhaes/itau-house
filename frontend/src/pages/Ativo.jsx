@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Icon, Dialog, Checkbox } from '../ds.js';
 import { Foto, BotaoSec, SeloSimulado, Vazio } from '../components/comuns.jsx';
 import { BotaoCurtir } from '../components/Post.jsx';
+import { Pulso } from '../components/movimento.jsx';
 import { Link, irPara } from '../router.jsx';
 import { useSessao } from '../sessao.jsx';
 import { acharAtivo, visivelPara, PAPEIS, iconeTipo, rotuloVisibilidade, tempoRelativo, passosDeUso } from '../data/catalogo.js';
@@ -58,7 +59,8 @@ function UsarEm({ ativo }) {
           </button>
         ))}
       </div>
-      <ol className="passos">
+      {/* A chave pela ferramenta faz os passos entrarem de novo a cada aba. */}
+      <ol key={ferramenta} className="passos anima-escalonada">
         {passosDeUso(ferramenta, ativo).map((texto, i) => (
           <li key={i} className="passo">
             <span className="passo-n">{i + 1}</span>
@@ -129,16 +131,18 @@ export function Ativo({ id }) {
       </section>
 
       <div className="row wrap" style={{ gap: 'var(--space-2) var(--space-4)' }}>
-        <Button
-          variant="primary"
-          size="sm"
-          iconLeft={usado ? 'check' : 'download'}
-          onClick={() => {
-            if (!usado) setConfirmando(true);
-          }}
-        >
-          {usado ? 'Em uso' : 'Usar'}
-        </Button>
+        <Pulso gatilho={usado} efeito="confirmar">
+          <Button
+            variant="primary"
+            size="sm"
+            iconLeft={usado ? 'check' : 'download'}
+            onClick={() => {
+              if (!usado) setConfirmando(true);
+            }}
+          >
+            {usado ? 'Em uso' : 'Usar'}
+          </Button>
+        </Pulso>
         <BotaoSec icone="git-fork" onClick={() => avisar(`Criamos sua versão. Ela entra na árvore como derivada do trabalho de ${autor.primeiro}.`)}>
           Adaptar pra mim
         </BotaoSec>
