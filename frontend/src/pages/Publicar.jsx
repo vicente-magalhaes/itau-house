@@ -114,7 +114,6 @@ export function Publicar() {
   // A verificação é simulada: um tempo curto com os critérios sendo marcados.
   React.useEffect(() => {
     if (!verificando) return undefined;
-    setRevelados(0);
     const intervalo = setInterval(() => setRevelados((n) => Math.min(n + 1, CRITERIOS.length)), DURACAO_VERIFICACAO / CRITERIOS.length);
     const fim = setTimeout(() => setVerificando(false), DURACAO_VERIFICACAO);
     return () => {
@@ -135,6 +134,7 @@ export function Publicar() {
   const visDef = VISIBILIDADES.find((v) => v.value === visibilidade) || VISIBILIDADES[0];
 
   function verificar(proximaRodada) {
+    setRevelados(0);
     setRodada(proximaRodada);
     setVerificando(true);
     setPasso(2);

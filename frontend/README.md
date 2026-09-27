@@ -1,43 +1,43 @@
-# Front do Itaú House (esboço)
+# Front do Itaú House
 
-Esboço navegável do front, feito sobre o `design-system/` do repositório. Serve para a demo da banca e para o time discutir o fluxo em tela, não é o produto final.
+Front da demo, feito sobre o `design-system/` do repositório (D-28).
 
 > Protótipo do Hackathon Itaú 2026 (Case C, Jornada de agentes), equipe da Poli Júnior. Não é um produto oficial do Itaú. Todos os dados são fictícios e nenhuma tela se conecta a sistema do banco.
 
 ## Como rodar
 
+Com Docker, pela raiz do repo (sobe back e front juntos, ver o [README](../README.md#como-rodar)):
+
 ```bash
-cd web
-npm install
-npm run dev     # abre em http://localhost:5173
+docker compose up --build        # front em http://localhost:5173
 ```
 
-Para gerar a versão estática (útil para o link da banca):
+Sem Docker:
 
 ```bash
-npm run build
-npm run preview
+cd frontend
+npm install
+npm run dev      # http://localhost:5173
+npm run build    # tsc -b + vite build, gera dist/
+npm run lint     # oxlint
 ```
 
 ## Stack
 
-Decisão de stack ainda em aberto (A-09 em `memoria/05-decisoes-e-pendencias.md`). Este esboço usa o mínimo para rodar rápido e sem surpresa na hora da demo:
-
 | Camada | Escolha | Por quê |
 |---|---|---|
-| Build | Vite 5 | Sobe em segundos e gera estático. |
-| UI | React 18, JSX puro | Os componentes de `design-system/components/` são `.jsx`. Sem TypeScript por enquanto. |
-| Rotas | roteador por hash, em `src/router.jsx` (~40 linhas) | Evita uma dependência nova num esboço. Funciona em qualquer hospedagem estática. |
-| Estado | `useState` e um contexto de sessão | Não há back-end. |
-| Dados | arquivos em `src/data/` | Fictícios, versionados junto com a tela. |
-
-Nenhuma dependência além de `react`, `react-dom`, `vite` e `@vitejs/plugin-react`.
+| Build | Vite 8 | `vite.config.ts` libera o `design-system/` fora da pasta e repassa `/api` ao back-end. |
+| UI | React 19 | Telas em JSX, como os componentes de `design-system/components/`. |
+| Tipos | TypeScript com `allowJs` | O `tsc -b` aceita as telas `.jsx` sem checá-las. Código novo pode ser `.tsx`; o design system tem `.d.ts` para cada componente. |
+| Rotas | roteador por hash, em `src/router.jsx` | Sem dependência nova. Funciona em qualquer hospedagem estática e no nginx do build de produção. |
+| Estado | `useState` e um contexto de sessão | Os dados ainda não vêm da API. |
+| Dados | arquivos em `src/data/` | Fictícios, até as rotas do T-06 e do T-07 existirem. |
 
 ## Design system
 
 O front **não** tem cores, fontes ou espaçamentos próprios. Tudo vem do `design-system/` do repositório:
 
-- `src/main.jsx` importa `../../design-system/styles.css` (tokens, fontes Mulish, base).
+- `src/main.tsx` importa `../../design-system/styles.css` (tokens, fontes Mulish, base).
 - `src/ds.js` é a ponte única para os componentes. Importe sempre de lá.
 - `src/app.css` só tem classes de layout (`stack-N`, `row-N`, `topo`, `lateral`, `post`, `pill`…), escritas apenas com tokens.
 - O logo é servido de `public/assets/logo/`, usado pelo componente `Logo` com `basePath="/"`.
@@ -74,17 +74,18 @@ Tudo o que está simulado aparece marcado em tela com o selo **Simulado** (compo
 | Detecção por hook na ferramenta de código | **Simulado** em tela |
 | Login por SSO | **Simulado**: seletor de perfil |
 | Comentários, comando de instalação | **Simulados** |
-| Back-end, banco, integração com Copilot ou Claude Code | Não existem neste esboço |
+| Dados vindos da API e do banco, integração com Copilot ou Claude Code | Ainda não ligados: as telas usam `src/data/` |
 
 ## Estrutura
 
 ```
-web/
+frontend/
 ├─ index.html
-├─ vite.config.js          fs.allow: ['..'] para importar o design-system de fora
+├─ vite.config.ts          design-system fora da pasta, proxy /api, dedupe do react
+├─ Dockerfile, nginx.conf.template   imagem de dev e de produção
 ├─ public/assets/logo/     logos usados pelo componente Logo
 └─ src/
-   ├─ main.jsx             importa o design system e monta o app
+   ├─ main.tsx             importa o design system e monta o app
    ├─ App.jsx              rotas
    ├─ router.jsx           roteador por hash e o componente Link
    ├─ sessao.jsx           perfil, login simulado, curtidas, instalados, busca
@@ -97,9 +98,8 @@ web/
 
 ## Pendências que o time precisa decidir
 
-O esboço tomou algumas decisões de desenho para poder existir. Nenhuma delas está fechada no repositório:
+Local, layout e área de dados estão em D-28. Continuam em aberto:
 
-- **Quais telas entram no MVP.** O esboço cobre os dois atos (publicar e reaproveitar). O Guia pede um fluxo prioritário funcionando; o resto pode ficar simulado (liga A-01).
+- **Telas além do mínimo do D-12.** O D-12 pede página do post e fila de aprovação. Feed, publicar e "No seu editor" existem como apoio da demo; confirmar quais entram no vídeo.
 - **Grau de risco definindo os gates.** Grau baixo passa por validador e coordenação; grau alto também por risco e segurança (liga A-03 e A-04).
-- **Números só na área da coordenação.** O feed e o post mostram só curtidas e instalações; o resto (derivações, squads que usaram, histórico) foi para `#/coord/dados`. A PRD pede a trilha (RF-22) e os contadores (RF-30) na página do post: confirmar com o time.
-- **TypeScript** ficou de fora por enquanto (liga A-09).
+- **Trilha e contadores fora do post.** A PRD pede a trilha (RF-22) e os contadores (RF-30) na página do post; o D-28 levou os dois para `#/coord/dados`. Confirmar com o time.
