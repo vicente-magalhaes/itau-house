@@ -19,4 +19,4 @@ Harness do time: plugin `harness-hacka` (repositório público `vicente-magalhae
 ## Origin
 
 Era a D-20 na tabela "Decidido" da antiga `05-decisoes-e-pendencias.md`. Texto copiado sem mudança.
-Ajustada pela [0029](0029-decisoes-em-arquivos.md): as decisões saíram da tabela e ficam nesta pasta, uma por arquivo. A pendência sobre elemento pré-existente virou a A-18 em [05-pendencias-e-riscos.md](../05-pendencias-e-riscos.md).
+Ajustada pela [0029](0029-decisoes-em-arquivos.md): as decisões saíram da tabela e ficam nesta pasta, uma por arquivo. A pendência sobre elemento pré-existente virou a A-18 em `05-pendencias-e-riscos.md` (removido).

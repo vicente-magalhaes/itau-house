@@ -20,7 +20,7 @@ As D-01 a D-28 ficavam na tabela "Decidido" da `05-decisoes-e-pendencias.md`, co
 
 ### Uma decisão por arquivo em `decisions/`
 
-Escolhida. Cada D-XX vira `NNNN-titulo.md` com o mesmo número: D-12 é a 0012. O texto original fica no corpo, sem mudança. A 05 vira [05-pendencias-e-riscos.md](../05-pendencias-e-riscos.md), só com o que está em aberto e os riscos.
+Escolhida. Cada D-XX vira `NNNN-titulo.md` com o mesmo número: D-12 é a 0012. O texto original fica no corpo, sem mudança. A 05 vira `05-pendencias-e-riscos.md` (removido depois), só com o que está em aberto e os riscos.
 
 ### Manter a tabela na 05
 

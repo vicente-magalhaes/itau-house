@@ -14,7 +14,7 @@ superseded_by: []
 
 ## Decision
 
-A PRD não é entregável, mas será escrita, objetiva e focada em requisitos e stack, como contexto para os agentes de desenvolvimento. Ver [06-prd-e-stack.md](../../docs/06-prd-e-stack.md).
+A PRD não é entregável, mas será escrita, objetiva e focada em requisitos e stack, como contexto para os agentes de desenvolvimento. Ver `docs/06-prd-e-stack.md` (removido).
 
 ## Origin
 
